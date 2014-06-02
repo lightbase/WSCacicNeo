@@ -7,7 +7,7 @@ from .models import (
     SistemaOperacional,
     )
 
-engine = create_engine('postgresql://rest:rest@10.209.8.39/cacic')
+engine = create_engine('postgresql://rest:rest@localhost/cacic')
 
 Session = sessionmaker(bind=engine)
 session = Session()
@@ -17,6 +17,10 @@ def master(request):
 
 @view_config(route_name='home', renderer='templates/home.pt')
 def home(request):
+    return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='graficop', renderer='templates/graficop.pt')
+def graficop(request):
     return {'project': 'WSCacicNeo'}
 
 @view_config(route_name='dashboard', renderer='templates/dashboard.pt')
@@ -60,13 +64,13 @@ def my_view8(request):
         b = 'Ubuntu',
         c = 'Debian'
         )
-    data["items"].append(d)    
+    data["items"].append(d)
     #print (wc)
     #print (uc)
-    #print (dc)    
+    #print (dc)
 
     return {'project':'WSCacicNeo', 'data': data}
-    
+
 # @view_config(route_name='estatisticas', renderer='templates/estatisticas.pt')
 # def estatisticas(request):
 #     response = requests.get('%s/base?$$={"select":"*"}' %(rest_url)).json()

@@ -52,26 +52,26 @@ var chart = Ext.create('Ext.chart.Chart', {
 
 widget = Ext.create('Ext.panel.Panel', {
         layout: 'fit',
-	title: 'Widgets',
-	width: '75%',
-	frame: true,
-	draggable: true,
-	collapsible: true,
-	border : true,
-	style: {
-		"text-align": 'center',
-		margin: '0px auto 15px auto'
-	},
-	items: chart
+        title: 'Widgets',
+        width: '75%',
+        frame: true,
+        draggable: true,
+        collapsible: true,
+        border : true,
+        style: {
+                "text-align": 'center',
+                margin: '0px auto 15px auto'
+        },
+        items: chart
 });
 
 Ext.onReady(function(){
 
 
-	Ext.create('Ext.Container', {
-		padding: '15px',
-		items: [widget],
-    	renderTo: 'widgets'
-	});
+        Ext.create('Ext.Container', {
+                padding: '15px',
+                items: [widget],
+        renderTo: 'widgets'
+        });
 
 });
