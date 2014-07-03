@@ -1,12 +1,47 @@
+var painelContent=
+			"<br>"+
+            "Opção 1" + "<br>" + "<hr />" + 
+			"Opção 2" + "<br>" +"<hr />" + 
+			"Opção 3" + "<br>" +"<hr />" + 
+			"Opção 4" + "<br>" +"<hr />" + 
+			"Opção 5" + "<br>" +"<hr />" + 
+			"Opção 6" + "<br>" + "<br>" 
+
+admin = Ext.create('Ext.panel.Panel', {
+		title: 'Ultimas Atividades',
+	 	width: '75%',
+		frame: true,
+		layout: 'fit',
+		collapsible: true,
+		draggable: true,
+		border : true,
+        titleAlign:'center',
+		style: {
+			margin: '0px auto 15px auto'
+				},
+		html: painelContent
+	});
+
+Ext.onReady(function(){
+
+		Ext.create('Ext.Container', {
+			padding: '15px',
+			items: [admin],
+	    	renderTo: 'widgets'
+		});		
+		
+});
+
+// **** GRAFICO DE PIZZA ****
+
 var store = Ext.create('Ext.data.JsonStore', {
     fields: ['name', 'data'],
     data: [
         { 'name': 'dado1', 'data':  2 },
         { 'name': 'dado2', 'data':  2 },
         { 'name': 'dado3', 'data':  4 },
-        { 'name': 'dado4', 'data':  8 }
-    ]
-});
+        { 'name': 'dado4', 'data': 10 }
+]});
 
 var chart = Ext.create('Ext.chart.Chart', {
     layout: 'fit',
@@ -60,7 +95,7 @@ widget = Ext.create('Ext.panel.Panel', {
         border : true,
         style: {
                 "text-align": 'center',
-                margin: '0px auto 15px auto'
+                margin: '-35px auto 15px auto'
         },
         items: chart
 });
@@ -69,9 +104,10 @@ Ext.onReady(function(){
 
 
         Ext.create('Ext.Container', {
-                padding: '15px',
-                items: [widget],
+               padding: '15px',
+               items: [widget],
         renderTo: 'widgets'
         });
 
 });
+
