@@ -1,7 +1,9 @@
 <metal:main use-macro="load: master.pt">
  <!-- Insere JavaScript -->
  <!-- <script metal:fill-slot="javascript" type="text/javascript" src="static/teste-tabelag.js"></script> -->
- <script metal:fill-slot="javascript" type="text/javascript" src="static/WMI.js"></script>
+ <script metal:fill-slot="javascript" type="text/javascript" src="static/teste-helder.js"></script>
+
+ <!--<script metal:fill-slot="javascript" type="text/javascript" src="static/WMI.js"></script>-->
 
  <div metal:fill-slot="conteudo" id="widgets" style="height: 500px;">
  	<div id="wmi-content" style="display:none;">${reg}</div>

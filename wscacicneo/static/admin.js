@@ -1,27 +1,12 @@
 var painelContent=
-			"Opção 1" + "<br>" +
-			"Opção 2" + "<br>" +
-			"Opção 3" + "<br>" +
-			"Opção 4" + "<br>" +
-			"Opção 5" + "<br>" +
-			"Opção 6" + "<br>" +
-			"Opção 7" + "<br>" +
-			"Opção 8" + "<br>" +
-			"<hr>"    +
-			"Opção 1" + "<br>" +
-			"Opção 2" + "<br>" +
-			"Opção 3" + "<br>" +
-			"Opção 4" + "<br>" +
-			"Opção 5" + "<br>" +
-			"Opção 6" + "<br>" +
-			"Opção 7" + "<br>" +
-			"Opção 8" + "<br>" +
-			"<hr>"    +
-			"Opção 1" + "<br>" +
-			"Opção 2" + "<br>" +
-			"Opção 3" + "<br>" +
-			"Opção 4" ;
-
+			"Data da coleta" + "<br>" +
+            "<br>" + 
+			"Configurar bot" + "<br>" +
+            "<br>"+
+			"Consertar data da coleta" + "<br>" +
+            "<br>"+
+			"Agrupar dados dos orgãos";
+ 
 admin = Ext.create('Ext.panel.Panel', {
 		title: 'Painel de Administração',
 	 	width: '75%',
