@@ -1,48 +1,161 @@
-fakeHtml = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin placerat placerat convallis. Nullam diam nunc, auctor mollis adipiscing id, tristique in velit. Proin eu sodales ipsum. Nunc vel erat orci. Maecenas quis tortor sit amet elit interdum vehicula. Mauris vitae urna neque, in tincidunt mi. Praesent sapien neque, imperdiet in lobortis in, tempus ut dolor. Aliquam pretium eleifend diam sit amet mattis. In tincidunt fringilla nunc, in feugiat tellus dignissim in. Nam faucibus nisi vel metus pulvinar nec commodo sapien condimentum. Nullam rutrum, lacus a aliquam tincidunt, elit lectus dapibus felis, nec mattis mauris sapien sed ante. Suspendisse suscipit lorem et orci egestas sodales. Phasellus scelerisque fermentum est id lobortis.<br>Morbi eu mauris nibh, id faucibus tellus. ';
+/*GRAFICO DE ORGÃOS*/
 
-report1 = Ext.create('Ext.panel.Panel', {
-        layout: 'fit',
-	title: 'Relatório1',
-	width: '75%',
-	frame: true,
-	html: fakeHtml,
-	draggable: true,
-	collapsible: true,
-	style: {
-		margin: '0px auto 15px auto'
-	},
-	tools: [{
-		type: 'print',
-		handler: function(){
-		}
-	}]
+
+
+Ext.define('User',{
+    extend: 'Ext.data.Model',
+    fields: [ 'codigo', 'orgao', 'date' ]
 });
 
-report2 = Ext.create('Ext.panel.Panel', {
-	layout: 'fit',
-	title: 'Relatório2',
-	width: '75%',
-	frame: true,
-	html: fakeHtml  + fakeHtml,
-	draggable: true,
-	collapsible: true,
-	border : true,
-	style: {
-		margin: '0px auto 15px auto'
-	},
-	tools: [{
-		type: 'print',
-		handler: function(){
-		}
-	}]
+var userStore = Ext.create('Ext.data.Store', {
+    model: 'User',
+    data: [
+                { codigo: '27236', orgao: 'Minist&eacuterio da Fazenda', date: '12/12/2014' },
+                { codigo: '27236', orgao: 'Minist&eacuterio da Fazenda', date: '12/12/2014' },
+                { codigo: '27236', orgao: 'Minist&eacuterio da Fazenda', date: '12/12/2014' },
+                { codigo: '27236', orgao: 'Minist&eacuterio da Fazenda', date: '12/12/2014' },
+                { codigo: '27236', orgao: 'Minist&eacuterio da Fazenda', date: '12/12/2014' },
+                { codigo: '27236', orgao: 'Minist&eacuterio da Fazenda', date: '12/12/2014' },
+                { codigo: '27236', orgao: 'Minist&eacuterio da Fazenda', date: '12/12/2014' },
+                { codigo: '27236', orgao: 'Minist&eacuterio da Fazenda', date: '12/12/2014' },
+                { codigo: '27236', orgao: 'Minist&eacuterio da Fazenda', date: '12/12/2014' },
+                { codigo: '27236', orgao: 'Minist&eacuterio da Fazenda', date: '12/12/2014' },
+                { codigo: '27236', orgao: 'Minist&eacuterio da Fazenda', date: '12/12/2014' },
+    ]
+});
+
+table = Ext.create('Ext.grid.Panel', {
+    store: userStore,
+    width: 400,
+    height: 200,
+ //   title: 'Application Users',
+    columns: [
+        {
+            xtype: 'checkcolumn',
+            allowBlank: false,
+            dataIndex: 'active',
+            width: 60,
+            editor:{
+                xtype: 'checkbox',
+                cls: 'item'
+                },
+        },
+        {
+            text: 'Codigo',
+            width: 75,
+            sortable: true,
+            hideable: false,
+            dataIndex: 'codigo'
+        },
+        {
+            text: 'Orgao',
+            width: 300,
+            dataIndex: 'orgao',
+            hidden: false,
+        },
+        {
+            text: 'Data',
+            sortable: false,
+            width:80,
+            renderer: Ext.util.Format.dateRenderer('m/d/Y'),
+            flex: 1,
+            dataIndex: 'date'
+        },
+      
+    ]
+});
+
+tabela = Ext.create('Ext.panel.Panel', {
+        layout: 'fit',
+        title: 'Relatorios de Coletas',
+        width: '75%',
+        frame: true,
+        draggable: true,
+        collapsible: true,
+        border : true,
+        style: {
+                "text-align": 'center',
+                margin: '0px auto 15px auto'
+        },
+        items: table,
 });
 
 Ext.onReady(function(){
 
-	Ext.create('Ext.Container', {
-		padding: '15px',
-		items: [report1, report2],
-    	renderTo: 'widgets'
-	});
+
+        Ext.create('Ext.Container', {
+               padding: '15px',
+               items: [tabela],
+        renderTo: 'widgets'
+        });
 
 });
+
+
+
+
+
+// **** FILTRO DE ITENS ****
+
+Ext.define('User1',{
+    extend: 'Ext.data.Model',
+    fields: ['chbox', 'item' ]
+});
+
+var userStore1 = Ext.create('Ext.data.Store', {
+    model: 'User1',
+    data: [
+                { item: 'Computador'},
+                { item: 'Processador'},
+                { item: 'Memórias'},
+                { item: 'Hard Disk (HD)'},
+                { item: 'Sistemas Operacionais'}, 
+                { item: 'Suítes de Escritórios'},
+                { item: 'Ativos de Redes'}, 
+                { item: 'Softwares Básicos'},
+    ]
+});
+
+table1 = Ext.create('Ext.grid.Panel', {
+    store: userStore1,
+    width: 400,
+    height: 200,
+ //   title: 'Application Users',
+    columns: [
+        {
+            text: 'Item',
+            width: 500,
+            sortable: true,
+            hideable: false,
+            dataIndex: 'item'
+        },
+    ]
+});
+
+tabela1 = Ext.create('Ext.panel.Panel', {
+        layout: 'fit',
+        title: 'Gerar Relatório',
+        width: '75%',
+        frame: true,
+        draggable: true,
+        collapsible: true,
+        border : true,
+        style: {
+                "text-align": 'center',
+                margin: '0px auto 15px auto'
+        },
+        items: table1,
+});
+
+Ext.onReady(function(){
+
+
+        Ext.create('Ext.Container', {
+               padding:'15px',
+               items: [tabela1],
+        renderTo: 'widgets'
+        });
+
+});
+
+
