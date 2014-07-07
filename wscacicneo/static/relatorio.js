@@ -1,59 +1,125 @@
+/*TABELA DE RELATÓRIOS*/
+
 Ext.define('User',{
     extend: 'Ext.data.Model',
-    fields: [ 'codigo', 'orgao', 'date' ]
+    fields: [ 'marca', 'modelo', 'fabricacao', 'quantidade' ],
 });
 
 var userStore = Ext.create('Ext.data.Store', {
     model: 'User',
     data: [
-                { codigo: '27236', orgao: 'Minist&eacuterio da Fazenda', date: '12/12/2014' },
-                { codigo: '27236', orgao: 'Minist&eacuterio da Fazenda', date: '12/12/2014' },
-                { codigo: '27236', orgao: 'Minist&eacuterio da Fazenda', date: '12/12/2014' },
-                { codigo: '27236', orgao: 'Minist&eacuterio da Fazenda', date: '12/12/2014' },
-                { codigo: '27236', orgao: 'Minist&eacuterio da Fazenda', date: '12/12/2014' },
-                { codigo: '27236', orgao: 'Minist&eacuterio da Fazenda', date: '12/12/2014' },
-                { codigo: '27236', orgao: 'Minist&eacuterio da Fazenda', date: '12/12/2014' },
-                { codigo: '27236', orgao: 'Minist&eacuterio da Fazenda', date: '12/12/2014' },
-                { codigo: '27236', orgao: 'Minist&eacuterio da Fazenda', date: '12/12/2014' },
-                { codigo: '27236', orgao: 'Minist&eacuterio da Fazenda', date: '12/12/2014' },
-                { codigo: '27236', orgao: 'Minist&eacuterio da Fazenda', date: '12/12/2014' },
-    ]
+                { marca: 'INTEL', modelo: 'CORE I7 3.2GHZ', fabricacao: '12/12/2014', quantidade: '32' },
+                { marca: 'AMD', modelo: 'AMD 3.2GHZ', fabricacao: '08/22/2008', quantidade: '26' },
+
+                { marca: 'INTEL', modelo: 'CORE I7 3.2GHZ', fabricacao: '12/12/2014', quantidade: '32' },
+                { marca: 'INTEL', modelo: 'CORE I7 3.2GHZ', fabricacao: '12/12/2014', quantidade: '32' },
+                { marca: 'INTEL', modelo: 'CORE I7 3.2GHZ', fabricacao: '12/12/2014', quantidade: '32' },
+                { marca: 'INTEL', modelo: 'CORE I7 3.2GHZ', fabricacao: '12/12/2014', quantidade: '32' },
+                { marca: 'INTEL', modelo: 'CORE I7 3.2GHZ', fabricacao: '12/12/2014', quantidade: '32' },
+                { marca: 'INTEL', modelo: 'CORE I7 3.2GHZ', fabricacao: '12/12/2014', quantidade: '32' },
+                { marca: 'INTEL', modelo: 'CORE I7 3.2GHZ', fabricacao: '12/12/2014', quantidade: '32' },
+                { marca: 'INTEL', modelo: 'CORE I7 3.2GHZ', fabricacao: '12/12/2014', quantidade: '32' },
+                { marca: 'INTEL', modelo: 'CORE I7 3.2GHZ', fabricacao: '12/12/2014', quantidade: '32' },
+                { marca: 'INTEL', modelo: 'CORE I7 3.2GHZ', fabricacao: '12/12/2014', quantidade: '32' },
+                { marca: 'INTEL', modelo: 'CORE I7 3.2GHZ', fabricacao: '12/12/2014', quantidade: '32' },
+                { marca: 'INTEL', modelo: 'CORE I7 3.2GHZ', fabricacao: '12/12/2014', quantidade: '32' },
+                { marca: 'INTEL', modelo: 'CORE I7 3.2GHZ', fabricacao: '12/12/2014', quantidade: '32' },
+                { marca: 'INTEL', modelo: 'CORE I7 3.2GHZ', fabricacao: '12/12/2014', quantidade: '32' },
+                { marca: 'INTEL', modelo: 'CORE I7 3.2GHZ', fabricacao: '12/12/2014', quantidade: '32' },
+                { marca: 'INTEL', modelo: 'CORE I7 3.2GHZ', fabricacao: '12/12/2014', quantidade: '32' },
+                { marca: 'INTEL', modelo: 'CORE I7 3.2GHZ', fabricacao: '12/12/2014', quantidade: '32' },
+                { marca: 'AMD', modelo: 'AMD 3.2GHZ', fabricacao: '08/22/2008', quantidade: '26' },
+    ],
+    autoLoad: false,
+
+    id:'simpsonsStore',
 });
 
 table = Ext.create('Ext.grid.Panel', {
     store: userStore,
     width: 400,
-    height: 200,
+    height: 300,
  //   title: 'Application Users',
     columns: [
         {
-            text: 'Codigo',
+            text: 'MARCA',
             width: 75,
             sortable: true,
             hideable: false,
-            dataIndex: 'codigo'
+            dataIndex: 'marca'
         },
         {
-            text: 'Orgao',
+            text: 'MODELO',
             width: 300,
-            dataIndex: 'orgao',
+            dataIndex: 'modelo',
             hidden: false,
         },
         {
-            text: 'Data',
+            text: 'FABRICAÇÃO',
             sortable: false,
             width:80,
-            renderer: Ext.util.Format.dateRenderer('m/d/Y'),
+            renderer: Ext.util.Format.dateRenderer('d/m/Y'),
             flex: 1,
-            dataIndex: 'date'
+            dataIndex: 'fabricacao'
         },
-      
-    ]
+        {
+            text: 'QUANTIDADE',
+            sortable: false,
+            width:80,
+            dataIndex: 'quantidade'
+        },
+    ],
+    tbar:[
+
+
+        'Exportar PDF',
+        { xtype: 'tbfill'},
+        'Imprimir',
+        { xtype: 'tbfill'},
+        'Favorito',
+        { xtype: 'tbfill'},
+        'Voltar',
+        { xtype: 'tbfill'},
+
+        ]
+});
+
+/*COMEÇANDO PAGINAÇÃO - LEMBRANDO QUE TODA A PAGINAÇÃO NÃO ESTÁ COMPLETAMENTE FUNCIONANDO.
+APENAS PARA QUESTÃO DE DOCUMENTAÇÃO.*/
+
+
+var itemsPerPage = 2;   // set the number of items you want per page
+
+var store = Ext.create('Ext.data.Store', {
+    id:'simpsonsStore',
+    autoLoad: false,
+    fields:['name', 'email', 'phone'],
+    pageSize: itemsPerPage, // items per page
+    proxy: {
+        type: 'ajax',
+        url: 'pagingstore.js',  // url that will load data with respect to start and limit params
+        reader: {
+            type: 'json',
+            root: 'items',
+            totalProperty: 'total'
+        }
+    }
+});
+
+
+
+
+// specify segment of data you want to load using params
+store.load({
+    params:{
+        start:0,
+        limit: itemsPerPage
+    }
 });
 
 tabela = Ext.create('Ext.panel.Panel', {
         layout: 'fit',
-        title: 'Relatorios de Coletas',
+        title: 'Relatorio de coletas por PROCESSADOR',
         width: '75%',
         frame: true,
         draggable: true,
@@ -64,11 +130,17 @@ tabela = Ext.create('Ext.panel.Panel', {
                 margin: '0px auto 15px auto'
         },
         items: table,
+
+        dockedItems: [{
+        xtype: 'pagingtoolbar',
+        store: userStore,   // same store GridPanel is using
+        dock: 'bottom',
+        displayInfo: true
+    }],
+
 });
 
 Ext.onReady(function(){
-
-
         Ext.create('Ext.Container', {
                padding: '15px',
                items: [tabela],
@@ -77,16 +149,15 @@ Ext.onReady(function(){
 
 });
 
-// **** GRAFICO DE PIZZA ****
+
+//CRIANDO GRAFICO
+
 
 var store = Ext.create('Ext.data.JsonStore', {
     fields: ['name', 'data'],
     data: [
-        { 'name': 'dado1', 'data':  2 },
-        { 'name': 'dado2', 'data':  2 },
-        { 'name': 'dado3', 'data':  4 },
-        { 'name': 'dado4', 'data': 10 },
-        { 'name': 'dado5', 'data': 20 }
+        { 'name': 'INTEL', 'data': 32 },
+        { 'name': 'AMD', 'data': 26 }
 ]});
 
 var chart = Ext.create('Ext.chart.Chart', {
@@ -133,7 +204,7 @@ var chart = Ext.create('Ext.chart.Chart', {
 
 widget = Ext.create('Ext.panel.Panel', {
         layout: 'fit',
-        title: 'Relatório',
+        title: 'Grafico de relatório por PROCESSADORES',
         width: '75%',
         frame: true,
         draggable: true,
@@ -143,7 +214,15 @@ widget = Ext.create('Ext.panel.Panel', {
                 "text-align": 'center',
                 margin: '-35px auto 15px auto'
         },
-        items: chart
+        items: chart,
+
+        tbar:[
+            'Exportar PDF',
+            { xtype: 'tbfill'},
+            'Imprimir',
+            { xtype: 'tbfill'},
+        ]
+
 });
 
 Ext.onReady(function(){
@@ -156,5 +235,6 @@ Ext.onReady(function(){
         });
 
 });
+
 
 
