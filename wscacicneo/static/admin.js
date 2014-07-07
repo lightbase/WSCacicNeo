@@ -1,12 +1,58 @@
-var painelContent=
-			"Data da coleta" + "<br>" +
-            "<br>" + 
-			"Configurar bot" + "<br>" +
-            "<br>"+
-			"Consertar data da coleta" + "<br>" +
-            "<br>"+
-			"Agrupar dados dos orgãos";
- 
+var painelContent= 
+    Ext.create('Ext.tree.Panel', {
+        renderTo: Ext.getBody(),
+        title: 'Simple Tree',
+        root: {
+            text: 'Administração',
+            expanded: true,
+            children: [
+                {
+                    text: 'Administração de Órgãos',
+                    expanded: true,
+                    children: [
+                        {
+                            text: 'Cadastrar Órgão',
+                            leaf: true
+                        },
+                        {
+                            text: 'Lista de Órgãos',
+                            leaf: true
+                        },
+                    ]
+                },
+                {
+                    text: 'Administrção de Usuário',
+                    expanded: true,
+                    children: [
+                        {
+                            text: 'Cadastro de Usuário',
+                            leaf: true
+                        },
+                        {
+                            text: 'Gestão de Usuário',
+                            leaf: true
+                        },
+                    ]
+                },
+                {
+                    text: 'Configurções do sistema',
+                    expanded: true,
+                    children: [
+                        {
+                            text: 'Configurações das Bases de dados',
+                            leaf: true
+                        },
+                        {
+                            text: 'Confirgurações da aplicação',
+                            leaf: true
+                        },
+                    ]
+                },
+
+            ]
+        }
+    });
+
 admin = Ext.create('Ext.panel.Panel', {
 		title: 'Painel de Administração',
 	 	width: '75%',
@@ -18,7 +64,7 @@ admin = Ext.create('Ext.panel.Panel', {
 		style: {
 			margin: '0px auto 15px auto'
 				},
-		html: painelContent
+		items: painelContent
 	});
 
 Ext.onReady(function(){
