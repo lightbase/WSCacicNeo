@@ -1,7 +1,7 @@
 var painelContent= 
     Ext.create('Ext.tree.Panel', {
         renderTo: Ext.getBody(),
-        title: 'Simple Tree',
+        title: '',
         root: {
             text: 'Administração',
             expanded: true,
