@@ -79,7 +79,6 @@ table = Ext.create('Ext.grid.Panel', {
         'Favorito',
         { xtype: 'tbfill'},
         'Voltar',
-        { xtype: 'tbfill'},
 
         ]
 });
@@ -204,7 +203,7 @@ var chart = Ext.create('Ext.chart.Chart', {
 
 widget = Ext.create('Ext.panel.Panel', {
         layout: 'fit',
-        title: 'Grafico de relatório por PROCESSADORES',
+        title: 'Grafico de  PROCESSADORES da SECRETARIA DE LOGISTICA E TECONOLOGIA DA INFORMAÇÃO',
         width: '75%',
         frame: true,
         draggable: true,
@@ -218,9 +217,13 @@ widget = Ext.create('Ext.panel.Panel', {
 
         tbar:[
             'Exportar PDF',
-            { xtype: 'tbfill'},
             'Imprimir',
+        ],
+
+        bbar:[
+            'Quantidade de Orgãos: 12',
             { xtype: 'tbfill'},
+            'Período da Coleta: 01/2014 - 06/2014',
         ]
 
 });
