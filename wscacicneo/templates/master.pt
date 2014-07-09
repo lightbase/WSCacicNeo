@@ -44,10 +44,10 @@
 		<footer>
 		   <div id="links-footer">
 			   <a href="home">Home</a> |
-			   <a href="dashboard">Dashboard</a> |
+			   <a href="notifications">Notificações</a> |
 			   <a href="admin">Administração</a> |
 			   <a href="diagnostic">Diagnosticos</a> |
-			   <a href="reports">Relatórios</a>
+			   <a href="sobre">Sobre</a>
 		   </div>
 		   <div id="desenvolvido">
 			   Desenvolvido por:
