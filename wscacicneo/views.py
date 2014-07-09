@@ -39,6 +39,11 @@ def diagnostic(request):
 def reports(request):
     return {'project': 'WSCacicNeo'}
 
+@view_config(route_name='sobre', renderer='templates/sobre.pt')
+def reports(request):
+    return {'project': 'WSCacicNeo'}
+
+
 @view_config(route_name='busca', renderer='templates/busca.pt')
 def my_view8(request):
     query = session.query(SistemaOperacional).all()
