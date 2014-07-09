@@ -13,6 +13,7 @@ def main(global_config, **settings):
     config.add_route('graficop', 'graficop')
     config.add_route('notifications', 'notifications')
     config.add_route('admin', 'admin')
+    config.add_route('gestao', 'gestao')
     config.add_route('reports', 'reports')
     config.add_route('busca', 'busca')
     config.add_route('gestor', 'gestor')

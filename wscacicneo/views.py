@@ -23,6 +23,10 @@ def home(request):
 def reports(request):
     return {'project': 'WSCacicNeo'}
 
+@view_config(route_name='gestao', renderer='templates/gestao.pt')
+def gestao(request):
+    return {'project': 'WSCacicNeo'}
+
 @view_config(route_name='perfil', renderer='templates/perfil.pt')
 def perfil(request):
     return {'project': 'WSCacicNeo'}
