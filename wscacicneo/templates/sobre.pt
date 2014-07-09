@@ -1,0 +1,10 @@
+<metal:main use-macro="load: master.pt">
+ <!-- Insere JavaScript -->
+ <script metal:fill-slot="javascript" type="text/javascript" src="static/sobre.js"></script>
+
+ <div metal:fill-slot="conteudo" id="widgets">
+    <div id="panels">
+        <div id="g1"></div>
+    </div>
+</div>
+</metal:main>
