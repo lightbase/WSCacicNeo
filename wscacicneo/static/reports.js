@@ -1,7 +1,6 @@
 /*GRAFICO DE ORGÃOS*/
 
 
-
 Ext.define('User',{
     extend: 'Ext.data.Model',
     fields: [ 'codigo', 'orgao', 'date' ]
@@ -61,7 +60,6 @@ table = Ext.create('Ext.grid.Panel', {
             flex: 1,
             dataIndex: 'date'
         },
-      
     ]
 });
 
@@ -90,9 +88,6 @@ Ext.onReady(function(){
         });
 
 });
-
-
-
 
 
 // **** FILTRO DE ITENS ****

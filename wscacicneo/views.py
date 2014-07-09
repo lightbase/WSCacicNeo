@@ -19,16 +19,24 @@ def master(request):
 def home(request):
     return {'project': 'WSCacicNeo'}
 
+@view_config(route_name='reports', renderer='templates/reports.pt')
+def reports(request):
+    return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='perfil', renderer='templates/perfil.pt')
+def perfil(request):
+    return {'project': 'WSCacicNeo'}
+
 @view_config(route_name='graficop', renderer='templates/graficop.pt')
 def graficop(request):
     return {'project': 'WSCacicNeo'}
 
 @view_config(route_name='gestor', renderer='templates/gestor.pt')
-def graficop(request):
+def gestor(request):
     return {'project': 'WSCacicNeo'}
 
 @view_config(route_name='notifications', renderer='templates/dashboard.pt')
-def dashboard(request):
+def notifications(request):
     return {'project': 'WSCacicNeo'}
 
 @view_config(route_name='admin', renderer='templates/admin.pt')
@@ -39,16 +47,8 @@ def admin(request):
 def diagnostic(request):
     return {'project': 'WSCacicNeo'}
 
-@view_config(route_name='reports', renderer='templates/reports.pt')
-def reports(request):
-    return {'project': 'WSCacicNeo'}
-
 @view_config(route_name='sobre', renderer='templates/sobre.pt')
-def reports(request):
-    return {'project': 'WSCacicNeo'}
-
-@view_config(route_name='perfil', renderer='templates/perfil.pt')
-def reports(request):
+def sobre(request):
     return {'project': 'WSCacicNeo'}
 
 
@@ -57,7 +57,7 @@ def my_view8(request):
     query = session.query(SistemaOperacional).all()
     data = dict()
     #data = {'items': []}
-    ptdata["items"] = list()
+    data["items"] = list()
     wc = 0
     uc = 0
     dc = 0
