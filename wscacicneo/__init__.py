@@ -14,6 +14,7 @@ def main(global_config, **settings):
     config.add_route('notifications', 'notifications')
     config.add_route('admin', 'admin')
     config.add_route('busca', 'busca')
+    config.add_route('gestor', 'gestor')
     config.add_route('diagnostic', 'diagnostic')
     config.add_route('reports', 'reports')
     config.add_route('sobre', 'sobre')

@@ -21,7 +21,7 @@ var painelContent=
                     ]
                 },
                 {
-                    text: 'Administrção de Usuário',
+                    text: 'Administração de Usuário',
                     expanded: true,
                     children: [
                         {
