@@ -43,13 +43,17 @@ def reports(request):
 def reports(request):
     return {'project': 'WSCacicNeo'}
 
+@view_config(route_name='perfil', renderer='templates/perfil.pt')
+def reports(request):
+    return {'project': 'WSCacicNeo'}
+
 
 @view_config(route_name='busca', renderer='templates/busca.pt')
 def my_view8(request):
     query = session.query(SistemaOperacional).all()
     data = dict()
     #data = {'items': []}
-    data["items"] = list()
+    ptdata["items"] = list()
     wc = 0
     uc = 0
     dc = 0

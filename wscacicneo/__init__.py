@@ -17,5 +17,6 @@ def main(global_config, **settings):
     config.add_route('diagnostic', 'diagnostic')
     config.add_route('reports', 'reports')
     config.add_route('sobre', 'sobre')
+    config.add_route('perfil', 'perfil')
     config.scan()
     return config.make_wsgi_app()
