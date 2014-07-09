@@ -87,7 +87,7 @@ var chart = Ext.create('Ext.chart.Chart', {
 
 widget = Ext.create('Ext.panel.Panel', {
         layout: 'fit',
-        title: 'Widgets',
+        title: 'Grafico',
         width: '75%',
         frame: true,
         draggable: true,

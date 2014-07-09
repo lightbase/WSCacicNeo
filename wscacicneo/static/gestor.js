@@ -11,7 +11,7 @@ var painelContent=
                     leaf: true
                 },
                 {
-                    text: 'Nova coleta',
+                    text: 'Coleta manual',
                     leaf: true
                 },
                 {

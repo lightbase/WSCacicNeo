@@ -29,7 +29,7 @@ var painelContent=
                             leaf: true
                         },
                         {
-                            text: 'Gestão de Usuário',
+                            text: 'Lista de Usuários',
                             leaf: true
                         },
                     ]

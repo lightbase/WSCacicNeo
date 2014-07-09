@@ -13,7 +13,7 @@ var table = Ext.create('Ext.form.Panel', {
     items: [
         {
             fieldLabel: 'Nome',
-            width:400,
+            width:450,
             name: 'nome'
         },
         {
@@ -32,17 +32,17 @@ var table = Ext.create('Ext.form.Panel', {
         },
         {
             fieldLabel: 'Orgão',
-            width: 300,
+            width: 450,
             name: 'orgao'
         },
         {
             fieldLabel: 'Cargo',
-            width:300,
+            width:450,
             name: 'cargo'
         },
         {
             fieldLabel: 'Setor',
-            width:300,
+            width:450,
             name: 'setor'
         },
         {
