@@ -11,7 +11,7 @@ def main(global_config, **settings):
 
     config.add_route('home', 'home')
     config.add_route('graficop', 'graficop')
-    config.add_route('dashboard', 'dashboard')
+    config.add_route('notifications', 'notifications')
     config.add_route('admin', 'admin')
     config.add_route('busca', 'busca')
     config.add_route('diagnostic', 'diagnostic')

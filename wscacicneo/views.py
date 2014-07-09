@@ -23,7 +23,7 @@ def home(request):
 def graficop(request):
     return {'project': 'WSCacicNeo'}
 
-@view_config(route_name='dashboard', renderer='templates/dashboard.pt')
+@view_config(route_name='notifications', renderer='templates/dashboard.pt')
 def dashboard(request):
     return {'project': 'WSCacicNeo'}
 
