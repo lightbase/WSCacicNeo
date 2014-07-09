@@ -1,7 +1,11 @@
 <metal:main use-macro="load: master.pt">
+<<<<<<< HEAD
 <!-- <script metal:fill-slot="javascript" type="text/javascript" src="static/reports.js"></script>-->
 <script metal:fill-slot="javascript" type="text/javascript" src="static/reports.js"></script>
+=======
+ <!-- Insere JavaScript -->
+ <script metal:fill-slot="javascript" type="text/javascript" src="static/reports.js"></script>
+>>>>>>> a1454feb4541f60bde65a7192f871a00bb39d799
 
  <div metal:fill-slot="conteudo" id="widgets"></div>
 </metal:main>
-
