@@ -155,8 +155,8 @@ Ext.onReady(function(){
 var store = Ext.create('Ext.data.JsonStore', {
     fields: ['name', 'data'],
     data: [
-        { 'name': 'INTEL', 'data': 32 },
-        { 'name': 'AMD', 'data': 26 }
+        { 'name': 'INTEL 55%', 'data': 32 },
+        { 'name': 'AMD 45%', 'data': 26 }
 ]});
 
 var chart = Ext.create('Ext.chart.Chart', {
@@ -198,7 +198,7 @@ var chart = Ext.create('Ext.chart.Chart', {
             contrast: true,
             font: '18px Arial'
         }
-    }]
+    }]  
 });
 
 widget = Ext.create('Ext.panel.Panel', {
