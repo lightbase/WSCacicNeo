@@ -51,10 +51,67 @@ def admin(request):
 def diagnostic(request):
     return {'project': 'WSCacicNeo'}
 
+@view_config(route_name='users', renderer='templates/users.pt')
+def users(request):
+    return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='cadastro', renderer='templates/cadastro.pt')
+def cadastro(request):
+    return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='login', renderer='templates/user.pt')
+def login(request):
+    return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='orgao', renderer='templates/orgao.pt')
+def orgao(request):
+    return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='config', renderer='templates/config.pt')
+def config(request):
+    return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='list', renderer='templates/list.pt')
+def list(request):
+    return {'project': 'WSCacicNeo'}
+
 @view_config(route_name='sobre', renderer='templates/sobre.pt')
 def sobre(request):
     return {'project': 'WSCacicNeo'}
 
+#formularios de cadastro de coleta
+
+@view_config(route_name='computador', renderer='templates/computador.pt')
+def computador(request):
+    return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='proc', renderer='templates/proc.pt')
+def proc(request):
+    return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='memoria', renderer='templates/memoria.pt')
+def memoria(request):
+    return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='hd', renderer='templates/hd.pt')
+def hd(request):
+    return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='escritorio', renderer='templates/escritorio.pt')
+def escritorio(request):
+    return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='rede', renderer='templates/rede.pt')
+def rede(request):
+    return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='basico', renderer='templates/basico.pt')
+def basico(request):
+    return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='sistema', renderer='templates/sistema.pt')
+def sistema(request):
+    return {'project': 'WSCacicNeo'}
 
 @view_config(route_name='busca', renderer='templates/busca.pt')
 def my_view8(request):

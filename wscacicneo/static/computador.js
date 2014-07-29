@@ -11,71 +11,37 @@ var table = Ext.create('Ext.form.Panel', {
     defaultType: 'textfield',
     items: [
         {
-            fieldLabel: 'Nome',
-            width:450,
+            fieldLabel: 'Qantidade',
+            width:300,
             name: 'nome'
         },
         {
-            fieldLabel: 'Matricula',
-            width: 250,
+            fieldLabel: 'Tipo',
+            width: 300,
             name: 'matricula'
         },
         {
-            fieldLabel: 'E-mail',
-            width: 300,
-            name: 'email'
-        },
-        {
-            fieldLabel: 'Telefone',
-            name: 'telefone'
-        },
-        {
-            fieldLabel: 'Orgão',
-            width: 450,
-            name: 'orgao'
-        },
-        {
-            fieldLabel: 'Cargo',
-            width:450,
-            name: 'cargo'
-        },
-        {
-            fieldLabel: 'Setor',
-            width:450,
-            name: 'setor'
-        },
-        {
-            fieldLabel: 'Permissão',
-            width: 200,
-            name: 'permissao'
-        },
-        {
             xtype: 'button',
-            text: 'Editar',
-            style:{
-                margin: '0px 10px 0px 320px',
-            }
-        },
-        {
-            xtype: 'button',
-            text: 'Alterar Senha',
+            text: 'Enviar',
             style:{
                 margin: '0px 10px 0px 0px',
             }
         },
         {
             xtype: 'button',
-            text: 'Excluir',
+            text: 'Limpar',
+            style:{
+                margin: '0px 10px 0px 0px',
+            }
         },
-
     ]
 });
 
 painel = Ext.create('Ext.panel.Panel', {
         layout: 'fit',
-        title: 'Meu Perfil',
-        width: '75%',
-        height: 300,
+        title: 'Computador',
+        width: 425,
+        height: 150,
         frame: true,
         draggable: true,
         collapsible: true,

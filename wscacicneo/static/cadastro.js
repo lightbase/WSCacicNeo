@@ -51,29 +51,21 @@ var table = Ext.create('Ext.form.Panel', {
         },
         {
             xtype: 'button',
-            text: 'Editar',
+            text: 'Enviar',
             style:{
-                margin: '0px 10px 0px 320px',
+                margin: '0px 10px 0px 400px',
             }
         },
         {
             xtype: 'button',
-            text: 'Alterar Senha',
-            style:{
-                margin: '0px 10px 0px 0px',
-            }
+            text: 'Cancelar',
         },
-        {
-            xtype: 'button',
-            text: 'Excluir',
-        },
-
     ]
 });
 
 painel = Ext.create('Ext.panel.Panel', {
         layout: 'fit',
-        title: 'Meu Perfil',
+        title: 'Cadastro Usuário',
         width: '75%',
         height: 300,
         frame: true,

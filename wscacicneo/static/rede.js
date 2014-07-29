@@ -11,45 +11,42 @@ var table = Ext.create('Ext.form.Panel', {
     defaultType: 'textfield',
     items: [
         {
-            fieldLabel: 'Usuário',
-            width:300,
+            fieldLabel: 'Quantidade',
+            width:450,
             name: 'nome'
         },
         {
-            fieldLabel: 'Senha',
-            width: 300,
+            fieldLabel: 'ativos rede',
+            width: 250,
             name: 'matricula'
         },
         {
             xtype: 'button',
-            text: 'Login',
-            style:{
-                margin: '10px 10px 0px 0px',
+            text: 'Enviar',
+            style : {
+                margin : " 0px 10px 0px 0px"
             }
         },
         {
             xtype: 'button',
-            text: 'Recuperar Senha',
-            style:{
-                margin: '10px 10px 0px 0px',
-            }
-
+            text: 'Limpar',
         },
+
     ]
 });
 
 painel = Ext.create('Ext.panel.Panel', {
         layout: 'fit',
-        title: 'Meu Perfil',
-        width: 400,
-        height: 150,
+        title: 'Rede',
+        width: '75%',
+        height: 200,
         frame: true,
         draggable: true,
         collapsible: true,
         border : true,
         style: {
                 "text-align": 'center',
-                margin: '0px auto 50px 100px'
+                margin: '0px auto 15px auto'
         },
         items: table,
 });

@@ -1,11 +1,11 @@
 var painelContent=
 			"<br>"+
-            "Opção 1" + "<br>" + "<hr />" + 
-			"Opção 2" + "<br>" +"<hr />" + 
-			"Opção 3" + "<br>" +"<hr />" + 
-			"Opção 4" + "<br>" +"<hr />" + 
-			"Opção 5" + "<br>" +"<hr />" + 
-			"Opção 6" + "<br>" + "<br>" 
+            "Opção 1" + "<br>" + "<hr />" +
+			"Opção 2" + "<br>" +"<hr />" +
+			"Opção 3" + "<br>" +"<hr />" +
+			"Opção 4" + "<br>" +"<hr />" +
+			"Opção 5" + "<br>" +"<hr />" +
+			"Opção 6" + "<br>" + "<br>"
 
 admin = Ext.create('Ext.panel.Panel', {
 		title: 'Ultimas Atividades',
@@ -28,8 +28,8 @@ Ext.onReady(function(){
 			padding: '15px',
 			items: [admin],
 	    	renderTo: 'widgets'
-		});		
-		
+		});
+
 });
 
 // **** GRAFICO DE PIZZA ****
@@ -101,13 +101,10 @@ widget = Ext.create('Ext.panel.Panel', {
 });
 
 Ext.onReady(function(){
-
-
-        Ext.create('Ext.Container', {
-               padding: '15px',
-               items: [widget],
-        renderTo: 'widgets'
-        });
-
+    Ext.create('Ext.Container', {
+           padding: '15px',
+           items: [widget],
+    renderTo: 'widgets'
+    });
 });
 

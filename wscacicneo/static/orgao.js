@@ -26,28 +26,19 @@ var table = Ext.create('Ext.form.Panel', {
             name: 'email'
         },
         {
+            fieldLabel: 'Tempo da Coleta',
+            width: 300,
+            name: 'email'
+        },
+
+        {
             fieldLabel: 'Telefone',
             name: 'telefone'
         },
         {
-            fieldLabel: 'Orgão',
+            fieldLabel: 'Tipo',
             width: 450,
             name: 'orgao'
-        },
-        {
-            fieldLabel: 'Cargo',
-            width:450,
-            name: 'cargo'
-        },
-        {
-            fieldLabel: 'Setor',
-            width:450,
-            name: 'setor'
-        },
-        {
-            fieldLabel: 'Permissão',
-            width: 200,
-            name: 'permissao'
         },
         {
             xtype: 'button',
@@ -75,7 +66,7 @@ painel = Ext.create('Ext.panel.Panel', {
         layout: 'fit',
         title: 'Meu Perfil',
         width: '75%',
-        height: 300,
+        height: 250,
         frame: true,
         draggable: true,
         collapsible: true,
