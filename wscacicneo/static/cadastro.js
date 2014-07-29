@@ -30,9 +30,10 @@ var table = Ext.create('Ext.form.Panel', {
             name: 'telefone'
         },
         {
+            xtype: 'combobox',
+            name: 'checkbox1',
             fieldLabel: 'Orgão',
-            width: 450,
-            name: 'orgao'
+            boxLabel: 'Orgão'
         },
         {
             fieldLabel: 'Cargo',
@@ -45,15 +46,26 @@ var table = Ext.create('Ext.form.Panel', {
             name: 'setor'
         },
         {
+            xtype: 'radiofield',
+            name: 'radio1',
+            value: 'radiovalue1',
             fieldLabel: 'Permissão',
-            width: 200,
-            name: 'permissao'
+            boxLabel: 'Gestor',
+        },
+        {
+            xtype: 'radiofield',
+            name: 'radio1',
+            value: 'radiovalue2',
+            fieldLabel: '',
+            labelSeparator: '',
+            hideEmptyLabel: false,
+            boxLabel: 'Administrador'
         },
         {
             xtype: 'button',
             text: 'Enviar',
             style:{
-                margin: '0px 10px 0px 400px',
+                margin: '0px 10px 0px 300px',
             }
         },
         {
@@ -67,7 +79,7 @@ painel = Ext.create('Ext.panel.Panel', {
         layout: 'fit',
         title: 'Cadastro Usuário',
         width: '75%',
-        height: 300,
+        height: 320,
         frame: true,
         draggable: true,
         collapsible: true,
@@ -89,4 +101,3 @@ Ext.onReady(function(){
         });
 
 });
-

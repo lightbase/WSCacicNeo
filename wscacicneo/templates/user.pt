@@ -11,48 +11,52 @@
 
     </head>
 	<body>
-	 <header>
-	  <!-- Menu Superior da página -->
+	    <header>
+	        <!-- Menu Superior da página -->
 
 			<div id="logo">
 		 		<a href="home"><img src="static/caciclogo.jpg"></a>
 			</div>
                 <div id="usuario">
 			</div>
-		</header>
-		<div id="centro">
+        </header>
+        <div id="centro">
 		<div id="menu-lateral">
 		 <div id="menu-principal">
 		 </div>
 		   <div id="menu-favoritos"></div>
 		</div>
 		<div id="conteudo">
+		   <div id="lista-links">
+			   <a href="admin" class="link-lista">Administração</a>
+		   </div>
 		   <metal:content define-slot="conteudo" />
 		</div>
 		</div>
-		<footer>
+		</div>
+        <footer>
 		   <div id="links-footer">
 		   </div>
 		   <div id="desenvolvido">
 			   Desenvolvido por:
-		   </div>
+	   	   </div>
+        </footer>
+            <LINK href="static/ext-js/resources/css/ext-all-gray.css" type="text/css" rel="stylesheet">
+            <LINK href="static/login.css" type="text/css" rel="stylesheet">
+            <LINK href="static/layout.css" type="text/css" rel="stylesheet">
+            <!-- <LINK href="static/bootstrap/bootstrap/css/bootstrap.css" type="text/css" rel="stylesheet"> -->
+            <script type="text/javascript" src="static/ext-js/ext-all.js"></script>
+            <script type="text/javascript" src="static/login.js"></script>
+            <script type="text/javascript" src="static/jquery-2.0.3.min.js"></script>
+            <!-- <script type="text/javascript" src="static/bootstrap/bootstrap/js/bootstrap.js"></script> -->
 
-	    <LINK href="static/ext-js/resources/css/ext-all-gray.css" type="text/css" rel="stylesheet">
-	    <LINK href="static/main.css" type="text/css" rel="stylesheet">
-	    <LINK href="static/layout.css" type="text/css" rel="stylesheet">
-	    <!-- <LINK href="static/bootstrap/bootstrap/css/bootstrap.css" type="text/css" rel="stylesheet"> -->
-	    <script type="text/javascript" src="static/ext-js/ext-all.js"></script>
-	    <script type="text/javascript" src="static/login.js"></script>
-	    <script type="text/javascript" src="static/jquery-2.0.3.min.js"></script>
-	    <!-- <script type="text/javascript" src="static/bootstrap/bootstrap/js/bootstrap.js"></script> -->
+            <!-- Slot para o CSS -->
+            <metal:content define-slot="css" />
 
-	    <!-- Slot para o CSS -->
-	    <metal:content define-slot="css" />
+            <!-- Slot para o JavaScript -->
+            <metal:content define-slot="javascript" />
 
-	    <!-- Slot para o JavaScript -->
-	    <metal:content define-slot="javascript" />
 
-		</footer>
     </body>
 
 </html>

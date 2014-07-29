@@ -3,16 +3,16 @@
 
 Ext.define('User',{
     extend: 'Ext.data.Model',
-    fields: [ 'codigo', 'orgao', 'date' ]
+    fields: [ 'codigo', 'orgao']
 });
 
 var userStore = Ext.create('Ext.data.Store', {
     model: 'User',
     data: [
-                { codigo: 'Pedro', orgao: 'Minist&eacuterio da Fazenda', date: 'Editar  Excluir' },
-                { codigo: 'Carlos', orgao: 'Minist&eacuterio da Fazenda', date: 'Editar  Excluir' },
-                { codigo: 'Thiago', orgao: 'Minist&eacuterio da Fazenda', date: 'Editar  Excluir' },
-                { codigo: 'Helder', orgao: 'Minist&eacuterio da Fazenda', date: 'Editar  Excluir' },
+                { codigo: 'Pedro', orgao: 'Minist&eacuterio da Fazenda'},
+                { codigo: 'Carlos', orgao: 'Minist&eacuterio da Fazenda'},
+                { codigo: 'Thiago', orgao: 'Minist&eacuterio da Fazenda'},
+                { codigo: 'Helder', orgao: 'Minist&eacuterio da Fazenda'},
           ]
 });
 
@@ -36,11 +36,21 @@ table = Ext.create('Ext.grid.Panel', {
             hidden: false,
         },
         {
-            text: '',
-            sortable: false,
-            width:80,
-            flex: 1,
-            dataIndex: 'date'
+            xtype: 'actioncolumn',
+            width: 100,
+            align: 'center',
+                items:[{
+                    icon:'static/icons/edit.png',
+                    tooltip: 'Editar'
+                },
+                {
+                    icon:''
+                },
+                {
+                    icon:'static/icons/delete.gif',
+                    tooltip: 'Excluir'
+                }
+            ]
         },
     ]
 });

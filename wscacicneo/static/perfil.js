@@ -1,4 +1,4 @@
-var table = Ext.create('Ext.form.Panel', {
+ table = Ext.create('Ext.form.Panel', {
     renderTo: Ext.getBody(),
     title: '',
     height: 130,
@@ -8,47 +8,57 @@ var table = Ext.create('Ext.form.Panel', {
     },
 
     bodyPadding: 10,
-    defaultType: 'textfield',
     items: [
         {
+            xtype: 'displayfield',
+            name: 'name',
             fieldLabel: 'Nome',
-            width:450,
-            name: 'nome'
+            value: 'João da Silva'
         },
         {
+            xtype: 'displayfield',
+            name: 'matricula',
             fieldLabel: 'Matricula',
-            width: 250,
-            name: 'matricula'
+            value: '00326'
         },
         {
+            xtype: 'displayfield',
+            name: 'E-mail',
             fieldLabel: 'E-mail',
-            width: 300,
-            name: 'email'
+            value: 'joão@email.com'
         },
         {
+            xtype: 'displayfield',
+            name: 'telefone',
             fieldLabel: 'Telefone',
-            name: 'telefone'
+            value: '(61)3669-6548'
         },
         {
+            xtype: 'displayfield',
+            name: 'orgao',
             fieldLabel: 'Orgão',
-            width: 450,
-            name: 'orgao'
+            value: 'Ministerio do Desenvolvimento'
         },
         {
+            xtype: 'displayfield',
+            name: 'cargo',
             fieldLabel: 'Cargo',
-            width:450,
-            name: 'cargo'
+            value: 'Analísta'
         },
         {
+            xtype: 'displayfield',
+            name: 'setor',
             fieldLabel: 'Setor',
-            width:450,
-            name: 'setor'
+            value: 'Setor Sul'
         },
-        {
+{
+            xtype: 'displayfield',
+            name: 'name',
             fieldLabel: 'Permissão',
-            width: 200,
-            name: 'permissao'
+            value: 'Usuário'
         },
+
+
         {
             xtype: 'button',
             text: 'Editar',
@@ -63,11 +73,6 @@ var table = Ext.create('Ext.form.Panel', {
                 margin: '0px 10px 0px 0px',
             }
         },
-        {
-            xtype: 'button',
-            text: 'Excluir',
-        },
-
     ]
 });
 
