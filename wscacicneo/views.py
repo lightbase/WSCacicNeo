@@ -85,7 +85,7 @@ def sobre(request):
 def computador(request):
     return {'project': 'WSCacicNeo'}
 
-@view_config(route_name='proc', renderer='templates/proc.pt')
+@view_config(route_name='processador', renderer='templates/processador.pt')
 def proc(request):
     return {'project': 'WSCacicNeo'}
 
@@ -112,6 +112,43 @@ def basico(request):
 @view_config(route_name='sistema', renderer='templates/sistema.pt')
 def sistema(request):
     return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='configapi', renderer='templates/configapi.pt')
+def configapi(request):
+    return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='editarorgao', renderer='templates/editarorgao.pt')
+def editarorgao(request):
+    return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='notify', renderer='templates/notify.pt')
+def notify(request):
+    return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='configcoleta', renderer='templates/configcoleta.pt')
+def configcoleta(request):
+    return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='configfav', renderer='templates/configfav.pt')
+def configfav(request):
+    return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='reportsgestor', renderer='templates/reportsgestor.pt')
+def reportsgestor(request):
+    return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='questionarcoleta', renderer='templates/questionarcoleta.pt')
+def questionarcoleta(request):
+    return {'project': 'WSCacicNeo'}
+@view_config(route_name='confighome', renderer='templates/confighome.pt')
+def confighome(request):
+    return {'project': 'WSCacicNeo'}
+
+
+
+
+
+
 
 @view_config(route_name='busca', renderer='templates/busca.pt')
 def my_view8(request):

@@ -34,5 +34,16 @@ def main(global_config, **settings):
     config.add_route('cadastro', 'cadastro')
     config.add_route('sobre', 'sobre')
     config.add_route('perfil', 'perfil')
+    config.add_route('configapi','configapi')
+    config.add_route('editarorgao','editarorgao')
+    config.add_route('notify','notify')
+    config.add_route('processador','processador')
+    config.add_route('configcoleta','configcoleta')
+    config.add_route('configfav','configfav')
+    config.add_route('reportsgestor','reportsgestor')
+    config.add_route('questionarcoleta','questionarcoleta')
+    config.add_route('confighome','confighome')
     config.scan()
     return config.make_wsgi_app()
+
+

@@ -16,55 +16,31 @@ var table = Ext.create('Ext.form.Panel', {
             name: 'nome'
         },
         {
-            fieldLabel: 'Matricula',
-            width: 250,
-            name: 'matricula'
+            fieldLabel:'Sigla',
+            name:'sigla'
         },
         {
             fieldLabel: 'E-mail',
-            width: 300,
             name: 'email'
         },
-        {
-            fieldLabel: 'Tempo da Coleta',
-            width: 300,
-            name: 'email'
-        },
-
         {
             fieldLabel: 'Telefone',
             name: 'telefone'
         },
-        {
-            fieldLabel: 'Tipo',
-            width: 450,
-            name: 'orgao'
-        },
-        {
-            xtype: 'button',
-            text: 'Editar',
-            style:{
-                margin: '0px 10px 0px 320px',
-            }
-        },
-        {
-            xtype: 'button',
-            text: 'Alterar Senha',
-            style:{
-                margin: '0px 10px 0px 0px',
-            }
-        },
-        {
-            xtype: 'button',
-            text: 'Excluir',
-        },
 
+        {
+            xtype: 'button',
+            text: 'Cadastrar',
+            style:{
+                margin: '50px 10px 0px 350px',
+            },
+        },
     ]
 });
 
 painel = Ext.create('Ext.panel.Panel', {
         layout: 'fit',
-        title: 'Meu Perfil',
+        title: 'Cadastro de Orgão',
         width: '75%',
         height: 250,
         frame: true,

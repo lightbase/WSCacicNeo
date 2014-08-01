@@ -36,11 +36,13 @@ var table = Ext.create('Ext.form.Panel', {
             boxLabel: 'Orgão'
         },
         {
+            xtype:'combobox',
             fieldLabel: 'Cargo',
             width:450,
             name: 'cargo'
         },
         {
+            xtype:'combobox',
             fieldLabel: 'Setor',
             width:450,
             name: 'setor'

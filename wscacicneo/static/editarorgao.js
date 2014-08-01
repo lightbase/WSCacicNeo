@@ -12,33 +12,38 @@ var table = Ext.create('Ext.form.Panel', {
     items: [
         {
             fieldLabel: 'Nome',
-            width: 350,
-            name: 'matricula'
+            width:450,
+            name: 'nome'
         },
         {
-            fieldLabel: 'Data da instalação',
-            width: 200,
+            fieldLabel: 'Sigla',
+            width: 300,
+            name: 'Sigla'
+        },
+        {
+            fieldLabel: 'E-mail',
             name: 'email'
         },
         {
-            xtype: 'button',
-            text: 'Enviar',
-            style : {
-                margin : " 0px 10px 0px 330px"
-            }
+            fieldLabel: 'Telefone',
+            name: 'telefone'
         },
+
         {
             xtype: 'button',
-            text: 'Limpar',
+            text: 'Editar',
+            style:{
+                margin: '50px 10px 0px 350px',
+            },
         },
     ]
 });
 
 painel = Ext.create('Ext.panel.Panel', {
         layout: 'fit',
-        title: 'Software Básico',
+        title: 'Editar Orgão',
         width: '75%',
-        height: 200,
+        height: 250,
         frame: true,
         draggable: true,
         collapsible: true,

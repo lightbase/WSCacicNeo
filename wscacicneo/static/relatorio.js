@@ -50,14 +50,14 @@ table = Ext.create('Ext.grid.Panel', {
         },
         {
             text: 'MODELO',
-            width: 300,
+            width: 200,
             dataIndex: 'modelo',
             hidden: false,
         },
         {
             text: 'FABRICAÇÃO',
             sortable: false,
-            width:80,
+            width:100,
             renderer: Ext.util.Format.dateRenderer('d/m/Y'),
             flex: 1,
             dataIndex: 'fabricacao'
@@ -65,7 +65,7 @@ table = Ext.create('Ext.grid.Panel', {
         {
             text: 'QUANTIDADE',
             sortable: false,
-            width:80,
+            width:120,
             dataIndex: 'quantidade'
         },
     ],
@@ -78,8 +78,9 @@ table = Ext.create('Ext.grid.Panel', {
         { xtype: 'tbfill'},
         'Favorito',
         { xtype: 'tbfill'},
+        'Questionar Coleta',
+        { xtype: 'tbfill'},
         'Voltar',
-
         ]
 });
 

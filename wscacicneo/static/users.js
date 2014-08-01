@@ -1,6 +1,3 @@
-/*GRAFICO DE ORGÃOS*/
-
-
 Ext.define('User',{
     extend: 'Ext.data.Model',
     fields: [ 'codigo', 'orgao']
@@ -47,7 +44,7 @@ table = Ext.create('Ext.grid.Panel', {
                     icon:''
                 },
                 {
-                    icon:'static/icons/delete.gif',
+                    icon:'static/icons/delete.png',
                     tooltip: 'Excluir'
                 }
             ]

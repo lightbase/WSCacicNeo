@@ -11,16 +11,17 @@ var table = Ext.create('Ext.form.Panel', {
     defaultType: 'textfield',
     items: [
         {
-            fieldLabel: 'Quantidade',
+            fieldLabel: 'Nome',
             width:450,
             name: 'nome'
         },
         {
-            fieldLabel: 'Nome',
+            fieldLabel: 'Data da intalação',
             width: 250,
             name: 'matricula'
         },
         {
+            xtype:'combobox',
             fieldLabel: 'Tipo',
             width: 300,
             name: 'email'
@@ -29,7 +30,7 @@ var table = Ext.create('Ext.form.Panel', {
             xtype: 'button',
             text: 'Enviar',
             style : {
-                margin : " 0px 10px 0px 0px"
+                margin : " 0px 10px 0px 330px"
             }
         },
         {

@@ -11,20 +11,20 @@ var table = Ext.create('Ext.form.Panel', {
     defaultType: 'textfield',
     items: [
         {
-            fieldLabel: 'Quantidade',
+            fieldLabel: 'Ativos de rede',
             width:450,
             name: 'nome'
         },
         {
-            fieldLabel: 'ativos rede',
-            width: 250,
+            fieldLabel: 'Quantidade',
+            width: 200,
             name: 'matricula'
         },
         {
             xtype: 'button',
             text: 'Enviar',
             style : {
-                margin : " 0px 10px 0px 0px"
+                margin : " 0px 10px 0px 330px"
             }
         },
         {

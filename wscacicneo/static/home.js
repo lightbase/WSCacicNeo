@@ -1,11 +1,10 @@
 var painelContent=
 			"<br>"+
-            "Opção 1" + "<br>" + "<hr />" +
-			"Opção 2" + "<br>" +"<hr />" +
-			"Opção 3" + "<br>" +"<hr />" +
-			"Opção 4" + "<br>" +"<hr />" +
-			"Opção 5" + "<br>" +"<hr />" +
-			"Opção 6" + "<br>" + "<br>"
+            "Coleta 123658 - 12/12/2012" + "<br>" + "<hr />" +
+			"Coleta 115613 - 13/12/2012" + "<br>" +"<hr />" +
+			"Questionamento da coleta 115613 - 14/12/2012" + "<br>" +"<hr />" +
+			"Notificação da coleta 123658 - 20/12/2012" + "<br>" +"<hr />" +
+			"Relatório gerado da coleta 115613 - 25/12/2012" + "<br>" +"<hr />" 
 
 admin = Ext.create('Ext.panel.Panel', {
 		title: 'Ultimas Atividades',

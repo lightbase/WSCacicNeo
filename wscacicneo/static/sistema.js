@@ -16,27 +16,32 @@ var table = Ext.create('Ext.form.Panel', {
             name: 'matricula'
         },
         {
-            fieldLabel: 'Data da instalação',
-            width: 200,
+            fieldLabel: 'Versão',
+            width: 250,
             name: 'email'
+        },
+        {
+            fieldLabel: 'Data da instalação',
+            name: 'telefone'
         },
         {
             xtype: 'button',
             text: 'Enviar',
             style : {
-                margin : " 0px 10px 0px 330px"
+                margin : " 0px 10px 0px 270px"
             }
         },
         {
             xtype: 'button',
             text: 'Limpar',
         },
+
     ]
 });
 
 painel = Ext.create('Ext.panel.Panel', {
         layout: 'fit',
-        title: 'Software Básico',
+        title: 'Processador',
         width: '75%',
         height: 200,
         frame: true,

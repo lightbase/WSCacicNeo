@@ -3,7 +3,7 @@
 
 Ext.define('User',{
     extend: 'Ext.data.Model',
-    fields: [ 'codigo', 'orgao', 'date' ]
+    fields: [ 'codigo', 'orgao']
 });
 
 var userStore = Ext.create('Ext.data.Store', {
@@ -24,18 +24,27 @@ table = Ext.create('Ext.grid.Panel', {
     columns: [
         {
             text: 'Orgão',
-            width: 300,
+            width: 390,
             dataIndex: 'orgao',
             hidden: false,
         },
         {
-            text: '',
-            sortable: false,
-            width:80,
-            flex: 1,
-            dataIndex: 'date'
-        },
-    ]
+            xtype: 'actioncolumn',
+            width: 100,
+            align: 'center',
+                items:[{
+                    icon:'static/icons/edit.png',
+                    tooltip: 'Editar'
+                },
+                {
+                    icon:''
+                },
+                {
+                    icon:'static/icons/delete.png',
+                    tooltip: 'Excluir'
+                },
+       ]},
+   ]
 });
 
 tabela = Ext.create('Ext.panel.Panel', {
