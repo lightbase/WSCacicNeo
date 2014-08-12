@@ -59,7 +59,7 @@ def users(request):
 def cadastro(request):
     return {'project': 'WSCacicNeo'}
 
-@view_config(route_name='login', renderer='templates/user.pt')
+@view_config(route_name='login', renderer='templates/login.pt')
 def login(request):
     return {'project': 'WSCacicNeo'}
 
@@ -112,6 +112,11 @@ def basico(request):
 @view_config(route_name='sistema', renderer='templates/sistema.pt')
 def sistema(request):
     return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='bot', renderer='templates/bot.pt')
+def bot(request):
+    return {'project': 'WSCacicNeo'}
+
 
 @view_config(route_name='busca', renderer='templates/busca.pt')
 def my_view8(request):

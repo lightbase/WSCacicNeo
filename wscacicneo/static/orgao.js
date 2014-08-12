@@ -16,42 +16,41 @@ var table = Ext.create('Ext.form.Panel', {
             name: 'nome'
         },
         {
-            fieldLabel: 'Matricula',
+            fieldLabel: 'Sigla',
             width: 250,
             name: 'matricula'
         },
         {
-            fieldLabel: 'E-mail',
+            fieldLabel: 'Responsável',
             width: 300,
             name: 'email'
         },
         {
-            fieldLabel: 'Tempo da Coleta',
+            fieldLabel: 'Telefone',
             width: 300,
             name: 'email'
         },
 
         {
-            fieldLabel: 'Telefone',
+            fieldLabel: 'E-mail',
             name: 'telefone'
         },
         {
-            fieldLabel: 'Tipo',
+            fieldLabel: 'Endereço',
             width: 450,
             name: 'orgao'
+        },
+        {
+            xtype: 'combobox',
+            name: 'checkbox1',
+            fieldLabel: 'Coleta',
+            boxLabel: 'Coleta'
         },
         {
             xtype: 'button',
             text: 'Editar',
             style:{
                 margin: '0px 10px 0px 320px',
-            }
-        },
-        {
-            xtype: 'button',
-            text: 'Alterar Senha',
-            style:{
-                margin: '0px 10px 0px 0px',
             }
         },
         {
@@ -64,9 +63,9 @@ var table = Ext.create('Ext.form.Panel', {
 
 painel = Ext.create('Ext.panel.Panel', {
         layout: 'fit',
-        title: 'Meu Perfil',
+        title: 'Orgão',
         width: '75%',
-        height: 250,
+        height: 270,
         frame: true,
         draggable: true,
         collapsible: true,

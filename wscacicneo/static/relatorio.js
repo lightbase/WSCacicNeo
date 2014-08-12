@@ -78,7 +78,7 @@ table = Ext.create('Ext.grid.Panel', {
         { xtype: 'tbfill'},
         'Favorito',
         { xtype: 'tbfill'},
-        'Voltar',
+        'CSV',
 
         ]
 });
@@ -198,7 +198,7 @@ var chart = Ext.create('Ext.chart.Chart', {
             contrast: true,
             font: '18px Arial'
         }
-    }]  
+    }]
 });
 
 widget = Ext.create('Ext.panel.Panel', {
@@ -217,7 +217,10 @@ widget = Ext.create('Ext.panel.Panel', {
 
         tbar:[
             'Exportar PDF',
+            { xtype: 'tbfill'},
             'Imprimir',
+            { xtype: 'tbfill'},
+            'CSV',
         ],
 
         bbar:[

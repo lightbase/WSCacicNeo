@@ -11,11 +11,6 @@ var table = Ext.create('Ext.form.Panel', {
     defaultType: 'textfield',
     items: [
         {
-            fieldLabel: 'Quantidade',
-            width:450,
-            name: 'nome'
-        },
-        {
             fieldLabel: 'Interface',
             width: 250,
             name: 'matricula'

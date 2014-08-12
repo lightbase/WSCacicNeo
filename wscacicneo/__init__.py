@@ -18,6 +18,7 @@ def main(global_config, **settings):
     config.add_route('orgao', 'orgao')
     config.add_route('list', 'list')
     config.add_route('gestao', 'gestao')
+    config.add_route('bot', 'bot')
     config.add_route('memoria', 'memoria')
     config.add_route('basico', 'basico')
     config.add_route('rede', 'rede')

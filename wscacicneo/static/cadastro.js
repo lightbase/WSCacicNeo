@@ -16,17 +16,23 @@ var table = Ext.create('Ext.form.Panel', {
             name: 'nome'
         },
         {
-            fieldLabel: 'Matricula',
+            fieldLabel: 'Username',
             width: 250,
             name: 'matricula'
         },
         {
-            fieldLabel: 'E-mail',
+            fieldLabel: 'Senha',
             width: 300,
             name: 'email'
         },
         {
-            fieldLabel: 'Telefone',
+            fieldLabel: 'Confirmar senha',
+            width: 300,
+            name: 'email'
+        },
+
+        {
+            fieldLabel: 'E-mail',
             name: 'telefone'
         },
         {
@@ -36,30 +42,19 @@ var table = Ext.create('Ext.form.Panel', {
             boxLabel: 'Orgão'
         },
         {
-            fieldLabel: 'Cargo',
+            fieldLabel: 'Unidade',
             width:450,
             name: 'cargo'
         },
         {
-            fieldLabel: 'Setor',
+            fieldLabel: 'Telefone',
             width:450,
             name: 'setor'
         },
         {
-            xtype: 'radiofield',
-            name: 'radio1',
-            value: 'radiovalue1',
-            fieldLabel: 'Permissão',
-            boxLabel: 'Gestor',
-        },
-        {
-            xtype: 'radiofield',
-            name: 'radio1',
-            value: 'radiovalue2',
-            fieldLabel: '',
-            labelSeparator: '',
-            hideEmptyLabel: false,
-            boxLabel: 'Administrador'
+            fieldLabel: 'SIAPE',
+            width:450,
+            name: 'setor'
         },
         {
             xtype: 'button',
