@@ -48,14 +48,14 @@ var table = Ext.create('Ext.form.Panel', {
         },
         {
             xtype: 'button',
-            text: 'Editar',
+            text: 'Enviar',
             style:{
                 margin: '0px 10px 0px 320px',
             }
         },
         {
             xtype: 'button',
-            text: 'Excluir',
+            text: 'Limpar',
         },
 
     ]
