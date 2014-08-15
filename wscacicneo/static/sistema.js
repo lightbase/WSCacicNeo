@@ -16,11 +16,6 @@ var table = Ext.create('Ext.form.Panel', {
             name: 'nome'
         },
         {
-            fieldLabel: 'Marca',
-            width: 250,
-            name: 'data instalação'
-        },
-        {
             fieldLabel: 'instalação',
             width: 250,
             name: 'data instalação'
@@ -31,8 +26,9 @@ var table = Ext.create('Ext.form.Panel', {
             name: 'email'
         },
         {
-            fieldLabel: 'Verção',
-            name: 'telefone'
+            fieldLabel: 'Versão',
+            width: 250,
+            name: 'email'
         },
         {
             xtype: 'button',
@@ -53,7 +49,8 @@ painel = Ext.create('Ext.panel.Panel', {
         layout: 'fit',
         title: 'Sistemas Operacionais',
         width: '75%',
-        height: 210,
+        height: 200,
+        title: 'Processador',
         frame: true,
         draggable: true,
         collapsible: true,
@@ -73,6 +70,5 @@ Ext.onReady(function(){
                items: [painel],
         renderTo: 'widgets'
         });
-
 });
 

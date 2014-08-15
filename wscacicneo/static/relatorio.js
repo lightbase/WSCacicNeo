@@ -50,14 +50,14 @@ table = Ext.create('Ext.grid.Panel', {
         },
         {
             text: 'MODELO',
-            width: 300,
+            width: 200,
             dataIndex: 'modelo',
             hidden: false,
         },
         {
             text: 'FABRICAÇÃO',
             sortable: false,
-            width:80,
+            width:100,
             renderer: Ext.util.Format.dateRenderer('d/m/Y'),
             flex: 1,
             dataIndex: 'fabricacao'
@@ -65,7 +65,7 @@ table = Ext.create('Ext.grid.Panel', {
         {
             text: 'QUANTIDADE',
             sortable: false,
-            width:80,
+            width:120,
             dataIndex: 'quantidade'
         },
     ],
@@ -78,8 +78,9 @@ table = Ext.create('Ext.grid.Panel', {
         { xtype: 'tbfill'},
         'Favorito',
         { xtype: 'tbfill'},
+        'Questionar Coleta',
+        { xtype: 'tbfill'},
         'CSV',
-
         ]
 });
 
@@ -118,7 +119,7 @@ store.load({
 
 tabela = Ext.create('Ext.panel.Panel', {
         layout: 'fit',
-        title: 'Relatorio de coletas por PROCESSADOR',
+        title: 'Relatório de coletas por PROCESSADOR',
         width: '75%',
         frame: true,
         draggable: true,
@@ -203,7 +204,7 @@ var chart = Ext.create('Ext.chart.Chart', {
 
 widget = Ext.create('Ext.panel.Panel', {
         layout: 'fit',
-        title: 'Grafico de  PROCESSADORES da SECRETARIA DE LOGISTICA E TECONOLOGIA DA INFORMAÇÃO',
+        title: 'Gráfico',
         width: '75%',
         frame: true,
         draggable: true,
@@ -239,7 +240,6 @@ Ext.onReady(function(){
                items: [widget],
         renderTo: 'widgets'
         });
-
 });
 
 

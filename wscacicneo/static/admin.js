@@ -15,6 +15,10 @@ var painelContent=
                             leaf: true
                         },
                         {
+                            text: 'Configuração do Bot',
+                            leaf: true
+                        },
+                        {
                             text: 'Lista de Órgãos',
                             leaf: true
                         },

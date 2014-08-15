@@ -11,32 +11,35 @@ var table = Ext.create('Ext.form.Panel', {
     defaultType: 'textfield',
     items: [
         {
-            fieldLabel: 'Nome',
-            width: 350,
+            xtype:'combobox',
+            fieldLabel: 'Fonte',
+            width:300,
+            name: 'fonte'
+        },
+        {
+            xtype:'combobox',
+            fieldLabel: 'Estilo de cores',
+            width: 250,
             name: 'matricula'
         },
         {
-            fieldLabel: 'Data da instalação',
-            width: 200,
-            name: 'email'
-        },
-        {
             xtype: 'button',
-            text: 'Enviar',
-            style : {
-                margin : " 0px 10px 0px 330px"
+            text: 'Confirmar',
+            style:{
+                margin: '0px 10px 0px 300px',
             }
         },
         {
             xtype: 'button',
-            text: 'Limpar',
+            text: 'Cancelar',
         },
+
     ]
 });
 
 painel = Ext.create('Ext.panel.Panel', {
         layout: 'fit',
-        title: 'Software Básico',
+        title: 'Configuração da Aplicação',
         width: '75%',
         height: 200,
         frame: true,

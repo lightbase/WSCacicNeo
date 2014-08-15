@@ -10,7 +10,7 @@ Ext.onReady(function() {
                 titleAlign: 'center',
                 items: [
                         {text: 'Meu Perfil' },
-                        {text: 'Gestor de Orgãos' },
+                        {text: 'Gestor de Órgãos' },
                         {text: 'Notificações' },
                         {text: 'Relatórios' },
                         {text: 'Sobre' },

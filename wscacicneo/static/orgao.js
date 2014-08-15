@@ -17,34 +17,36 @@ var table = Ext.create('Ext.form.Panel', {
         },
         {
             fieldLabel: 'Sigla',
-            width: 250,
-            name: 'matricula'
+            width: 200,
+            name: 'sigla'
         },
         {
-            fieldLabel: 'Responsável',
+            fieldLabel: 'Cargo / Gestor',
             width: 300,
-            name: 'email'
+            name: 'cargo'
         },
+
         {
             fieldLabel: 'Telefone',
             width: 300,
-            name: 'email'
+            name: 'telefone'
         },
 
         {
             fieldLabel: 'E-mail',
-            name: 'telefone'
+            width: 300,
+            name: 'email'
         },
         {
             fieldLabel: 'Endereço',
             width: 450,
-            name: 'orgao'
+            name: 'end'
         },
         {
             xtype: 'combobox',
             name: 'checkbox1',
             fieldLabel: 'Coleta',
-            boxLabel: 'Coleta'
+            boxLabel: 'coleta'
         },
         {
             xtype: 'button',
@@ -57,15 +59,21 @@ var table = Ext.create('Ext.form.Panel', {
             xtype: 'button',
             text: 'Limpar',
         },
-
+        {
+            xtype: 'button',
+            text: 'Cadastrar',
+            style:{
+                margin: '50px 10px 0px 350px',
+            },
+        },
     ]
 });
 
 painel = Ext.create('Ext.panel.Panel', {
         layout: 'fit',
-        title: 'Orgão',
+        title: 'Órgão',
         width: '75%',
-        height: 270,
+        height: 265,
         frame: true,
         draggable: true,
         collapsible: true,
@@ -88,3 +96,33 @@ Ext.onReady(function(){
 
 });
 
+
+$('#button-1017-btnIconEl').click(function(){
+    var nome = $('#textfield-1010-inputEl').val()
+        sigla = $('#textfield-1011-inputEl').val()
+        gestor = $('#textfield-1012-inputEl').val()
+        telefone = $('#textfield-1013-inputEl').val()
+        email = $('#textfield-1014-inputEl').val()
+        end = $('#textfield-1015-inputEl').val()
+        coleta = $('#combobox-1016-inputEl').val()
+    var reg = {
+        'nome' : nome,
+        'sigla': sigla,
+        'gestor': gestor,
+        'telefone': telefone,
+        'email': email,
+        'end': end,
+        'coleta': '15'
+    }
+    $.ajax({
+        type: "POST",
+        url: 'http://10.1.0.121/wscacicneo/orgao',
+        cache: false,
+        success: function(jqXHR, textStatus, errorThrown){
+            alert('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+            alert('ooooooooooooooooooooooooooooooooooooo')
+        }
+    });
+});

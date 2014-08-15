@@ -1,3 +1,4 @@
+
 // **** FILTRO DE ITENS ****
 
 Ext.define('User1',{
@@ -8,31 +9,50 @@ Ext.define('User1',{
 var userStore1 = Ext.create('Ext.data.Store', {
     model: 'User1',
     data: [
-                { item: 'Coletas 1120, 1131, 1149, estão desatualizadas'},
-                { item: 'Coleta 1123, Incorreta Número de computadores inconsistente'},
-                { item: 'Coleta não efetuada: coleta 1151 está atualizada'},
+                { item: 'Computador'},
+                { item: 'Processador'},
+                { item: 'Memórias'},
+                { item: 'Hard Disk (HD)'},
+                { item: 'Sistemas Operacionais'}, 
+                { item: 'Suítes de Escritórios'},
+                { item: 'Ativos de Redes'}, 
+                { item: 'Softwares Básicos'},
     ]
 });
 
 table1 = Ext.create('Ext.grid.Panel', {
     store: userStore1,
-    width: 400,
-    height: 200,
+    width: 450,
+    height: 300,
  //   title: 'Application Users',
     columns: [
         {
             text: 'Item',
-            width: 500,
+            width:'100%',
             sortable: true,
             hideable: false,
             dataIndex: 'item'
         },
-    ]
+    ],
+ bbar:[ 
+          {
+            xtype: 'button',
+            text: 'Gerar Relatório',
+            style:{
+                margin: '0px 10px 0px 300px',
+            }
+        },
+        {
+            xtype: 'button',
+            text: 'Cancelar',
+        },
+        ]
+
 });
 
 tabela1 = Ext.create('Ext.panel.Panel', {
         layout: 'fit',
-        title: 'Notificações',
+        title: 'Gerar Relatório',
         width: '75%',
         frame: true,
         draggable: true,
@@ -55,4 +75,5 @@ Ext.onReady(function(){
         });
 
 });
+
 

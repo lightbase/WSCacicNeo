@@ -65,7 +65,7 @@ table = Ext.create('Ext.grid.Panel', {
 
 tabela = Ext.create('Ext.panel.Panel', {
         layout: 'fit',
-        title: 'Relatorios de Coletas',
+        title: 'Relatórios de Coletas',
         width: '75%',
         frame: true,
         draggable: true,

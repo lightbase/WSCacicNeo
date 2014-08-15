@@ -1,4 +1,6 @@
+import requests
 from pyramid.response import Response
+from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine, MetaData
@@ -8,12 +10,17 @@ from .models import (
     )
 
 engine = create_engine('postgresql://rest:rest@localhost/cacic')
+REST_URL = 'http://api.brlight.net/api'
 
 Session = sessionmaker(bind=engine)
 session = Session()
 @view_config(route_name='master', renderer='templates/master.pt')
 def master(request):
-    return {'project': 'WSCacicNeo'}
+    url = REST_URL + '/orgao_sg/doc'
+    json_reg = request.params
+    data = {'value': json_reg}
+    response = requests.post(url, data=data)
+    return response.text
 
 @view_config(route_name='home', renderer='templates/home.pt')
 def home(request):
@@ -85,7 +92,7 @@ def sobre(request):
 def computador(request):
     return {'project': 'WSCacicNeo'}
 
-@view_config(route_name='proc', renderer='templates/proc.pt')
+@view_config(route_name='processador', renderer='templates/processador.pt')
 def proc(request):
     return {'project': 'WSCacicNeo'}
 
@@ -115,6 +122,42 @@ def sistema(request):
 
 @view_config(route_name='bot', renderer='templates/bot.pt')
 def bot(request):
+    return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='configapi', renderer='templates/configapi.pt')
+def configapi(request):
+    return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='editarorgao', renderer='templates/editarorgao.pt')
+def editarorgao(request):
+    return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='notify', renderer='templates/notify.pt')
+def notify(request):
+    return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='configcoleta', renderer='templates/configcoleta.pt')
+def configcoleta(request):
+    return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='configfav', renderer='templates/configfav.pt')
+def configfav(request):
+    return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='reportsgestor', renderer='templates/reportsgestor.pt')
+def reportsgestor(request):
+    return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='questionarcoleta', renderer='templates/questionarcoleta.pt')
+def questionarcoleta(request):
+    return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='confighome', renderer='templates/confighome.pt')
+def confighome(request):
+    return {'project': 'WSCacicNeo'}
+
+@view_config(route_name='db', renderer='templates/db.pt')
+def db(request):
     return {'project': 'WSCacicNeo'}
 
 
@@ -149,41 +192,3 @@ def my_view8(request):
     #print (dc)
 
     return {'project':'WSCacicNeo', 'data': data}
-
-# @view_config(route_name='estatisticas', renderer='templates/estatisticas.pt')
-# def estatisticas(request):
-#     response = requests.get('%s/base?$$={"select":"*"}' %(rest_url)).json()
-#     results = response['results']
-
-#     return {'project': 'WSCacicNeo', 'results': json.dumps(results)}
-
-# @view_config(route_name='downloads', renderer='templates/downloads.pt')
-# def downloads(request):
-#     return {'project': 'WSCacicNeo'}
-
-# @view_config(route_name='relatorios', renderer='templates/relatorios.pt')
-# def relatorios(request):
-#     response = requests.get('http://api.brlight.org/reg/WMI/3').json()
-#     #response = requests.get('http://api.brlight.org/base/5').json()
-
-#     return {'project': 'WSCacicNeo', 'reg': response}
-
-# @view_config(route_name='mensagens', renderer='templates/mensagens.pt')
-# def mensagens(request):
-#     return {'project': 'WSCacicNeo'}
-
-# @view_config(route_name='ajuda', renderer='templates/ajuda.pt')
-# def ajuda(request):
-#     return {'project': 'WSCacicNeo'}
-
-# @view_config(route_name='usuario', renderer='templates/usuario.pt')
-# def usuario(request):
-#     return {'project': 'WSCacicNeo'}
-
-# @view_config(route_name='ferramentas', renderer='templates/ferramentas.pt')
-# def ferramentas(request):
-#     return {'project': 'WSCacicNeo'}
-
-# @view_config(route_name='login', renderer='templates/login.pt')
-# def login(request):
-#     return {'project': 'WSCacicNeo'}
