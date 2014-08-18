@@ -1,4 +1,5 @@
 import requests
+import json
 from pyramid.response import Response
 from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config
@@ -16,11 +17,7 @@ Session = sessionmaker(bind=engine)
 session = Session()
 @view_config(route_name='master', renderer='templates/master.pt')
 def master(request):
-    url = REST_URL + '/orgao_sg/doc'
-    json_reg = request.params
-    data = {'value': json_reg}
-    response = requests.post(url, data=data)
-    return response.text
+    return {'project': 'WSCacicNeo'}
 
 @view_config(route_name='home', renderer='templates/home.pt')
 def home(request):
@@ -192,3 +189,16 @@ def my_view8(request):
     #print (dc)
 
     return {'project':'WSCacicNeo', 'data': data}
+
+#URL POST
+
+@view_config(route_name='post_orgao')
+def post_orgao(request):
+    url = REST_URL + '/orgao_sg/doc'
+    reg = dict(request.params)
+    json_reg = json.dumps(reg)
+    data = {'value': json_reg}
+    response = requests.post(url, data=data)
+    print(response.text)
+
+    return Response(response.text)

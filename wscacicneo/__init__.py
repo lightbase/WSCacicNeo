@@ -16,7 +16,10 @@ def main(global_config, **settings):
     config.add_route('admin', 'admin')
     config.add_route('proc', 'proc')
     config.add_route('sistema', 'sistema')
+    #Órgão
     config.add_route('orgao', 'orgao')
+    config.add_route('post_orgao', 'post_orgao')
+    #
     config.add_route('list', 'list')
     config.add_route('gestao', 'gestao')
     config.add_route('bot', 'bot')
