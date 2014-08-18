@@ -1,5 +1,25 @@
+#!/usr/env python
+# -*- coding: utf-8 -*-
+import os
+import configparser
 from pyramid.config import Configurator
 
+
+config = configparser.ConfigParser()
+here = os.path.abspath(os.path.dirname(__file__))
+config_file = os.path.join(here, '../development.ini')
+config.read(config_file)
+
+
+class WSCacicNeo(object):
+    """
+    Classe genérica com os parâmetros de configuração
+    """
+    def __init__(self):
+        """
+        Método construtor
+        """
+        self.rest_url = config.get('lbgenerator', 'rest_url')
 
 
 def main(global_config, **settings):
@@ -16,10 +36,12 @@ def main(global_config, **settings):
     config.add_route('admin', 'admin')
     config.add_route('proc', 'proc')
     config.add_route('sistema', 'sistema')
+    #Órgão
     config.add_route('orgao', 'orgao')
+    config.add_route('post_orgao', 'post_orgao')
+    #
     config.add_route('list', 'list')
     config.add_route('gestao', 'gestao')
-    config.add_route('bot', 'bot')
     config.add_route('memoria', 'memoria')
     config.add_route('basico', 'basico')
     config.add_route('rede', 'rede')
@@ -27,6 +49,7 @@ def main(global_config, **settings):
     config.add_route('hd', 'hd')
     config.add_route('config', 'config')
     config.add_route('users', 'users')
+    config.add_route('bot', 'bot')
     config.add_route('login', 'login')
     config.add_route('reports', 'reports')
     config.add_route('computador', 'computador')
@@ -48,5 +71,4 @@ def main(global_config, **settings):
     config.add_route('db','db')
     config.scan()
     return config.make_wsgi_app()
-
 

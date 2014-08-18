@@ -86,14 +86,11 @@ painel = Ext.create('Ext.panel.Panel', {
 });
 
 Ext.onReady(function(){
-
-
         Ext.create('Ext.Container', {
                padding: '15px',
                items: [painel],
         renderTo: 'widgets'
         });
-
 });
 
 
@@ -116,7 +113,8 @@ $('#button-1017-btnIconEl').click(function(){
     }
     $.ajax({
         type: "POST",
-        url: 'http://10.1.0.121/wscacicneo/orgao',
+        url: 'post_orgao',
+        data : reg,
         cache: false,
         success: function(jqXHR, textStatus, errorThrown){
             alert('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')

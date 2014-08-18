@@ -15,11 +15,12 @@ requires = [
     'zope.sqlalchemy',
     'waitress',
     'requests',
-    'pyramid_chameleon'
+    'pyramid_chameleon',
+    'liblightbase'
     ]
 
 setup(name='WSCacicNeo',
-      version='0.0',
+      version='0.1',
       description='WSCacicNeo',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
