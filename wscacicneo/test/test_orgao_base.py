@@ -63,7 +63,7 @@ class TestOrgaoBase(unittest.TestCase):
         """
         orgao_obj = orgao.Orgao(
             nome='Ministério do Planejamento',
-            cargo='Gestor',
+            cargo='cargo',
             coleta='4h',
             sigla='MPOG',
             endereco='Esplanada bloco C',

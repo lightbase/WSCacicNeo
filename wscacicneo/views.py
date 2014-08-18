@@ -9,6 +9,12 @@ from .models import (
     DBSession,
     SistemaOperacional,
     )
+from wscacicneo.model.orgao import Orgao
+from wscacicneo.model.orgao import OrgaoBase
+from liblightbase.lbbase.struct import Base
+from liblightbase.lbutils import conv
+from liblightbase.lbrest.document import DocumentREST
+
 
 engine = create_engine('postgresql://rest:rest@localhost/cacic')
 REST_URL = 'http://api.brlight.net/api'
@@ -194,11 +200,24 @@ def my_view8(request):
 
 @view_config(route_name='post_orgao')
 def post_orgao(request):
-    url = REST_URL + '/orgao_sg/doc'
-    reg = dict(request.params)
-    json_reg = json.dumps(reg)
-    data = {'value': json_reg}
-    response = requests.post(url, data=data)
-    print(response.text)
+    """
+    Post doc órgãos
+    """
+    rest_url = 'http://api.brlight.net/api'
+    orgaobase = OrgaoBase().lbbase
+    doc = request.params
+    orgao_obj = Orgao(
+        nome = doc['nome'],
+        cargo = doc['gestor'],
+        coleta = doc['coleta'],
+        sigla = doc['sigla'],
+        endereco = doc['end'],
+        email = doc['email'],
+        telefone = doc['telefone']
+    )
 
-    return Response(response.text)
+    document = conv.document2json(orgaobase, orgao_obj)
+    id_doc = DocumentREST(rest_url, orgaobase).create(document)
+    print(id_doc)
+
+    return Response(str(id_doc))
