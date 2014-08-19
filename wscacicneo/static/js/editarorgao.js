@@ -12,20 +12,33 @@ var table = Ext.create('Ext.form.Panel', {
     items: [
         {
             fieldLabel: 'Nome',
-            width:450,
+            width: 450,
             name: 'nome'
         },
         {
             fieldLabel: 'Sigla',
-            width: 300,
+            width: 250,
             name: 'Sigla'
         },
         {
             fieldLabel: 'E-mail',
+            width: 350,
             name: 'email'
         },
         {
             fieldLabel: 'Telefone',
+            width: 250,
+            name: 'telefone'
+        },
+        {
+            fieldLabel: 'Endereço',
+            width: 450,
+            name: 'telefone'
+        },
+        {
+            fieldLabel: 'Coleta',
+            xtype: 'combobox',
+            width: 250,
             name: 'telefone'
         },
 
@@ -33,7 +46,7 @@ var table = Ext.create('Ext.form.Panel', {
             xtype: 'button',
             text: 'Editar',
             style:{
-                margin: '50px 10px 0px 350px',
+                margin: '0px 0px 0px 450px',
             },
         },
     ]

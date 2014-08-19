@@ -23,7 +23,7 @@ class OrgaoBase(WSCacicNeo):
         WSCacicNeo.__init__(self)
         self.baserest = BaseREST(rest_url=self.rest_url, response_object=True)
         self.documentrest = DocumentREST(rest_url=self.rest_url,
-                base=self.lbbase, response_object=True)
+                base=self.lbbase, response_object=False)
 
     @property
     def lbbase(self):
@@ -185,7 +185,7 @@ class Orgao(orgao_base.metaclass):
         document = self.orgao_to_json()
         try:
             result = orgao_base.documentrest.create(document)
-        except HTTPError, err:
+        except HTTPError:
             log.error(err.strerror)
             return None
 

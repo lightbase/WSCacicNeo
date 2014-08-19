@@ -124,3 +124,13 @@ $('#button-1017-btnIconEl').click(function(){
         }
     });
 });
+
+$('#button-1018-btnIconEl').click(function(){
+    $('#textfield-1010-inputEl').val('')
+    $('#textfield-1011-inputEl').val('')
+    $('#textfield-1012-inputEl').val('')
+    $('#textfield-1013-inputEl').val('')
+    $('#textfield-1014-inputEl').val('')
+    $('#textfield-1015-inputEl').val('')
+    $('#combobox-1016-inputEl').val('')
+});

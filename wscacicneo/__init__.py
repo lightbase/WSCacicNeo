@@ -60,7 +60,9 @@ def main(global_config, **settings):
     config.add_route('sobre', 'sobre')
     config.add_route('perfil', 'perfil')
     config.add_route('configapi','configapi')
+    #editar Órgão
     config.add_route('editarorgao','editarorgao')
+    #
     config.add_route('notify','notify')
     config.add_route('processador','processador')
     config.add_route('configcoleta','configcoleta')

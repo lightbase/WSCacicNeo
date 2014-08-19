@@ -184,7 +184,7 @@ def post_orgao(request):
         telefone = doc['telefone']
     )
 
-    id_doc = orgao_obj.create_orgao() 
+    id_doc = orgao_obj.create_orgao()
     print(id_doc)
 
     return Response(str(id_doc))
