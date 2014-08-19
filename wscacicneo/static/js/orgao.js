@@ -97,7 +97,7 @@ Ext.onReady(function(){
 $('#button-1017-btnIconEl').click(function(){
     var nome = $('#textfield-1010-inputEl').val()
         sigla = $('#textfield-1011-inputEl').val()
-        gestor = $('#textfield-1012-inputEl').val()
+        cargo = $('#textfield-1012-inputEl').val()
         telefone = $('#textfield-1013-inputEl').val()
         email = $('#textfield-1014-inputEl').val()
         end = $('#textfield-1015-inputEl').val()
@@ -105,7 +105,7 @@ $('#button-1017-btnIconEl').click(function(){
     var reg = {
         'nome' : nome,
         'sigla': sigla,
-        'gestor': gestor,
+        'gestor': cargo,
         'telefone': telefone,
         'email': email,
         'end': end,

@@ -95,17 +95,9 @@ class OrgaoBase(WSCacicNeo):
             required=True
         ))
 
-        base_metadata = BaseMetadata(**dict(
+        base_metadata = BaseMetadata(
             name='orgaos',
-            description='Órgãos da administração pública',
-            password='123456',
-            idx_exp=False,
-            idx_exp_url='index_url',
-            idx_exp_time=300,
-            file_ext=True,
-            file_ext_time=300,
-            color='#FFFFFF'
-        ))
+        )
 
         content_list = Content()
         content_list.append(nome)
@@ -153,10 +145,10 @@ class OrgaoBase(WSCacicNeo):
         else:
             raise IOError('Error excluding base from LB')
 
-orgao = OrgaoBase().metaclass
+OrgaoMetaClass = OrgaoBase().metaclass
 
 
-class Orgao(orgao):
+class Orgao(OrgaoMetaClass):
     """
     Classe genérica de órgãos
     """

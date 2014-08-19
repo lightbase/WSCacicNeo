@@ -203,7 +203,7 @@ def post_orgao(request):
     """
     Post doc órgãos
     """
-    rest_url = 'http://api.brlight.net/api'
+    rest_url = REST_URL
     orgaobase = OrgaoBase().lbbase
     doc = request.params
     orgao_obj = Orgao(

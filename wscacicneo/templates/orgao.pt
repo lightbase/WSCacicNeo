@@ -1,6 +1,6 @@
 <metal:main use-macro="load: master.pt">
  <!-- Insere JavaScript -->
- <script metal:fill-slot="javascript" type="text/javascript" src="static/orgao.js"></script>
+ <script metal:fill-slot="javascript" type="text/javascript" src="static/js/orgao.js"></script>
 
  <div metal:fill-slot="conteudo" id="widgets">
 </div>

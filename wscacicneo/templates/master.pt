@@ -53,11 +53,11 @@
 		   </div>
 
 	    <LINK href="static/ext-js/resources/css/ext-all-gray.css" type="text/css" rel="stylesheet">
-	    <LINK href="static/main.css" type="text/css" rel="stylesheet">
+	    <LINK href="static/css/main.css" type="text/css" rel="stylesheet">
 	    <LINK href="static/layout.css" type="text/css" rel="stylesheet">
 	    <!-- <LINK href="static/bootstrap/bootstrap/css/bootstrap.css" type="text/css" rel="stylesheet"> -->
 	    <script type="text/javascript" src="static/ext-js/ext-all.js"></script>
-	    <script type="text/javascript" src="static/main.js"></script>
+	    <script type="text/javascript" src="static/js/main.js"></script>
 	    <script type="text/javascript" src="static/jquery-2.0.3.min.js"></script>
 	    <!-- <script type="text/javascript" src="static/bootstrap/bootstrap/js/bootstrap.js"></script> -->
 
