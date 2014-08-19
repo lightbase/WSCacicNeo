@@ -184,8 +184,7 @@ def post_orgao(request):
         telefone = doc['telefone']
     )
 
-    document = conv.document2json(orgaobase, orgao_obj)
-    id_doc = DocumentREST(rest_url, orgaobase).create(document)
+    id_doc = orgao_obj.create_orgao() 
     print(id_doc)
 
     return Response(str(id_doc))

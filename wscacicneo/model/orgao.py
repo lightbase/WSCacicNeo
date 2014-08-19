@@ -2,12 +2,15 @@
 # -*- coding: utf-8 -*-
 __author__ = 'eduardo'
 
+from requests.exceptions import HTTPError
 from wscacicneo import WSCacicNeo
 from liblightbase.lbbase.struct import Base, BaseMetadata
 from liblightbase.lbbase.lbstruct.group import *
 from liblightbase.lbbase.lbstruct.field import *
 from liblightbase.lbbase.content import Content
 from liblightbase.lbrest.base import BaseREST
+from liblightbase.lbrest.document import DocumentREST
+from liblightbase.lbutils import conv
 
 class OrgaoBase(WSCacicNeo):
     """
@@ -19,6 +22,8 @@ class OrgaoBase(WSCacicNeo):
         """
         WSCacicNeo.__init__(self)
         self.baserest = BaseREST(rest_url=self.rest_url, response_object=True)
+        self.documentrest = DocumentREST(rest_url=self.rest_url,
+                base=self.lbbase, response_object=True)
 
     @property
     def lbbase(self):
@@ -145,12 +150,43 @@ class OrgaoBase(WSCacicNeo):
         else:
             raise IOError('Error excluding base from LB')
 
-OrgaoMetaClass = OrgaoBase().metaclass
+orgao_base = OrgaoBase()
 
-
-class Orgao(OrgaoMetaClass):
+class Orgao(orgao_base.metaclass):
     """
     Classe genérica de órgãos
     """
     def __init__(self, **args):
         super(Orgao, self).__init__(**args)
+
+    def orgao_to_dict(self):
+        """
+        Convert status object to Python dict
+        :return:
+        """
+
+        return conv.document2dict(orgao_base.lbbase, self)
+
+    def orgao_to_json(self):
+        """
+        Convert object to json
+        :return:
+        """
+
+        return conv.document2json(orgao_base.lbbase, self)
+
+    def create_orgao(self):
+        """
+        Insert document on base
+
+        :return: Document creation ID
+        """
+
+        document = self.orgao_to_json()
+        try:
+            result = orgao_base.documentrest.create(document)
+        except HTTPError, err:
+            log.error(err.strerror)
+            return None
+
+        return result
