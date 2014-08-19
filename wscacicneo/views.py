@@ -164,38 +164,6 @@ def db(request):
     return {'project': 'WSCacicNeo'}
 
 
-@view_config(route_name='busca', renderer='templates/busca.pt')
-def my_view8(request):
-    query = session.query(SistemaOperacional).all()
-    data = dict()
-    #data = {'items': []}
-    data["items"] = list()
-    wc = 0
-    uc = 0
-    dc = 0
-    for q in query:
-        w = q.te_desc_so.count("Windows")
-        u = q.te_desc_so.count("Ubuntu")
-        d = q.te_desc_so.count("Debian")
-        wc += w
-        uc += u
-        dc += d
-        #d = {'id_so': 'valor'}
-    d = dict(
-        wcount = str(wc),
-        ucount = str(uc),
-        dcount = str(dc),
-        a = 'Windows',
-        b = 'Ubuntu',
-        c = 'Debian'
-        )
-    data["items"].append(d)
-    #print (wc)
-    #print (uc)
-    #print (dc)
-
-    return {'project':'WSCacicNeo', 'data': data}
-
 #URL POST
 
 @view_config(route_name='post_orgao')
