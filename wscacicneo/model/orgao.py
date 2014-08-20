@@ -190,3 +190,19 @@ class Orgao(orgao_base.metaclass):
             return None
 
         return result
+
+    def search_orgao(self, nm_orgao):
+        """
+        Busca registro completo do órgao pelo nome
+        """
+        result = self.documentrest.get_collection(search_obj=Search(literal="document->>'"+nm_orgao+"' = 'Ministério da fazenda '"))
+
+        return results
+
+    def delete_orgao(self, id):
+        """
+        Deleta o Órgao apartir do ID
+        """
+        resulst = self.documentrest.delete(id)
+
+        return results
