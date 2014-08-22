@@ -203,6 +203,6 @@ class Orgao(orgao_base.metaclass):
         """
         Deleta o Órgao apartir do ID
         """
-        resulst = self.documentrest.delete(id)
+        resulst = orgao_base.documentrest.delete(id)
 
         return results
