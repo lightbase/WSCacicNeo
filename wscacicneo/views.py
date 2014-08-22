@@ -169,7 +169,7 @@ def db(request):
     return {'project': 'WSCacicNeo'}
 
 
-#URL POST
+#URL Órgaos
 
 @view_config(route_name='post_orgao')
 def post_orgao(request):
@@ -194,8 +194,22 @@ def post_orgao(request):
 
     return Response(str(id_doc))
 
-
 @view_config(route_name='delete_orgao')
 def delete_orgao(request):
-    return {'project': 'WSCacicNeo'}
+    doc = request.params
+    nm_orgao = doc['nome']
+    orgao_obj = Orgao(
+        nome = doc['nome'],
+        cargo = doc['gestor'],
+        coleta = doc['coleta'],
+        sigla = doc['sigla'],
+        endereco = doc['end'],
+        email = doc['email'],
+        telefone = doc['telefone']
+    )
+    search = orgao_obj.search_orgao(nm_orgao)
+    id = search.results[0]._metadata.id_doc
+    delete = orgao_obj.delete_orgao(id)
+
+    return Response(str(delete))
 
