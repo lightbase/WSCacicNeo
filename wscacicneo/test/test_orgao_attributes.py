@@ -54,7 +54,7 @@ class TestOrgaoBase(unittest.TestCase):
         nm_orgao='Ministério do Planejameiaaaaaaaaanto'
         search = orgao_obj.search_orgao(nm_orgao)
         print(search.results)
-        id = search.results[0]['_metadata']['id_doc']
+        id = search.results[0]._metadata.id_doc
         delete = orgao_obj.delete_orgao(id)
 
         assert(delete == 'DELETED')
