@@ -29,6 +29,7 @@ def main(global_config, **settings):
     config.include('pyramid_chameleon')
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.add_route('master', 'master')
+    config.add_route('blankmaster', 'blankmaster')
 
     config.add_route('home', 'home')
     config.add_route('graficop', 'graficop')

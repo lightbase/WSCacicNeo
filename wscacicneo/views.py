@@ -21,6 +21,11 @@ REST_URL = 'http://api.brlight.net/api'
 
 Session = sessionmaker(bind=engine)
 session = Session()
+
+@view_config(route_name='blankmaster', renderer='templates/blankmaster.pt')
+def blankmaster(request):
+    return {'project': 'WSCacicNeo'}
+
 @view_config(route_name='master', renderer='templates/master.pt')
 def master(request):
     return {'project': 'WSCacicNeo'}
