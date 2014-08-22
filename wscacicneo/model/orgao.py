@@ -201,7 +201,7 @@ class Orgao(orgao_base.metaclass):
         Busca registro completo do órgao pelo nome
         """
         search = Search(
-            literal="document->>"+nm_orgao
+            literal="document->>'nome' = '"+nm_orgao+"'"
         )
         results = self.documentrest.get_collection(search_obj=search)
 
