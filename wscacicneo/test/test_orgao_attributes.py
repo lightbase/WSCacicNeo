@@ -36,16 +36,26 @@ class TestOrgaoBase(unittest.TestCase):
         cont = var_file.write(str(results))
         var_file.close()
 
-        assert(type(results) ==  int)
+        self.assertIsInstance(results, int)
 
     def test_delete_attributes(self):
         """
         Deleta doc apartir do id
         """
-        nm_orgao = 'Ministério do Planejameiaaaaaaaaanto',
-        search = Orgao().search_orgao(nm_orgao)
-        id = search['_metadata']['id_doc']
-        delete = Orgao().delete_orgao(id)
+        orgao_obj = Orgao(
+            nome='Ministério do Planejameiaaaaaaaaanto',
+            cargo='cargo',
+            coleta='4h',
+            sigla='MPOG',
+            endereco='Esplanada bloco C',
+            email='admin@planemaneto.gov.br',
+            telefone='(61) 2025-4117'
+        )
+        nm_orgao='Ministério do Planejameiaaaaaaaaanto'
+        search = orgao_obj.search_orgao(nm_orgao)
+        print(search.results)
+        id = search.results[0]['_metadata']['id_doc']
+        delete = orgao_obj.delete_orgao(id)
 
         assert(delete == 'DELETED')
 

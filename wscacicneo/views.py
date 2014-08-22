@@ -188,3 +188,9 @@ def post_orgao(request):
     print(id_doc)
 
     return Response(str(id_doc))
+
+
+@view_config(route_name='delete_orgao')
+def delete_orgao(request):
+    return {'project': 'WSCacicNeo'}
+

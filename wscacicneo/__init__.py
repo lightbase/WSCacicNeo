@@ -39,6 +39,7 @@ def main(global_config, **settings):
     #Órgão
     config.add_route('orgao', 'orgao')
     config.add_route('post_orgao', 'post_orgao')
+    config.add_route('delete_orgao', 'delete_orgao')
     #
     config.add_route('list', 'list')
     config.add_route('gestao', 'gestao')

@@ -4,6 +4,7 @@ __author__ = 'eduardo'
 
 from requests.exceptions import HTTPError
 from wscacicneo import WSCacicNeo
+import logging
 from liblightbase.lbbase.struct import Base, BaseMetadata
 from liblightbase.lbbase.lbstruct.group import *
 from liblightbase.lbbase.lbstruct.field import *
@@ -11,6 +12,9 @@ from liblightbase.lbbase.content import Content
 from liblightbase.lbrest.base import BaseREST
 from liblightbase.lbrest.document import DocumentREST
 from liblightbase.lbutils import conv
+from liblightbase.lbsearch.search import Search, OrderBy
+
+log = logging.getLogger()
 
 class OrgaoBase(WSCacicNeo):
     """
@@ -158,6 +162,7 @@ class Orgao(orgao_base.metaclass):
     """
     def __init__(self, **args):
         super(Orgao, self).__init__(**args)
+        self.documentrest = orgao_base.documentrest
 
     def orgao_to_dict(self):
         """
@@ -185,7 +190,7 @@ class Orgao(orgao_base.metaclass):
         document = self.orgao_to_json()
         try:
             result = orgao_base.documentrest.create(document)
-        except HTTPError:
+        except HTTPError as err:
             log.error(err.strerror)
             return None
 
@@ -195,7 +200,10 @@ class Orgao(orgao_base.metaclass):
         """
         Busca registro completo do órgao pelo nome
         """
-        result = self.documentrest.get_collection(search_obj=Search(literal="document->>'"+nm_orgao+"' = 'Ministério da fazenda '"))
+        search = Search(
+            literal="document->>"+nm_orgao
+        )
+        results = self.documentrest.get_collection(search_obj=search)
 
         return results
 
@@ -203,6 +211,6 @@ class Orgao(orgao_base.metaclass):
         """
         Deleta o Órgao apartir do ID
         """
-        resulst = orgao_base.documentrest.delete(id)
+        results = orgao_base.documentrest.delete(id)
 
         return results
