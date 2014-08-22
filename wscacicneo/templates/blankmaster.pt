@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <!-- Slot do Head -->
+    <metal:content define-slot="head" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <!-- Title and other stuffs -->
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="adley">
+    <!-- Stylesheets -->
+    <link href="static/macadmin/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font awesome icon -->
+    <link rel="stylesheet" href="static/macadmin/css/font-awesome.min.css"> 
+    <!-- jQuery UI -->
+    <link rel="stylesheet" href="static/macadmin/css/jquery-ui.css"> 
+    <!-- Calendar -->
+    <link rel="stylesheet" href="static/macadmin/css/fullcalendar.css">
+    <!-- prettyPhoto -->
+    <link rel="stylesheet" href="static/macadmin/css/prettyPhoto.css">  
+    <!-- Star rating -->
+    <link rel="stylesheet" href="static/macadmin/css/rateit.css">
+    <!-- Date picker -->
+    <link rel="stylesheet" href="static/macadmin/css/bootstrap-datetimepicker.min.css">
+    <!-- CLEditor -->
+    <link rel="stylesheet" href="static/macadmin/css/jquery.cleditor.css"> 
+    <!-- Data tables -->
+    <link rel="stylesheet" href="static/macadmin/css/jquery.dataTables.css"> 
+    <!-- Bootstrap toggle -->
+    <link rel="stylesheet" href="static/macadmin/css/jquery.onoff.css">
+    <!-- Main stylesheet -->
+    <link href="static/macadmin/css/style.css" rel="stylesheet">
+    <!-- Widgets stylesheet -->
+    <link href="static/macadmin/css/widgets.css" rel="stylesheet">   
+     <!-- Slot para o CSS -->
+    <metal:content define-slot="css" />
+    <script src="static/macadmin/js/respond.min.js"></script>
+  </head>
+
+
+  <body>
+    <!-- Slot para o Conteúdo -->
+    <metal:content define-slot="conteudo" />
+  </body>
+
+  <footer>
+    <!-- Slot para o JavaScript -->
+    <metal:content define-slot="javascript" />
+    <!-- JS -->
+    
+    <script src="static/macadmin/js/jquery.js"></script> <!-- jQuery -->
+    <script src="static/macadmin/js/bootstrap.min.js"></script> <!-- Bootstrap -->
+    <script src="static/macadmin/js/jquery-ui.min.js"></script> <!-- jQuery UI -->
+    <script src="static/macadmin/js/fullcalendar.min.js"></script> <!-- Full Google Calendar - Calendar -->
+    <script src="static/macadmin/js/jquery.rateit.min.js"></script> <!-- RateIt - Star rating -->
+    <script src="static/macadmin/js/jquery.prettyPhoto.js"></script> <!-- prettyPhoto -->
+    <script src="static/macadmin/js/jquery.slimscroll.min.js"></script> <!-- jQuery Slim Scroll -->
+    <script src="static/macadmin/js/jquery.dataTables.min.js"></script> <!-- Data tables -->
+
+    <!-- jQuery Flot -->
+    <script src="static/macadmin/js/excanvas.min.js"></script>
+    <script src="static/macadmin/js/jquery.flot.js"></script>
+    <script src="static/macadmin/js/jquery.flot.resize.js"></script>
+    <script src="static/macadmin/js/jquery.flot.pie.js"></script>
+    <script src="static/macadmin/js/jquery.flot.stack.js"></script>
+
+    <!-- jQuery Notification - Noty -->
+    <script src="static/macadmin/js/jquery.noty.js"></script> <!-- jQuery Notify -->
+    <script src="static/macadmin/js/themes/default.js"></script> <!-- jQuery Notify -->
+    <script src="static/macadmin/js/layouts/bottom.js"></script> <!-- jQuery Notify -->
+    <script src="static/macadmin/js/layouts/topRight.js"></script> <!-- jQuery Notify -->
+    <script src="static/macadmin/js/layouts/top.js"></script> <!-- jQuery Notify -->
+    <!-- jQuery Notification ends -->
+
+    <script src="static/macadmin/js/sparklines.js"></script> <!-- Sparklines -->
+    <script src="static/macadmin/js/jquery.cleditor.min.js"></script> <!-- CLEditor -->
+    <script src="static/macadmin/js/bootstrap-datetimepicker.min.js"></script> <!-- Date picker -->
+    <script src="static/macadmin/js/jquery.onoff.min.js"></script> <!-- Bootstrap Toggle -->
+    <script src="static/macadmin/js/filter.js"></script> <!-- Filter for support page -->
+    <script src="static/macadmin/js/custom.js"></script> <!-- Custom codes -->
+    <script src="static/macadmin/js/charts.js"></script> <!-- Charts & Graphs -->
+  </footer>
+
+</html>
