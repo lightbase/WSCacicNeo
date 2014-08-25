@@ -62,6 +62,26 @@ class TestOrgaoBase(unittest.TestCase):
         """
         search = Orgao.search_list_orgaos
 
+    def test_edit_orgao(self):
+        """
+        Test Edita Órgão
+        """
+        orgao_obj = Orgao(
+            nome='Ministério do Planejameiaaaaaaaaanto',
+            cargo='cargo',
+            coleta='4h',
+            sigla='MPOG',
+            endereco='Esplanada bloco C',
+            email='admin@planemaneto.gov.br',
+            telefone='(61) 2025-4117'
+        )
+        nm_orgao='Ministério do Planejameiaaaaaaaaanto'
+        search = orgao_obj.search_orgao(nm_orgao)
+        id = search.results[0]._metadata.id_doc
+        edit = Orgao.edit_orgao(id, doc=orgao_obj)
+
+        assert(edit == 'UPDATED')
+
     def tearDown(self):
         """
         Apaga dados do teste
