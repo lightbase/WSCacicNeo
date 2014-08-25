@@ -220,9 +220,9 @@ class Orgao(orgao_base.metaclass):
         """
         altera um doc ou path do doc
         """
-        results = self.document.update(id, doc)
+        results = self.documentrest.update(id, doc)
 
-        return Response(results)
+        return results
 
     def delete_orgao(self, id):
         """

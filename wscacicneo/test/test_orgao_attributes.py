@@ -3,6 +3,7 @@
 __author__ = 'macieski'
 
 import unittest
+import json
 from wscacicneo.model.orgao import Orgao
 from wscacicneo.model.orgao import OrgaoBase
 
@@ -75,10 +76,20 @@ class TestOrgaoBase(unittest.TestCase):
             email='admin@planemaneto.gov.br',
             telefone='(61) 2025-4117'
         )
+        orgao = dict({
+            'nome':'Ministério do Planejameiaaaaaaaaanto',
+            'cargo':'cargo',
+            'coleta':'4h',
+            'sigla':'MPOG',
+            'endereco':'Esplanada bloco C',
+            'email':'admin@planemaneto.gov.br',
+            'telefone':'(61) 2025-4117'
+        })
         nm_orgao='Ministério do Planejameiaaaaaaaaanto'
         search = orgao_obj.search_orgao(nm_orgao)
         id = search.results[0]._metadata.id_doc
-        edit = Orgao.edit_orgao(id, doc=orgao_obj)
+        doc = json.dumps(orgao)
+        edit = orgao_obj.edit_orgao(id, doc)
 
         assert(edit == 'UPDATED')
 
