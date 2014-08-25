@@ -1,6 +1,6 @@
 #!/usr/env python
 # -*- coding: utf-8 -*-
-__author__ = 'eduardo'
+__author__ = 'macieski'
 
 from requests.exceptions import HTTPError
 from wscacicneo import WSCacicNeo
@@ -199,11 +199,20 @@ class Orgao(orgao_base.metaclass):
     def search_orgao(self, nm_orgao):
         """
         Busca registro completo do órgao pelo nome
+        :return: obj collection com os dados da base
         """
         search = Search(
             literal="document->>'nome' = '"+nm_orgao+"'"
         )
         results = self.documentrest.get_collection(search_obj=search)
+
+        return results
+
+    def search_list_orgaos(self):
+        """
+        Retorna todos os docs da base
+        """
+        results = self.documentrest.get_collection(limit=None)
 
         return results
 

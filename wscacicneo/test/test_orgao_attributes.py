@@ -1,12 +1,10 @@
 #!/usr/env python
 # -*- coding: utf-8 -*-
-__author__ = 'eduardo'
+__author__ = 'macieski'
 
 import unittest
 from wscacicneo.model.orgao import Orgao
 from wscacicneo.model.orgao import OrgaoBase
-from liblightbase.lbbase.struct import Base
-from liblightbase.lbutils import conv
 
 class TestOrgaoBase(unittest.TestCase):
     """
@@ -58,6 +56,11 @@ class TestOrgaoBase(unittest.TestCase):
 
         assert(delete == 'DELETED')
 
+    def test_get_attributes(self):
+        """
+        Retorna todos os doc da base
+        """
+        search = Orgao.search_list_orgaos
 
     def tearDown(self):
         """

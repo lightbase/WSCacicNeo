@@ -82,6 +82,15 @@ def login(request):
 def orgao(request):
     return {'project': 'WSCacicNeo'}
 
+@view_config(route_name='list/orgao', renderer='templates/list_orgao.pt')
+def list_orgao(request):
+    """
+    Retorna todos os docs da base
+    """
+    search = Orgao.search_list_orgaos
+
+    return Response(search)
+
 @view_config(route_name='config', renderer='templates/config.pt')
 def config(request):
     return {'project': 'WSCacicNeo'}
@@ -196,6 +205,9 @@ def post_orgao(request):
 
 @view_config(route_name='delete_orgao')
 def delete_orgao(request):
+    """
+    Deleta doc apartir do id
+    """
     doc = request.params
     nm_orgao = doc['nome']
     orgao_obj = Orgao(
