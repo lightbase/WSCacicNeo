@@ -22,6 +22,8 @@
     <link rel="stylesheet" href="static/macadmin/css/prettyPhoto.css">  
     <!-- Star rating -->
     <link rel="stylesheet" href="static/macadmin/css/rateit.css">
+    <!-- Date picker -->
+    <link rel="stylesheet" href="static/macadmin/css/bootstrap-datetimepicker.min.css">
     <!-- CLEditor -->
     <link rel="stylesheet" href="static/macadmin/css/jquery.cleditor.css"> 
     <!-- Data tables -->
@@ -42,12 +44,11 @@
   <body>
 
     <!-- Slot para o Conteúdo -->
-    <metal:content define-slot="conteudo"/>
+    <metal:content define-slot="conteudo" />
 
+   
     <!-- JS -->
-    <!-- Slot para o JavaScript -->
-    <metal:content define-slot="javascript" />
-
+    
     <script src="static/macadmin/js/jquery.js"></script> <!-- jQuery -->
     <script src="static/macadmin/js/bootstrap.min.js"></script> <!-- Bootstrap -->
     <script src="static/macadmin/js/jquery-ui.min.js"></script> <!-- jQuery UI -->
@@ -79,6 +80,10 @@
     <script src="static/macadmin/js/filter.js"></script> <!-- Filter for support page -->
     <script src="static/macadmin/js/custom.js"></script> <!-- Custom codes -->
     <script src="static/macadmin/js/charts.js"></script> <!-- Charts & Graphs -->
+
+    <!-- Slot para o JavaScript -->
+    <metal:content define-slot="javascript" />
+
 
   </body>
 
