@@ -203,6 +203,28 @@ def post_orgao(request):
 
     return Response(str(id_doc))
 
+@view_config(route_name='edit_orgao')
+def edit_orgao(request):
+    """
+    Edita um doc apartir do id
+    """
+    doc = request.params
+    nm_orgao = doc['nome']
+    orgao_obj = Orgao(
+        nome = doc['nome'],
+        cargo = doc['gestor'],
+        coleta = doc['coleta'],
+        sigla = doc['sigla'],
+        endereco = doc['end'],
+        email = doc['email'],
+        telefone = doc['telefone']
+    )
+    search = orgao_obj.search_orgao(nm_orgao)
+    id = search.results[0]._metadata.id_doc
+    edit = Orgao.edit_orgao(id, doc)
+
+    return Response(edit)
+
 @view_config(route_name='delete_orgao')
 def delete_orgao(request):
     """

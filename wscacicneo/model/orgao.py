@@ -216,6 +216,14 @@ class Orgao(orgao_base.metaclass):
 
         return results
 
+    def edit_orgao(self, id, doc):
+        """
+        altera um doc ou path do doc
+        """
+        results = self.documentrest.update(id, doc)
+
+        return results
+
     def delete_orgao(self, id):
         """
         Deleta o Órgao apartir do ID
