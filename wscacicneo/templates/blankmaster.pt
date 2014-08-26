@@ -44,9 +44,8 @@
   <body>
 
     <!-- Slot para o Conteúdo -->
-    <metal:content define-slot="conteudo" />
+    <metal:content define-slot="conteudo"/>
 
-   
     <!-- JS -->
     
     <script src="static/macadmin/js/jquery.js"></script> <!-- jQuery -->
@@ -84,9 +83,6 @@
     <!-- Slot para o JavaScript -->
     <metal:content define-slot="javascript" />
 
-  <footer>
-    <metal:content define-slot="footer" />
-  </footer>
   </body>
 
 </html>

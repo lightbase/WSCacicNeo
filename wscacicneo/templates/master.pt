@@ -11,7 +11,6 @@
 	<!-- Conteúdo da Página -->
 	<metal:content fill-slot="conteudo">
 
-		<!-- Menu de Navegação Superior -->
 		<div class="navbar navbar-fixed-top bs-docs-nav" role="banner">
 
 			<div class="conjtainer">
@@ -24,84 +23,269 @@
 					<a href="index.html" class="navbar-brand hidden-lg">Super-Gerente</a>
 				</div>
 
+
+
 				<!-- Navigation starts -->
 				<nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">         
 
 					<!-- Search form -->
-					<form class="navbar-form navbar-left" role="logo">
-						<div class="logo">
-							<h5><a href="home">Super-Gerente</a><h5>
+					<form class="navbar-form navbar-right" role="search">
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Search">
 						</div>
 					</form>
-					<!-- Menu User -->
-					<ul class="nav navbar-nav pull-right">
-						<li class="dropdown pull-right">            
-							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-								<i class="fa fa-user"></i> Admin <b class="caret"></b>           
-							</a>
-							<!-- Dropdown menu -->
-							<ul class="dropdown-menu">
-								<li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
-								<li><a href="#"><i class="fa fa-cogs"></i> Settings</a></li>
-								<li><a href="login.html"><i class="fa fa-sign-out"></i> Logout</a></li>
-							</ul>
-						</li>
-					</ul>
-					<!-- Menu User ends -->
-				</nav>
+						<!-- Links -->
+						<ul class="nav navbar-nav pull-right">
+							<li class="dropdown pull-right">            
+								<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+									<i class="fa fa-user"></i> Admin <b class="caret"></b>              
+								</a>
 
-			</div>
-		</div>
-		<!-- Header -->
+								<!-- Dropdown menu -->
+								<ul class="dropdown-menu">
+									<li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
+									<li><a href="#"><i class="fa fa-cogs"></i> Settings</a></li>
+									<li><a href="login.html"><i class="fa fa-sign-out"></i> Logout</a></li>
+								</ul>
+							</li>
 
-		<!-- Carrega Menu -->
-		<div class="sidebar">
-			<metal:content use-macro="load: menu.pt">
-				<metal:content define-slot="cabecalho"/>
-			</metal:content>
-		</div>
+						</ul>
+					</nav>
 
-		<!-- Main bar -->
-		<div class="mainbar">
-
-			<!-- Page heading -->
-			<div class="page-head">
-				<h2 class="pull-left"><i class="fa fa-home"></i> Dashboard</h2>
-				<!-- Breadcrumb -->
-				<metal:content define-slot="breadcrumb"/>
-
-				<div class="clearfix"></div>
-
+				</div>
 			</div>
 
-			<metal:content define-slot="conteudo"/>
-		</metal:content>
 
-		<metal:content fill-slot="javascript">
-			<metal:content define-slot="javascript"/>
-		</metal:content>
-
-		<metal:content fill-slot="footer">
-
-
-			<!-- Footer starts -->
-			<footer>
+			<!-- Header starts -->
+			<header>
 				<div class="container">
 					<div class="row">
-						<div class="col-md-12">
-							<!-- Copyright info -->
-							<p class="copy">Copyright &copy; 2012 | <a href="#">Your Site</a> </p>
+
+						<!-- Logo section -->
+						<div class="col-md-4">
+							<!-- Logo. -->
+							<div class="logo">
+								<h1><a href="home">Super<span class="bold">Gerente</span></a></h1>
+							</div>
+							<!-- Logo ends -->
+						</div>
+
+						<!-- Button section -->
+						<div class="col-md-4">
+
+							<!-- Buttons -->
+							<ul class="nav nav-pills">
+
+								<!-- Comment button with number of latest comments count -->
+								<li class="dropdown dropdown-big">
+									<a class="dropdown-toggle" href="#" data-toggle="dropdown">
+										<i class="fa fa-comments"></i> Chats <span   class="label label-info">6</span> 
+									</a>
+
+									<ul class="dropdown-menu">
+										<li>
+											<!-- Heading - h5 -->
+											<h5><i class="fa fa-comments"></i> Chats</h5>
+											<!-- Use hr tag to add border -->
+											<hr />
+										</li>
+										<li>
+											<!-- List item heading h6 -->
+											<h6><a href="#">Hi :)</a> <span class="label label-warning pull-right">10:42</span></h6>
+											<div class="clearfix"></div>
+											<hr />
+										</li>
+										<li>
+											<h6><a href="#">How are you?</a> <span class="label label-warning pull-right">20:42</span></h6>
+											<div class="clearfix"></div>
+											<hr />
+										</li>
+										<li>
+											<h6><a href="#">What are you doing?</a> <span class="label label-warning pull-right">14:42</span></h6>
+											<div class="clearfix"></div>
+											<hr />
+										</li>                  
+										<li>
+											<div class="drop-foot">
+												<a href="#">View All</a>
+											</div>
+										</li>                                    
+									</ul>
+								</li>
+
+								<!-- Message button with number of latest messages count-->
+								<li class="dropdown dropdown-big">
+									<a class="dropdown-toggle" href="#" data-toggle="dropdown">
+										<i class="fa fa-envelope"></i> Inbox <span class="label label-primary">6</span> 
+									</a>
+
+									<ul class="dropdown-menu">
+										<li>
+											<!-- Heading - h5 -->
+											<h5><i class="fa fa-envelope"></i> Messages</h5>
+											<!-- Use hr tag to add border -->
+											<hr />
+										</li>
+										<li>
+											<!-- List item heading h6 -->
+											<h6><a href="#">Hello how are you?</a></h6>
+											<!-- List item para -->
+											<p>Quisque eu consectetur erat eget  semper...</p>
+											<hr />
+										</li>
+										<li>
+											<h6><a href="#">Today is wonderful?</a></h6>
+											<p>Quisque eu consectetur erat eget  semper...</p>
+											<hr />
+										</li>
+										<li>
+											<div class="drop-foot">
+												<a href="#">View All</a>
+											</div>
+										</li>                                    
+									</ul>
+								</li>
+
+								<!-- Members button with number of latest members count -->
+								<li class="dropdown dropdown-big">
+									<a class="dropdown-toggle" href="#" data-toggle="dropdown">
+										<i class="fa fa-user"></i> Users <span   class="label label-success">6</span> 
+									</a>
+
+									<ul class="dropdown-menu">
+										<li>
+											<!-- Heading - h5 -->
+											<h5><i class="fa fa-user"></i> Users</h5>
+											<!-- Use hr tag to add border -->
+											<hr />
+										</li>
+										<li>
+											<!-- List item heading h6-->
+											<h6><a href="#">Ravi Kumar</a> <span class="label label-warning pull-right">Free</span></h6>
+											<div class="clearfix"></div>
+											<hr />
+										</li>
+										<li>
+											<h6><a href="#">Balaji</a> <span class="label label-important pull-right">Premium</span></h6>
+											<div class="clearfix"></div>
+											<hr />
+										</li>
+										<li>
+											<h6><a href="#">Kumarasamy</a> <span class="label label-warning pull-right">Free</span></h6>
+											<div class="clearfix"></div>
+											<hr />
+										</li>                  
+										<li>
+											<div class="drop-foot">
+												<a href="#">View All</a>
+											</div>
+										</li>                                    
+									</ul>
+								</li> 
+							</ul>
 						</div>
 					</div>
 				</div>
-			</footer> 	
+			</header>
 
-			<!-- Footer ends -->
+			<!-- Header ends -->
 
-			<!-- Scroll to top -->
-			<span class="totop"><a href="#"><i class="fa fa-chevron-up"></i></a></span> 
+			<!-- Main content starts -->
+
+			<div class="content">
+
+				<!-- Sidebar -->
+				<div class="sidebar">
+					<div class="sidebar-dropdown"><a href="#">Navigation</a></div>
+
+					<!--- Sidebar navigation -->
+					<!-- If the main navigation has sub navigation, then add the class "has_sub" to "li" of main navigation. -->
+					<ul id="nav">
+						<!-- Main menu with font awesome icon -->
+						<li class="open"><a href="index.html"><i class="fa fa-home"></i> Dashboard</a>
+            <!-- Sub menu markup 
+            <ul>
+              <li><a href="#">Submenu #1</a></li>
+              <li><a href="#">Submenu #2</a></li>
+              <li><a href="#">Submenu #3</a></li>
+          </ul>-->
+      </li>
+      <li class="has_sub">
+      	<a href="#"><i class="fa fa-list-alt"></i> Widgets  <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
+      	<ul>
+      		<li><a href="widgets1.html">Widgets #1</a></li>
+      		<li><a href="widgets2.html">Widgets #2</a></li>
+      		<li><a href="widgets3.html">Widgets #3</a></li>
+      	</ul>
+      </li>  
+      <li class="has_sub">
+      	<a href="#"><i class="fa fa-file-o"></i> Pages #1  <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
+      	<ul>
+      		<li><a href="post.html">Post</a></li>
+      		<li><a href="login.html">Login</a></li>
+      		<li><a href="register.html">Register</a></li>
+      		<li><a href="support.html">Support</a></li>
+      		<li><a href="invoice.html">Invoice</a></li>
+      		<li><a href="gallery.html">Gallery</a></li>
+      	</ul>
+      </li> 
+      <li class="has_sub">
+      	<a href="#"><i class="fa fa-file-o"></i> Pages #2  <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
+      	<ul>
+      		<li><a href="media.html">Media</a></li>
+      		<li><a href="statement.html">Statement</a></li>
+      		<li><a href="error.html">Error</a></li>
+      		<li><a href="error-log.html">Error Log</a></li>
+      		<li><a href="calendar.html">Calendar</a></li>
+      		<li><a href="grid.html">Grid</a></li>
+      	</ul>
+      </li>    
+      <li class="has_sub"><a href="#"><i class="fa fa-table"></i> Tables  <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
+      <ul>
+      	<li><a href="tables.html">Tables</a></li>
+      	<li><a href="dynamic-tables.html">Dynamic Tables</a></li>
+      </ul>
+  </li>		  
+  <li><a href="charts.html"><i class="fa fa-bar-chart-o"></i> Charts</a></li> 
+  <li><a href="forms.html"><i class="fa fa-tasks"></i> Forms</a></li>
+  <li><a href="ui.html"><i class="fa fa-magic"></i> User Interface</a></li>
+</ul>
+</div>
+
+<!-- Sidebar ends -->
+
+<!-- Main bar -->
+<div class="mainbar">
+
+	<!-- Page heading -->
+	<div class="page-head">
+		<h2 class="pull-left"><i class="fa fa-home"></i> Dashboard</h2>
+
+		<!-- Breadcrumb -->
+		<div class="bread-crumb pull-right">
+			<a href="inicio.pt"><i class="fa fa-home"></i> Inicio</a> 
+			<!-- Divider -->
+			<span class="divider">/</span> 
+			<a href="#" class="bread-current">Dashboard</a>
+		</div>
+
+		<div class="clearfix"></div>
+
+	</div>
+	<!-- Page heading ends -->
 
 
-		</metal:content>
+	<!-- Footer starts -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<!-- Copyright info -->
+				<p class="copy">Copyright &copy; 2014 | <a href="#">Super-Gerente</a> </p>
+			</div>
+		</div>
+	</div>
+	<!-- Footer ends -->
 
-	</metal:main>
+</metal:content>
+
+</metal:main>
