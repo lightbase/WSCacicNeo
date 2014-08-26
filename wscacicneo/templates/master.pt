@@ -1,5 +1,107 @@
- <metal:main use-macro="load: blankmaster.pt">
-  
-  <metal:fill-slot="content"/> 
+<metal:main use-macro="load: blankmaster.pt">
+	<metal:content fill-slot="head">
+		<metal:content define-slot="head"/>
+	</metal:content>
 
-</metal:main>
+	<metal:content fill-slot="css">
+		<metal:content define-slot="css"/>
+	</metal:content>
+
+
+	<!-- Conteúdo da Página -->
+	<metal:content fill-slot="conteudo">
+
+		<!-- Menu de Navegação Superior -->
+		<div class="navbar navbar-fixed-top bs-docs-nav" role="banner">
+
+			<div class="conjtainer">
+				<!-- Menu button for smallar screens -->
+				<div class="navbar-header">
+					<button class="navbar-toggle btn-navbar" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+						<span>Menu</span>
+					</button>
+					<!-- Site name for smallar screens -->
+					<a href="index.html" class="navbar-brand hidden-lg">Super-Gerente</a>
+				</div>
+
+				<!-- Navigation starts -->
+				<nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">         
+
+					<!-- Search form -->
+					<form class="navbar-form navbar-left" role="logo">
+						<div class="logo">
+							<h5><a href="home">Super-Gerente</a><h5>
+						</div>
+					</form>
+					<!-- Menu User -->
+					<ul class="nav navbar-nav pull-right">
+						<li class="dropdown pull-right">            
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+								<i class="fa fa-user"></i> Admin <b class="caret"></b>           
+							</a>
+							<!-- Dropdown menu -->
+							<ul class="dropdown-menu">
+								<li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
+								<li><a href="#"><i class="fa fa-cogs"></i> Settings</a></li>
+								<li><a href="login.html"><i class="fa fa-sign-out"></i> Logout</a></li>
+							</ul>
+						</li>
+					</ul>
+					<!-- Menu User ends -->
+				</nav>
+
+			</div>
+		</div>
+		<!-- Header -->
+
+		<!-- Carrega Menu -->
+		<div class="sidebar">
+			<metal:content use-macro="load: menu.pt">
+				<metal:content define-slot="cabecalho"/>
+			</metal:content>
+		</div>
+
+		<!-- Main bar -->
+		<div class="mainbar">
+
+			<!-- Page heading -->
+			<div class="page-head">
+				<h2 class="pull-left"><i class="fa fa-home"></i> Dashboard</h2>
+				<!-- Breadcrumb -->
+				<metal:content define-slot="breadcrumb"/>
+
+				<div class="clearfix"></div>
+
+			</div>
+
+			<metal:content define-slot="conteudo"/>
+		</metal:content>
+
+		<metal:content fill-slot="javascript">
+			<metal:content define-slot="javascript"/>
+		</metal:content>
+
+		<metal:content fill-slot="footer">
+
+
+			<!-- Footer starts -->
+			<footer>
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12">
+							<!-- Copyright info -->
+							<p class="copy">Copyright &copy; 2012 | <a href="#">Your Site</a> </p>
+						</div>
+					</div>
+				</div>
+			</footer> 	
+
+			<!-- Footer ends -->
+
+			<!-- Scroll to top -->
+			<span class="totop"><a href="#"><i class="fa fa-chevron-up"></i></a></span> 
+
+
+		</metal:content>
+
+	</metal:main>

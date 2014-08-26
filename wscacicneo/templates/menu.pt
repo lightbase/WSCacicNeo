@@ -1,0 +1,16 @@
+<div class="sidebar-dropdown"><a href="#">Navegacao</a></div>
+<!--- Sidebar navigation -->
+<!-- If the main navigation has sub navigation, then add the class "has_sub" to "li" of main navigation. -->
+<ul id="nav">
+  <!-- Main menu -->
+  <li class="open"><a href="home"><i class="fa fa-home"></i> Home</a>
+    <!-- Submenu 
+    <ul>
+      <li><a href="#">Submenu #1</a></li>
+      <li><a href="#">Submenu #2</a></li>
+      <li><a href="#">Submenu #3</a></li>
+    </ul>
+    -->
+    <metal:content define-slot="menu"/>
+  </li>
+ </ul>

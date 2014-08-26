@@ -1,14 +1,14 @@
 <metal:main use-macro="load: master.pt">
- <!-- Insere JavaScript -->
- <script metal:fill-slot="javascript" type="text/javascript" src="static/admin.js"></script>
-
-	<div metal:fill-slot="conteudo" id="conteudo_admin">
+	<metal:content fill-slot="conteudo">
+ 	
+	<div>
 	<p> Text </p> 
-	 	<ul class="dropdown-menu">
+	 	<ul>
               <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
               <li><a href="#"><i class="fa fa-cogs"></i> Settings</a></li>
               <li><a href="login.html"><i class="fa fa-sign-out"></i> Logout</a></li>
         </ul>
 	</div>
-</metal:main>
 
+	</metal:content>
+</metal:main>

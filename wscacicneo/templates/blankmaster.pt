@@ -2,15 +2,14 @@
 <html lang="pt-br">
   <head>
     <!-- Slot do Head -->
-    <metal:content define-slot="head" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <!-- Title and other stuffs -->
-    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="adley">
+    <metal:content define-slot="head" />
     <!-- Stylesheets -->
     <link href="static/macadmin/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font awesome icon -->
@@ -34,7 +33,8 @@
     <!-- Main stylesheet -->
     <link href="static/macadmin/css/style.css" rel="stylesheet">
     <!-- Widgets stylesheet -->
-    <link href="static/macadmin/css/widgets.css" rel="stylesheet">   
+    <link href="static/macadmin/css/widgets.css" rel="stylesheet">
+    <link rel="shortcut icon" href="static/macadmin/img/favicon/favicon.png">   
      <!-- Slot para o CSS -->
     <metal:content define-slot="css" />
     <script src="static/macadmin/js/respond.min.js"></script>
@@ -42,13 +42,11 @@
 
 
   <body>
+
     <!-- Slot para o Conteúdo -->
     <metal:content define-slot="conteudo" />
-  </body>
 
-  <footer>
-    <!-- Slot para o JavaScript -->
-    <metal:content define-slot="javascript" />
+   
     <!-- JS -->
     
     <script src="static/macadmin/js/jquery.js"></script> <!-- jQuery -->
@@ -82,6 +80,13 @@
     <script src="static/macadmin/js/filter.js"></script> <!-- Filter for support page -->
     <script src="static/macadmin/js/custom.js"></script> <!-- Custom codes -->
     <script src="static/macadmin/js/charts.js"></script> <!-- Charts & Graphs -->
+
+    <!-- Slot para o JavaScript -->
+    <metal:content define-slot="javascript" />
+
+  <footer>
+    <metal:content define-slot="footer" />
   </footer>
+  </body>
 
 </html>
