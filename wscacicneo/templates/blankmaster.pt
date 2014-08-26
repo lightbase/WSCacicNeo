@@ -44,7 +44,7 @@
   <body>
 
     <!-- Slot para o Conteúdo -->
-    <metal:content define-slot="conteudo"/>
+    <metal:content define-slot="conteudo" />
 
     <!-- JS -->
     
