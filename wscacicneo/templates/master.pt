@@ -10,7 +10,6 @@
 
 	<!-- Conteúdo da Página -->
 	<metal:content fill-slot="conteudo">
-
 		<div class="navbar navbar-fixed-top bs-docs-nav" role="banner">
 
 			<div class="conjtainer">
@@ -32,8 +31,8 @@
 					<form class="navbar-form navbar-right" role="search">
 						<div class="form-group">
 							<input type="text" class="form-control" placeholder="Search">
-						</div>
-					</form>
+							</div>
+						</form>
 						<!-- Links -->
 						<ul class="nav navbar-nav pull-right">
 							<li class="dropdown pull-right">            
@@ -195,83 +194,52 @@
 			<div class="content">
 
 				<!-- Sidebar -->
-				<div class="sidebar">
-					<div class="sidebar-dropdown"><a href="#">Navigation</a></div>
+				<metal:macro use-macro="load: menu.pt">
 
 					<!--- Sidebar navigation -->
 					<!-- If the main navigation has sub navigation, then add the class "has_sub" to "li" of main navigation. -->
-					<ul id="nav">
-						<!-- Main menu with font awesome icon -->
-						<li class="open"><a href="index.html"><i class="fa fa-home"></i> Dashboard</a>
-  						</li>
-      <li class="has_sub">
-      	<a href="#"><i class="fa fa-file-o"></i> Pages #1  <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
-      	<ul>
-      		<li><a href="post.html">Post</a></li>
-      		<li><a href="login.html">Login</a></li>
-      		<li><a href="register.html">Register</a></li>
-      		<li><a href="support.html">Support</a></li>
-      		<li><a href="invoice.html">Invoice</a></li>
-      		<li><a href="gallery.html">Gallery</a></li>
-      	</ul>
-      </li> 
-      <li class="has_sub">
-      	<a href="#"><i class="fa fa-file-o"></i> Pages #2  <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
-      	<ul>
-      		<li><a href="media.html">Media</a></li>
-      		<li><a href="statement.html">Statement</a></li>
-      		<li><a href="error.html">Error</a></li>
-      		<li><a href="error-log.html">Error Log</a></li>
-      		<li><a href="calendar.html">Calendar</a></li>
-      		<li><a href="grid.html">Grid</a></li>
-      	</ul>
-      </li>    
-      <li class="has_sub"><a href="#"><i class="fa fa-table"></i> Tables  <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
-      <ul>
-      	<li><a href="tables.html">Tables</a></li>
-      	<li><a href="dynamic-tables.html">Dynamic Tables</a></li>
-      </ul>
-  </li>		  
-  <li><a href="charts.html"><i class="fa fa-bar-chart-o"></i> Charts</a></li> 
-  <li><a href="forms.html"><i class="fa fa-tasks"></i> Forms</a></li>
-  <li><a href="ui.html"><i class="fa fa-magic"></i> User Interface</a></li>
-</ul>
-</div>
+					
+					<!-- Sidebar ends -->
 
-<!-- Sidebar ends -->
+					<!-- Main bar -->
+					<div class="mainbar">
 
-<!-- Main bar -->
-<div class="mainbar">
+						<!-- Page heading -->
+						<div class="page-head">
+							<h2 class="pull-left"><i class="fa fa-home"></i> Dashboard</h2>
 
-	<!-- Page heading -->
-	<div class="page-head">
-		<h2 class="pull-left"><i class="fa fa-home"></i> Dashboard</h2>
+							<!-- Breadcrumb -->
+							<div class="bread-crumb pull-right">
+								<a href="home"><i class="fa fa-home"></i> Inicio</a> 
+								<!-- Divider -->
+								<span class="divider">/</span> 
+								<a href="#" class="bread-current">Dashboard</a>
+							</div>
 
-		<!-- Breadcrumb -->
-		<div class="bread-crumb pull-right">
-			<a href="inicio.pt"><i class="fa fa-home"></i> Inicio</a> 
-			<!-- Divider -->
-			<span class="divider">/</span> 
-			<a href="#" class="bread-current">Dashboard</a>
-		</div>
+							<div class="clearfix"></div>
 
-		<div class="clearfix"></div>
+						</div>
+						<!-- Page heading ends -->
 
-	</div>
-	<!-- Page heading ends -->
+						<!-- Define Slot do Conteúdo -->
+						<div class="metter">
+							<metal:content define-slot="conteudo" />
+						</div>
+					</div>
+				</div>
+				<!-- Footer starts -->
+				<footer>
+					<div class="container">
+						<div class="row">
+							<div class="col-md-12">
+								<!-- Copyright info -->
+								<p class="copy">Copyright © 2014 | <a href="#">Super-Gerente</a> </p>
+							</div>
+						</div>
+					</div>
+				</footer>
+				<!-- Footer ends -->
 
-	<metal:content define-slot="conteudo" />
-	<!-- Footer starts -->
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<!-- Copyright info -->
-				<p class="copy">Copyright &copy; 2014 | <a href="#">Super-Gerente</a> </p>
-			</div>
-		</div>
-	</div>
-	<!-- Footer ends -->
+			</metal:content>
 
-</metal:content>
-
-</metal:main>
+		</metal:main>
