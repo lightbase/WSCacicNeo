@@ -82,14 +82,9 @@ def login(request):
 def orgao(request):
     return {'project': 'WSCacicNeo'}
 
-@view_config(route_name='list/orgao', renderer='templates/list_orgao.pt')
-def list_orgao(request):
-    """
-    Retorna todos os docs da base
-    """
-    search = Orgao.search_list_orgaos
-
-    return Response(search)
+@view_config(route_name='listorgao', renderer='templates/list_orgao.pt')
+def listorgao(request):
+    return { }
 
 @view_config(route_name='config', renderer='templates/config.pt')
 def config(request):

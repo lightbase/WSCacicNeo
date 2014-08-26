@@ -41,7 +41,7 @@ def main(global_config, **settings):
     config.add_route('orgao', 'orgao')
     config.add_route('post_orgao', 'post_orgao')
     config.add_route('edit_orgao', 'edit_orgao')
-    config.add_route('list/orgao', 'list_orgao')
+    config.add_route('listorgao', 'listorgao')
     config.add_route('delete_orgao', 'delete_orgao')
     #
     config.add_route('list', 'list')

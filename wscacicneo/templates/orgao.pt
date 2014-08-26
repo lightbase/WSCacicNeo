@@ -63,7 +63,7 @@
 	</metal:content>
 	<metal:content fill-slot="javascript">
         <script type="text/javascript">
-            $('#enviar').click(function(){
+           $('#enviar').click(function(){
                 var nome = $('#nome').val()
                     email = $('#email').val()
                     telefone = $('#telefone').val()
