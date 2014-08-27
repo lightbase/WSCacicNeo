@@ -1,6 +1,94 @@
 <metal:main use-macro="load: master.pt">
 	<metal:content fill-slot="conteudo">
-    </metal:content>
+        <div class="padd">
+            <br />
+            <!-- Form starts.  -->
+             <form class="form-horizontal" role="form">
+                <div class="form-group">
+                  <label class="col-lg-2 control-label">Nome do Órgão</label>
+                  <div class="col-lg-5">
+                    <input type="text" id="nome" class="form-control" placeholder="Nome do Órgão">
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">Telefone</label>
+                        <div class="col-lg-5">
+                        <input type="text" id="telefone"  class="form-control" placeholder="Telefone">
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">Gestor</label>
+                        <div class="col-lg-5">
+                        <input type="text" id="gestor" class="form-control" placeholder="Gestor">
+                    </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 control-label">Sigla</label>
+                  <div class="col-lg-5">
+                    <input type="text" id="sigla" class="form-control" placeholder="Sigla">
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">Endereço</label>
+                        <div class="col-lg-5">
+                        <input type="text" id="end" class="form-control" placeholder="Endereço">
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">E-mail</label>
+                        <div class="col-lg-5">
+                        <input type="text" id="email" class="form-control" placeholder="E-mail">
+                    </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 control-label">Tempo da Coleta</label>
+                  <div class="col-lg-2">
+                    <select id="coleta" class="form-control">
+                      <option>1 dia</option>
+                      <option>2 dias</option>
+                      <option>3 dias</option>
+                      <option>30 minutos</option>
+                      <option>1 hora</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-lg-offset-2 col-lg-6">
+                    <button type="button" id="enviar" class="btn btn-sm" style="margin-left: 315px;" >Enviar</button>
+                    <button type="button" id="limpar" class="btn btn-sm">Limpar</button>
+                  </div>
+                </div>
+              </form>
+          </div>
+	</metal:content>
 	<metal:content fill-slot="javascript">
+        <script type="text/javascript">
+           $('#enviar').click(function(){
+                var nome = $('#nome').val()
+                    email = $('#email').val()
+                    telefone = $('#telefone').val()
+                    gestor = $('#gestor').val()
+                    sigla = $('#sigla').val()
+                    coleta = $('#coleta').val()
+                    end = $('#end').val()
+    
+                var data = {
+                    'nome': nome,
+                    'email': email,
+                    'telefone': telefone,
+                    'gestor': gestor,
+                    'sigla': sigla,
+                    'coleta': coleta,
+                    'end': end
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "post_orgao",
+                    data: data, 
+                    success: function(){ alert('aaaaaaaaaaaaaaaaaaaaaa')   },
+                    error: function(){ alert('ooooooooooooooooooooooooo') },
+                }); 
+            });
+        </script>
     </metal:content>
 </metal:main>
