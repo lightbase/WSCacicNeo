@@ -30,6 +30,7 @@ def main(global_config, **settings):
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.add_route('master', 'master')
     config.add_route('blankmaster', 'blankmaster')
+    config.add_route('root', '/')
 
     config.add_route('home', 'home')
     config.add_route('graficop', 'graficop')
@@ -40,7 +41,8 @@ def main(global_config, **settings):
     #Órgão
     config.add_route('orgao', 'orgao')
     config.add_route('post_orgao', 'post_orgao')
-    config.add_route('edit_orgao', 'edit_orgao')
+    config.add_route('put_orgao', 'put_orgao')
+    config.add_route('editorgao', 'editar/{orgao}')
     config.add_route('listorgao', 'listorgao')
     config.add_route('delete_orgao', 'delete_orgao')
     #
@@ -64,9 +66,6 @@ def main(global_config, **settings):
     config.add_route('sobre', 'sobre')
     config.add_route('perfil', 'perfil')
     config.add_route('configapi','configapi')
-    #editar Órgão
-    config.add_route('editarorgao','editarorgao')
-    #
     config.add_route('notify','notify')
     config.add_route('processador','processador')
     config.add_route('configcoleta','configcoleta')

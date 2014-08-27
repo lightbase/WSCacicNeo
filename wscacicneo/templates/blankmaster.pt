@@ -11,9 +11,9 @@
     <meta name="author" content="adley">
     <metal:content define-slot="head" />
     <!-- Stylesheets -->
-    <link href="static/macadmin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${request.route_url('root')}/static/macadmin/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font awesome icon -->
-    <link rel="stylesheet" href="static/macadmin/css/font-awesome.min.css"> 
+    <link rel="stylesheet" href="${request.route_url('root')}/static/macadmin/css/font-awesome.min.css"> 
     <!-- jQuery UI -->
     <link rel="stylesheet" href="static/macadmin/css/jquery-ui.css"> 
     <!-- Calendar -->

@@ -30,6 +30,11 @@ def blankmaster(request):
 def master(request):
     return {'project': 'WSCacicNeo'}
 
+@view_config(route_name='root')
+def root(request):
+    return {'project': 'WSCacicNeo'}
+
+
 @view_config(route_name='home', renderer='templates/home.pt')
 def home(request):
     return {'project': 'WSCacicNeo'}
@@ -140,8 +145,8 @@ def bot(request):
 def configapi(request):
     return {'project': 'WSCacicNeo'}
 
-@view_config(route_name='editarorgao', renderer='templates/editarorgao.pt')
-def editarorgao(request):
+@view_config(route_name='editorgao', renderer='templates/editarorgao.pt')
+def editorgao(request):
     return {'project': 'WSCacicNeo'}
 
 @view_config(route_name='notify', renderer='templates/notify.pt')
@@ -198,8 +203,8 @@ def post_orgao(request):
 
     return Response(str(id_doc))
 
-@view_config(route_name='edit_orgao')
-def edit_orgao(request):
+@view_config(route_name='put_orgao')
+def put_orgao(request):
     """
     Edita um doc apartir do id
     """
