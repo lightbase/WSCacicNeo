@@ -279,6 +279,7 @@ $(function(){
 
 /* jQuery Notification */
 
+/*
 $(document).ready(function(){
 
   setTimeout(function() {noty({text: '<strong>Howdy! Hope you are doing good...</strong>',layout:'topRight',type:'information',timeout:15000});}, 7000);
@@ -317,7 +318,7 @@ $(document).ready(function() {
 
 });
 
-
+*/
 /* Date picker */
 
 $(function() {

@@ -13,33 +13,26 @@
 		<div class="navbar navbar-fixed-top bs-docs-nav" role="banner">
 
 			<div class="conjtainer">
+				
 				<!-- Menu button for smallar screens -->
 				<div class="navbar-header">
 					<button class="navbar-toggle btn-navbar" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
 						<span>Menu</span>
 					</button>
+					
 					<!-- Site name for smallar screens -->
 					<a href="index.html" class="navbar-brand hidden-lg">Super-Gerente</a>
 				</div>
-
-
-
-				<!-- Navigation starts -->
+				
+				<!--  Navigation starts -->
 				<nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">         
-
-					<!-- Search form -->
-					<form class="navbar-form navbar-right" role="search">
-						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Search">
-							</div>
-						</form>
-						<!-- Links -->
+					
+					<!-- Links -->
 						<ul class="nav navbar-nav pull-right">
 							<li class="dropdown pull-right">            
 								<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 									<i class="fa fa-user"></i> Admin <b class="caret"></b>              
 								</a>
-
 								<!-- Dropdown menu -->
 								<ul class="dropdown-menu">
 									<li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
@@ -47,14 +40,19 @@
 									<li><a href="login.html"><i class="fa fa-sign-out"></i> Logout</a></li>
 								</ul>
 							</li>
-
 						</ul>
+						
+						<!-- Search form -->
+						<form class="navbar-form navbar-right" role="search">
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="Buscar">
+							</div>
+						</form>
 					</nav>
 
 				</div>
 			</div>
-
-
+			
 			<!-- Header starts -->
 			<header>
 				<div class="container">
@@ -64,8 +62,10 @@
 						<div class="col-md-4">
 							<!-- Logo. -->
 							<div class="logo">
-								<h1><a href="home">Super<span class="bold">Gerente</span></a></h1>
+								<h1><a href="${request.route_url('root')}home"><img src="${request.route_url('root')}/static/caciclogo_transparent.png"> </a>
+								<a href="${request.route_url('root')}home">Super<span class="bold">Gerente</span></a></h1>
 							</div>
+							
 							<!-- Logo ends -->
 						</div>
 
