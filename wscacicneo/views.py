@@ -88,7 +88,17 @@ def orgao(request):
 
 @view_config(route_name='listorgao', renderer='templates/list_orgao.pt')
 def listorgao(request):
-    return { }
+    orgao_obj = Orgao(
+        nome = 'sahuds',
+        cargo = 'cargo',
+        coleta = '4h',
+        sigla = 'MPOG',
+        endereco = 'Esplanada bloco C',
+        email = 'admin@planemaneto.gov.br',
+        telefone = '(61) 2025-4117'
+    )
+    search = orgao_obj.search_list_orgaos()
+    return {'orgao_doc': search.results}
 
 @view_config(route_name='config', renderer='templates/config.pt')
 def config(request):
