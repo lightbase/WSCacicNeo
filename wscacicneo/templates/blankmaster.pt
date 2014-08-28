@@ -34,7 +34,7 @@
     <link href="${request.route_url('root')}/static/macadmin/css/style.css" rel="stylesheet">
     <!-- Widgets stylesheet -->
     <link href="${request.route_url('root')}/static/macadmin/css/widgets.css" rel="stylesheet">
-    <link rel="shortcut icon" href="${request.route_url('root')}/static/macadmin/img/favicon/favicon.png">   
+    <link rel="shortcut icon" href="${request.route_url('root')}static/macadmin/img/favicon/favicon.png">   
      <!-- Slot para o CSS -->
     <metal:content define-slot="css" />
     <script src="${request.route_url('root')}/static/macadmin/js/respond.min.js"></script>
