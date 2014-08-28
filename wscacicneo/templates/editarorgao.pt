@@ -65,7 +65,14 @@
 	<metal:content fill-slot="javascript">
         <script type="text/javascript">
            $('#limpar').click(function(){
-                alert(url)
+                    $('#nome').val('')
+                    $('#email').val('')
+                    $('#telefone').val('')
+                    $('#gestor').val('')
+                    $('#sigla').val('')
+                    $('#coleta').val('')
+                    $('#end').val('')
+                    $('#url').val('')
            });
            $('#enviar').click(function(){
                 var nome = $('#nome').val()
