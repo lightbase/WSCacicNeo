@@ -64,22 +64,14 @@
 	<metal:content fill-slot="javascript">
         <script type="text/javascript">
            $('#enviar').click(function(){
-                var nome = $('#nome').val()
-                    email = $('#email').val()
-                    telefone = $('#telefone').val()
-                    gestor = $('#gestor').val()
-                    sigla = $('#sigla').val()
-                    coleta = $('#coleta').val()
-                    end = $('#end').val()
-    
                 var data = {
-                    'nome': nome,
-                    'email': email,
-                    'telefone': telefone,
-                    'gestor': gestor,
-                    'sigla': sigla,
-                    'coleta': coleta,
-                    'end': end
+                    'nome' : $('#nome').val(),
+                    'email' : $('#email').val(),
+                    'telefone' : $('#telefone').val(),
+                    'gestor' : $('#gestor').val(),
+                    'sigla' : $('#sigla').val(),
+                    'coleta' : $('#coleta').val(),
+                    'end' : $('#end').val(),
                 }
                 $.ajax({
                     type: "POST",

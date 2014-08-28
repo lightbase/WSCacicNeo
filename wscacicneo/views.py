@@ -34,7 +34,6 @@ def master(request):
 def root(request):
     return {'project': 'WSCacicNeo'}
 
-
 @view_config(route_name='home', renderer='templates/home.pt')
 def home(request):
     return {'project': 'WSCacicNeo'}
@@ -147,7 +146,26 @@ def configapi(request):
 
 @view_config(route_name='editorgao', renderer='templates/editarorgao.pt')
 def editorgao(request):
-    return {'project': 'WSCacicNeo'}
+    nm_orgao = request.matchdict['orgao']
+    orgao_obj = Orgao(
+        nome = nm_orgao,
+        cargo = 'cargo',
+        coleta = '4h',
+        sigla = 'MPOG',
+        endereco = 'Esplanada bloco C',
+        email = 'admin@planemaneto.gov.br',
+        telefone = '(61) 2025-4117'
+    )
+    search = orgao_obj.search_orgao(nm_orgao)
+    return {
+        'nome' : search.results[0].nome,
+        'cargo' : search.results[0].cargo,
+        'coleta' : search.results[0].coleta,
+        'sigla' : search.results[0].sigla,
+        'endereco' : search.results[0].endereco,
+        'email' : search.results[0].email,
+        'telefone' : search.results[0].telefone
+    }
 
 @view_config(route_name='notify', renderer='templates/notify.pt')
 def notify(request):
@@ -209,7 +227,7 @@ def put_orgao(request):
     Edita um doc apartir do id
     """
     doc = request.params
-    nm_orgao = doc['nome']
+    nm_orgao = doc['url']
     orgao_obj = Orgao(
         nome = doc['nome'],
         cargo = doc['gestor'],
