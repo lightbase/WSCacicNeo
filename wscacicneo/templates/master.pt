@@ -62,7 +62,7 @@
 						<div class="col-md-4">
 							<!-- Logo. -->
 							<div class="logo">
-								<h1><a href="${request.route_url('root')}home"><img src="${request.route_url('root')}/static/caciclogo_transparent.png"> </a>
+								<h1><a href="${request.route_url('root')}home"><img src="${request.route_url('root')}static/caciclogo_transparent.png"> </a>
 								<a href="${request.route_url('root')}home">Super<span class="bold">Gerente</span></a></h1>
 							</div>
 							
