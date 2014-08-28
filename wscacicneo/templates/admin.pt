@@ -3,7 +3,6 @@
 	<div>
 	    <p> Text </p>
             <ul>
-                  <a href="${request.route_url('root')}static/macadmin/css/font-awesome.min.css">teu cú</a>
                   <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
                   <li><a href="#"><i class="fa fa-cogs"></i> Settings</a></li>
                   <li><a href="login.html"><i class="fa fa-sign-out"></i> Logout</a></li>
