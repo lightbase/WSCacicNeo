@@ -11,6 +11,8 @@ from .models import (
     )
 from wscacicneo.model.orgao import Orgao
 from wscacicneo.model.orgao import OrgaoBase
+from wscacicneo.model.user import User
+from wscacicneo.model.user import UserBase
 from liblightbase.lbbase.struct import Base
 from liblightbase.lbutils import conv
 from liblightbase.lbrest.document import DocumentREST
@@ -275,3 +277,28 @@ def delete_orgao(request):
 
     return Response(str(delete))
 
+#URL Users
+
+@view_config(route_name='post_user')
+def post_user(request):
+    """
+    Post doc users
+    """
+    rest_url = REST_URL
+    userbase = UserBase().lbbase
+    doc = request.params
+    user_obj = User(
+        nome = doc['nome'],
+        matricula = doc['matricula'],
+        email = doc['email'],
+        orgao = doc['orgao'],
+        telefone = doc['telefone'],
+        cargo = doc['cargo'],
+        setor = doc['setor'],
+        permissao = doc['permissao']
+    )
+
+    id_doc = user_obj.create_user()
+    print(id_doc)
+
+    return Response(str(id_doc))

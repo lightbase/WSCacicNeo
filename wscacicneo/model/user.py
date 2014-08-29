@@ -32,7 +32,7 @@ class UserBase(WSCacicNeo):
     @property
     def lbbase(self):
         """
-        LB Base do Users
+        LB Base de Users
         """
         nome = Field(**dict(
             name='nome',
@@ -168,12 +168,12 @@ class UserBase(WSCacicNeo):
 
 user_base = UserBase()
 
-class User(user.base.metaclass):
+class User(user_base.metaclass):
     """
     Classe genérica de usuários
     """
     def __init__(self, **args):
-        super(Orgao, self).__init__(**args)
+        super(User, self).__init__(**args)
         self.documentrest = user_base.documentrest
 
     def user_to_dict(self):
@@ -199,7 +199,7 @@ class User(user.base.metaclass):
         :return: Document creation ID
         """
 
-        document = self.orgao_to_json()
+        document = self.user_to_json()
         try:
             result = user_base.documentrest.create(document)
         except HTTPError as err:
