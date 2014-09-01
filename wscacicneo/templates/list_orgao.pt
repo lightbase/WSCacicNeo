@@ -28,12 +28,12 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <td>${orgao_doc[0].nome}</td>
-                                                                <td>Ministerio</td>
-                                                                <td>ministerio</td>
-                                                                <td> ministerio</td>
-                                                                <td>ministerio</td>
+                                                            <tr tal:repeat="doc orgao_doc">
+                                                                <td>${doc.nome}</td>
+                                                                <td>${doc.sigla}</td>
+                                                                <td>${doc.coleta}</td>
+                                                                <td>${doc.endereco}</td>
+                                                                <td>${doc.email}</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -53,7 +53,6 @@
 	<metal:content fill-slot="javascript">
         <script type="text/javascript">
             $(document).ready(function(){
-                alert('aaaaaaaaaaaaaa')
             });
         </script>
     </metal:content>
