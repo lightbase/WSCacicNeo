@@ -224,7 +224,10 @@ class User(user_base.metaclass):
         """
         Retorna todos os docs da base
         """
-        results = self.documentrest.get_collection(limit=None)
+        search = Search(
+            limit=None
+        )
+        results = self.documentrest.get_collection(search)
 
         return results
 
