@@ -80,6 +80,8 @@
     <script src="${request.route_url('root')}static/macadmin/js/filter.js"></script> <!-- Filter for support page -->
     <script src="${request.route_url('root')}static/macadmin/js/custom.js"></script> <!-- Custom codes -->
     <script src="${request.route_url('root')}static/macadmin/js/charts.js"></script> <!-- Charts & Graphs -->
+    <!--Jquery Validate -->
+    <script src="${request.route_url('root')}static/js/jquery.validate.min.js"></script> 
 
     <!-- Slot para o JavaScript -->
     <metal:content define-slot="javascript" />
