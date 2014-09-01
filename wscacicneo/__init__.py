@@ -42,9 +42,9 @@ def main(global_config, **settings):
     config.add_route('orgao', 'orgao/cadastro')
     config.add_route('post_orgao', 'post_orgao')
     config.add_route('put_orgao', 'put_orgao')
-    config.add_route('editorgao', 'editar/{orgao}')
+    config.add_route('editorgao', 'editar/{sigla}')
     config.add_route('listorgao', 'orgao/list')
-    config.add_route('delete_orgao', 'delete_orgao')
+    config.add_route('delete_orgao', 'delete/{sigla}')
     #
 
     #Usuários

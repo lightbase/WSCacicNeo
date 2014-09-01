@@ -158,17 +158,17 @@ def configapi(request):
 
 @view_config(route_name='editorgao', renderer='templates/editarorgao.pt')
 def editorgao(request):
-    nm_orgao = request.matchdict['orgao']
+    sigla = request.matchdict['sigla']
     orgao_obj = Orgao(
-        nome = nm_orgao,
+        nome = 'asdsad',
         cargo = 'cargo',
         coleta = '4h',
-        sigla = 'MPOG',
+        sigla = sigla,
         endereco = 'Esplanada bloco C',
         email = 'admin@planemaneto.gov.br',
         telefone = '(61) 2025-4117'
     )
-    search = orgao_obj.search_orgao(nm_orgao)
+    search = orgao_obj.search_orgao(sigla)
     return {
         'nome' : search.results[0].nome,
         'cargo' : search.results[0].cargo,
@@ -249,7 +249,7 @@ def put_orgao(request):
         email = doc['email'],
         telefone = doc['telefone']
     )
-    search = orgao_obj.search_orgao(nm_orgao)
+    search = orgao_obj.search_orgao(sigla)
     id = search.results[0]._metadata.id_doc
     edit = Orgao.edit_orgao(id, doc)
 
@@ -261,21 +261,21 @@ def delete_orgao(request):
     Deleta doc apartir do id
     """
     doc = request.params
-    nm_orgao = doc['nome']
+    sigla = request.matchdict['sigla']
     orgao_obj = Orgao(
-        nome = doc['nome'],
-        cargo = doc['gestor'],
-        coleta = doc['coleta'],
-        sigla = doc['sigla'],
-        endereco = doc['end'],
-        email = doc['email'],
-        telefone = doc['telefone']
+        nome = 'asdasd',
+        cargo = 'asdasdasd',
+        coleta = 'asdasdasd',
+        sigla = 'asdasdas',
+        endereco = 'asdsad',
+        email = 'asdsad',
+        telefone = 'sadasd'
     )
-    search = orgao_obj.search_orgao(nm_orgao)
+    search = orgao_obj.search_orgao(sigla)
     id = search.results[0]._metadata.id_doc
     delete = orgao_obj.delete_orgao(id)
 
-    return Response(str(delete))
+    return Response(delete)
 
 #URL Users
 

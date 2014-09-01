@@ -20,11 +20,12 @@
                                                     <table cellpadding="0" cellspacing="0" border="0" id="data-table" width="100%">
                                                         <thead>
                                                             <tr>
-                                                                <th>Rendering engine</th>
-                                                                <th>Browser</th>
-                                                                <th>Platform(s)</th>
-                                                                <th>Engine version</th>
-                                                                <th>CSS grade</th>
+                                                                <th>Nome</th>
+                                                                <th>Sigla</th>
+                                                                <th>Coleta</th>
+                                                                <th>Endereço</th>
+                                                                <th>E-mail</th>
+                                                                <th>Opções</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -34,6 +35,11 @@
                                                                 <td>${doc.coleta}</td>
                                                                 <td>${doc.endereco}</td>
                                                                 <td>${doc.email}</td>
+                                                                <td>
+                                                                    <a class="btn btn-xs btn-success"><i class="fa fa-check"></i></a>
+                                                                    <a href="${request.route_url('root')}editar/${doc.sigla}" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i></a>
+                                                                    <a href="${request.route_url('root')}delete/${doc.sigla}" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a>
+                                                                </td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -52,8 +58,7 @@
     </metal:content>
 	<metal:content fill-slot="javascript">
         <script type="text/javascript">
-            $(document).ready(function(){
-            });
+        });
         </script>
     </metal:content>
 </metal:main>

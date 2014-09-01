@@ -50,8 +50,8 @@ class TestOrgaoBase(unittest.TestCase):
             email='admin@planemaneto.gov.br',
             telefone='(61) 2025-4117'
         )
-        nm_orgao='Ministério do Planejameiaaaaaaaaanto'
-        search = orgao_obj.search_orgao(nm_orgao)
+        sigla='MPOG'
+        search = orgao_obj.search_orgao(sigla)
         id = search.results[0]._metadata.id_doc
         delete = orgao_obj.delete_orgao(id)
 
@@ -85,8 +85,8 @@ class TestOrgaoBase(unittest.TestCase):
             'email':'admin@planemaneto.gov.br',
             'telefone':'(61) 2025-4117'
         })
-        nm_orgao='Ministério do Planejameiaaaaaaaaanto'
-        search = orgao_obj.search_orgao(nm_orgao)
+        sigla ='MPOG'
+        search = orgao_obj.search_orgao(sigla)
         id = search.results[0]._metadata.id_doc
         doc = json.dumps(orgao)
         edit = orgao_obj.edit_orgao(id, doc)

@@ -196,13 +196,13 @@ class Orgao(orgao_base.metaclass):
 
         return result
 
-    def search_orgao(self, nm_orgao):
+    def search_orgao(self, sigla):
         """
         Busca registro completo do órgao pelo nome
         :return: obj collection com os dados da base
         """
         search = Search(
-            literal="document->>'nome' = '"+nm_orgao+"'"
+            literal="document->>'sigla' = '"+sigla+"'"
         )
         results = self.documentrest.get_collection(search_obj=search)
 

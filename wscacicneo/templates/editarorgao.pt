@@ -55,7 +55,7 @@
                 <div class="form-group">
                   <div class="col-lg-offset-2 col-lg-6">
                     <button type="button" id="enviar" class="btn btn-sm" style="margin-left: 315px;" >Enviar</button>
-                    <input style="display:none;" id="url" value="${request.matchdict['orgao']}">
+                    <input style="display:none;" id="url" value="${request.matchdict['sigla']}">
                     <button type="button" id="limpar" class="btn btn-sm">Limpar</button>
                   </div>
                 </div>
