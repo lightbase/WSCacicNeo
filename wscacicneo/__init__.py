@@ -46,6 +46,12 @@ def main(global_config, **settings):
     config.add_route('listorgao', 'orgao/list')
     config.add_route('delete_orgao', 'delete_orgao')
     #
+
+    #Usuários
+    config.add_route('users', 'users')
+    config.add_route('post_user', 'post_user')
+    #
+    
     config.add_route('list', 'list')
     config.add_route('gestao', 'gestao')
     config.add_route('memoria', 'memoria')
@@ -54,7 +60,6 @@ def main(global_config, **settings):
     config.add_route('escritorio', 'escritorio')
     config.add_route('hd', 'hd')
     config.add_route('config', 'config')
-    config.add_route('users', 'users')
     config.add_route('bot', 'bot')
     config.add_route('login', 'login')
     config.add_route('reports', 'reports')
