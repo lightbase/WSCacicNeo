@@ -1,0 +1,70 @@
+<metal:main use-macro="load: master.pt">
+	<metal:content fill-slot="conteudo">
+        <div class="col-md-4" style="margin-left: 200px;">
+              <div class="widget">
+                <div class="widget-head">
+                  <div class="pull-left">Editar</div>
+                  <div class="widget-icons pull-right">
+                    <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="widget-content">
+                  <div class="padd">
+                    <!-- Visitors, pageview, bounce rate, etc., Sparklines plugin used -->
+                    <ul id='favoritos-off' class="current-status">
+                      <li class='cadastro-o'>
+                        <span>Cadastro Órgãos</span>
+                      </li>
+                        <span id="Lista Órgãos">Lista Órgãos</span>
+                      <li>
+                        <span id='Cadastro Usuario'>Cadastro Usuarios</span>
+                      </li>
+                        <span class='lista-u'>Lista de Usuarios</span>
+                      <li>
+                        <span class='relatorios'>Relatorios</span>
+                      </li>
+                        <span class='graficos'>Graficos</span>
+                      <li>
+                        <span class='coleta'>Questionar Coleta</span>
+                      </li>
+                        <span class='notify'>Notificações da Coleta</span>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="widget">
+                <div class="widget-head">
+                  <div class="pull-left">Favoritos</div>
+                  <div class="widget-icons pull-right">
+                    <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="widget-content">
+                  <div class="padd">
+                    <!-- Visitors, pageview, bounce rate, etc., Sparklines plugin used -->
+                    <ul id="favoritos-on" class="current-status">
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+    </metal:content>
+	<metal:content fill-slot="javascript">
+        <script type="text/javascript">
+            $('span').click(function(){
+               li = $(this).parent()
+               ul = $(li).parent() 
+               id_ul = $(ul).attr('id')
+               console.log(id_ul)
+               id = $(this).html()
+               li = "<li><span>"+id+"</span></li>"
+               $('#favoritos-on').append(li)
+               
+            });
+        </script>
+    </metal:content>
+</metal:main>
