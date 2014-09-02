@@ -72,7 +72,6 @@
                     $('#sigla').val('')
                     $('#coleta').val('')
                     $('#end').val('')
-                    $('#url').val('')
            });
            $('#enviar').click(function(){
                 var nome = $('#nome').val()
