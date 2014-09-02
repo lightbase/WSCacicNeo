@@ -7,7 +7,7 @@ import json
 from wscacicneo.model.user import User
 from wscacicneo.model.user import UserBase
 
-class TestUserBase(unittest.TestCase):
+class TestUserAttributes(unittest.TestCase):
     """
     Testa base do órgão no LB
     """
@@ -22,14 +22,15 @@ class TestUserBase(unittest.TestCase):
         Insere atributos na base users
         """
         user_obj = User(
-            nome='Fernando Goku',
-            matricula='12311231',
-            email='admin@planemaneto.gov.br',
-            telefone='(61) 2025-4117',
-            orgao='Ministério do Pppp',
-            cargo='Gestor de TI',
-            setor='Setor de TI',
-            permissao='administrador'
+            nome='test1',
+            matricula='test1',
+            email='test1@gov.br',
+            telefone='test1',
+            orgao='test1',
+            cargo='test1',
+            setor='test1',
+            permissao='Administrador',
+            senha='123'
         )
         results = user_obj.create_user()
         var_file = open("results.txt", "w")
@@ -38,26 +39,6 @@ class TestUserBase(unittest.TestCase):
 
         self.assertIsInstance(results, int)
 
-    def test_delete_attributes(self):
-        """
-        Deleta doc apartir do id
-        """
-        user_obj = User(
-            nome='Fernando Goku',
-            matricula='12311231',
-            email='admin@planemaneto.gov.br',
-            telefone='(61) 2025-4117',
-            orgao='Ministério do Pppp',
-            cargo='Gestor de TI',
-            setor='Setor de TI',
-            permissao='administrador'
-        )
-        matricula_user='12311231'
-        search = user_obj.search_user(matricula_user)
-        id = search.results[0]._metadata.id_doc
-        delete = user_obj.delete_user(id)
-
-        assert(delete == 'DELETED')
 
     def test_get_attributes(self):
         """
@@ -70,29 +51,30 @@ class TestUserBase(unittest.TestCase):
         Test Edita Usuário
         """
         user_obj = User(
-            nome='Fernando Goku',
-            matricula='12311231',
-            email='admin@planemaneto.gov.br',
-            telefone='(61) 2025-4117',
-            orgao='Ministério do Pppp',
-            cargo='Gestor de TI',
-            setor='Setor de TI',
-            permissao='administrador'
+            nome='test1',
+            matricula='test1',
+            email='test1@gov.br',
+            telefone='test1',
+            orgao='test1',
+            cargo='test1',
+            setor='test1',
+            permissao='Administrador',
+            senha='123'
         )
         user = {
-            'nome' :'Goku',
-            'matricula':'12311231',
-            'email':'admin@planemaneto.gov.br',
-            'telefone':'(61) 2025-4117',
-            'orgao':'Ministério do Pppp',
-            'cargo':'Gestor de TI',
-            'setor':'Setor de TI',
-            'permissao':'administrador'
+            'nome' :'test1',
+            'matricula':'test1',
+            'email':'test1@gov.br',
+            'telefone':'test1',
+            'orgao':'test1',
+            'cargo':'test1',
+            'setor':'test1',
+            'permissao':'Administrador',
+            'senha':'123'
         }
-        matricula_user='12311231'
+        matricula_user='test1'
         search = user_obj.search_user(matricula_user)
         id = search.results[0]._metadata.id_doc
-        print("KKKKKKKKKKKKKKKKKKKKK",id)
         doc = json.dumps(user)
         edit = user_obj.edit_user(id, doc)
 
