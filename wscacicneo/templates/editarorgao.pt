@@ -96,7 +96,7 @@
                 }
                 $.ajax({
                     type: "PUT",
-                    url: "${request.route_url('root')}post_orgao",
+                    url: "${request.route_url('root')}put_orgao",
                     data: data, 
                     success: function(){ alert('aaaaaaaaaaaaaaaaaaaaaa')   },
                     error: function(){ alert('ooooooooooooooooooooooooo') },

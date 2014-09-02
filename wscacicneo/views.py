@@ -238,20 +238,30 @@ def put_orgao(request):
     """
     Edita um doc apartir do id
     """
-    doc = request.params
-    nm_orgao = doc['url']
+    params = request.params
+    sigla = params['url']
     orgao_obj = Orgao(
-        nome = doc['nome'],
-        cargo = doc['gestor'],
-        coleta = doc['coleta'],
-        sigla = doc['sigla'],
-        endereco = doc['end'],
-        email = doc['email'],
-        telefone = doc['telefone']
+        nome = params['nome'],
+        cargo = params['gestor'],
+        coleta = params['coleta'],
+        sigla = params['sigla'],
+        endereco = params['end'],
+        email = params['email'],
+        telefone = params['telefone']
     )
+    orgao = {
+        'nome' : params['nome'],
+        'cargo' : params['gestor'],
+        'coleta' : params['coleta'],
+        'sigla' : params['sigla'],
+        'endereco' : params['end'],
+        'email' : params['email'],
+        'telefone' : params['telefone']
+    }
     search = orgao_obj.search_orgao(sigla)
     id = search.results[0]._metadata.id_doc
-    edit = Orgao.edit_orgao(id, doc)
+    doc = json.dumps(orgao)
+    edit = orgao_obj.edit_orgao(id, doc)
 
     return Response(edit)
 
