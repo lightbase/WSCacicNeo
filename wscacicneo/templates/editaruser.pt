@@ -59,12 +59,13 @@
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Senha</label>
                         <div class="col-lg-5">
-                        <input type="password" id="senha" class="form-control" placeholder="Informe novamente sua senha">
+                        <input type="text" id="senha" value="${senha}" class="form-control" placeholder="Informe novamente sua senha">
                     </div>
                 </div>
                 <div class="form-group">
                   <div class="col-lg-offset-2 col-lg-6">
                     <button type="button" id="enviar" class="btn btn-sm" style="margin-left: 315px;" >Enviar</button>
+                    <input style="display:none;" id="url" value="${request.matchdict['matricula']}">
                     <button type="button" id="limpar" class="btn btn-sm">Limpar</button>
                   </div>
                 </div>
@@ -82,18 +83,33 @@
                     $('#cargo').val('')
                     $('#setor').val('')
                     $('#permissao').val('Permissões')
+                    $('#senha').val('')
            });
            $('#enviar').click(function(){
+                var nome = $('#nome').val()
+                    matricula = $('#matricula').val()
+                    email = $('#email').val()
+                    telefone = $('#telefone').val()
+                    orgao = $('#orgao').val()
+                    cargo = $('#cargo').val()
+                    setor = $('#setor').val()
+                    permissao = $('#permissao').val()
+                    url = $('#url').val()
+                    senha = $('#senha').val()
+    
                 var data = {
-                    'nome' : $('#nome').val(),
-                    'matricula' : $('#matricula').val(),
-                    'email' : $('#email').val(),
-                    'telefone' : $('#telefone').val(),
-                    'orgao' : $('#orgao').val(),
-                    'cargo' : $('#cargo').val(),
-                    'setor' : $('#setor').val(),
-                    'permissao' : $('#permissao').val(),
+                    'url': url,
+                    'nome': nome,
+                    'matricula': matricula,
+                    'email': email,
+                    'telefone': telefone,
+                    'orgao': orgao,
+                    'cargo': cargo,
+                    'setor': setor,
+                    'permissao': permissao,
+                    'senha': senha
                 }
+
                 if (data.email.indexOf("gov.br") > -1 == false){
                    alert('Somente é permitido cadastro de e-mails institucionais');
                 }else{

@@ -342,7 +342,7 @@ def edituser(request):
         'cargo' : search.results[0].cargo,
         'setor' : search.results[0].setor,
         'permissao' : search.results[0].permissao,
-        'senha' : search.results[0].permissao
+        'senha' : search.results[0].senha
     }
 
 @view_config(route_name='put_user')
@@ -366,7 +366,7 @@ def put_user(request):
     user = {
         'nome' : params['nome'],
         'matricula' : params['matricula'],
-        'email' : params['meila'],
+        'email' : params['email'],
         'orgao' : params['orgao'],
         'telefone' : params['telefone'],
         'cargo' : params['cargo'],
@@ -374,7 +374,7 @@ def put_user(request):
         'permissao' : params['permissao'],
         'senha' : params['senha']
     }
-    search = user_obj.search_orgao(matricula)
+    search = user_obj.search_user(matricula)
     id = search.results[0]._metadata.id_doc
     doc = json.dumps(user)
     edit = user_obj.edit_user(id, doc)
