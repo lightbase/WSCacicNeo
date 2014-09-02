@@ -114,6 +114,25 @@ class UserBase(WSCacicNeo):
             multivalued=False,
             required=True
         ))
+        
+        senha = Field(**dict(
+                    name='senha',
+                    alias='senha',
+                    description='Senha do Usuário',
+                    datatype='Text',
+                    indices=['Textual'],
+                    multivalued=False,
+                    required=True
+        ))
+        favoritos = Field(**dict(
+                    name='favoritos',
+                    alias='favoritos',
+                    description='Favoritos do Usuário',
+                    datatype='Text',
+                    indices=['Textual'],
+                    multivalued=True,
+                    required=False
+        ))
 
         base_metadata = BaseMetadata(
             name='users',
@@ -128,6 +147,8 @@ class UserBase(WSCacicNeo):
         content_list.append(cargo)
         content_list.append(setor)
         content_list.append(permissao)
+        content_list.append(senha)
+        content_list.append(favoritos)
 
         lbbase = Base(
             metadata=base_metadata,

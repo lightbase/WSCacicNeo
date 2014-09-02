@@ -309,7 +309,8 @@ def post_user(request):
         telefone = doc['telefone'],
         cargo = doc['cargo'],
         setor = doc['setor'],
-        permissao = doc['permissao']
+        permissao = doc['permissao'],
+        senha = doc['senha']
     )
 
     id_doc = user_obj.create_user()
@@ -328,7 +329,8 @@ def edituser(request):
         telefone = 'telefone',
         cargo = 'cargo',
         setor = 'setor',
-        permissao = 'Gestor'
+        permissao = 'Gestor',
+        senha = 'senha'
     )
     search = user_obj.search_user(matricula)
     return {
@@ -339,5 +341,43 @@ def edituser(request):
         'telefone' : search.results[0].telefone,
         'cargo' : search.results[0].cargo,
         'setor' : search.results[0].setor,
-        'permissao' : search.results[0].permissao
+        'permissao' : search.results[0].permissao,
+        'senha' : search.results[0].permissao
     }
+
+@view_config(route_name='put_user')
+def put_user(request):
+    """
+    Edita um doc de user apartir do id
+    """
+    params = request.params
+    matricula = params['url']
+    user_obj = User(
+        nome = params['nome'],
+        matricula = params['matricula'],
+        email = params['email'],
+        orgao = params['orgao'],
+        telefone = params['telefone'],
+        cargo = params['cargo'],
+        setor = params['setor'],
+        permissao = params['permissao'],
+        senha = params['senha']
+    )
+    user = {
+        'nome' : params['nome'],
+        'matricula' : params['matricula'],
+        'email' : params['meila'],
+        'orgao' : params['orgao'],
+        'telefone' : params['telefone'],
+        'cargo' : params['cargo'],
+        'setor' : params['setor'],
+        'permissao' : params['permissao'],
+        'senha' : params['senha']
+    }
+    search = user_obj.search_orgao(matricula)
+    id = search.results[0]._metadata.id_doc
+    doc = json.dumps(user)
+    edit = user_obj.edit_user(id, doc)
+
+    return Response(edit)
+
