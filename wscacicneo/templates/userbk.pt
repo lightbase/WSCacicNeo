@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <title>Login</title>
+        <style type="text/css">
+             body {
+                margin : 0px;
+                padding : 0px;
+            }
+            .login {
+                background-color : #032a65;
+                width : 1366px;
+                height : 75px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="login"></div>
+    </body>
+</html>

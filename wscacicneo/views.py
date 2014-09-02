@@ -72,8 +72,8 @@ def admin(request):
 def diagnostic(request):
     return {'project': 'WSCacicNeo'}
 
-@view_config(route_name='users', renderer='templates/users.pt')
-def users(request):
+@view_config(route_name='user', renderer='templates/user.pt')
+def user(request):
     return {'project': 'WSCacicNeo'}
 
 @view_config(route_name='cadastro', renderer='templates/cadastro.pt')
@@ -302,3 +302,28 @@ def post_user(request):
     print(id_doc)
 
     return Response(str(id_doc))
+
+@view_config(route_name='edituser', renderer='templates/editaruser.pt')
+def edituser(request):
+    matricula = request.matchdict['matricula']
+    user_obj = User(
+        nome = 'base',
+        matricula = matricula,
+        email = 'base@gov.br',
+        orgao = 'orgao',
+        telefone = 'telefone',
+        cargo = 'cargo',
+        setor = 'setor',
+        permissao = 'Gestor'
+    )
+    search = user_obj.search_user(matricula)
+    return {
+        'nome' : search.results[0].nome,
+        'matricula' : search.results[0].matricula,
+        'email' : search.results[0].email,
+        'orgao' : search.results[0].orgao,
+        'telefone' : search.results[0].telefone,
+        'cargo' : search.results[0].cargo,
+        'setor' : search.results[0].setor,
+        'permissao' : search.results[0].permissao
+    }

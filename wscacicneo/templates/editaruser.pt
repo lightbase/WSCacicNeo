@@ -1,5 +1,5 @@
 <metal:main use-macro="load: master.pt">
-	<metal:content fill-slot="conteudo">
+  <metal:content fill-slot="conteudo">
         <div class="padd">
             <br />
             <!-- Form starts.  -->
@@ -7,50 +7,50 @@
                 <div class="form-group">
                   <label class="col-lg-2 control-label">Nome</label>
                   <div class="col-lg-5">
-                    <input type="text" id="nome" class="form-control" placeholder="Nome do Usuário">
+                    <input type="text" id="nome" value="${nome}" class="form-control" placeholder="Nome do Usuário">
                   </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Matricula</label>
                         <div class="col-lg-5">
-                        <input type="text" id="matricula"  class="form-control" placeholder="Matricula">
+                        <input type="text" id="matricula" value="${matricula}"  class="form-control" placeholder="Matricula">
                   </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label">E-Mail</label>
                         <div class="col-lg-5">
-                        <input type="text" id="email" class="form-control" placeholder="E-Mail">
+                        <input type="text" id="email" value="${email}" class="form-control" placeholder="E-Mail">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Telefone</label>
                         <div class="col-lg-5">
-                        <input type="text" id="telefone" class="form-control" placeholder="Telefone">
+                        <input type="text" id="telefone" value="${telefone}" class="form-control" placeholder="Telefone">
                     </div>
                 </div>
                 <div class="form-group">
                   <label class="col-lg-2 control-label">Orgão</label>
                   <div class="col-lg-5">
-                    <input type="text" id="orgao" class="form-control" placeholder="Orgão">
+                    <input type="text" id="orgao" value="${orgao}" class="form-control" placeholder="Orgão">
                   </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Cargo</label>
                         <div class="col-lg-5">
-                        <input type="text" id="cargo" class="form-control" placeholder="Cargo">
+                        <input type="text" id="cargo" value="${cargo}" class="form-control" placeholder="Cargo">
                   </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Setor</label>
                         <div class="col-lg-5">
-                        <input type="text" id="setor" class="form-control" placeholder="Setor">
+                        <input type="text" id="setor" value="${setor}" class="form-control" placeholder="Setor">
                     </div>
                 </div>
                 <div class="form-group">
                   <label class="col-lg-2 control-label">Permissão</label>
                   <div class="col-lg-2">
                     <select id="permissao" class="form-control">
-                      <option selected disabled>Permissões</option>
+                      <option selected>${permissao}</option>
                       <option>Administrador</option>
                       <option>Gestor</option>
                     </select>
@@ -64,8 +64,8 @@
                 </div>
               </form>
           </div>
-	</metal:content>
-	<metal:content fill-slot="javascript">
+  </metal:content>
+  <metal:content fill-slot="javascript">
         <script type="text/javascript">
            $('#limpar').click(function(){
                     $('#nome').val('')
@@ -92,7 +92,7 @@
                    alert('Somente é permitido cadastro de e-mails institucionais');
                 }else{
                 $.ajax({
-                    type: "POST",
+                    type: "PUT",
                     url: "${request.route_url('root')}post_user",
                     data: data, 
                     success: function(){ alert('sucesso') },

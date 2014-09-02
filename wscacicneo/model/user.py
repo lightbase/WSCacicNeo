@@ -208,13 +208,13 @@ class User(user_base.metaclass):
 
         return result
 
-    def search_user(self, matricula_user):
+    def search_user(self, matricula):
         """
         Busca registro completo do usuário pela matricula
         :return: obj collection com os dados da base
         """
         search = Search(
-            literal="document->>'matricula' = '"+matricula_user+"'"
+            literal="document->>'matricula' = '"+matricula+"'"
         )
         results = self.documentrest.get_collection(search_obj=search)
 
