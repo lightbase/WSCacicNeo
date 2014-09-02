@@ -50,6 +50,7 @@ def main(global_config, **settings):
     #Usuários
     config.add_route('user', 'user/cadastro')
     config.add_route('post_user', 'post_user')
+    config.add_route('put_user', 'put_user')
     config.add_route('edituser', 'editar/user/{matricula}')
     #
     
