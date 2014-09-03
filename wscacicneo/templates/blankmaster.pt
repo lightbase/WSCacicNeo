@@ -49,7 +49,8 @@
    
     <!-- JS -->
     
-    <script src="${request.route_url('root')}static/macadmin/js/jquery.js"></script> <!-- jQuery -->
+    <script src="${request.route_url('root')}static/macadmin/js/jquery.js"></script> 
+    <!-- jQuery -->
     <script src="${request.route_url('root')}static/macadmin/js/bootstrap.min.js"></script> <!-- Bootstrap -->
     <script src="${request.route_url('root')}static/macadmin/js/jquery-ui.min.js"></script> <!-- jQuery UI -->
     <script src="${request.route_url('root')}static/macadmin/js/fullcalendar.min.js"></script> <!-- Full Google Calendar - Calendar -->
