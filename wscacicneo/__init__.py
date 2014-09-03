@@ -46,14 +46,13 @@ def main(global_config, **settings):
     config.add_route('listorgao', 'orgao/list')
     config.add_route('delete_orgao', 'delete/{sigla}')
     #
-
     #Usuários
     config.add_route('user', 'user/cadastro')
     config.add_route('post_user', 'post_user')
     config.add_route('put_user', 'put_user')
     config.add_route('edituser', 'editar/user/{matricula}')
+    config.add_route('favoritos', 'editar/favoritos')
     #
-    
     config.add_route('list', 'list')
     config.add_route('gestao', 'gestao')
     config.add_route('memoria', 'memoria')

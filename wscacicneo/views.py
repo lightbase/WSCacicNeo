@@ -102,6 +102,10 @@ def listorgao(request):
     search = orgao_obj.search_list_orgaos()
     return {'orgao_doc': search.results}
 
+@view_config(route_name='favoritos', renderer='templates/favoritos.pt')
+def favoritos(request):
+    return {'project': 'WSCacicNeo'}
+
 @view_config(route_name='config', renderer='templates/config.pt')
 def config(request):
     return {'project': 'WSCacicNeo'}
