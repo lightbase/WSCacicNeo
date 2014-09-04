@@ -414,6 +414,6 @@ def listuser(request):
         senha = 'sadasdasd',
         favoritos = ['asdasdasdasd']
     )
-    search = user_obj.search_list_user()
-    return {'user': search.results}
+    search = user_obj.search_list_users()
+    return {'user_doc': search.results}
 
