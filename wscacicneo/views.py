@@ -118,8 +118,8 @@ def favoritos(request):
         senha = 'senha'
     )
     search = user_obj.search_user(matricula)
-    print(search.results[0])
-    return { }
+    favoritos = search.results[0].favoritos
+    return {'favoritos': favoritos  }
 
 @view_config(route_name='config', renderer='templates/config.pt')
 def config(request):

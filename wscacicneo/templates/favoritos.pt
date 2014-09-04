@@ -28,7 +28,7 @@
                       <li>
                         <span class='coleta'>Questionar Coleta</span>
                       </li>
-                        <span class='notify'></span>
+                        <span class='notify'>Notificações</span>
                     </ul>
                   </div>
                 </div>
@@ -39,14 +39,17 @@
                 <div class="widget-head">
                   <div class="pull-left">Favoritos</div>
                   <div class="widget-icons pull-right">
-                    <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
+                    <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
                   </div>
                   <div class="clearfix"></div>
                 </div>
                 <div class="widget-content">
                   <div class="padd">
                     <!-- Visitors, pageview, bounce rate, etc., Sparklines plugin used -->
-                    <ul id="favoritos-on" class="current-status">
+                    <ul  tal:repeat="doc favoritos" id="favoritos-on" class="current-status">
+                        <li>
+                            <span>${doc}</span>
+                        </li>
                     </ul>
                   </div>
                 </div>
