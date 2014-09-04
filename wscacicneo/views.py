@@ -417,3 +417,26 @@ def listuser(request):
     search = user_obj.search_list_users()
     return {'user_doc': search.results}
 
+@view_config(route_name='delete_user')
+def delete_user(request):
+    """
+    Deleta doc apartir do id
+    """
+    doc = request.params
+    matricula = request.matchdict['matricula']
+    user_obj = User(
+        nome = 'asdasd',
+        matricula = 'asdasd',
+        email = 'asdsad',
+        orgao = 'asdsad',
+        telefone = 'sdasd',
+        cargo = 'asdasdasd',
+        setor = 'asdasd',
+        permissao = 'asdasd',
+        senha = 'sadasdasd',
+        favoritos = ['asdasdasdasd']
+    )
+    search = user_obj.search_user(matricula)
+    id = search.results[0]._metadata.id_doc
+    delete = user_obj.delete_user(id)
+    return Response(delete)

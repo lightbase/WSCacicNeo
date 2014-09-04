@@ -42,7 +42,7 @@
                                                     <td>
                                                         <a class="btn btn-xs btn-success"><i class="fa fa-check"></i></a>
                                                         <a href="${request.route_url('root')}usuario/editar/${doc.matricula}" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i></a>
-                                                        <a href="${request.route_url('root')}home" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a>
+                                                        <a href="${request.route_url('root')}usuario/delete/${doc.matricula}" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a>
                                                     </td>
                                                 </tr>
                                             </tbody>
