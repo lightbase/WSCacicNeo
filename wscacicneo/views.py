@@ -411,7 +411,7 @@ def listuser(request):
         cargo = 'asdasdasd',
         setor = 'asdasd',
         permissao = 'asdasd',
-        senha = 'sadasdasd'
+        senha = 'sadasdasd',
         favoritos = ['asdasdasdasd']
     )
     search = user_obj.search_list_user()
