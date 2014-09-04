@@ -13,22 +13,33 @@
                   <div class="padd">
                     <!-- Visitors, pageview, bounce rate, etc., Sparklines plugin used -->
                     <ul id='favoritos-off' class="current-status">
-                      <li class='cadastro-o'>
-                        <span id='cadastroorgao'>Cadastro Órgãos</span>
-                      </li>
-                        <span id="listaorgaos">Lista Órgãos</span>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="inlineCheckbox3" value="option3">Cadastro de Órgãos
+                        </label>
                       <li>
-                        <span id='cadastrousuario'>Cadastro Usuarios</span>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="inlineCheckbox3" value="option3">Lista de Órgãos
+                        </label>
                       </li>
-                        <span class='listausuario'>Lista de Usuarios</span>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="inlineCheckbox3" value="option3">Cadastro de Usuario
+                        </label>
                       <li>
-                        <span class='relatorios'>Relatorios</span>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="inlineCheckbox3" value="option3">Lista de Usuario
+                        </label>
                       </li>
-                        <span class='graficos'>Graficos</span>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="inlineCheckbox3" value="option3">Gráficos
+                        </label>
                       <li>
-                        <span class='coleta'>Questionar Coleta</span>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="inlineCheckbox3" value="option3">Questionar Coleta
+                        </label>
                       </li>
-                        <span class='notify'>Notificações</span>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="inlineCheckbox3" value="option3">Notificações
+                        </label>
                     </ul>
                   </div>
                 </div>
@@ -46,20 +57,21 @@
                 <div class="widget-content">
                   <div class="padd">
                     <!-- Visitors, pageview, bounce rate, etc., Sparklines plugin used -->
-                    <ul  tal:repeat="doc favoritos" id="favoritos-on" class="current-status">
+                    <ul tal:repeat="doc favoritos" id="favoritos-on" class="current-status">
                         <li>
-                            <span>${doc}</span>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="inlineCheckbox3" value="option3">${doc}
+                            </label>
                         </li>
                     </ul>
                   </div>
                 </div>
               </div>
+            <button type="button" class="btn btn-sm btn-default">Salvar</button>
             </div>
     </metal:content>
 	<metal:content fill-slot="javascript">
         <script type="text/javascript">
-            $('span').click(function(){
-            });
         </script>
     </metal:content>
 </metal:main>
