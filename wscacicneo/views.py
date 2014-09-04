@@ -400,3 +400,20 @@ def put_user(request):
 
     return Response(edit)
 
+@view_config(route_name='listuser', renderer='templates/list_user.pt')
+def listuser(request):
+    user_obj = User(
+        nome = 'asdasd',
+        matricula = 'asdasd',
+        email = 'asdsad',
+        orgao = 'asdsad',
+        telefone = 'sdasd',
+        cargo = 'asdasdasd',
+        setor = 'asdasd',
+        permissao = 'asdasd',
+        senha = 'sadasdasd'
+        favoritos = ['asdasdasdasd']
+    )
+    search = user_obj.search_list_user()
+    return {'user': search.results}
+
