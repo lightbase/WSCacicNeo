@@ -51,7 +51,7 @@ def main(global_config, **settings):
     config.add_route('post_user', 'post_user')
     config.add_route('put_user', 'put_user')
     config.add_route('edituser', 'editar/user/{matricula}')
-    config.add_route('favoritos', 'editar/favoritos')
+    config.add_route('favoritos', 'editar/favoritos/{matricula}')
     #
     config.add_route('list', 'list')
     config.add_route('gestao', 'gestao')

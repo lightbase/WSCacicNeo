@@ -14,13 +14,13 @@
                     <!-- Visitors, pageview, bounce rate, etc., Sparklines plugin used -->
                     <ul id='favoritos-off' class="current-status">
                       <li class='cadastro-o'>
-                        <span>Cadastro Órgãos</span>
+                        <span id='cadastroorgao'>Cadastro Órgãos</span>
                       </li>
-                        <span id="Lista Órgãos">Lista Órgãos</span>
+                        <span id="listaorgaos">Lista Órgãos</span>
                       <li>
-                        <span id='Cadastro Usuario'>Cadastro Usuarios</span>
+                        <span id='cadastrousuario'>Cadastro Usuarios</span>
                       </li>
-                        <span class='lista-u'>Lista de Usuarios</span>
+                        <span class='listausuario'>Lista de Usuarios</span>
                       <li>
                         <span class='relatorios'>Relatorios</span>
                       </li>
@@ -28,7 +28,7 @@
                       <li>
                         <span class='coleta'>Questionar Coleta</span>
                       </li>
-                        <span class='notify'>Notificações da Coleta</span>
+                        <span class='notify'></span>
                     </ul>
                   </div>
                 </div>
@@ -56,14 +56,6 @@
 	<metal:content fill-slot="javascript">
         <script type="text/javascript">
             $('span').click(function(){
-               li = $(this).parent()
-               ul = $(li).parent() 
-               id_ul = $(ul).attr('id')
-               console.log(id_ul)
-               id = $(this).html()
-               li = "<li><span>"+id+"</span></li>"
-               $('#favoritos-on').append(li)
-               
             });
         </script>
     </metal:content>

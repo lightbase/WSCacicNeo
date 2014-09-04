@@ -102,6 +102,7 @@
                     'setor' : $('#setor').val(),
                     'permissao' : $('#permissao').val(),
                     'senha' : $('#senha').val(),
+                    'favoritos': 'Relatórios'
                 }
                 if (data.email.indexOf("gov.br") > -1 == false){
                   setTimeout(function() {noty({text: 'O e-mail tem que ser institucional',layout:'topRight',type:'error',timeout:5000});}, 100);

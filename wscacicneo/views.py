@@ -104,7 +104,22 @@ def listorgao(request):
 
 @view_config(route_name='favoritos', renderer='templates/favoritos.pt')
 def favoritos(request):
-    return {'project': 'WSCacicNeo'}
+    matricula = request.matchdict['matricula']
+    user_obj = User(
+        nome = 'base',
+        matricula = matricula,
+        email = 'base@gov.br',
+        orgao = 'orgao',
+        telefone = 'telefone',
+        cargo = 'cargo',
+        setor = 'setor',
+        permissao = 'Gestor',
+        favoritos = ['asdsadasd', 'asdasdasd'],
+        senha = 'senha'
+    )
+    search = user_obj.search_user(matricula)
+    print(search.results[0])
+    return { }
 
 @view_config(route_name='config', renderer='templates/config.pt')
 def config(request):
@@ -301,6 +316,9 @@ def post_user(request):
     rest_url = REST_URL
     userbase = UserBase().lbbase
     doc = request.params
+    document = doc['favoritos']
+    favoritos = [document]
+    print(type(favoritos))
     user_obj = User(
         nome = doc['nome'],
         matricula = doc['matricula'],
@@ -310,9 +328,10 @@ def post_user(request):
         cargo = doc['cargo'],
         setor = doc['setor'],
         permissao = doc['permissao'],
-        senha = doc['senha']
+        senha = doc['senha'],
+        favoritos = favoritos
     )
-
+    print(user_obj)
     id_doc = user_obj.create_user()
     print(id_doc)
 
