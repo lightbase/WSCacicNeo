@@ -12,7 +12,7 @@
 >              <li><a href="${request.route_url('root')}orgao/cadastro">Cadastrar Orgão</a></li>
               <li><a href="${request.route_url('root')}orgao/lista">Listar Orgãos</a></li>
             </ul>
-          <li>
+          <li class="has_sub">
             <a href="#"><i class="fa fa-file-o"></i> Usuário <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
             <ul>
               <li><a href="${request.route_url('root')}usuario/cadastro">Cadastrar Usuário</a></li>
