@@ -14,31 +14,31 @@
                     <!-- Visitors, pageview, bounce rate, etc., Sparklines plugin used -->
                     <ul id='favoritos-off' class="current-status">
                         <label class="checkbox-inline">
-                            <input type="checkbox" id="inlineCheckbox3" value="option3">Cadastro de Órgãos
+                            <input type="checkbox" id="cadastro">Cadastro de Órgãos
                         </label>
                       <li>
                         <label class="checkbox-inline">
-                            <input type="checkbox" id="inlineCheckbox3" value="option3">Lista de Órgãos
+                            <input type="checkbox" id="inlineCheckbox3">Lista de Órgãos
                         </label>
                       </li>
                         <label class="checkbox-inline">
-                            <input type="checkbox" id="inlineCheckbox3" value="option3">Cadastro de Usuario
+                            <input type="checkbox" id="inlineCheckbox3">Cadastro de Usuario
                         </label>
                       <li>
                         <label class="checkbox-inline">
-                            <input type="checkbox" id="inlineCheckbox3" value="option3">Lista de Usuario
+                            <input type="checkbox" id="inlineCheckbox3">Lista de Usuario
                         </label>
                       </li>
                         <label class="checkbox-inline">
-                            <input type="checkbox" id="inlineCheckbox3" value="option3">Gráficos
+                            <input type="checkbox" id="inlineCheckbox3">Gráficos
                         </label>
                       <li>
                         <label class="checkbox-inline">
-                            <input type="checkbox" id="inlineCheckbox3" value="option3">Questionar Coleta
+                            <input type="checkbox" id="inlineCheckbox3">Questionar Coleta
                         </label>
                       </li>
                         <label class="checkbox-inline">
-                            <input type="checkbox" id="inlineCheckbox3" value="option3">Notificações
+                            <input type="checkbox" id="inlineCheckbox3">Notificações
                         </label>
                     </ul>
                   </div>
