@@ -75,7 +75,7 @@
                 }
                 $.ajax({
                     type: "POST",
-                    url: "post_orgao",
+                    url: "${request.route_url('root')}post_orgao",
                     data: data, 
                     success: function(){ alert('aaaaaaaaaaaaaaaaaaaaaa')   },
                     error: function(){ alert('ooooooooooooooooooooooooo') },

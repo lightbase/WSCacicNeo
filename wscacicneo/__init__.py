@@ -52,6 +52,7 @@ def main(global_config, **settings):
     config.add_route('put_user', 'put_user')
     config.add_route('edituser', 'usuario/editar/{matricula}')
     config.add_route('favoritos', 'usuario/favoritos/{matricula}')
+    config.add_route('edit_favoritos', 'edit_favoritos')
     config.add_route('listuser', 'usuario/lista')
     config.add_route('delete_user', 'usuario/delete/{matricula}')
     #

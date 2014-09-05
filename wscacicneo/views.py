@@ -119,7 +119,10 @@ def favoritos(request):
     )
     search = user_obj.search_user(matricula)
     favoritos = search.results[0].favoritos
-    return {'favoritos': favoritos  }
+    return {
+            'favoritos': search.results[0].favoritos,
+            'itens': search.results[0].itens
+            }
 
 @view_config(route_name='config', renderer='templates/config.pt')
 def config(request):
@@ -318,7 +321,7 @@ def post_user(request):
     doc = request.params
     document = doc['favoritos']
     favoritos = [document]
-    print(type(favoritos))
+    itens = [doc['lista_orgao'], doc['cadastro_orgao'], doc['lista_user'], doc['cadastro_user'], doc['relatorios'], doc['coleta'], doc['notify']]
     user_obj = User(
         nome = doc['nome'],
         matricula = doc['matricula'],
@@ -329,7 +332,8 @@ def post_user(request):
         setor = doc['setor'],
         permissao = doc['permissao'],
         senha = doc['senha'],
-        favoritos = favoritos
+        favoritos = favoritos,
+        itens = itens
     )
     print(user_obj)
     id_doc = user_obj.create_user()
@@ -440,3 +444,30 @@ def delete_user(request):
     id = search.results[0]._metadata.id_doc
     delete = user_obj.delete_user(id)
     return Response(delete)
+
+@view_config(route_name='edit_favoritos')
+def edit_favoritos(request):
+    """
+    Editar do Favoritos
+    """
+    doc = request.params
+    value = doc['value']
+    matricula = doc['matricula']
+    path = [doc['path']]
+    user_obj = User(
+        nome = 'asdasd',
+        matricula = 'asdasd',
+        email = 'asdsad',
+        orgao = 'asdsad',
+        telefone = 'sdasd',
+        cargo = 'asdasdasd',
+        setor = 'asdasd',
+        permissao = 'asdasd',
+        senha = 'sadasdasd',
+        favoritos = ['asdasdasdasd']
+    )
+    search = user_obj.search_user(matricula)
+    id = search.results[0]._metadata.id_doc
+    update= user_obj.create_favoritos(id, path, value)
+
+    return Response(update)
