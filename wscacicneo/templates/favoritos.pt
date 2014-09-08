@@ -12,11 +12,9 @@
                 <div class="widget-content">
                   <div class="padd">
                     <!-- Visitors, pageview, bounce rate, etc., Sparklines plugin used -->
-                    <ul tal:repeat="i itens" id='favoritos-off' class="current-status">
-                        <li>
-                            <label class="checkbox-inline">
-                                <a id="${i}">${i}</a>
-                            </label>
+                    <ul  id='itens' class="current-status">
+                        <li tal:repeat="i itens">
+                            <a id="${i}">${i}</a>
                         </li>
                     </ul>
                   </div>
@@ -35,11 +33,9 @@
                 <div class="widget-content">
                   <div class="padd">
                     <!-- Visitors, pageview, bounce rate, etc., Sparklines plugin used -->
-                    <ul tal:repeat="doc favoritos" id="favoritos-on" class="current-status">
-                        <li>
-                            <label class="checkbox-inline">
-                                <a id="${doc}">${doc}</a>
-                            </label>
+                    <ul id="favoritos" class="current-status">
+                        <li tal:repeat="doc favoritos">
+                            <a id="${doc}">${doc}</a>
                         </li>
                     </ul>
                   </div>
@@ -51,34 +47,42 @@
     </metal:content>
 	<metal:content fill-slot="javascript">
         <script type="text/javascript">
-            $('a').click(function(){
-                value = $(this).html()
-                label = $(this).parent()
-                li = $(label).parent()
-                ul = $(li).parent()
-                id_ul = $(ul).attr('id')
-                if(id_ul == 'favoritos-off'){
-                    matricula = $('#matricula').html()
-                    var data = {
-                        'value': value,
-                        'path': 'favoritos',
-                        'matricula': $('#matricula').val()
-                    }
-                    $.ajax({
+            $('#itens li').on('click', function(){
+                index = $(this).index()
+                a = $(this).find('a')
+                value = $(a).html()
+                var data = {
+                    'value': value,
+                    'index': index,
+                    'path': 'favoritos',
+                    'matricula': $('#matricula').val()
+                }
+                $.ajax({
                         type: "PUT",
                         url: "${request.route_url('root')}edit_favoritos",
                         data: data, 
                         success: function(){ location.reload(); },
                         error: function(){ alert('Não foi desta vez Tente novamente mais tarde') },
-                    });
-                }
-                else if(id_ul == 'favoritos-on'){
-                    alert(value)
-                }
-                else{
-                    return true
-                }
+               });
             });
+            $('#favoritos li').on('click', function(){
+                index = $(this).index()
+                   a = $(this).find('a')
+                   value = $(a).html()
+                   var data = {
+                       'value': value,
+                       'index': index,
+                       'path': 'itens',
+                       'matricula': $('#matricula').val()
+                   }
+                   $.ajax({
+                           type: "PUT",
+                           url: "${request.route_url('root')}edit_favoritos",
+                           data: data, 
+                           success: function(){ location.reload(); },
+                           error: function(){ alert('Não foi desta vez Tente novamente mais tarde') },
+                  });
+               });
         </script>
     </metal:content>
 </metal:main>
