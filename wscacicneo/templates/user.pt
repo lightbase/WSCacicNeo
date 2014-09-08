@@ -102,7 +102,14 @@
                     'setor' : $('#setor').val(),
                     'permissao' : $('#permissao').val(),
                     'senha' : $('#senha').val(),
-                    'favoritos': 'Relatórios'
+                    'favoritos': 'Relatórios',
+                    'cadastro_orgao': 'Cadastro de Órgãos', 
+                    'lista_orgao': 'Lista de Órgãos', 
+                    'cadastro_user': 'Cadastro de Usuario', 
+                    'lista_user': 'Lista de Usuarios', 
+                    'relatorios': 'Relatorios', 
+                    'coleta': 'Questionar Coleta', 
+                    'notify': 'Notificações'
                 }
                 if (data.email.indexOf("gov.br") > -1 == false){
                   setTimeout(function() {noty({text: 'O e-mail tem que ser institucional',layout:'topRight',type:'error',timeout:5000});}, 100);

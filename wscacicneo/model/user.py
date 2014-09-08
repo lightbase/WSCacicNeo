@@ -133,6 +133,15 @@ class UserBase(WSCacicNeo):
                     multivalued=True,
                     required=False
         ))
+        itens = Field(**dict(
+                    name='itens',
+                    alias='itens',
+                    description='Itens do Usuário',
+                    datatype='Text',
+                    indices=['Textual'],
+                    multivalued=True,
+                    required=False
+        ))
 
         base_metadata = BaseMetadata(
             name='users',
@@ -149,6 +158,7 @@ class UserBase(WSCacicNeo):
         content_list.append(permissao)
         content_list.append(senha)
         content_list.append(favoritos)
+        content_list.append(itens)
 
         lbbase = Base(
             metadata=base_metadata,
@@ -252,7 +262,15 @@ class User(user_base.metaclass):
 
         return results
 
-    def edit_user(self, id, doc):
+    def create_favoritos(self, id, path, value):
+        """
+        altera um doc ou path do doc
+        """
+        results = self.documentrest.create_path(id, path, value)
+
+        return results
+
+    def edit_user(self, id, value):
         """
         altera um doc ou path do doc
         """
