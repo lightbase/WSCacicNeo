@@ -313,6 +313,7 @@ def post_user(request):
     """
     Post doc users
     """
+    print("SASDAKNADSHSADKNSADKBASDDASKJDSAKJSADHSADASDBKSADBKDSABKDSAKJ")
     rest_url = REST_URL
     userbase = UserBase().lbbase
     doc = request.params
