@@ -54,9 +54,10 @@
                 itens = ${itens}
                 itens.splice(index, 1)
                 favoritos = ${favoritos}
+                matricola = $('#url').val()
                 favoritos.push(value)
                 var data = {
-                    'matricola': $('#url').val(),
+                    'matricola': matricola,
                     'index': index,
                     'favoritos': favoritos,
                     'itens': itens,
@@ -70,11 +71,12 @@
                     'permissao' : '$permissao',
                     'senha' : '${senha}'
                 }
-                console.log(data)
+                json = JSON.stringify({'documento': data})
                 $.ajax({
                         type: "PUT",
                         url: "${request.route_url('root')}edit_favoritos",
-                        data: data, 
+                        data: json, 
+                        contentType: 'application/json',
                         success: function(){ location.reload(); },
                         error: function(){ alert('Não foi desta vez Tente novamente mais tarde') },
                });
