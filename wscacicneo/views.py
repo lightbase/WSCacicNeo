@@ -9,7 +9,6 @@ from .models import (
     DBSession,
     SistemaOperacional,
     )
-from wscacicneo.utils.utils import Utils
 from wscacicneo.model.orgao import Orgao
 from wscacicneo.model.orgao import OrgaoBase
 from wscacicneo.model.user import User
@@ -121,9 +120,18 @@ def favoritos(request):
     search = user_obj.search_user(matricula)
     favoritos = search.results[0].favoritos
     return {
-            'favoritos': search.results[0].favoritos,
-            'itens': search.results[0].itens
-            }
+        'favoritos': search.results[0].favoritos,
+        'itens': search.results[0].itens,
+        'nome' : search.results[0].nome,
+        'matricula' : search.results[0].matricula,
+        'email' : search.results[0].email,
+        'orgao' : search.results[0].orgao,
+        'telefone' : search.results[0].telefone,
+        'cargo' : search.results[0].cargo,
+        'setor' : search.results[0].setor,
+        'permissao' : search.results[0].permissao,
+        'senha' : search.results[0].senha
+    }
 
 @view_config(route_name='config', renderer='templates/config.pt')
 def config(request):
@@ -317,35 +325,30 @@ def post_user(request):
     """
     Post doc users
     """
-
     rest_url = REST_URL
     userbase = UserBase().lbbase
     doc = request.params
-    email_user = doc['email']
-    email_is_institucional = Utils.verifica_email_institucional(email_user)
-        document = doc['favoritos']
-        favoritos = [document]
-        itens = [doc['lista_orgao'], doc['cadastro_orgao'], doc['lista_user'], doc['cadastro_user'], doc['relatorios'], doc['coleta'], doc['notify']]
-        user_obj = User(
-            nome = doc['nome'],
-            matricula = doc['matricula'],
-            email = doc['email'],
-            orgao = doc['orgao'],
-            telefone = doc['telefone'],
-            cargo = doc['cargo'],
-            setor = doc['setor'],
-            permissao = doc['permissao'],
-            senha = doc['senha'],
-            favoritos = favoritos,
-            itens = itens
-        )
-        print(user_obj)
-        id_doc = user_obj.create_user()
-        print(id_doc)
+    document = doc['favoritos']
+    favoritos = [document]
+    itens = [doc['lista_orgao'], doc['cadastro_orgao'], doc['lista_user'], doc['cadastro_user'], doc['relatorios'], doc['coleta'], doc['notify']]
+    user_obj = User(
+        nome = doc['nome'],
+        matricula = doc['matricula'],
+        email = doc['email'],
+        orgao = doc['orgao'],
+        telefone = doc['telefone'],
+        cargo = doc['cargo'],
+        setor = doc['setor'],
+        permissao = doc['permissao'],
+        senha = doc['senha'],
+        favoritos = favoritos,
+        itens = itens
+    )
+    print(user_obj)
+    id_doc = user_obj.create_user()
+    print(id_doc)
 
-        return Response(str(id_doc))
-    else:
-        return Response(str('não criou'))
+    return Response(str(id_doc))
 
 @view_config(route_name='edituser', renderer='templates/editaruser.pt')
 def edituser(request):
@@ -456,24 +459,39 @@ def edit_favoritos(request):
     """
     Editar do Favoritos
     """
-    doc = request.params
-    value = doc['value']
-    matricula = doc['matricula']
-    path = [doc['path']]
+    params = request.params
+    matricula = params['matricola']
     user_obj = User(
-        nome = 'asdasd',
-        matricula = 'asdasd',
-        email = 'asdsad',
-        orgao = 'asdsad',
-        telefone = 'sdasd',
-        cargo = 'asdasdasd',
-        setor = 'asdasd',
-        permissao = 'asdasd',
-        senha = 'sadasdasd',
-        favoritos = ['asdasdasdasd']
+        nome = params['nome'],
+        matricula = params['matricula'],
+        email = params['email'],
+        orgao = params['orgao'],
+        telefone = params['telefone'],
+        cargo = params['cargo'],
+        setor = params['setor'],
+        permissao = params['permissao'],
+        senha = params['senha'],
+        favoritos = ['asdasdsad'],
+        itens = ['asdasdasd']
     )
+    itens = [params['itens']]
+    favoritos = [params['favoritos']]
+    user = {
+        'nome' : params['nome'],
+        'matricula' : params['matricula'],
+        'email' : params['email'],
+        'orgao' : params['orgao'],
+        'telefone' : params['telefone'],
+        'cargo' : params['cargo'],
+        'setor' : params['setor'],
+        'permissao' : params['permissao'],
+        'senha' : params['senha'],
+        'itens' : itens,
+        'favoritos' : favoritos
+    }
     search = user_obj.search_user(matricula)
     id = search.results[0]._metadata.id_doc
-    update= user_obj.create_favoritos(id, path, value)
+    doc = json.dumps(user)
+    edit = user_obj.edit_user(id, doc)
 
-    return Response(update)
+    return Response(edit)

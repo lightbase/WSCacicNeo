@@ -285,3 +285,11 @@ class User(user_base.metaclass):
         results = user_base.documentrest.delete(id)
 
         return results
+
+    def remove_path(self, id, path):
+        """
+        Deleta um valor especifico de um campo multivalorado
+        """
+        results = self.documentrest.delete_path(id, path)
+
+        return results

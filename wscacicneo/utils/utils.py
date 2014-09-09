@@ -8,3 +8,9 @@ class Utils:
 
     def to_url(*args):
         return '/'.join(list(args))
+
+    def verifica_email_institucional(email):
+    	if("gov.br" in email):
+    		return True
+    	else:
+    		return False

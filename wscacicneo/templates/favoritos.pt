@@ -43,7 +43,7 @@
               </div>
             <button type="button" class="btn btn-sm btn-default">Salvar</button>
             </div>
-            <input style="display:none;" id="matricula" value="${request.matchdict['matricula']}">
+            <input style="display:none;" id='url' value="${request.matchdict['matricula']}">
     </metal:content>
 	<metal:content fill-slot="javascript">
         <script type="text/javascript">
@@ -51,12 +51,26 @@
                 index = $(this).index()
                 a = $(this).find('a')
                 value = $(a).html()
+                itens = ${itens}
+                itens.splice(index, 1)
+                favoritos = ${favoritos}
+                favoritos.push(value)
                 var data = {
-                    'value': value,
+                    'matricola': $('#url').val(),
                     'index': index,
-                    'path': 'favoritos',
-                    'matricula': $('#matricula').val()
+                    'favoritos': favoritos,
+                    'itens': itens,
+                    'nome' : '${nome}',
+                    'matricula' : '${matricula}',
+                    'email' : '${email}',
+                    'orgao' : '${orgao}',
+                    'telefone' : '${telefone}',
+                    'cargo' : '${cargo}',
+                    'setor' : '${setor}', 
+                    'permissao' : '$permissao',
+                    'senha' : '${senha}'
                 }
+                console.log(data)
                 $.ajax({
                         type: "PUT",
                         url: "${request.route_url('root')}edit_favoritos",
@@ -65,24 +79,6 @@
                         error: function(){ alert('Não foi desta vez Tente novamente mais tarde') },
                });
             });
-            $('#favoritos li').on('click', function(){
-                index = $(this).index()
-                   a = $(this).find('a')
-                   value = $(a).html()
-                   var data = {
-                       'value': value,
-                       'index': index,
-                       'path': 'itens',
-                       'matricula': $('#matricula').val()
-                   }
-                   $.ajax({
-                           type: "PUT",
-                           url: "${request.route_url('root')}edit_favoritos",
-                           data: data, 
-                           success: function(){ location.reload(); },
-                           error: function(){ alert('Não foi desta vez Tente novamente mais tarde') },
-                  });
-               });
         </script>
     </metal:content>
 </metal:main>
