@@ -460,6 +460,8 @@ def edit_favoritos(request):
     Editar do Favoritos
     """
     params = request.params
+    json = json.dumps(params)
+    print(json)
     matricula = params['matricola']
     user_obj = User(
         nome = params['nome'],
@@ -474,8 +476,8 @@ def edit_favoritos(request):
         favoritos = ['asdasdsad'],
         itens = ['asdasdasd']
     )
-    itens = [params['itens']]
-    favoritos = [params['favoritos']]
+    itens = params['itens']
+    favoritos = params['favoritos']
     user = {
         'nome' : params['nome'],
         'matricula' : params['matricula'],
