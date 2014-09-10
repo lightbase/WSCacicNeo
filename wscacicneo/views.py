@@ -9,6 +9,7 @@ from .models import (
     DBSession,
     SistemaOperacional,
     )
+from wscacicneo.utils.utils import Utils
 from wscacicneo.model.orgao import Orgao
 from wscacicneo.model.orgao import OrgaoBase
 from wscacicneo.model.user import User
@@ -328,27 +329,32 @@ def post_user(request):
     rest_url = REST_URL
     userbase = UserBase().lbbase
     doc = request.params
-    document = doc['favoritos']
-    favoritos = [document]
-    itens = [doc['lista_orgao'], doc['cadastro_orgao'], doc['lista_user'], doc['cadastro_user'], doc['relatorios'], doc['coleta'], doc['notify']]
-    user_obj = User(
-        nome = doc['nome'],
-        matricula = doc['matricula'],
-        email = doc['email'],
-        orgao = doc['orgao'],
-        telefone = doc['telefone'],
-        cargo = doc['cargo'],
-        setor = doc['setor'],
-        permissao = doc['permissao'],
-        senha = doc['senha'],
-        favoritos = favoritos,
-        itens = itens
-    )
-    print(user_obj)
-    id_doc = user_obj.create_user()
-    print(id_doc)
+    email_user = doc['email']
+    email_is_institucional = Utils.verifica_email_institucional(email_user)
+    if(email_is_institucional):
+        document = doc['favoritos']
+        favoritos = [document]
+        itens = [doc['lista_orgao'], doc['cadastro_orgao'], doc['lista_user'], doc['cadastro_user'], doc['relatorios'], doc['coleta'], doc['notify']]
+        user_obj = User(
+            nome = doc['nome'],
+            matricula = doc['matricula'],
+            email = doc['email'],
+            orgao = doc['orgao'],
+            telefone = doc['telefone'],
+            cargo = doc['cargo'],
+            setor = doc['setor'],
+            permissao = doc['permissao'],
+            senha = doc['senha'],
+            favoritos = favoritos,
+            itens = itens
+        )
+        print(user_obj)
+        id_doc = user_obj.create_user()
+        print(id_doc)
 
-    return Response(str(id_doc))
+        return Response(str(id_doc))
+    else:
+        return {"yololo":"yololo"}
 
 @view_config(route_name='edituser', renderer='templates/editaruser.pt')
 def edituser(request):
