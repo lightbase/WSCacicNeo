@@ -459,41 +459,7 @@ def edit_favoritos(request):
     """
     Editar do Favoritos
     """
-    params = request.params
-    json = json.dumps(params)
+    request = request.params
+    json = json.dumps(request)
     print(json)
-    matricula = params['matricola']
-    user_obj = User(
-        nome = params['nome'],
-        matricula = params['matricula'],
-        email = params['email'],
-        orgao = params['orgao'],
-        telefone = params['telefone'],
-        cargo = params['cargo'],
-        setor = params['setor'],
-        permissao = params['permissao'],
-        senha = params['senha'],
-        favoritos = ['asdasdsad'],
-        itens = ['asdasdasd']
-    )
-    itens = params['itens']
-    favoritos = params['favoritos']
-    user = {
-        'nome' : params['nome'],
-        'matricula' : params['matricula'],
-        'email' : params['email'],
-        'orgao' : params['orgao'],
-        'telefone' : params['telefone'],
-        'cargo' : params['cargo'],
-        'setor' : params['setor'],
-        'permissao' : params['permissao'],
-        'senha' : params['senha'],
-        'itens' : itens,
-        'favoritos' : favoritos
-    }
-    search = user_obj.search_user(matricula)
-    id = search.results[0]._metadata.id_doc
-    doc = json.dumps(user)
-    edit = user_obj.edit_user(id, doc)
-
-    return Response(edit)
+    return { }
