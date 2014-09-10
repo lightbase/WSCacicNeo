@@ -71,15 +71,49 @@
                     'permissao' : '$permissao',
                     'senha' : '${senha}'
                 }
-                json = JSON.stringify({'documento': data})
+                json = JSON.stringify(data)
                 $.ajax({
                         type: "PUT",
                         url: "${request.route_url('root')}edit_favoritos",
-                        data: json, 
+                        data: {'documento': json}, 
                         success: function(){ location.reload(); },
                         error: function(){ alert('Não foi desta vez Tente novamente mais tarde') },
                });
             });
+            $('#favoritos li').on('click', function(){
+                index = $(this).index()
+                a = $(this).find('a')
+                value = $(a).html()
+                favoritos = ${favoritos}
+                favoritos.splice(index, 1)
+                itens = ${itens}
+                matricola = $('#url').val()
+                itens.push(value)
+                var data = {
+                    'matricola': matricola,
+                    'index': index,
+                    'favoritos': favoritos,
+                    'itens': itens,
+                    'nome' : '${nome}',
+                    'matricula' : '${matricula}',
+                    'email' : '${email}',
+                    'orgao' : '${orgao}',
+                    'telefone' : '${telefone}',
+                    'cargo' : '${cargo}',
+                    'setor' : '${setor}', 
+                    'permissao' : '$permissao',
+                    'senha' : '${senha}'
+                }
+                json = JSON.stringify(data)
+                $.ajax({
+                        type: "PUT",
+                        url: "${request.route_url('root')}edit_favoritos",
+                        data: {'documento': json}, 
+                        success: function(){ location.reload(); },
+                        error: function(){ alert('Não foi desta vez Tente novamente mais tarde') },
+               });
+            });
+
         </script>
     </metal:content>
 </metal:main>

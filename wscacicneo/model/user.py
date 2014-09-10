@@ -270,7 +270,7 @@ class User(user_base.metaclass):
 
         return results
 
-    def edit_user(self, id, value):
+    def edit_user(self, id, doc):
         """
         altera um doc ou path do doc
         """
