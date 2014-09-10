@@ -1,0 +1,28 @@
+<metal:main use-macro="load: master.pt">
+	<metal:content fill-slot="conteudo">
+        <div class="padd">
+            <br />
+            <!-- Form starts.  -->
+             <form class="form-horizontal" id="cadastrar_user" role="form">
+                <div class="form-group">
+                  <label class="col-lg-2 control-label">URL da Base de Dados</label>
+                  <div class="col-lg-5">
+                    <input type="text" id="url" class="form-control" placeholder="URL">
+                  </div>
+                  <div class="col-lg-5">
+                    <button type="button" id="salvar" class="btn btn-sm btn-default">Salvar</button>
+                  </div>
+                </div>
+            </form>
+          </div>
+	</metal:content>
+	<metal:content fill-slot="javascript">
+        <script type="text/javascript">
+           $('#salvar').click(function(){
+                var data = {
+                        'url': $('#url').val()
+                    }
+            }); 
+        </script>
+    </metal:content>
+</metal:main>

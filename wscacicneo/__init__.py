@@ -45,6 +45,7 @@ def main(global_config, **settings):
     config.add_route('editorgao', 'orgao/editar/{sigla}')
     config.add_route('listorgao', 'orgao/lista')
     config.add_route('delete_orgao', 'orgao/delete/{sigla}')
+    config.add_route('base_de_dados', 'orgao/base/{sigla}')
     #
     #Usuários
     config.add_route('user', 'usuario/cadastro')

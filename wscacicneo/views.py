@@ -146,46 +146,8 @@ def list(request):
 def sobre(request):
     return {'project': 'WSCacicNeo'}
 
-#formularios de cadastro de coleta
-
-@view_config(route_name='computador', renderer='templates/computador.pt')
-def computador(request):
-    return {'project': 'WSCacicNeo'}
-
-@view_config(route_name='processador', renderer='templates/processador.pt')
-def proc(request):
-    return {'project': 'WSCacicNeo'}
-
-@view_config(route_name='memoria', renderer='templates/memoria.pt')
-def memoria(request):
-    return {'project': 'WSCacicNeo'}
-
-@view_config(route_name='hd', renderer='templates/hd.pt')
-def hd(request):
-    return {'project': 'WSCacicNeo'}
-
-@view_config(route_name='escritorio', renderer='templates/escritorio.pt')
-def escritorio(request):
-    return {'project': 'WSCacicNeo'}
-
-@view_config(route_name='rede', renderer='templates/rede.pt')
-def rede(request):
-    return {'project': 'WSCacicNeo'}
-
-@view_config(route_name='basico', renderer='templates/basico.pt')
-def basico(request):
-    return {'project': 'WSCacicNeo'}
-
-@view_config(route_name='sistema', renderer='templates/sistema.pt')
-def sistema(request):
-    return {'project': 'WSCacicNeo'}
-
-@view_config(route_name='bot', renderer='templates/bot.pt')
-def bot(request):
-    return {'project': 'WSCacicNeo'}
-
-@view_config(route_name='configapi', renderer='templates/configapi.pt')
-def configapi(request):
+@view_config(route_name='base_de_dados', renderer='templates/base_dados.pt')
+def base_de_dados(request):
     return {'project': 'WSCacicNeo'}
 
 @view_config(route_name='editorgao', renderer='templates/editarorgao.pt')
@@ -238,7 +200,6 @@ def confighome(request):
 @view_config(route_name='db', renderer='templates/db.pt')
 def db(request):
     return {'project': 'WSCacicNeo'}
-
 
 #URL Órgaos
 
