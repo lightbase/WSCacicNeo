@@ -98,7 +98,8 @@ def listorgao(request):
         sigla = 'MPOG',
         endereco = 'Esplanada bloco C',
         email = 'admin@planemaneto.gov.br',
-        telefone = '(61) 2025-4117'
+        telefone = '(61) 2025-4117',
+        url = 'http://api.brlight.net/api'
     )
     search = orgao_obj.search_list_orgaos()
     return {'orgao_doc': search.results}
@@ -160,7 +161,8 @@ def editorgao(request):
         sigla = sigla,
         endereco = 'Esplanada bloco C',
         email = 'admin@planemaneto.gov.br',
-        telefone = '(61) 2025-4117'
+        telefone = '(61) 2025-4117',
+        url = 'http://api.brlight.net/api'
     )
     search = orgao_obj.search_orgao(sigla)
     return {
@@ -170,7 +172,8 @@ def editorgao(request):
         'sigla' : search.results[0].sigla,
         'endereco' : search.results[0].endereco,
         'email' : search.results[0].email,
-        'telefone' : search.results[0].telefone
+        'telefone' : search.results[0].telefone,
+        'url' : search.results[0].url
     }
 
 @view_config(route_name='notify', renderer='templates/notify.pt')
@@ -218,7 +221,8 @@ def post_orgao(request):
         sigla = doc['sigla'],
         endereco = doc['end'],
         email = doc['email'],
-        telefone = doc['telefone']
+        telefone = doc['telefone'],
+        url = doc['url']
     )
 
     id_doc = orgao_obj.create_orgao()
@@ -232,7 +236,7 @@ def put_orgao(request):
     Edita um doc apartir do id
     """
     params = request.params
-    sigla = params['url']
+    sigla = params['id']
     orgao_obj = Orgao(
         nome = params['nome'],
         cargo = params['gestor'],
@@ -240,7 +244,8 @@ def put_orgao(request):
         sigla = params['sigla'],
         endereco = params['end'],
         email = params['email'],
-        telefone = params['telefone']
+        telefone = params['telefone'],
+        url = params['url']
     )
     orgao = {
         'nome' : params['nome'],
@@ -249,7 +254,8 @@ def put_orgao(request):
         'sigla' : params['sigla'],
         'endereco' : params['end'],
         'email' : params['email'],
-        'telefone' : params['telefone']
+        'telefone' : params['telefone'],
+        'url' : params['url']
     }
     search = orgao_obj.search_orgao(sigla)
     id = search.results[0]._metadata.id_doc
@@ -272,7 +278,8 @@ def delete_orgao(request):
         sigla = 'asdasdas',
         endereco = 'asdsad',
         email = 'asdsad',
-        telefone = 'sadasd'
+        telefone = 'sadasd',
+        url = 'sadasd'
     )
     search = orgao_obj.search_orgao(sigla)
     id = search.results[0]._metadata.id_doc

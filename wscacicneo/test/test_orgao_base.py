@@ -68,11 +68,11 @@ class TestOrgaoBase(unittest.TestCase):
             sigla='MPOG',
             endereco='Esplanada bloco C',
             email='admin@planemaneto.gov.br',
-            telefone='(61) 2025-4117'
+            telefone='(61) 2025-4117',
+            url="http://api.brlight.net/api"
         )
         self.assertIsInstance(orgao_obj, orgao.Orgao)
         self.assertEqual(orgao_obj.nome, 'Ministério do Planejamento')
-        self.assertEqual(orgao_obj.cargo, 'Gestor')
 
     def tearDown(self):
         """

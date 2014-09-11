@@ -104,6 +104,17 @@ class OrgaoBase(WSCacicNeo):
             required=True
         ))
 
+        url = Field(**dict(
+            name='url',
+            alias='url',
+            description='Url da base de dados',
+            datatype='Text',
+            indices=['Textual'],
+            multivalued=False,
+            required=True
+        ))
+
+
         base_metadata = BaseMetadata(
             name='orgaos',
         )
@@ -116,6 +127,7 @@ class OrgaoBase(WSCacicNeo):
         content_list.append(email)
         content_list.append(endereco)
         content_list.append(coleta)
+        content_list.append(url)
 
         lbbase = Base(
             metadata=base_metadata,
