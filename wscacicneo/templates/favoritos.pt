@@ -41,7 +41,6 @@
                   </div>
                 </div>
               </div>
-            <button type="button" class="btn btn-sm btn-default">Salvar</button>
             </div>
             <input style="display:none;" id='url' value="${request.matchdict['matricula']}">
     </metal:content>
