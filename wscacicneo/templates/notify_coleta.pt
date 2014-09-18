@@ -1,0 +1,42 @@
+<metal:main use-macro="load: master.pt">
+    <metal:content fill-slot="conteudo">
+        <div class="widget wgreen">
+            <div class="widget-content">
+                <div class="padd">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Ministério</label>
+                            <div class="col-lg-5">
+                                <input type="text" id="ministerio" class="form-control" placeholder="Ministério">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        <label class="col-lg-2 control-label">ID da Coleta</label>
+                        <div class="col-lg-5">
+                            <input type="password" id="id_coleta" class="form-control" placeholder="ID">
+                        </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Notificação</label>
+                            <div class="col-lg-5">
+                                <textarea class="form-control" id="notify" rows="5" placeholder="Conteudo" style="margin: 0px -57.671875px 0px 0px; width: 423px; height: 104px;"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-offset-2 col-lg-6">
+                                <button type="button" id="enviar" class="btn btn-sm btn-default">Enviar</button>
+                                <button type="button" class="btn btn-sm btn-default">Cancelar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </metal:content>
+    <metal:content fill-slot="javascript">
+        <script type="text/javascript">
+            $('#enviar').click(function(){
+            });
+        </script>
+    </metal:content>
+</metal:main>

@@ -57,6 +57,9 @@ def main(global_config, **settings):
     config.add_route('listuser', 'usuario/lista')
     config.add_route('delete_user', 'usuario/delete/{matricula}')
     #
+    #Coleta
+    config.add_route('notify_coleta', 'coleta/notificacao')
+    #
     config.add_route('list', 'list')
     config.add_route('gestao', 'gestao')
     config.add_route('memoria', 'memoria')
