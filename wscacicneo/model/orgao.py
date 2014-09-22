@@ -3,7 +3,7 @@
 __author__ = 'macieski'
 
 from requests.exceptions import HTTPError
-from wscacicneo import WSCacicNeo
+from wscacicneo import config
 import logging
 from liblightbase.lbbase.struct import Base, BaseMetadata
 from liblightbase.lbbase.lbstruct.group import *
@@ -16,7 +16,7 @@ from liblightbase.lbsearch.search import Search, OrderBy
 
 log = logging.getLogger()
 
-class OrgaoBase(WSCacicNeo):
+class OrgaoBase():
     """
     Classe para a base de órgãos
     """
@@ -24,7 +24,7 @@ class OrgaoBase(WSCacicNeo):
         """
         Método construtor
         """
-        WSCacicNeo.__init__(self)
+        self.rest_url= config.REST_URL
         self.baserest = BaseREST(rest_url=self.rest_url, response_object=True)
         self.documentrest = DocumentREST(rest_url=self.rest_url,
                 base=self.lbbase, response_object=False)

@@ -3,7 +3,7 @@
 __author__ = 'adley'
 
 from requests.exceptions import HTTPError
-from wscacicneo import WSCacicNeo
+from wscacicneo import config
 import logging
 from liblightbase.lbbase.struct import Base, BaseMetadata
 from liblightbase.lbbase.lbstruct.group import *
@@ -16,7 +16,7 @@ from liblightbase.lbsearch.search import Search, OrderBy
 
 log = logging.getLogger()
 
-class UserBase(WSCacicNeo):
+class UserBase():
     """
     Classe para a base de usuários
     """
@@ -24,7 +24,7 @@ class UserBase(WSCacicNeo):
         """
         Método construtor
         """
-        WSCacicNeo.__init__(self)
+        self.rest_url = config.REST_URL
         self.baserest = BaseREST(rest_url=self.rest_url, response_object=True)
         self.documentrest = DocumentREST(rest_url=self.rest_url,
                 base=self.lbbase, response_object=False)
@@ -179,7 +179,6 @@ class UserBase(WSCacicNeo):
         Cria base no LB
         """
         response = self.baserest.create(self.lbbase)
-        #print(response.status_code)
         if response.status_code == 200:
             return self.lbbase
         else:
@@ -291,5 +290,17 @@ class User(user_base.metaclass):
         Deleta um valor especifico de um campo multivalorado
         """
         results = self.documentrest.delete_path(id, path)
+
+        return results
+
+    def search_user_by_email(self, email):
+        """
+        Busca registro completo do usuário pelo email
+        :return: obj collection com os dados da base
+        """
+        search = Search(
+            literal="document->>'email' = '"+email+"'"
+        )
+        results = self.documentrest.get_collection(search_obj=search)
 
         return results

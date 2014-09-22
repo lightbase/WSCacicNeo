@@ -1,89 +1,85 @@
 #!/usr/env python
 # -*- coding: utf-8 -*-
-import os
-import configparser
+
+from wscacicneo import config
+from pyramid.authentication import AuthTktAuthenticationPolicy
+from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.config import Configurator
 
-
-config = configparser.ConfigParser()
-here = os.path.abspath(os.path.dirname(__file__))
-config_file = os.path.join(here, '../development.ini')
-config.read(config_file)
-
-
-class WSCacicNeo(object):
-    """
-    Classe genérica com os parâmetros de configuração
-    """
-    def __init__(self):
-        """
-        Método construtor
-        """
-        self.rest_url = config.get('lbgenerator', 'rest_url')
 
 
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
-    config = Configurator(settings=settings)
-    config.include('pyramid_chameleon')
-    config.add_static_view('static', 'static', cache_max_age=3600)
-    config.add_route('master', 'master')
-    config.add_route('blankmaster', 'blankmaster')
-    config.add_route('root', '/')
+    
+    config.setup(settings)
+    from wscacicneo.security import groupfinder
+    authn_policy = AuthTktAuthenticationPolicy(
+    'sosecret', callback=groupfinder, hashalg='sha512')
+    authz_policy = ACLAuthorizationPolicy()
+    cfg = Configurator(settings=settings, root_factory='wscacicneo.models.RootFactory')
+    cfg.set_authentication_policy(authn_policy)
+    cfg.set_authorization_policy(authz_policy)
+    
+    cfg.include('pyramid_chameleon')
+    cfg.add_static_view('static', 'static', cache_max_age=3600)
+    cfg.add_route('master', 'master')
+    cfg.add_route('blankmaster', 'blankmaster')
+    cfg.add_route('root', '/')
 
-    config.add_route('home', 'home')
-    config.add_route('graficop', 'graficop')
-    config.add_route('notifications', 'notifications')
-    config.add_route('admin', 'admin')
-    config.add_route('proc', 'proc')
-    config.add_route('sistema', 'sistema')
-    #Órgão
-    config.add_route('orgao', 'orgao/cadastro')
-    config.add_route('post_orgao', 'post_orgao')
-    config.add_route('put_orgao', 'put_orgao')
-    config.add_route('editorgao', 'orgao/editar/{sigla}')
-    config.add_route('listorgao', 'orgao/lista')
-    config.add_route('delete_orgao', 'orgao/delete/{sigla}')
-    config.add_route('base_de_dados', 'orgao/base/{sigla}')
+    cfg.add_route('home', 'home')
+    cfg.add_route('graficop', 'graficop')
+    cfg.add_route('notifications', 'notifications')
+    cfg.add_route('admin', 'admin')
+    cfg.add_route('proc', 'proc')
+    cfg.add_route('sistema', 'sistema')
+    cfg
+    cfg.add_route('orgao', 'orgao/cadastro')
+    cfg.add_route('post_orgao', 'post_orgao')
+    cfg.add_route('put_orgao', 'put_orgao')
+    cfg.add_route('editorgao', 'orgao/editar/{sigla}')
+    cfg.add_route('listorgao', 'orgao/lista')
+    cfg.add_route('delete_orgao', 'orgao/delete/{sigla}')
+    cfg.add_route('base_de_dados', 'orgao/base/{sigla}')
     #
-    #Usuários
-    config.add_route('user', 'usuario/cadastro')
-    config.add_route('post_user', 'post_user')
-    config.add_route('put_user', 'put_user')
-    config.add_route('edituser', 'usuario/editar/{matricula}')
-    config.add_route('favoritos', 'usuario/favoritos/{matricula}')
-    config.add_route('edit_favoritos', 'edit_favoritos')
-    config.add_route('listuser', 'usuario/lista')
-    config.add_route('delete_user', 'usuario/delete/{matricula}')
+    
+    cfg.add_route('user', 'usuario/cadastro')
+    cfg.add_route('post_user', 'post_user')
+    cfg.add_route('put_user', 'put_user')
+    cfg.add_route('edituser', 'usuario/editar/{matricula}')
+    cfg.add_route('favoritos', 'usuario/favoritos/{matricula}')
+    cfg.add_route('edit_favoritos', 'edit_favoritos')
+    cfg.add_route('listuser', 'usuario/lista')
+    cfg.add_route('delete_user', 'usuario/delete/{matricula}')
     #
-    config.add_route('list', 'list')
-    config.add_route('gestao', 'gestao')
-    config.add_route('memoria', 'memoria')
-    config.add_route('basico', 'basico')
-    config.add_route('rede', 'rede')
-    config.add_route('escritorio', 'escritorio')
-    config.add_route('hd', 'hd')
-    config.add_route('config', 'config')
-    config.add_route('bot', 'bot')
-    config.add_route('login', 'login')
-    config.add_route('reports', 'reports')
-    config.add_route('computador', 'computador')
-    config.add_route('busca', 'busca')
-    config.add_route('gestor', 'gestor')
-    config.add_route('diagnostic', 'diagnostic')
-    config.add_route('cadastro', 'cadastro')
-    config.add_route('sobre', 'sobre')
-    config.add_route('perfil', 'perfil')
-    config.add_route('configapi','configapi')
-    config.add_route('notify','notify')
-    config.add_route('processador','processador')
-    config.add_route('configcoleta','configcoleta')
-    config.add_route('configfav','configfav')
-    config.add_route('reportsgestor','reportsgestor')
-    config.add_route('questionarcoleta','questionarcoleta')
-    config.add_route('confighome','confighome')
-    config.add_route('db','db')
-    config.scan()
-    return config.make_wsgi_app()
-
+    cfg.add_route('list', 'list')
+    cfg.add_route('gestao', 'gestao')
+    cfg.add_route('memoria', 'memoria')
+    cfg.add_route('basico', 'basico')
+    cfg.add_route('rede', 'rede')
+    cfg.add_route('escritorio', 'escritorio')
+    cfg.add_route('hd', 'hd')
+    cfg.add_route('config', 'config')
+    cfg.add_route('bot', 'bot')
+    cfg.add_route('login', 'login')
+    cfg.add_route('loginautentication', 'loginautentication')
+    cfg.add_route('logout', 'logout')
+    cfg.add_route('reports', 'reports')
+    cfg.add_route('computador', 'computador')
+    cfg.add_route('busca', 'busca')
+    cfg.add_route('gestor', 'gestor')
+    cfg.add_route('diagnostic', 'diagnostic')
+    cfg.add_route('cadastro', 'cadastro')
+    cfg.add_route('sobre', 'sobre')
+    cfg.add_route('perfil', 'perfil')
+    cfg.add_route('configapi','configapi')
+    cfg.add_route('notify','notify')
+    cfg.add_route('processador','processador')
+    cfg.add_route('configcoleta','configcoleta')
+    cfg.add_route('configfav','configfav')
+    cfg.add_route('reportsgestor','reportsgestor')
+    cfg.add_route('questionarcoleta','questionarcoleta')
+    cfg.add_route('confighome','confighome')
+    cfg.add_route('db','db')
+    cfg.scan()
+    return cfg.make_wsgi_app()

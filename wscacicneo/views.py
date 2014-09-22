@@ -17,7 +17,12 @@ from wscacicneo.model.user import UserBase
 from liblightbase.lbbase.struct import Base
 from liblightbase.lbutils import conv
 from liblightbase.lbrest.document import DocumentREST
+from pyramid.view import forbidden_view_config
 
+from pyramid.security import (
+    remember,
+    forget,
+    )
 
 engine = create_engine('postgresql://rest:rest@localhost/cacic')
 REST_URL = 'http://api.brlight.net/api'
@@ -73,16 +78,8 @@ def admin(request):
 def diagnostic(request):
     return {'project': 'WSCacicNeo'}
 
-@view_config(route_name='user', renderer='templates/user.pt')
-def user(request):
-    return {'project': 'WSCacicNeo'}
-
 @view_config(route_name='cadastro', renderer='templates/cadastro.pt')
 def cadastro(request):
-    return {'project': 'WSCacicNeo'}
-
-@view_config(route_name='login', renderer='templates/login.pt')
-def login(request):
     return {'project': 'WSCacicNeo'}
 
 @view_config(route_name='orgao', renderer='templates/orgao.pt')
@@ -226,7 +223,6 @@ def post_orgao(request):
     )
 
     id_doc = orgao_obj.create_orgao()
-    print(id_doc)
 
     return Response(str(id_doc))
 
@@ -289,6 +285,10 @@ def delete_orgao(request):
 
 #URL Users
 
+@view_config(route_name='user', renderer='templates/user.pt', permission='edit')
+def user(request):
+    return {'project': 'WSCacicNeo'}
+
 @view_config(route_name='post_user')
 def post_user(request):
     """
@@ -302,7 +302,7 @@ def post_user(request):
     if(email_is_institucional):
         document = doc['favoritos']
         favoritos = [document]
-        itens = [doc['lista_orgao'], doc['cadastro_orgao'], doc['lista_user'], doc['cadastro_user'], doc['relatorios'], doc['coleta'], doc['notify']]
+        itens = [doc['lista_orgao'], doc['cadastro_orgao'], doc['lista_user'], doc['cadastro_user'], doc['coleta'], doc['notify']]
         user_obj = User(
             nome = doc['nome'],
             matricula = doc['matricula'],
@@ -316,15 +316,13 @@ def post_user(request):
             favoritos = favoritos,
             itens = itens
         )
-        print(user_obj)
         id_doc = user_obj.create_user()
-        print(id_doc)
 
         return Response(str(id_doc))
     else:
         return {"yololo":"yololo"}
 
-@view_config(route_name='edituser', renderer='templates/editaruser.pt')
+@view_config(route_name='edituser', renderer='templates/editaruser.pt', permission="edit")
 def edituser(request):
     matricula = request.matchdict['matricula']
     user_obj = User(
@@ -387,7 +385,7 @@ def put_user(request):
 
     return Response(edit)
 
-@view_config(route_name='listuser', renderer='templates/list_user.pt')
+@view_config(route_name='listuser', renderer='templates/list_user.pt', permission="view")
 def listuser(request):
     user_obj = User(
         nome = 'asdasd',
@@ -466,3 +464,49 @@ def edit_favoritos(request):
 
     return Response(edit)
 
+@view_config(route_name='login', renderer='templates/login.pt')
+@forbidden_view_config(renderer='templates/login.pt')
+def login(request):
+    user_obj = User(
+        nome = 'asdasd',
+        matricula = 'asdasd',
+        email = 'asdsad',
+        orgao = 'asdsad',
+        telefone = 'sdasd',
+        cargo = 'asdasdasd',
+        setor = 'asdasd',
+        permissao = 'asdasd',
+        senha = 'sadasdasd',
+        favoritos = ['asdasdasdasd']
+    )
+    login_url = request.route_url('login')
+    referrer = request.url
+    if referrer == login_url:
+        referrer = request.route_url('root') + 'home' # never use the login form itself as came_from
+    came_from = request.params.get('came_from', referrer)
+    message = ''
+    email = ''
+    senha = ''
+    if 'form.submitted' in request.params:
+        email = request.params['email']
+        senha = request.params['senha']
+        usuario = user_obj.search_user_by_email(email)
+        if usuario.results[0].senha == senha:
+            headers = remember(request, email)
+            return HTTPFound(location = came_from,
+                             headers = headers)
+        message = 'Failed login'
+
+    return dict(
+        message = message,
+        url = request.application_url + '/login',
+        came_from = came_from,
+        email = email,
+        senha = senha,
+        )
+
+@view_config(route_name='logout')
+def logout(request):
+    headers = forget(request)
+    return HTTPFound(location = request.route_url('login'),
+                     headers = headers)
