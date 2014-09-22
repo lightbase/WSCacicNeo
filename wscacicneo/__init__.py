@@ -52,6 +52,7 @@ def main(global_config, **settings):
     cfg.add_route('listuser', 'usuario/lista')
     cfg.add_route('delete_user', 'usuario/delete/{matricula}')
     #
+
     cfg.add_route('list', 'list')
     cfg.add_route('gestao', 'gestao')
     cfg.add_route('memoria', 'memoria')

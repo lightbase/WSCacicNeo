@@ -86,6 +86,10 @@ def cadastro(request):
 def orgao(request):
     return {'project': 'WSCacicNeo'}
 
+@view_config(route_name='notify_coleta', renderer='templates/notify_coleta.pt')
+def notify_coleta(request):
+    return {'project': 'WSCacicNeo'}
+
 @view_config(route_name='listorgao', renderer='templates/list_orgao.pt')
 def listorgao(request):
     orgao_obj = Orgao(
