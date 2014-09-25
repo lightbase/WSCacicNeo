@@ -11,7 +11,7 @@ from pyramid.config import Configurator
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
-    
+
     config.setup(settings)
     from wscacicneo.security import groupfinder
     authn_policy = AuthTktAuthenticationPolicy(
@@ -20,7 +20,7 @@ def main(global_config, **settings):
     cfg = Configurator(settings=settings, root_factory='wscacicneo.models.RootFactory')
     cfg.set_authentication_policy(authn_policy)
     cfg.set_authorization_policy(authz_policy)
-    
+
     cfg.include('pyramid_chameleon')
     cfg.add_static_view('static', 'static', cache_max_age=3600)
     cfg.add_route('master', 'master')
@@ -42,7 +42,6 @@ def main(global_config, **settings):
     cfg.add_route('delete_orgao', 'orgao/delete/{sigla}')
     cfg.add_route('base_de_dados', 'orgao/base/{sigla}')
     #
-    
     cfg.add_route('user', 'usuario/cadastro')
     cfg.add_route('post_user', 'post_user')
     cfg.add_route('put_user', 'put_user')
@@ -51,8 +50,9 @@ def main(global_config, **settings):
     cfg.add_route('edit_favoritos', 'edit_favoritos')
     cfg.add_route('listuser', 'usuario/lista')
     cfg.add_route('delete_user', 'usuario/delete/{matricula}')
+    cfg.add_route('notify', 'lista/notificacoes')
+    cfg.add_route('post_notify', 'post_notify')
     #
-
     cfg.add_route('list', 'list')
     cfg.add_route('gestao', 'gestao')
     cfg.add_route('memoria', 'memoria')
@@ -74,7 +74,6 @@ def main(global_config, **settings):
     cfg.add_route('sobre', 'sobre')
     cfg.add_route('perfil', 'perfil')
     cfg.add_route('configapi','configapi')
-    cfg.add_route('notify','notify')
     cfg.add_route('processador','processador')
     cfg.add_route('configcoleta','configcoleta')
     cfg.add_route('configfav','configfav')
