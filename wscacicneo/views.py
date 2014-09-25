@@ -66,8 +66,8 @@ def graficop(request):
 def gestor(request):
     return {'project': 'WSCacicNeo'}
 
-@view_config(route_name='notifications', renderer='templates/dashboard.pt')
-def notifications(request):
+@view_config(route_name='notify', renderer='templates/notify_coleta.pt')
+def notify(request):
     return {'project': 'WSCacicNeo'}
 
 @view_config(route_name='admin', renderer='templates/admin.pt')
@@ -172,10 +172,6 @@ def editorgao(request):
         'telefone' : search.results[0].telefone,
         'url' : search.results[0].url
     }
-
-@view_config(route_name='notify', renderer='templates/notify.pt')
-def notify(request):
-    return {'project': 'WSCacicNeo'}
 
 @view_config(route_name='configcoleta', renderer='templates/configcoleta.pt')
 def configcoleta(request):
@@ -349,6 +345,11 @@ def edituser(request):
         'senha' : search.results[0].senha
     }
 
+@view_config(route_name='post_notify')
+def post_notify(request):
+    print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+    return { }
+
 @view_config(route_name='put_user')
 def put_user(request):
     """
@@ -515,3 +516,5 @@ def logout(request):
     headers = forget(request)
     return HTTPFound(location = request.route_url('login'),
                      headers = headers)
+
+
