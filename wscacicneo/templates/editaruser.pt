@@ -114,7 +114,6 @@
                     'permissao': permissao,
                     'senha': senha
                 }
-
                 if (data.email.indexOf("gov.br") > -1 == false){
                    alert('Somente é permitido cadastro de e-mails institucionais');
                 }else{

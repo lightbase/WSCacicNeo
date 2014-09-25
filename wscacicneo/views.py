@@ -86,10 +86,6 @@ def cadastro(request):
 def orgao(request):
     return {'project': 'WSCacicNeo'}
 
-@view_config(route_name='notify_coleta', renderer='templates/notify_coleta.pt')
-def notify_coleta(request):
-    return {'project': 'WSCacicNeo'}
-
 @view_config(route_name='listorgao', renderer='templates/list_orgao.pt')
 def listorgao(request):
     orgao_obj = Orgao(
@@ -324,7 +320,7 @@ def post_user(request):
 
         return Response(str(id_doc))
     else:
-        return {"yololo":"yololo"}
+        return {"emailerrado":"emailerrado"}
 
 @view_config(route_name='edituser', renderer='templates/editaruser.pt', permission="edit")
 def edituser(request):
@@ -384,10 +380,15 @@ def put_user(request):
     }
     search = user_obj.search_user(matricula)
     id = search.results[0]._metadata.id_doc
-    doc = json.dumps(user)
-    edit = user_obj.edit_user(id, doc)
+    email_user = params['email']
+    email_is_institucional = Utils.verifica_email_institucional(email_user)
+    if(email_is_institucional):
+        doc = json.dumps(user)
+        edit = user_obj.edit_user(id, doc)
+        return Response(edit)
 
-    return Response(edit)
+    else:
+        return { }
 
 @view_config(route_name='listuser', renderer='templates/list_user.pt', permission="view")
 def listuser(request):
