@@ -20,11 +20,14 @@ class ColetaManualBase():
     """
     Classe para a base de usuários
     """
-    def __init__(self):
+    def __init__(self, rest_url=None):
         """
         Método construtor
         """
-        self.rest_url = config.REST_URL
+        if rest_url is None:
+            self.rest_url = config.REST_URL
+        else:
+            self.rest_url = rest_url
         self.baserest = BaseREST(rest_url=self.rest_url, response_object=True)
         self.documentrest = DocumentREST(rest_url=self.rest_url,
                 base=self.lbbase, response_object=False)
@@ -126,9 +129,9 @@ class ColetaManualBase():
             required=True
         ))
         idade_memoria = Field(**dict(
-            name='idade_memória',
+            name='idade_memoria',
             description='Idade do Memória',
-            alias='idade_memória',
+            alias='idade_memoria',
             datatype='Text',
             indices=['Textual'],
             multivalued=False,
@@ -198,6 +201,9 @@ class ColetaManualBase():
 
         sistemaoperacional_metadata = GroupMetadata(
             name='sistemaoperacional',
+            alias='sistemaoperacional',
+            description='Sistema Operacional',
+            multivalued = False
         )
 
         sistemaoperacional = Group(
@@ -214,6 +220,9 @@ class ColetaManualBase():
 
         bios_metadata = GroupMetadata(
             name='bios',
+            alias='bios',
+            description='Bios',
+            multivalued = False
         )
 
         bios = Group(
@@ -231,6 +240,9 @@ class ColetaManualBase():
 
         memoria_metadata = GroupMetadata(
             name='memoria',
+            alias='memoria',
+            description='Memória',
+            multivalued = False
         )
 
         memoria = Group(
@@ -249,6 +261,9 @@ class ColetaManualBase():
 
         hd_metadata = GroupMetadata(
             name='hd',
+            alias='hd',
+            description='HD',
+            multivalued = False
         )
 
         hd = Group(
@@ -266,6 +281,9 @@ class ColetaManualBase():
 
         processador_metadata = GroupMetadata(
             name='processador',
+            alias='processador',
+            description='Processador',
+            multivalued = False
         )
 
         processador = Group(
@@ -273,6 +291,21 @@ class ColetaManualBase():
             content = processador_content
         )
 
+        base_metadata = BaseMetadata(
+            name='coleta_manual',
+        )
+
+        content_list = Content()
+        content_list.append(processador)
+        content_list.append(hd)
+        content_list.append(bios)
+        content_list.append(memoria)
+        content_list.append(sistemaoperacional)
+
+        lbbase = Base(
+            metadata=base_metadata,
+            content=content_list
+        )
 
         return lbbase
 
