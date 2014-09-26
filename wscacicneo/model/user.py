@@ -20,11 +20,14 @@ class UserBase():
     """
     Classe para a base de usuários
     """
-    def __init__(self):
+    def __init__(self, rest_url=None):
         """
         Método construtor
         """
-        self.rest_url = config.REST_URL
+        if rest_url is None:
+            self.rest_url = config.REST_URL
+        else:
+            self.rest_url = rest_url
         self.baserest = BaseREST(rest_url=self.rest_url, response_object=True)
         self.documentrest = DocumentREST(rest_url=self.rest_url,
                 base=self.lbbase, response_object=False)

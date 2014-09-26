@@ -3,36 +3,29 @@
 __author__ = 'adley'
 
 import unittest
-from wscacicneo.model import user
+import configparser
+import os
+from wscacicneo.model import coleta_manual
 from liblightbase.lbbase.struct import Base
 from liblightbase.lbutils import conv
+from pyramid import testing
 
 class TestColetaManualBase(unittest.TestCase):
-    """
-    Testa base do órgão no LB
-    """
+
+
     def setUp(self):
-        """
-        Carregando atributos genéricos do teste
-        """
-        pass
+        self.rest_url = 'http://api.brlight.net/api'
 
     def test_create_base(self):
         """
         Testa criação da base no LB
         """
-        user_base = user.UserBase()
-        lbbase = user_base.lbbase
+        coletaManualBase = coleta_manual.ColetaManualBase(self.rest_url)
+        lbbase = coletaManualBase.lbbase
         self.assertIsInstance(lbbase, Base)
 
-        retorno = user_base.create_base()
+        retorno = coletaManualBase.create_base()
         self.assertIsInstance(retorno, Base)
 
-        #retorno = user_base.remove_base()
-        #self.assertTrue(retorno)
-
     def tearDown(self):
-        """
-        Apaga dados do teste
-        """
         pass

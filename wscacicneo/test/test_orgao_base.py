@@ -15,13 +15,13 @@ class TestOrgaoBase(unittest.TestCase):
         """
         Carregando atributos genéricos do teste
         """
-        pass
+        self.rest_url = 'http://api.brlight.net/api'
 
     def test_base(self):
         """
         Testa criação do objeto base no LB
         """
-        orgao_base = orgao.OrgaoBase()
+        orgao_base = orgao.OrgaoBase(self.rest_url)
         lbbase = orgao_base.lbbase
         self.assertIsInstance(lbbase, Base)
 
