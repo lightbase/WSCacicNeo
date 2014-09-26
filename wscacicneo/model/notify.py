@@ -133,7 +133,7 @@ class Notify(notify_base.metaclass):
     Classe genérica de órgãos
     """
     def __init__(self, **args):
-        super(Orgao, self).__init__(**args)
+        super(Notify, self).__init__(**args)
         self.documentrest = notify_base.documentrest
 
     def notify_to_dict(self):
