@@ -1,0 +1,62 @@
+<metal:main use-macro="load: master.pt">
+	<metal:content fill-slot="conteudo">
+        <div class="matter">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="widget">
+                            <div class="widget-head">
+                                <div class="pull-left">Data Tables</div>
+                                    <div class="widget-icons pull-right">
+                                        <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
+                                            <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    </div>
+                                    <div class="widget-content">
+                                        <div class="padd">
+                                            <div class="page-tables">
+                                                <div class="table-responsive">
+                                                    <table cellpadding="0" cellspacing="0" border="0" id="data-table" width="100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Órgão</th>
+                                                                <th>ID da Coleta</th>
+                                                                <th>Vizualizada</th>
+                                                                <th>Notificação</th>
+                                                                <th>Opções</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr tal:repeat="coleta doc">
+                                                                <td>${coleta.orgao}</td>
+                                                                <td>${coleta.id_coleta}</td>
+                                                                <td>${coleta.status}</td>
+                                                                <td>${coleta.notify}</td>
+                                                                <td>
+                                                                    <a class="btn btn-xs btn-success"><i class="fa fa-check"></i></a>
+                                                                    <a href="${request.route_url('root')}" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i></a>
+                                                                    <a href="${request.route_url('root')}" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+
+                                                    </table>
+                                                    <div class="clearfix"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <div class="widget-foot">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </metal:content>
+	<metal:content fill-slot="javascript">
+        <script type="text/javascript">
+        </script>
+    </metal:content>
+</metal:main>

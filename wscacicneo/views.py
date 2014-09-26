@@ -39,7 +39,7 @@ def blankmaster(request):
 
 @view_config(route_name='master', renderer='templates/master.pt')
 def master(request):
-    return {'project': 'WSCacicNeo'}
+    return { }
 
 @view_config(route_name='root')
 def root(request):
@@ -49,9 +49,18 @@ def root(request):
 def home(request):
     return {'project': 'WSCacicNeo'}
 
-@view_config(route_name='reports', renderer='templates/reports.pt')
+@view_config(route_name='list_notify', renderer='templates/list_notify.pt')
 def reports(request):
-    return {'project': 'WSCacicNeo'}
+    notify_obj = Notify(
+        orgao = 'deasdsd',
+        id_coleta = 'saudhasd',
+        notify = 'sadsad',
+        status = 'sadasd'
+    )
+    reg = notify_obj.search_list_notify()
+    doc = reg.results
+    print(doc,'aaaaaaaaaaaaaaa')
+    return {'doc': doc}
 
 @view_config(route_name='gestao', renderer='templates/gestao.pt')
 def gestao(request):
