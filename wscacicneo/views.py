@@ -14,6 +14,9 @@ from wscacicneo.model.orgao import Orgao
 from wscacicneo.model.orgao import OrgaoBase
 from wscacicneo.model.user import User
 from wscacicneo.model.user import UserBase
+from wscacicneo.model.notify import Notify
+from wscacicneo.model.notify import NotifyBase
+
 from liblightbase.lbbase.struct import Base
 from liblightbase.lbutils import conv
 from liblightbase.lbrest.document import DocumentREST
@@ -36,7 +39,7 @@ def blankmaster(request):
 
 @view_config(route_name='master', renderer='templates/master.pt')
 def master(request):
-    return {'project': 'WSCacicNeo'}
+    return { }
 
 @view_config(route_name='root')
 def root(request):
@@ -46,9 +49,18 @@ def root(request):
 def home(request):
     return {'project': 'WSCacicNeo'}
 
-@view_config(route_name='reports', renderer='templates/reports.pt')
+@view_config(route_name='list_notify', renderer='templates/list_notify.pt')
 def reports(request):
-    return {'project': 'WSCacicNeo'}
+    notify_obj = Notify(
+        orgao = 'deasdsd',
+        id_coleta = 'saudhasd',
+        notify = 'sadsad',
+        status = 'sadasd'
+    )
+    reg = notify_obj.search_list_notify()
+    doc = reg.results
+    print(doc,'aaaaaaaaaaaaaaa')
+    return {'doc': doc}
 
 @view_config(route_name='gestao', renderer='templates/gestao.pt')
 def gestao(request):
@@ -345,11 +357,6 @@ def edituser(request):
         'senha' : search.results[0].senha
     }
 
-@view_config(route_name='post_notify')
-def post_notify(request):
-    print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-    return { }
-
 @view_config(route_name='put_user')
 def put_user(request):
     """
@@ -517,4 +524,15 @@ def logout(request):
     return HTTPFound(location = request.route_url('login'),
                      headers = headers)
 
+@view_config(route_name='post_notify')
+def post_notify(request):
+    requests = request.params
+    notify_obj = Notify(
+        orgao = requests['orgao'],
+        id_coleta = requests['id_coleta'],
+        notify = requests['notify'],
+        status = requests['status']
+    )
+    results = notify_obj.create_notify()
+    return Response(str(results))
 

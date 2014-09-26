@@ -34,18 +34,17 @@
     <metal:content fill-slot="javascript">
         <script type="text/javascript">
             $('#enviar').click(function(){
-                alert('asdasdasd')
                 var data = {
                    'orgao' : $('#orgao').val(),
                     'id_coleta' : $('#id_coleta').val(),
                     'notify' : $('#notify').val(),
-                    'status' : True
-                }
+                    'status' : 'True'
+                };
                 $.ajax({
                         type: "POST",
                         url: "${request.route_url('root')}post_notify",
                         data: data, 
-                        success: function(){ alert('asdasdasd') },
+                        success: function(){ alert('22222222') },
                         error: function(){ alert('Não foi desta vez Tente novamente mais tarde') },
                });
             });
