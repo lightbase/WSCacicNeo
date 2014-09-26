@@ -50,7 +50,7 @@ def main(global_config, **settings):
     cfg.add_route('edit_favoritos', 'edit_favoritos')
     cfg.add_route('listuser', 'usuario/lista')
     cfg.add_route('delete_user', 'usuario/delete/{matricula}')
-    cfg.add_route('notify', 'lista/notificacoes')
+    cfg.add_route('notify', 'notificacoes/cadastro')
     cfg.add_route('post_notify', 'post_notify')
     cfg.add_route('list_notify', 'notificacoes/lista')
     #
