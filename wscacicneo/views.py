@@ -563,3 +563,6 @@ def post_notify(request):
     results = notify_obj.create_notify()
     return Response(str(results))
 
+@view_config(route_name='cadastro_coleta', renderer='templates/cadastro_coleta.pt')
+def cadastro_coleta(request):
+    return {'project': 'WSCacicNeo'}
