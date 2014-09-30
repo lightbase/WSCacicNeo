@@ -36,7 +36,7 @@
                                                                 <td>${doc.endereco}</td>
                                                                 <td>${doc.email}</td>
                                                                 <td>
-                                                                    <a class="btn btn-xs btn-success"><i class="fa fa-check"></i></a>
+                                                                    <a href="${request.route_url('root')}create/orgao/${doc.nome}" class="btn btn-xs btn-success" id="create"><i class="fa fa-check"></i></a>
                                                                     <a href="${request.route_url('root')}orgao/editar/${doc.sigla}" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i></a>
                                                                     <a href="${request.route_url('root')}orgao/delete/${doc.sigla}" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a>
                                                                 </td>

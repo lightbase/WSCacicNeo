@@ -50,10 +50,17 @@ def main(global_config, **settings):
     cfg.add_route('edit_favoritos', 'edit_favoritos')
     cfg.add_route('listuser', 'usuario/lista')
     cfg.add_route('delete_user', 'usuario/delete/{matricula}')
-    cfg.add_route('notify', 'lista/notificacoes')
+    cfg.add_route('notify', 'notificacoes/cadastro')
     cfg.add_route('post_notify', 'post_notify')
     cfg.add_route('list_notify', 'notificacoes/lista')
     cfg.add_route('cadastro_coleta', 'coleta/cadastro')
+    #
+    # base orgaos
+    cfg.add_route('create_orgao', 'create/orgao/{nm_orgao}')
+    #
+    # relatorios
+    cfg.add_route('conf_report', 'relatorios/configuracao')
+    cfg.add_route('report_hd', 'relatorio/{orgao}/{item}')
     #
     cfg.add_route('list', 'list')
     cfg.add_route('gestao', 'gestao')
