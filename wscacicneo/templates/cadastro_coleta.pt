@@ -9,77 +9,141 @@
   <li><a href="#memoria" data-toggle="tab">Memória</a></li>
   <li><a href="#processador" data-toggle="tab">Processador</a></li>
 </ul>
-<form role="form">
+<form role="form" class="form-horizontal" id="coleta_manual">
  <div class="tab-content">
   <div id="hd" class="tab-pane active">
     <br/>
      
     <div class="form-group">
       <label class="col-lg-2 control-label">Marca do HD:</label>
+      <div class="col-lg-5">
         <input type="text" id="marca_hd" class="form-control" placeholder="Marca do HD">
+      </div>
     </div>
     <div class="form-group">
       <label class="col-lg-2 control-label">Tamanho do HD:</label>
+      <div class="col-lg-5">
         <input type="text" id="tamanho_hd" class="form-control" placeholder="Tamanho do HD">
+      </div>
     </div>
     <div class="form-group">
       <label class="col-lg-2 control-label">Tipo do HD</label>
+      <div class="col-lg-5">
         <input type="text" id="tipo_hd" class="form-control" placeholder="Tipo do HD">
+      </div>
     </div>
     <div class="form-group">
       <label class="col-lg-2 control-label">Idade do HD</label>
+      <div class="col-lg-5">
         <input type="text" id="idade_hd" class="form-control" placeholder="Idade do HD">
+      </div>
     </div>
 
    </div>
    <div id="so" class="tab-pane">
     <br/>
 
-    <label class="col-lg-2 control-label">Nome do SO:</label>
-      <input type="text" id="nome_so" class="form-control" placeholder="Nome do Sistema Operacional">
-    <label class="col-lg-2 control-label">Versão do SO:</label>
-      <input type="text" id="versao_so" class="form-control" placeholder="Versão do Sistema Operacional">
-    <label class="col-lg-2 control-label">Fabricante do SO:</label>
-      <input type="text" id="fabricante_so" class="form-control" placeholder="Fabricante do Sistema Operacional">
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Nome do SO:</label>
+      <div class="col-lg-5">
+        <input type="text" id="nome_so" class="form-control" placeholder="Nome do Sistema Operacional">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Versão do SO:</label>
+      <div class="col-lg-5">
+        <input type="text" id="versao_so" class="form-control" placeholder="Versão do Sistema Operacional">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Fabricante do SO:</label>
+      <div class="col-lg-5">
+        <input type="text" id="fabricante_so" class="form-control" placeholder="Fabricante do Sistema Operacional">
+      </div>
+    </div>
+   
 
 
    </div>
   <div id="bios" class="tab-pane">
     <br/>
      
-   <label class="col-lg-2 control-label">Patrimonio da BIOS:</label>
-      <input type="text" id="patrimonio_bios" class="form-control" placeholder="Patrimonio da BIOS">
-    <label class="col-lg-2 control-label">Fabricante da BIOS:</label>
-      <input type="text" id="fabricante_bios" class="form-control" placeholder="Fabricante da BIOS">
-
+      <div class="form-group">
+      <label class="col-lg-2 control-label">Patrimonio da BIOS:</label>
+      <div class="col-lg-5">
+        <input type="text" id="patrimonio_bios" class="form-control" placeholder="Patrimonio da BIOS">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Fabricante da BIOS:</label>
+      <div class="col-lg-5">
+        <input type="text" id="fabricante_bios" class="form-control" placeholder="Fabricante da BIOS">
+      </div>
+    </div>
    
   </div>
   <div id="memoria" class="tab-pane">
     <br/>
      
-    <label class="col-lg-2 control-label">Interface da Memória:</label>
-      <input type="text" id="interface_memoria" class="form-control" placeholder="Interface da Memória">
-    <label class="col-lg-2 control-label">Armazenamento da Memória:</label>
-      <input type="text" id="armazenamento_memoria" class="form-control" placeholder="Armazenamento da Memória">
-    <label class="col-lg-2 control-label">Idade da Memória</label>
-      <input type="text" id="idade_memoria" class="form-control" placeholder="Idade da Memória">
-      
+     <div class="form-group">
+      <label class="col-lg-2 control-label">Interface da Memória:</label>
+      <div class="col-lg-5">
+        <input type="text" id="interface_memoria" class="form-control" placeholder="Interface da Memória">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Armazenamento:</label>
+      <div class="col-lg-5">
+        <input type="text" id="armazenamento_memoria" class="form-control" placeholder="Armazenamento da Memória">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Idade da Memória</label>
+      <div class="col-lg-5">
+        <input type="text" id="idade_memoria" class="form-control" placeholder="Idade da Memória">
+      </div>
+    </div> 
 
   </div>
   <div id="processador" class="tab-pane">
     <br/>
-    <label class="col-lg-2 control-label">Nome do Processador:</label>
-      <input type="text" id="nome_processador" class="form-control" placeholder="Nome do Processador">
-    <label class="col-lg-2 control-label">Versão do Processador:</label>
-      <input type="text" id="nome_processador" class="form-control" placeholder="Versão do Processador">
-    <label class="col-lg-2 control-label">Data de Instalação do Processador</label>
-      <input type="text" id="nome_processador" class="form-control" placeholder="Data de Instalação do navegador">
-     
+   
+     <div class="form-group">
+      <label class="col-lg-2 control-label">Nome do Processador:</label>
+      <div class="col-lg-5">
+        <input type="text" id="nome_processador" class="form-control" placeholder="Nome do Processador">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Versão do Processador:</label>
+      <div class="col-lg-5">
+        <input type="text" id="nome_processador" class="form-control" placeholder="Versão do Processador">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Data de Instalação</label>
+      <div class="col-lg-5">
+        <input type="text" id="nome_processador" class="form-control" placeholder="Data de Instalação do Processador">
+      </div>
+    </div> 
  
+    <div class="form-group">
+      <div class="col-lg-offset-2 col-lg-6">
+        <button type="button" id="enviar" class="btn btn-sm" style="margin-left: 315px;" >Enviar</button>
+        <button type="button" id="limpar" class="btn btn-sm">Limpar</button>
+      </div>
+    </div>
+
   </div>
 
-</div>
 </form>
 
 	</metal:content>
+  <metal:content fill-slot="javascript">
+    <script type="text/javascript">
+       $('#limpar').click(function(){
+                $('#nome_processador').val('')
+       });
+    </script>
+  </metal:content>
 </metal:main>
