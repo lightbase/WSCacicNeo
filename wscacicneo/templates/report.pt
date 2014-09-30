@@ -1,0 +1,8 @@
+<metal:main use-macro="load: master.pt">
+	<metal:content fill-slot="conteudo">
+        	</metal:content>
+	<metal:content fill-slot="javascript">
+        <script type="text/javascript">
+        </script>
+    </metal:content>
+</metal:main>

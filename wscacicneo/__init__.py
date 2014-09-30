@@ -54,6 +54,13 @@ def main(global_config, **settings):
     cfg.add_route('post_notify', 'post_notify')
     cfg.add_route('list_notify', 'notificacoes/lista')
     #
+    # base orgaos
+    cfg.add_route('create_orgao', 'create/orgao/{nm_orgao}')
+    #
+    # relatorios
+    cfg.add_route('conf_report', 'relatorios/configuracao')
+    cfg.add_route('report_hd', 'relatorio/{orgao}/{item}')
+    #
     cfg.add_route('list', 'list')
     cfg.add_route('gestao', 'gestao')
     cfg.add_route('memoria', 'memoria')

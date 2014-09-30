@@ -20,10 +20,11 @@ class ColetaManualBase():
     """
     Classe para a base de usuários
     """
-    def __init__(self, rest_url=None):
+    def __init__(self, nm_base, rest_url=None):
         """
         Método construtor
         """
+        self.nm_base = nm_base
         if rest_url is None:
             self.rest_url = config.REST_URL
         else:
@@ -292,7 +293,7 @@ class ColetaManualBase():
         )
 
         base_metadata = BaseMetadata(
-            name='coleta_manual',
+            name = self.nm_base,
         )
 
         content_list = Content()

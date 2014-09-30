@@ -1,0 +1,44 @@
+<metal:main use-macro="load: master.pt">
+	<metal:content fill-slot="conteudo">
+        <div class="padd">
+            <br />
+            <!-- Form starts.  -->
+             <form class="form-horizontal" role="form">
+                <div class="form-group">
+                  <label class="col-lg-2 control-label">Órgão</label>
+                  <div class="col-lg-2">
+                    <select  id="orgao" class="form-control">
+                      <option></option>
+                      <option tal:repeat="doc orgao_doc">${doc.sigla}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 control-label">Item</label>
+                  <div class="col-lg-2">
+                    <select id="coleta" class="form-control">
+                      <option></option>
+                      <option>processador</option>
+                      <option>hd</option>
+                      <option>bios</option>
+                      <option>memoria</option>
+                      <option>Sistemas Operacionais</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-lg-offset-2 col-lg-6">
+                    <button type="button" id="enviar" class="btn btn-sm" style="margin-left: 315px;" >Enviar</button>
+                  </div>
+                </div>
+              </form>
+          </div>
+	</metal:content>
+	<metal:content fill-slot="javascript">
+        <script type="text/javascript">
+           $('#enviar').click(function(){
+                window.location = "${request.route_url('root')}home"
+           });
+        </script>
+    </metal:content>
+</metal:main>

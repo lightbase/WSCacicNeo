@@ -1,5 +1,8 @@
 import requests
 import json
+from wscacicneo.model.orgao import Orgao
+from wscacicneo.model.orgao import OrgaoBase
+
 
 class Utils:
 

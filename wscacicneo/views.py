@@ -16,6 +16,7 @@ from wscacicneo.model.user import User
 from wscacicneo.model.user import UserBase
 from wscacicneo.model.notify import Notify
 from wscacicneo.model.notify import NotifyBase
+from wscacicneo.model import coleta_manual
 
 from liblightbase.lbbase.struct import Base
 from liblightbase.lbutils import conv
@@ -209,7 +210,33 @@ def confighome(request):
 def db(request):
     return {'project': 'WSCacicNeo'}
 
-#URL Órgaos
+@view_config(route_name='create_orgao')
+def create_base(request):
+    nm_orgao = request.matchdict['nm_orgao']
+    coletaManualBase = coleta_manual.ColetaManualBase(nm_orgao)
+    lbbase = coletaManualBase.lbbase
+    retorno = coletaManualBase.create_base()
+
+    return HTTPFound(request.route_url('root') + 'orgao/lista')
+
+@view_config(route_name='conf_report', renderer='templates/conf_report.pt')
+def conf_report(request):
+    orgao_obj = Orgao(
+        nome = 'sahuds',
+        cargo = 'cargo',
+        coleta = '4h',
+        sigla = 'MPOG',
+        endereco = 'Esplanada bloco C',
+        email = 'admin@planemaneto.gov.br',
+        telefone = '(61) 2025-4117',
+        url = 'http://api.brlight.net/api'
+    )
+    search = orgao_obj.search_list_orgaos()
+    return {'orgao_doc': search.results}
+
+@view_config(route_name='report_hd', renderer='templates/report.pt')
+def report_hd(request):
+    return { }
 
 @view_config(route_name='post_orgao')
 def post_orgao(request):
