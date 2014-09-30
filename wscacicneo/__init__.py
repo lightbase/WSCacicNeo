@@ -53,6 +53,7 @@ def main(global_config, **settings):
     cfg.add_route('notify', 'lista/notificacoes')
     cfg.add_route('post_notify', 'post_notify')
     cfg.add_route('list_notify', 'notificacoes/lista')
+    cfg.add_route('cadastro_coleta', 'coleta/cadastro')
     #
     cfg.add_route('list', 'list')
     cfg.add_route('gestao', 'gestao')
