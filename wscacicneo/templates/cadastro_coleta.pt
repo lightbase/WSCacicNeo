@@ -1,19 +1,33 @@
 <metal:main use-macro="load: master.pt">
 	<metal:content fill-slot="conteudo">
-   <ul class="nav nav-tabs">
-  <li class="active">
-    <a href="#hd" data-toggle="tab">HD</a>
-  </li>
-  <li><a href="#so" data-toggle="tab">Sistema Operacional</a></li>
-  <li><a href="#bios" data-toggle="tab">Bios</a></li>
-  <li><a href="#memoria" data-toggle="tab">Memória</a></li>
-  <li><a href="#processador" data-toggle="tab">Processador</a></li>
-</ul>
 <form role="form" class="form-horizontal" id="coleta_manual">
- <div class="tab-content">
-  <div id="hd" class="tab-pane active">
     <br/>
-     
+    <div class="form-group">
+      <div style="margin-left: 200px;font-size: 150%;">Configuração</div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Orgão:</label>
+      <div class="col-lg-5">
+        <select  id="orgao" class="form-control">
+          <option tal:repeat="doc orgao_doc">${doc.nome}</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-2 control-label">Data da Coleta:</label>
+      <div class="col-lg-5">
+         <div id="datetimepicker1" class="input-append input-group dtpicker">
+          <input data-format="dd-MM-yyyy" type="text" class="form-control">
+          <span class="input-group-addon add-on">
+            <i data-time-icon="fa fa-times" data-date-icon="fa fa-calendar"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+    <br/>
+    <div class="form-group">
+      <div style="margin-left: 200px;font-size: 150%;">Hard Disk</div>
+    </div>
     <div class="form-group">
       <label class="col-lg-2 control-label">Marca do HD:</label>
       <div class="col-lg-5">
@@ -38,11 +52,10 @@
         <input type="text" id="idade_hd" class="form-control" placeholder="Idade do HD">
       </div>
     </div>
-
-   </div>
-   <div id="so" class="tab-pane">
     <br/>
-
+    <div class="form-group">
+      <div style="margin-left: 200px;font-size: 150%;">Sistema Operacional</div>
+    </div>
     <div class="form-group">
       <label class="col-lg-2 control-label">Nome do SO:</label>
       <div class="col-lg-5">
@@ -61,13 +74,9 @@
         <input type="text" id="fabricante_so" class="form-control" placeholder="Fabricante do Sistema Operacional">
       </div>
     </div>
-   
-
-
-   </div>
-  <div id="bios" class="tab-pane">
-    <br/>
-     
+    <div class="form-group"> 
+      <div style="margin-left: 200px;font-size: 150%;">BIOS</div>
+    </div>
       <div class="form-group">
       <label class="col-lg-2 control-label">Patrimonio da BIOS:</label>
       <div class="col-lg-5">
@@ -80,12 +89,11 @@
         <input type="text" id="fabricante_bios" class="form-control" placeholder="Fabricante da BIOS">
       </div>
     </div>
-   
-  </div>
-  <div id="memoria" class="tab-pane">
     <br/>
-     
-     <div class="form-group">
+   <div class="form-group">
+    <div style="margin-left: 200px;font-size: 150%;">Memória</div>
+   </div>
+   <div class="form-group">
       <label class="col-lg-2 control-label">Interface da Memória:</label>
       <div class="col-lg-5">
         <input type="text" id="interface_memoria" class="form-control" placeholder="Interface da Memória">
@@ -103,12 +111,11 @@
         <input type="text" id="idade_memoria" class="form-control" placeholder="Idade da Memória">
       </div>
     </div> 
-
-  </div>
-  <div id="processador" class="tab-pane">
     <br/>
-   
-     <div class="form-group">
+    <div class="form-group">
+      <div style="margin-left: 200px;font-size: 150%;">Processador</div>
+    </div>
+    <div class="form-group">
       <label class="col-lg-2 control-label">Nome do Processador:</label>
       <div class="col-lg-5">
         <input type="text" id="nome_processador" class="form-control" placeholder="Nome do Processador">
@@ -126,16 +133,13 @@
         <input type="text" id="nome_processador" class="form-control" placeholder="Data de Instalação do Processador">
       </div>
     </div> 
- 
+    <br/>
+    
     <div class="form-group">
       <div class="col-lg-offset-2 col-lg-6">
         <button type="button" id="enviar" class="btn btn-sm" style="margin-left: 315px;" >Enviar</button>
         <button type="button" id="limpar" class="btn btn-sm">Limpar</button>
       </div>
-    </div>
-
-  </div>
-
 </form>
 
 	</metal:content>
