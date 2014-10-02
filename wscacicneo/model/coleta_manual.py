@@ -35,6 +35,19 @@ class ColetaManualBase():
 
     @property
     def lbbase(self):
+
+        """
+        COnfiguração da Coleta
+        """
+        data_coleta = Field(**dict(
+            name='data_coleta',
+            description='Data da Coleta',
+            alias='data_coleta',
+            datatype='Text',
+            indices=['Textual'],
+            multivalued=False,
+            required=True
+        ))
         """
         LB Processadores
         """
@@ -297,6 +310,7 @@ class ColetaManualBase():
         )
 
         content_list = Content()
+        content_list.append(data_coleta)
         content_list.append(processador)
         content_list.append(hd)
         content_list.append(bios)

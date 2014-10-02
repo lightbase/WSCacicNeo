@@ -569,4 +569,15 @@ def post_notify(request):
 
 @view_config(route_name='cadastro_coleta', renderer='templates/cadastro_coleta.pt')
 def cadastro_coleta(request):
-    return {'project': 'WSCacicNeo'}
+    orgao_obj = Orgao(
+        nome = 'sahuds',
+        cargo = 'cargo',
+        coleta = '4h',
+        sigla = 'MPOG',
+        endereco = 'Esplanada bloco C',
+        email = 'admin@planemaneto.gov.br',
+        telefone = '(61) 2025-4117',
+        url = 'http://api.brlight.net/api'
+    )
+    search = orgao_obj.search_list_orgaos()
+    return {'orgao_doc': search.results}
