@@ -25,18 +25,62 @@ class Reports():
             self.rest_url = config.REST_URL
         else:
             self.rest_url = rest_url
-        self.base = coleta_manual.ColetaManualBase(nm_base, self.rest_url).lbbase
+        self.coleta_manual_base = coleta_manual.ColetaManualBase(nm_base, self.rest_url)
+        self.base = self.coleta_manual_base.lbbase
         print(type(self.base))
         self.documentrest = DocumentREST(self.rest_url, self.base, response_object=True)
 
 
     def get_base_orgao(self):
         """
-        retorna todos os documentos da base
+        Retorna todos os documentos da base
         """
+        # A resposta nao pode ser object aqui
+        self.documentrest.response_object = False
         search = Search(
             limit=None
         )
         get = self.documentrest.get_collection(search_obj=search)
 
         return get
+
+    def get_attribute(self, attr):
+        """
+        Testa recuperar atributo do Documento
+        """
+        # A resposta nao pode ser object aqui
+        self.documentrest.response_object = False
+
+        # FIXME: Adicionar lista de atributos obrigatórios nos campos que vao retornar na busca
+        # Referência: http://dev.lightbase.cc/projects/liblightbase/repository/revisions/master/entry/liblightbase/lbbase/content.py#L34
+
+        # A busca deve obrigatoriamente retornar todos os atributos obrigatórios
+        search = Search(
+            limit=None,
+            select=[attr, "data_coleta"]
+        )
+        get = self.documentrest.get_collection(search_obj=search)
+
+        return get
+
+    def count_attribute(self, attr, child=None):
+        """
+        retorna dicionário de atributos agrupados por contador
+        """
+        attr_dict = self.get_attribute(attr)
+        results = attr_dict.results
+
+        saida = dict()
+        for elm in results:
+            if child:
+                parent = getattr(elm, attr)
+                attribute = getattr(parent, child)
+            else:
+                attribute = getattr(elm, attr)
+
+            if saida.get(attribute):
+                saida[attribute] = saida.get(attribute) + 1
+            else:
+                saida[attribute] = 1
+
+        return saida
