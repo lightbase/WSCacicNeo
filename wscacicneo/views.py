@@ -190,6 +190,10 @@ def editorgao(request):
 def configcoleta(request):
     return {'project': 'WSCacicNeo'}
 
+@view_config(route_name='error', renderer='templates/error.pt')
+def error(request):
+    return {'project': 'WSCacicNeo'}
+
 @view_config(route_name='configfav', renderer='templates/configfav.pt')
 def configfav(request):
     return {'project': 'WSCacicNeo'}
