@@ -9,7 +9,7 @@
                   <div class="col-lg-2">
                     <select  id="orgao" class="form-control">
                       <option></option>
-                      <option tal:repeat="doc orgao_doc">${doc.sigla}</option>
+                      <option tal:repeat="doc orgao_doc">${doc.nome}</option>
                     </select>
                   </div>
                 </div>
@@ -37,7 +37,28 @@
 	<metal:content fill-slot="javascript">
         <script type="text/javascript">
            $('#enviar').click(function(){
-                window.location = "${request.route_url('root')}home"
+                orgao = $('#orgao').val()
+                attr = $('#coleta').val()
+                if(attr == 'hd'){
+                    item = "tipo_hd"
+                }
+                else if(attr == 'bios'){
+                    item = "fabricante_bios"
+                }
+                else if(attr == 'Sistemas Operacionais'){
+                    attr = 'sistemaoperacional'
+                    item = 'nome_so'
+                }
+                else if(attr == 'memoria'){
+                    item = 'interface_memoria'
+                }
+                else if(attr == 'processador'){
+                    item = 'nome_processador'
+                }
+                else{
+                    alert('Selecione o Item da coleta')
+                }
+                window.location = "${request.route_url('root')}relatorio/"+orgao+"/"+attr+"/"+item+""
            });
         </script>
     </metal:content>

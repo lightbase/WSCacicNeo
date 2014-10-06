@@ -17,6 +17,7 @@ from wscacicneo.model.user import UserBase
 from wscacicneo.model.notify import Notify
 from wscacicneo.model.notify import NotifyBase
 from wscacicneo.model import coleta_manual
+from wscacicneo.model.reports import Reports
 
 from liblightbase.lbbase.struct import Base
 from liblightbase.lbutils import conv
@@ -51,7 +52,7 @@ def home(request):
     return {'project': 'WSCacicNeo'}
 
 @view_config(route_name='list_notify', renderer='templates/list_notify.pt')
-def reports(request):
+def list_notify(request):
     notify_obj = Notify(
         orgao = 'deasdsd',
         id_coleta = 'saudhasd',
@@ -198,10 +199,6 @@ def error(request):
 def configfav(request):
     return {'project': 'WSCacicNeo'}
 
-@view_config(route_name='reportsgestor', renderer='templates/reportsgestor.pt')
-def reportsgestor(request):
-    return {'project': 'WSCacicNeo'}
-
 @view_config(route_name='questionarcoleta', renderer='templates/questionarcoleta.pt')
 def questionarcoleta(request):
     return {'project': 'WSCacicNeo'}
@@ -238,9 +235,13 @@ def conf_report(request):
     search = orgao_obj.search_list_orgaos()
     return {'orgao_doc': search.results}
 
-@view_config(route_name='report_hd', renderer='templates/report.pt')
-def report_hd(request):
-    return { }
+@view_config(route_name='report_itens', renderer='templates/report.pt')
+def report_itens(request):
+    nm_orgao = request.matchdict['nm_orgao']
+    attr = request.matchdict['attr']
+    child = request.matchdict['child']
+    data = Reports(nm_orgao).count_attribute(attr, child)
+    return {'data': data }
 
 @view_config(route_name='post_orgao')
 def post_orgao(request):

@@ -46,7 +46,7 @@ class TestRelatorio(unittest.TestCase):
         hd = get_doc.get_attribute('hd')
         self.assertGreater(len(hd.results), 0)
 
-        hd_count = get_doc.count_attribute('hd', 'tipo_hd')
+        hd_count = get_doc.count_attribute('memoria', 'interface_memoria')
         fd = open('/tmp/teste.json', 'w+')
         fd.write(json.dumps(hd_count))
         fd.close()

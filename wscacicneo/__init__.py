@@ -61,7 +61,7 @@ def main(global_config, **settings):
     #
     # relatorios
     cfg.add_route('conf_report', 'relatorios/configuracao')
-    cfg.add_route('report_hd', 'relatorio/{orgao}/{item}')
+    cfg.add_route('report_itens', 'relatorio/{nm_orgao}/{attr}/{child}')
     #
     cfg.add_route('list', 'list')
     cfg.add_route('gestao', 'gestao')
@@ -75,7 +75,6 @@ def main(global_config, **settings):
     cfg.add_route('login', 'login')
     cfg.add_route('loginautentication', 'loginautentication')
     cfg.add_route('logout', 'logout')
-    cfg.add_route('reports', 'reports')
     cfg.add_route('computador', 'computador')
     cfg.add_route('busca', 'busca')
     cfg.add_route('gestor', 'gestor')
@@ -87,7 +86,6 @@ def main(global_config, **settings):
     cfg.add_route('processador','processador')
     cfg.add_route('configcoleta','configcoleta')
     cfg.add_route('configfav','configfav')
-    cfg.add_route('reportsgestor','reportsgestor')
     cfg.add_route('questionarcoleta','questionarcoleta')
     cfg.add_route('confighome','confighome')
     cfg.add_route('db','db')
