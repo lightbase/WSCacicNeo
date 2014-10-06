@@ -191,6 +191,10 @@ def editorgao(request):
 def configcoleta(request):
     return {'project': 'WSCacicNeo'}
 
+@view_config(route_name='error', renderer='templates/error.pt')
+def error(request):
+    return {'project': 'WSCacicNeo'}
+
 @view_config(route_name='configfav', renderer='templates/configfav.pt')
 def configfav(request):
     return {'project': 'WSCacicNeo'}
@@ -578,6 +582,7 @@ def cadastro_coleta(request):
     )
     search = orgao_obj.search_list_orgaos()
     return {'orgao_doc': search.results}
+
 
 @view_config(route_name='post_coleta_manual')
 def post_coleta_manual(request):

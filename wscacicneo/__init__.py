@@ -28,6 +28,7 @@ def main(global_config, **settings):
     cfg.add_route('root', '/')
 
     cfg.add_route('home', 'home')
+    cfg.add_route('error', 'error')
     cfg.add_route('graficop', 'graficop')
     cfg.add_route('notifications', 'notifications')
     cfg.add_route('admin', 'admin')

@@ -1,0 +1,45 @@
+<metal:main use-macro="load: master.pt">
+	<metal:content fill-slot="conteudo">
+<div class="container">
+
+    <div class="row">
+      <div class="col-md-12">
+        <!-- Widget starts -->
+            <div class="widget">
+              <!-- Widget head -->
+              <div class="widget-head">
+                <i class="fa fa-question-circle"></i> Error 
+              </div>
+
+              <div class="widget-content">
+                <div class="padd error">
+                  
+                  <h1>Opps!!! It's 404</h1>
+                  <p>Aliquam consequat, purus vitae auctor ullamcorper, sem velit convallis quam, a pharetra justo nunc et mauris. </p>
+                  <br>
+
+                  <div class="input-group input-group-width">
+                      <input type="text" class="form-control">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">Search</button>
+                      </span>
+                    </div>
+                                 
+                 <br>
+                 <div class="horizontal-links">
+                  <a href="index.html">Home</a></div>
+                </div>
+                <div class="widget-foot">
+                  <!-- Footer goes here -->
+                </div>
+              </div>
+            </div>  
+      </div>
+    </div>
+  </div>
+  	</metal:content>
+	<metal:content fill-slot="javascript">
+        <script type="text/javascript">
+        </script>
+    </metal:content>
+</metal:main>
