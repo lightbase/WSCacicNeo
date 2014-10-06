@@ -44,6 +44,48 @@ class Reports():
 
         return get
 
+    def coleta_to_dict(self):
+        """
+        Convert status object to Python dict
+        :return:
+        """
+
+        return conv.document2dict(coleta_base.lbbase, self)
+
+    def coleta_to_json(self):
+        """
+        Convert object to json
+        :return:
+        """
+
+        return conv.document2json(nm_base.lbbase, self)
+
+    def create_coleta(self, document):
+        """
+        Insere dados de coleta
+        """
+        document = self.coleta_to_json()
+        try:
+            coleta = self.documentrest.create(document)
+        except HTTPError as err:
+            log.error(err.strerror)
+            return None
+        
+        return coleta
+
+    def update_coleta(self,id, document):
+        """
+        Altera dados de coleta
+        """
+        coleta = self.documentrest.update(id,document)
+        return coleta
+
+    def delete_coleta(self,id, document):
+        """
+        Apaga os dados de coleta
+        """
+        coleta = self.documentrest.update(id)
+        return coleta
     def get_attribute(self, attr):
         """
         Testa recuperar atributo do Documento

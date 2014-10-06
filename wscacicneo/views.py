@@ -14,6 +14,7 @@ from wscacicneo.model.orgao import Orgao
 from wscacicneo.model.orgao import OrgaoBase
 from wscacicneo.model.user import User
 from wscacicneo.model.user import UserBase
+from wscacicneo.model.reports import Reports
 from wscacicneo.model.notify import Notify
 from wscacicneo.model.notify import NotifyBase
 from wscacicneo.model import coleta_manual
@@ -582,3 +583,42 @@ def cadastro_coleta(request):
     )
     search = orgao_obj.search_list_orgaos()
     return {'orgao_doc': search.results}
+
+
+@view_config(route_name='post_coleta_manual')
+def post_coleta_manual(request):
+    """
+    Post doc ColetaManual
+    """
+    rest_url = REST_URL
+    document = request.params
+    orgao = document['orgao']
+    coleta_obj = Reports(
+        data_coleta = document['data_coleta'],
+        marca_hd = document['marca_hd'],
+        tamanho_hd = document['tamanho_hd'],
+        tipo_hd = document['tipo_hd'],
+        idade_hd = document['idade_hd'],
+        nome_so = document['nome_so'],
+        versao_so = document['versao_so'],
+        fabricante_so = document['fabricante_so'],
+        patrimonio_bios = document['patrimonio_bios'],
+        fabricante_bios = document['fabricante_bios'],
+        interface_memoria = document['interface_memoria'],
+        armazenamento_memoria = document['armazenamento_memoria'],
+        idade_memoria = document['idade_memoria'],
+        nome_processador = document['nome_processador'],
+        versao_processador = document['versao_processador'],
+        data_instalacao_processador = document['data_instalacao_processador']
+    )
+    coleta_dict= { 
+        "data_coleta" : data_coleta,
+        "hd": {
+            "marca_hd": marca_hd,
+            "tamanho_hd": tamanho_hd,
+            "tipo_hd" : tipo_hd,
+            "idade_hd" : idade_hd
+        },
+    }
+    id_doc = coleta_obj.create_coleta(orgao,coleta_dict)
+    return Response(str(id_doc))
