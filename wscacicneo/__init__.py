@@ -59,7 +59,6 @@ def main(global_config, **settings):
     # relatorios
     cfg.add_route('conf_report', 'relatorios/configuracao')
     cfg.add_route('report_itens', 'relatorio/{nm_orgao}/{attr}/{child}')
-    cfg.add_route('report_hd', 'relatorio/{orgao}/{item}')
     # Coleta Manual
     cfg.add_route('cadastro_coleta', 'coleta/cadastro')
     cfg.add_route('post_coleta_manual', 'post_coleta_manual')
