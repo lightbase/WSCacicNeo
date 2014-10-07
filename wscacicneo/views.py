@@ -62,7 +62,6 @@ def list_notify(request):
     )
     reg = notify_obj.search_list_notify()
     doc = reg.results
-    print(doc,'aaaaaaaaaaaaaaa')
     return {'doc': doc}
 
 @view_config(route_name='gestao', renderer='templates/gestao.pt')
@@ -533,15 +532,21 @@ def login(request):
     message = ''
     email = ''
     senha = ''
+    is_visible = 'none'
     if 'form.submitted' in request.params:
         email = request.params['email']
         senha = request.params['senha']
-        usuario = user_obj.search_user_by_email(email)
-        if usuario.results[0].senha == senha:
-            headers = remember(request, email)
-            return HTTPFound(location = came_from,
-                             headers = headers)
-        message = 'Failed login'
+        try:
+            usuario = user_obj.search_user_by_email(email)
+            if usuario.results[0].senha == senha:
+                headers = remember(request, email)
+                return HTTPFound(location = came_from,
+                                 headers = headers)
+            is_visible = "block"
+            message = 'E-mail ou senha incorretos'
+        except:
+            is_visible = "block"
+            message = 'E-mail ou senha incorretos'
 
     return dict(
         message = message,
@@ -549,6 +554,7 @@ def login(request):
         came_from = came_from,
         email = email,
         senha = senha,
+        is_visible = is_visible,
         )
 
 @view_config(route_name='logout')
