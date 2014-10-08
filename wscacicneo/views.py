@@ -578,7 +578,7 @@ def post_notify(request):
 @view_config(route_name='cadastro_coleta', renderer='templates/cadastro_coleta.pt')
 def cadastro_coleta(request):
     orgao_obj = Orgao(
-        nome = 'sahuds',
+        nome = 'teste',
         cargo = 'cargo',
         coleta = '4h',
         sigla = 'MPOG',

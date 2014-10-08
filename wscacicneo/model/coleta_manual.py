@@ -48,261 +48,153 @@ class ColetaManualBase():
             multivalued=False,
             required=True
         ))
+        
         """
         LB Processadores
         """
-        nome_processador = Field(**dict(
-            name='nome_processador',
-            description='Nome do Processador',
-            alias='nome_processador',
+        Win32_Processor_Manufacturer = Field(**dict(
+            name='Win32_Processor_Manufacturer',
+            description='Win32_Processor_Manufacturer',
+            alias='Win32_Processor_Manufacturer',
             datatype='Text',
             indices=['Textual'],
             multivalued=False,
-            required=True
+            required=False
         ))
-        versao_processador = Field(**dict(
-            name='versao_processador',
-            description='Versão do Processador',
-            alias='versao_processaodr',
+        Win32_Processor_NumberOfLogicalProcessors = Field(**dict(
+            name='Win32_Processor_NumberOfLogicalProcessors',
+            description='Win32_Processor_NumberOfLogicalProcessors',
+            alias='Win32_Processor_NumberOfLogicalProcessors',
             datatype='Text',
             indices=['Textual'],
             multivalued=False,
-            required=True
-        ))
-        
-        data_instalacao_processador = Field(**dict(
-            name='data_instalacao_processador',
-            description='Data da Instalação do Processador',
-            alias='data_instalacao_processaodr',
-            datatype='Text',
-            indices=['Textual'],
-            multivalued=False,
-            required=True
-        ))
-
-        """
-        LB HD
-        """
-        marca_hd = Field(**dict(
-            name='marca_hd',
-            description='Marca do HD',
-            alias='marca_hd',
-            datatype='Text',
-            indices=['Textual'],
-            multivalued=False,
-            required=True
-        ))
-        tamanho_hd = Field(**dict(
-            name='tamanho_hd',
-            description='Tamanho do HD',
-            alias='tamanho_hd',
-            datatype='Text',
-            indices=['Textual'],
-            multivalued=False,
-            required=True
-        ))
-        tipo_hd = Field(**dict(
-            name='tipo_hd',
-            description='Tipo do HD',
-            alias='tipo_hd',
-            datatype='Text',
-            indices=['Textual'],
-            multivalued=False,
-            required=True
-        ))
-        idade_hd = Field(**dict(
-            name='idade_hd',
-            description='Idade do HD',
-            alias='idade_hd',
-            datatype='Text',
-            indices=['Textual'],
-            multivalued=False,
-            required=True
+            required=False
         ))
         
-        """
-        LB Memória
-        """
-
-        interface_memoria = Field(**dict(
-            name='interface_memoria',
-            description='Interface da Memória',
-            alias='interface_memoria',
+        Win32_Processor_Caption = Field(**dict(
+            name='Win32_Processor_Caption',
+            description='Win32_Processor_Caption',
+            alias='Win32_Processor_Caption',
             datatype='Text',
             indices=['Textual'],
             multivalued=False,
-            required=True
-        ))
-        armazenamento_memoria = Field(**dict(
-            name='armazenamento_memoria',
-            description='Armazenamento da Memória',
-            alias='armazenamento_memoria',
-            datatype='Text',
-            indices=['Textual'],
-            multivalued=False,
-            required=True
-        ))
-        idade_memoria = Field(**dict(
-            name='idade_memoria',
-            description='Idade do Memória',
-            alias='idade_memoria',
-            datatype='Text',
-            indices=['Textual'],
-            multivalued=False,
-            required=True
+            required=False
         ))
 
         """
         LB Sistema Operacional
         """
-        nome_so = Field(**dict(
-            name='nome_so',
-            description='Nome do Sistema Operacional',
-            alias='nome_so',
+        OperatingSystem_Version = Field(**dict(
+            name='OperatingSystem_Version',
+            description='OperatingSystem_Version',
+            alias='OperatingSystem_Version',
             datatype='Text',
             indices=['Textual'],
             multivalued=False,
-            required=True
+            required=False
         ))
-        versao_so = Field(**dict(
-            name='versao_so',
-            description='Versão do Sistema Operacional',
-            alias='versao_so',
+        OperatingSystem_InstallDate = Field(**dict(
+            name='OperatingSystem_InstallDate',
+            description='OperatingSystem_InstallDate',
+            alias='OperatingSystem_InstallDate',
             datatype='Text',
             indices=['Textual'],
             multivalued=False,
-            required=True
+            required=False
         ))
-        fabricante_so = Field(**dict(
-            name='fabricante_so',
-            description='Fabricando do Sistema Operacional',
-            alias='fabricante_so',
+        OperatingSystem_Caption = Field(**dict(
+            name='OperatingSystem_Caption',
+            description='OperatingSystem_Caption',
+            alias='OperatingSystem_Caption',
             datatype='Text',
             indices=['Textual'],
             multivalued=False,
-            required=True
+            required=False
+        ))
+
+        """
+        LB SoftwareList
+        """
+        SoftwareList = Field(**dict(
+            name='SoftwareList',
+            description='SoftwareList',
+            alias='SoftwareList',
+            datatype='Text',
+            indices=['Textual'],
+            multivalued=True,
+            required=False
         ))
 
         """
         LB Bios
         """
-        patrimonio_bios = Field(**dict(
-            name='patrimonio_bios',
-            description='Patrimonio da Bios',
-            alias='patrimonio_bios',
+        Win32_BIOS_Manufacturer = Field(**dict(
+            name='Win32_BIOS_Manufacturer',
+            description='Win32_BIOS_Manufacturer',
+            alias='Win32_BIOS_Manufacturer',
             datatype='Text',
             indices=['Textual'],
             multivalued=False,
-            required=True
+            required=False
         ))
-        fabricante_bios = Field(**dict(
-            name='fabricante_bios',
-            description='Fabricante da Bios',
-            alias='fabricante_bios',
-            datatype='Text',
-            indices=['Textual'],
-            multivalued=False,
-            required=True
-        ))
-
+       
         """
         GROUP Sistema Operacional
         """
-        sistemaoperacional_content = Content()
-        sistemaoperacional_content.append(nome_so)
-        sistemaoperacional_content.append(versao_so)
-        sistemaoperacional_content.append(fabricante_so)
+        OperatingSystem_content = Content()
+        OperatingSystem_content.append(OperatingSystem_Version)
+        OperatingSystem_content.append(OperatingSystem_InstallDate)
+        OperatingSystem_content.append(OperatingSystem_Caption)
 
-        sistemaoperacional_metadata = GroupMetadata(
-            name='sistemaoperacional',
-            alias='sistemaoperacional',
-            description='Sistema Operacional',
+        OperatingSystem_metadata = GroupMetadata(
+            name='OperatingSystem',
+            alias='OperatingSystem',
+            description='OperatingSystem',
             multivalued = False
         )
 
-        sistemaoperacional = Group(
-            metadata = sistemaoperacional_metadata,
-            content = sistemaoperacional_content
+        OperatingSystem = Group(
+            metadata = OperatingSystem_metadata,
+            content = OperatingSystem_content
         )
 
         """
         GROUP Bios
         """
-        bios_content = Content()
-        bios_content.append(patrimonio_bios)
-        bios_content.append(fabricante_bios)
+        Win32_BIOS_content = Content()
+        Win32_BIOS_content.append(Win32_BIOS_Manufacturer)
 
-        bios_metadata = GroupMetadata(
-            name='bios',
-            alias='bios',
-            description='Bios',
+        Win32_BIOS_metadata = GroupMetadata(
+            name='Win32_BIOS',
+            alias='Win32_BIOS',
+            description='Win32_BIOS',
             multivalued = False
         )
 
-        bios = Group(
-            metadata = bios_metadata,
-            content = bios_content
+        Win32_BIOS = Group(
+            metadata = Win32_BIOS_metadata,
+            content = Win32_BIOS_content
         )
 
-        """
-        GROUP Memória
-        """
-        memoria_content = Content()
-        memoria_content.append(interface_memoria)
-        memoria_content.append(armazenamento_memoria)
-        memoria_content.append(idade_memoria)
-
-        memoria_metadata = GroupMetadata(
-            name='memoria',
-            alias='memoria',
-            description='Memória',
-            multivalued = False
-        )
-
-        memoria = Group(
-            metadata = memoria_metadata,
-            content = memoria_content
-        )
-
-        """
-        GROUP HD
-        """
-        hd_content = Content()
-        hd_content.append(marca_hd)
-        hd_content.append(tamanho_hd)
-        hd_content.append(tipo_hd)
-        hd_content.append(idade_hd)
-
-        hd_metadata = GroupMetadata(
-            name='hd',
-            alias='hd',
-            description='HD',
-            multivalued = False
-        )
-
-        hd = Group(
-            metadata = hd_metadata,
-            content = hd_content
-        )
-
+    
         """
         GROUP Processador
         """
-        processador_content = Content()
-        processador_content.append(nome_processador)
-        processador_content.append(versao_processador)
-        processador_content.append(data_instalacao_processador)
+        Win32_Processor_content = Content()
+        Win32_Processor_content.append(Win32_Processor_Manufacturer)
+        Win32_Processor_content.append(Win32_Processor_NumberOfLogicalProcessors)
+        Win32_Processor_content.append(Win32_Processor_Caption)
 
-        processador_metadata = GroupMetadata(
-            name='processador',
-            alias='processador',
-            description='Processador',
+        Win32_Processor_metadata = GroupMetadata(
+            name='Win32_Processor',
+            alias='Win32_Processor',
+            description='Win32_Processor',
             multivalued = False
         )
 
-        processador = Group(
-            metadata = processador_metadata,
-            content = processador_content
+        Win32_Processor = Group(
+            metadata = Win32_Processor_metadata,
+            content = Win32_Processor_content
         )
 
         base_metadata = BaseMetadata(
@@ -310,12 +202,10 @@ class ColetaManualBase():
         )
 
         content_list = Content()
-        content_list.append(data_coleta)
-        content_list.append(processador)
-        content_list.append(hd)
-        content_list.append(bios)
-        content_list.append(memoria)
-        content_list.append(sistemaoperacional)
+        content_list.append(Win32_Processor)
+        content_list.append(OperatingSystem)
+        content_list.append(Win32_BIOS)
+        content_list.append(SoftwareList)
 
         lbbase = Base(
             metadata=base_metadata,

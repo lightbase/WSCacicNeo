@@ -50,7 +50,7 @@
                   <label class="col-lg-2 control-label">Permissão</label>
                   <div class="col-lg-2">
                     <select id="permissao" class="form-control">
-                      <option selected disabled>Permissões</option>
+                      <option></option>
                       <option>Administrador</option>
                       <option>Gestor</option>
                     </select>

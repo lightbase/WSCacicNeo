@@ -17,7 +17,7 @@ class TestRelatorio(unittest.TestCase):
         Carregando atributos genéricos do teste
         """
         self.rest_url = 'http://api.brlight.net/api'
-        self.nm_base = 'coleta_manual'
+        self.nm_base = 'ministerioaaaa'
 
     def test_get_doc_base(self):
         """
@@ -33,7 +33,7 @@ class TestRelatorio(unittest.TestCase):
         """
         get_doc = reports.Reports(self.nm_base, self.rest_url)
         coleta = get_doc.get_base_orgao()
-        hd = get_doc.get_attribute('hd')
+        hd = get_doc.get_attribute('operatingsystem')
         self.assertGreater(len(hd.results), 0)
 
     def test_count_attribute(self):
@@ -43,10 +43,10 @@ class TestRelatorio(unittest.TestCase):
         """
         get_doc = reports.Reports(self.nm_base, self.rest_url)
         coleta = get_doc.get_base_orgao()
-        hd = get_doc.get_attribute('hd')
+        hd = get_doc.get_attribute('win32_processor')
         self.assertGreater(len(hd.results), 0)
 
-        hd_count = get_doc.count_attribute('memoria', 'interface_memoria')
+        hd_count = get_doc.count_attribute('win32_processor', 'win32_processor_manufacturer')
         fd = open('/tmp/teste.json', 'w+')
         fd.write(json.dumps(hd_count))
         fd.close()

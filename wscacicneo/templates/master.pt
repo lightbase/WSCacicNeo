@@ -24,18 +24,36 @@
 				<!--  Navigation starts -->
 				<nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">         
 					<!-- Links -->
-						<ul class="nav navbar-nav pull-right">
+						<ul class="nav navbar-nav pull-right" tal:condition="request.authenticated_userid">
 							<li class="dropdown pull-right">            
 								<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-									<i class="fa fa-user"></i> Usuário <b class="caret"></b>              
+									<i class="fa fa-user"></i> 
+										${request.authenticated_userid}
+									<b class="caret"></b>              
 								</a>
 								<!-- Dropdown menu -->
 								<ul class="dropdown-menu">
-									<li><a href="${request.route_url('root')}login"><i class="fa fa-user"></i> Login </a></li>
 									<li><a href="${request.route_url('root')}logout"><i class="fa fa-sign-out"></i> Logout</a></li>
 								</ul>
 							</li>
 						</ul>
+
+					<!-- Links -->
+						<ul class="nav navbar-nav pull-right">
+							<li class="dropdown pull-right">            
+								<a data-toggle="dropdown" class="dropdown-toggle" tal:condition="not request.authenticated_userid" href="#">
+									<i class="fa fa-user"></i> 
+										Usuário
+									<b class="caret"></b>              
+								</a>
+								<!-- Dropdown menu -->
+								<ul class="dropdown-menu">
+									<li><a  href="${request.route_url('root')}login"><i class="fa fa-user"></i> Login </a></li>
+								</ul>
+							</li>
+						</ul>
+
+
 						<!-- Search form -->
 						<form class="navbar-form navbar-right" role="search">
 							<div class="form-group">

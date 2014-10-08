@@ -21,9 +21,14 @@
                   </div>
                 </div>
                   <div class="col-lg-offset-2 col-lg-6">
-                    <input type="submit" name="form.submitted" class="btn btn-sm" value="Acesar"/>
+                    <input type="submit" name="form.submitted" id="submit" class="btn btn-sm" value="Acesar"/>
                   </div>
             </form>
+  </metal:content>
+  <metal:content fill-slot="javascript">
+     $('#submit').click(function(){
+      setTimeout(function() {noty({text: 'Sua senha e confirmar senha estão diferentes ou em branco',layout:'topRight',type:'error',timeout:5000});}, 100);
+      });
   </metal:content>
 </metal:main>
     
