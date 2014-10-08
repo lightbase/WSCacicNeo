@@ -70,7 +70,7 @@ class Reports():
         except HTTPError as err:
             log.error(err.strerror)
             return None
-        
+
         return coleta
 
     def update_coleta(self,id, document):
@@ -116,6 +116,7 @@ class Reports():
         for elm in results:
             if child:
                 parent = getattr(elm, attr)
+                print(parent)
                 attribute = getattr(parent, child)
             else:
                 attribute = getattr(elm, attr)

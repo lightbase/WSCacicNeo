@@ -40,20 +40,22 @@
                 orgao = $('#orgao').val()
                 attr = $('#coleta').val()
                 if(attr == 'hd'){
-                    item = "tipo_hd"
+                    alert('Não disponivel no momento')
                 }
                 else if(attr == 'bios'){
-                    item = "fabricante_bios"
+                    attr = 'win32_bios'
+                    item = "win32_bios_manufacturer"
                 }
                 else if(attr == 'Sistemas Operacionais'){
-                    attr = 'sistemaoperacional'
-                    item = 'nome_so'
+                    attr = 'operatingsystem'
+                    item = 'operatingsystem_caption'
                 }
                 else if(attr == 'memoria'){
-                    item = 'interface_memoria'
+                    alert('não disponivel no momento')
                 }
                 else if(attr == 'processador'){
-                    item = 'nome_processador'
+                    attr = 'win32_processor'
+                    item = 'win32_processor_manufacturer'
                 }
                 else{
                     alert('Selecione o Item da coleta')
