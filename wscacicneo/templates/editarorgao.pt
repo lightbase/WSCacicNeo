@@ -105,8 +105,8 @@
                     type: "PUT",
                     url: "${request.route_url('root')}put_orgao",
                     data: data, 
-                    success: function(){ alert('Cadastro realizado com sucesso')   },
-                    error: function(){ alert('Erro ao realizar o cadastro. Todos os campos são obrigatórios') },
+                    success: function(){ alert('Alteração realizado com sucesso')   },
+                    error: function(){ alert('Erro ao alterar o orgão. Todos os campos são obrigatórios') },
                 }); 
             });
         </script>

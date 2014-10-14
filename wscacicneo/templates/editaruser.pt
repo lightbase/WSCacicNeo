@@ -59,7 +59,7 @@
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Senha</label>
                         <div class="col-lg-5">
-                        <input type="text" id="senha" value="${senha}" class="form-control" placeholder="Informe novamente sua senha">
+                        <input type="text" id="senha" class="form-control" placeholder="Informe novamente sua senha">
                     </div>
                 </div><div class="form-group">
                     <label class="col-lg-2 control-label">Confirmar Senha</label>
@@ -114,16 +114,30 @@
                     'permissao': permissao,
                     'senha': senha
                 }
-                if (data.email.indexOf("gov.br") > -1 == false){
-                   alert('Somente é permitido cadastro de e-mails institucionais');
+                var emailCorreto = 0;
+                var senhaConfere = 0;
+                if (data.email.indexOf("gov.br") > -1 == true){
+                  emailCorreto = 1;
+                }
+                if(senha.value == confirmarsenha.value && senha.value != "" ){
+                  senhaConfere = 1;
+                }
+                if (emailCorreto == 0 || senhaConfere == 0){
+                    if(emailCorreto == 0){
+                        setTimeout(function() {noty({text: 'Erro: O campo "E-Mail" deve ser preenchido por um e-mail institucional',layout:'topRight',type:'error',timeout:5000});}, 100);
+                    }
+                    if(senhaConfere == 0){
+                        setTimeout(function() {noty({text: 'Erro: O campo "Senha" e "Confirmar Senha" estão diferentes ou em branco',layout:'topRight',type:'error',timeout:5000});}, 100);  
+                    }
                 }else{
-                $.ajax({
-                    type: "PUT",
-                    url: "${request.route_url('root')}put_user",
-                    data: data, 
-                    success: function(){ alert('sucesso') },
-                    error: function(){ alert('erro') },
-                });}
+                  $.ajax({
+                      type: "PUT",
+                      url: "${request.route_url('root')}put_user",
+                      data: data, 
+                      success: function(){ alert('Alteração realizado com sucesso') },
+                      error: function(){ alert('Erro ao Alterar do usuário. Todos os campos são obrigatórios') },
+                  });
+                }
             });
         </script>
     </metal:content>

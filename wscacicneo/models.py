@@ -65,7 +65,7 @@ so = Table('so', Base.metadata,
 mapper(SistemaOperacional, so)
 
 class RootFactory(object):
-    __acl__ = [ (Allow, Everyone, 'view'),
-                (Allow, 'Administrador', 'edit') ]
+    __acl__ = [ (Allow, Everyone, 'user'),
+                (Allow, 'Administrador', 'admin') ]
     def __init__(self, request):
         pass

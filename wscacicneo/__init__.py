@@ -5,6 +5,7 @@ from wscacicneo import config
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.config import Configurator
+from pyramid.httpexceptions import HTTPNotFound
 
 
 
@@ -31,7 +32,6 @@ def main(global_config, **settings):
 
     # Rotas Básicas
     cfg.add_route('home', 'home')
-    cfg.add_route('error', 'error')
     cfg.add_route('notifications', 'notifications')
     cfg.add_route('orgao', 'orgao/cadastro')
     

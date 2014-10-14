@@ -1,7 +1,9 @@
 <metal:main use-macro="load: master.pt">
  <metal:content fill-slot="conteudo">
  	<div>
-		<p><h3 align="center">Sistema Super-Gerente</h3></p>
+		<p><h2 align="center">Sistema Super-Gerente</h2></p>
+		<br>
+		<p><h3 align="center"><a href="${request.route_url('root')}login"> Faça Login </a></h3></p>
 	</div>
  </metal:content>
 </metal:main>
