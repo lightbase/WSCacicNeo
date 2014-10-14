@@ -26,111 +26,70 @@
     </div>
     <br/>
     <div class="form-group">
-      <div style="margin-left: 200px;font-size: 150%;">Hard Disk</div>
+      <div style="margin-left: 200px;font-size: 150%;">Software List</div>
     </div>
     <div class="form-group">
-      <label class="col-lg-2 control-label">Marca do HD:</label>
+      <label class="col-lg-2 control-label">softwarelist:</label>
       <div class="col-lg-5">
-        <input type="text" id="marca_hd" class="form-control" placeholder="Marca do HD">
+        <input type="text" id="softwarelist" class="form-control" placeholder="softwarelist">
       </div>
     </div>
-    <div class="form-group">
-      <label class="col-lg-2 control-label">Tamanho do HD:</label>
-      <div class="col-lg-5">
-        <input type="text" id="tamanho_hd" class="form-control" placeholder="Tamanho do HD">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-lg-2 control-label">Tipo do HD</label>
-      <div class="col-lg-5">
-        <input type="text" id="tipo_hd" class="form-control" placeholder="Tipo do HD">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-lg-2 control-label">Idade do HD</label>
-      <div class="col-lg-5">
-        <input type="text" id="idade_hd" class="form-control" placeholder="Idade do HD">
-      </div>
-    </div>
+    
     <br/>
     <div class="form-group">
       <div style="margin-left: 200px;font-size: 150%;">Sistema Operacional</div>
     </div>
     <div class="form-group">
-      <label class="col-lg-2 control-label">Nome do SO:</label>
+      <label class="col-lg-2 control-label">operatingsystem_caption:</label>
       <div class="col-lg-5">
-        <input type="text" id="nome_so" class="form-control" placeholder="Nome do Sistema Operacional">
+        <input type="text" id="operatingsystem_caption" class="form-control" placeholder="operatingsystem_caption">
       </div>
     </div>
     <div class="form-group">
-      <label class="col-lg-2 control-label">Versão do SO:</label>
+      <label class="col-lg-2 control-label">operatingsystem_version:</label>
       <div class="col-lg-5">
-        <input type="text" id="versao_so" class="form-control" placeholder="Versão do Sistema Operacional">
+        <input type="text" id="operatingsystem_version" class="form-control" placeholder="operatingsystem_version">
       </div>
     </div>
     <div class="form-group">
-      <label class="col-lg-2 control-label">Fabricante do SO:</label>
+      <label class="col-lg-2 control-label">operatingsystem_installdate:</label>
       <div class="col-lg-5">
-        <input type="text" id="fabricante_so" class="form-control" placeholder="Fabricante do Sistema Operacional">
+        <input type="text" id="operatingsystem_installdate" class="form-control" 
+                placeholder="operatingsystem_installdate">
       </div>
     </div>
     <div class="form-group"> 
-      <div style="margin-left: 200px;font-size: 150%;">BIOS</div>
+      <div style="margin-left: 200px;font-size: 150%;">win32_bios</div>
     </div>
       <div class="form-group">
-      <label class="col-lg-2 control-label">Patrimonio da BIOS:</label>
+      <label class="col-lg-2 control-label">win32_bios_manufacturer:</label>
       <div class="col-lg-5">
-        <input type="text" id="patrimonio_bios" class="form-control" placeholder="Patrimonio da BIOS">
+        <input type="text" id="win32_bios_manufacturer" class="form-control" placeholder="win32_bios_manufacturer">
+      </div>
+    </div>
+        <br/>
+    <div class="form-group">
+      <div style="margin-left: 200px;font-size: 150%;">win32_processor</div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-2 control-label">win32_processor_manufacturer:</label>
+      <div class="col-lg-5">
+        <input type="text" id="win32_processor_manufacturer" class="form-control" 
+                placeholder="win32_processor_manufacturer">
       </div>
     </div>
     <div class="form-group">
-      <label class="col-lg-2 control-label">Fabricante da BIOS:</label>
+      <label class="col-lg-2 control-label">win32_processor_numberoflogicalprocessors:</label>
       <div class="col-lg-5">
-        <input type="text" id="fabricante_bios" class="form-control" placeholder="Fabricante da BIOS">
-      </div>
-    </div>
-    <br/>
-   <div class="form-group">
-    <div style="margin-left: 200px;font-size: 150%;">Memória</div>
-   </div>
-   <div class="form-group">
-      <label class="col-lg-2 control-label">Interface da Memória:</label>
-      <div class="col-lg-5">
-        <input type="text" id="interface_memoria" class="form-control" placeholder="Interface da Memória">
+        <input type="text" id="win32_processor_numberoflogicalprocessors" class="form-control" 
+                placeholder="win32_processor_numberoflogicalprocessors">
       </div>
     </div>
     <div class="form-group">
-      <label class="col-lg-2 control-label">Armazenamento:</label>
+      <label class="col-lg-2 control-label">win32_processor_caption</label>
       <div class="col-lg-5">
-        <input type="text" id="armazenamento_memoria" class="form-control" placeholder="Armazenamento da Memória">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-lg-2 control-label">Idade da Memória</label>
-      <div class="col-lg-5">
-        <input type="text" id="idade_memoria" class="form-control" placeholder="Idade da Memória">
-      </div>
-    </div> 
-    <br/>
-    <div class="form-group">
-      <div style="margin-left: 200px;font-size: 150%;">Processador</div>
-    </div>
-    <div class="form-group">
-      <label class="col-lg-2 control-label">Nome do Processador:</label>
-      <div class="col-lg-5">
-        <input type="text" id="nome_processador" class="form-control" placeholder="Nome do Processador">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-lg-2 control-label">Versão do Processador:</label>
-      <div class="col-lg-5">
-        <input type="text" id="versao_processador" class="form-control" placeholder="Versão do Processador">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-lg-2 control-label">Data de Instalação</label>
-      <div class="col-lg-5">
-        <input type="text" id="data_instalacao_processador" class="form-control" placeholder="Data de Instalação do Processador">
+        <input type="text" id="win32_processor_caption" class="form-control" 
+                placeholder="win32_processor_caption">
       </div>
     </div> 
     <br/>
@@ -146,28 +105,29 @@
   <metal:content fill-slot="javascript">
     <script type="text/javascript">
        $('#limpar').click(function(){
-                $('#nome_processador').val('')
+                $('#data_coleta').val('')
+                $('#softwarelist').val('')
+                $('#win32_processor_manufacturer').val('')
+                $('#win32_processor_numberoflogicalprocessors').val('')
+                $('#win32_processor_caption').val('')
+                $('#operatingsystem_version').val('')
+                $('#operatingsystem_installdate').val('')
+                $('#operatingsystem_caption').val('')
+                $('#win32_bios_manufacturer').val('')
        });
        $('#enviar').click(function(){
                 var data = {
-                    'orgao': $('#orgao').val(),
-                    'data_coleta': $('#data_coleta').val(),
-                    'marca_hd': $('#marca_hd').val(),
-                    'tamanho_hd': $('#tamanho_hd').val(),
-                    'tipo_hd': $('#tipo_hd').val(),
-                    'idade_hd': $('#idade_hd').val(),
-                    'nome_so': $('#nome_so').val(),
-                    'versao_so': $('#versao_so').val(),
-                    'fabricante_so': $('#fabricante_so').val(),
-                    'patrimonio_bios': $('#patrimonio_bios').val(),
-                    'fabricante_bios': $('#fabricante_bios').val(),
-                    'interface_memoria': $('#interface_memoria').val(),
-                    'armazenamento_memoria': $('#armazenamento_memoria').val(),
-                    'idade_memoria': $('#idade_memoria').val(),
-                    'nome_processador': $('#nome_processador').val(),
-                    'versao_processador': $('#versao_processador').val(),
-                    'data_instalacao_processador': $('#data_instalacao_processador').val()
-                }
+                    'orgao': $('#orgao').val(), 
+                    'data_coleta': $('#data_coleta').val(), 
+                    'softwarelist': $('#softwarelist').val(), 
+                    'win32_processor_manufacturer': $('#win32_processor_manufacturer').val(),
+                    'win32_processor_numberoflogicalprocessors': $('#win32_processor_numberoflogicalprocessors').val(),
+                    'win32_processor_caption': $('#win32_processor_caption').val(),
+                    'operatingsystem_version': $('#operatingsystem_version').val(),
+                    'operatingsystem_installdate': $('#operatingsystem_installdate').val(),
+                    'operatingsystem_caption': $('#operatingsystem_caption').val(),
+                    'win32_bios_manufacturer': $('#win32_bios_manufacturer').val(),
+                    }
                 $.ajax({
                     type: "POST",
                     url: "${request.route_url('root')}post_coleta_manual",

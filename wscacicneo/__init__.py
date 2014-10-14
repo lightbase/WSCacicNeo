@@ -23,26 +23,27 @@ def main(global_config, **settings):
 
     cfg.include('pyramid_chameleon')
     cfg.add_static_view('static', 'static', cache_max_age=3600)
+
+    # Rotas de Configuração
     cfg.add_route('master', 'master')
     cfg.add_route('blankmaster', 'blankmaster')
     cfg.add_route('root', '/')
 
+    # Rotas Básicas
     cfg.add_route('home', 'home')
     cfg.add_route('error', 'error')
-    cfg.add_route('graficop', 'graficop')
     cfg.add_route('notifications', 'notifications')
-    cfg.add_route('admin', 'admin')
-    cfg.add_route('proc', 'proc')
-    cfg.add_route('sistema', 'sistema')
-    cfg
     cfg.add_route('orgao', 'orgao/cadastro')
+    
+    # Orgãos
     cfg.add_route('post_orgao', 'post_orgao')
     cfg.add_route('put_orgao', 'put_orgao')
     cfg.add_route('editorgao', 'orgao/editar/{sigla}')
     cfg.add_route('listorgao', 'orgao/lista')
     cfg.add_route('delete_orgao', 'orgao/delete/{sigla}')
     cfg.add_route('base_de_dados', 'orgao/base/{sigla}')
-    #
+    
+    # Users
     cfg.add_route('user', 'usuario/cadastro')
     cfg.add_route('post_user', 'post_user')
     cfg.add_route('put_user', 'put_user')
@@ -54,40 +55,21 @@ def main(global_config, **settings):
     cfg.add_route('notify', 'notificacoes/cadastro')
     cfg.add_route('post_notify', 'post_notify')
     cfg.add_route('list_notify', 'notificacoes/lista')
-    # base orgaos
+    
+    # Base de Rerpot por Orgãos
     cfg.add_route('create_orgao', 'create/orgao/{nm_orgao}')
-    # relatorios
+    
+    # Relatórios
     cfg.add_route('conf_report', 'relatorios/configuracao')
     cfg.add_route('report_itens', 'relatorio/{nm_orgao}/{attr}/{child}')
+    
     # Coleta Manual
     cfg.add_route('cadastro_coleta', 'coleta/cadastro')
     cfg.add_route('post_coleta_manual', 'post_coleta_manual')
-    #
-    cfg.add_route('list', 'list')
-    cfg.add_route('gestao', 'gestao')
-    cfg.add_route('memoria', 'memoria')
-    cfg.add_route('basico', 'basico')
-    cfg.add_route('rede', 'rede')
-    cfg.add_route('escritorio', 'escritorio')
-    cfg.add_route('hd', 'hd')
-    cfg.add_route('config', 'config')
-    cfg.add_route('bot', 'bot')
+    
+    # Autenticação
     cfg.add_route('login', 'login')
-    cfg.add_route('loginautentication', 'loginautentication')
     cfg.add_route('logout', 'logout')
-    cfg.add_route('computador', 'computador')
-    cfg.add_route('busca', 'busca')
-    cfg.add_route('gestor', 'gestor')
-    cfg.add_route('diagnostic', 'diagnostic')
-    cfg.add_route('cadastro', 'cadastro')
-    cfg.add_route('sobre', 'sobre')
-    cfg.add_route('perfil', 'perfil')
-    cfg.add_route('configapi','configapi')
-    cfg.add_route('processador','processador')
-    cfg.add_route('configcoleta','configcoleta')
-    cfg.add_route('configfav','configfav')
-    cfg.add_route('questionarcoleta','questionarcoleta')
-    cfg.add_route('confighome','confighome')
-    cfg.add_route('db','db')
+    
     cfg.scan()
     return cfg.make_wsgi_app()

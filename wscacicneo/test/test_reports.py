@@ -17,7 +17,7 @@ class TestRelatorio(unittest.TestCase):
         Carregando atributos genéricos do teste
         """
         self.rest_url = 'http://api.brlight.net/api'
-        self.nm_base = 'ministerioaaaa'
+        self.nm_base = 'coleta_manual'
 
     def test_get_doc_base(self):
         """

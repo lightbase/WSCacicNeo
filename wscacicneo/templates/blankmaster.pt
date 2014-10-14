@@ -10,6 +10,7 @@
     <meta name="keywords" content="">
     <meta name="author" content="adley">
     <metal:content define-slot="head" />
+    <title>Super-Gerente</title>
     <!-- Stylesheets -->
     <link href="${request.route_url('root')}static/macadmin/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font awesome icon -->

@@ -148,7 +148,6 @@ class OrgaoBase():
         Cria base no LB
         """
         response = self.baserest.create(self.lbbase)
-        #print(response.status_code)
         if response.status_code == 200:
             return self.lbbase
         else:

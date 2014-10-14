@@ -27,7 +27,6 @@ class Reports():
             self.rest_url = rest_url
         self.coleta_manual_base = coleta_manual.ColetaManualBase(nm_base, self.rest_url)
         self.base = self.coleta_manual_base.lbbase
-        print(type(self.base))
         self.documentrest = DocumentREST(self.rest_url, self.base, response_object=True)
 
 
@@ -64,15 +63,10 @@ class Reports():
         """
         Insere dados de coleta
         """
-        document = self.coleta_to_json()
-        try:
-            coleta = self.documentrest.create(document)
-        except HTTPError as err:
-            log.error(err.strerror)
-            return None
+        result = self.documentrest.create(document)
 
-        return coleta
-
+        return result
+  
     def update_coleta(self,id, document):
         """
         Altera dados de coleta
@@ -116,7 +110,6 @@ class Reports():
         for elm in results:
             if child:
                 parent = getattr(elm, attr)
-                print(parent)
                 attribute = getattr(parent, child)
             else:
                 attribute = getattr(elm, attr)

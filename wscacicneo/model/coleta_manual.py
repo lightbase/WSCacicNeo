@@ -202,6 +202,7 @@ class ColetaManualBase():
         )
 
         content_list = Content()
+        content_list.append(data_coleta)
         content_list.append(Win32_Processor)
         content_list.append(OperatingSystem)
         content_list.append(Win32_BIOS)

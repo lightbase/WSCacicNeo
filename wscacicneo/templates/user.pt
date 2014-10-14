@@ -110,19 +110,30 @@
                     'coleta': 'Questionar Coleta', 
                     'notify': 'Notificações'
                 }
-                if (data.email.indexOf("gov.br") > -1 == false){
-                  setTimeout(function() {noty({text: 'O e-mail tem que ser institucional',layout:'topRight',type:'error',timeout:5000});}, 100);
+                var emailCorreto = 0;
+                var senhaConfere = 0;
+                if (data.email.indexOf("gov.br") > -1 == true){
+                  emailCorreto = 1;
                 }
-                if(senha.value != confirmarsenha.value || senha.value == "" ){
-                  setTimeout(function() {noty({text: 'Sua senha e confirmar senha estão diferentes ou em branco',layout:'topRight',type:'error',timeout:5000});}, 100);
+                if(senha.value == confirmarsenha.value && senha.value != "" ){
+                  senhaConfere = 1;
                 }
-                $.ajax({
-                    type: "POST",
-                    url: "${request.route_url('root')}post_user",
-                    data: data, 
-                    success: function(){ alert('sucesso') },
-                    error: function(){ alert('erro') },
-                }); 
+                if (emailCorreto == 0 || senhaConfere == 0){
+                    if(emailCorreto == 0){
+                        setTimeout(function() {noty({text: 'O e-mail tem que ser institucional',layout:'topRight',type:'error',timeout:5000});}, 100);
+                    }
+                    if(senhaConfere == 0){
+                        setTimeout(function() {noty({text: 'Sua senha e confirmar senha estão diferentes ou em branco',layout:'topRight',type:'error',timeout:5000});}, 100);  
+                    }
+                }else{
+                    $.ajax({
+                        type: "POST",
+                        url: "${request.route_url('root')}post_user",
+                        data: data, 
+                        success: function(){ alert('Cadastro realizado com sucesso') },
+                        error: function(){ alert('Erro ao realizar o cadastro. Todos os campos são obrigatórios') },
+                    }); 
+                }
             });
         </script>
     </metal:content>

@@ -36,22 +36,29 @@ REST_URL = 'http://api.brlight.net/api'
 Session = sessionmaker(bind=engine)
 session = Session()
 
+# Views de configuração
 @view_config(route_name='blankmaster', renderer='templates/blankmaster.pt')
 def blankmaster(request):
     return {'project': 'WSCacicNeo'}
 
 @view_config(route_name='master', renderer='templates/master.pt')
 def master(request):
-    return { }
+    return {'project': 'WSCacicNeo'}
 
 @view_config(route_name='root')
 def root(request):
     return {'project': 'WSCacicNeo'}
 
+# Views básicas
 @view_config(route_name='home', renderer='templates/home.pt')
 def home(request):
     return {'project': 'WSCacicNeo'}
 
+@view_config(route_name='error', renderer='templates/error.pt')
+def error(request):
+    return {'project': 'WSCacicNeo'}
+
+# Lista de Notificação
 @view_config(route_name='list_notify', renderer='templates/list_notify.pt')
 def list_notify(request):
     notify_obj = Notify(
@@ -64,38 +71,24 @@ def list_notify(request):
     doc = reg.results
     return {'doc': doc}
 
-@view_config(route_name='gestao', renderer='templates/gestao.pt')
-def gestao(request):
-    return {'project': 'WSCacicNeo'}
-
-@view_config(route_name='perfil', renderer='templates/perfil.pt')
-def perfil(request):
-    return {'project': 'WSCacicNeo'}
-
-@view_config(route_name='graficop', renderer='templates/graficop.pt')
-def graficop(request):
-    return {'project': 'WSCacicNeo'}
-
-@view_config(route_name='gestor', renderer='templates/gestor.pt')
-def gestor(request):
-    return {'project': 'WSCacicNeo'}
 
 @view_config(route_name='notify', renderer='templates/notify_coleta.pt')
 def notify(request):
     return {'project': 'WSCacicNeo'}
 
-@view_config(route_name='admin', renderer='templates/admin.pt')
-def admin(request):
-    return {'project': 'WSCacicNeo'}
+@view_config(route_name='post_notify')
+def post_notify(request):
+    requests = request.params
+    notify_obj = Notify(
+        orgao = requests['orgao'],
+        id_coleta = requests['id_coleta'],
+        notify = requests['notify'],
+        status = requests['status']
+    )
+    results = notify_obj.create_notify()
+    return Response(str(results))
 
-@view_config(route_name='diagnostic', renderer='templates/diagnostic.pt')
-def diagnostic(request):
-    return {'project': 'WSCacicNeo'}
-
-@view_config(route_name='cadastro', renderer='templates/cadastro.pt')
-def cadastro(request):
-    return {'project': 'WSCacicNeo'}
-
+# Views de Orgão
 @view_config(route_name='orgao', renderer='templates/orgao.pt')
 def orgao(request):
     return {'project': 'WSCacicNeo'}
@@ -114,53 +107,6 @@ def listorgao(request):
     )
     search = orgao_obj.search_list_orgaos()
     return {'orgao_doc': search.results}
-
-@view_config(route_name='favoritos', renderer='templates/favoritos.pt')
-def favoritos(request):
-    matricula = request.matchdict['matricula']
-    user_obj = User(
-        nome = 'base',
-        matricula = matricula,
-        email = 'base@gov.br',
-        orgao = 'orgao',
-        telefone = 'telefone',
-        cargo = 'cargo',
-        setor = 'setor',
-        permissao = 'Gestor',
-        favoritos = ['asdsadasd', 'asdasdasd'],
-        senha = 'senha'
-    )
-    search = user_obj.search_user(matricula)
-    favoritos = search.results[0].favoritos
-    return {
-        'favoritos': search.results[0].favoritos,
-        'itens': search.results[0].itens,
-        'nome' : search.results[0].nome,
-        'matricula' : search.results[0].matricula,
-        'email' : search.results[0].email,
-        'orgao' : search.results[0].orgao,
-        'telefone' : search.results[0].telefone,
-        'cargo' : search.results[0].cargo,
-        'setor' : search.results[0].setor,
-        'permissao' : search.results[0].permissao,
-        'senha' : search.results[0].senha
-    }
-
-@view_config(route_name='config', renderer='templates/config.pt')
-def config(request):
-    return {'project': 'WSCacicNeo'}
-
-@view_config(route_name='list', renderer='templates/list.pt')
-def list(request):
-    return {'project': 'WSCacicNeo'}
-
-@view_config(route_name='sobre', renderer='templates/sobre.pt')
-def sobre(request):
-    return {'project': 'WSCacicNeo'}
-
-@view_config(route_name='base_de_dados', renderer='templates/base_dados.pt')
-def base_de_dados(request):
-    return {'project': 'WSCacicNeo'}
 
 @view_config(route_name='editorgao', renderer='templates/editarorgao.pt')
 def editorgao(request):
@@ -186,62 +132,6 @@ def editorgao(request):
         'telefone' : search.results[0].telefone,
         'url' : search.results[0].url
     }
-
-@view_config(route_name='configcoleta', renderer='templates/configcoleta.pt')
-def configcoleta(request):
-    return {'project': 'WSCacicNeo'}
-
-@view_config(route_name='error', renderer='templates/error.pt')
-def error(request):
-    return {'project': 'WSCacicNeo'}
-
-@view_config(route_name='configfav', renderer='templates/configfav.pt')
-def configfav(request):
-    return {'project': 'WSCacicNeo'}
-
-@view_config(route_name='questionarcoleta', renderer='templates/questionarcoleta.pt')
-def questionarcoleta(request):
-    return {'project': 'WSCacicNeo'}
-
-@view_config(route_name='confighome', renderer='templates/confighome.pt')
-def confighome(request):
-    return {'project': 'WSCacicNeo'}
-
-@view_config(route_name='db', renderer='templates/db.pt')
-def db(request):
-    return {'project': 'WSCacicNeo'}
-
-@view_config(route_name='create_orgao')
-def create_base(request):
-    nm_orgao = request.matchdict['nm_orgao']
-    coletaManualBase = coleta_manual.ColetaManualBase(nm_orgao)
-    lbbase = coletaManualBase.lbbase
-    retorno = coletaManualBase.create_base()
-
-    return HTTPFound(request.route_url('root') + 'orgao/lista')
-
-@view_config(route_name='conf_report', renderer='templates/conf_report.pt')
-def conf_report(request):
-    orgao_obj = Orgao(
-        nome = 'sahuds',
-        cargo = 'cargo',
-        coleta = '4h',
-        sigla = 'MPOG',
-        endereco = 'Esplanada bloco C',
-        email = 'admin@planemaneto.gov.br',
-        telefone = '(61) 2025-4117',
-        url = 'http://api.brlight.net/api'
-    )
-    search = orgao_obj.search_list_orgaos()
-    return {'orgao_doc': search.results}
-
-@view_config(route_name='report_itens', renderer='templates/report.pt')
-def report_itens(request):
-    nm_orgao = request.matchdict['nm_orgao']
-    attr = request.matchdict['attr']
-    child = request.matchdict['child']
-    data = Reports(nm_orgao).count_attribute(attr, child)
-    return {'data': data }
 
 @view_config(route_name='post_orgao')
 def post_orgao(request):
@@ -323,7 +213,110 @@ def delete_orgao(request):
 
     return Response(delete)
 
-#URL Users
+# Views de Favoritos
+@view_config(route_name='favoritos', renderer='templates/favoritos.pt')
+def favoritos(request):
+    matricula = request.matchdict['matricula']
+    user_obj = User(
+        nome = 'base',
+        matricula = matricula,
+        email = 'base@gov.br',
+        orgao = 'orgao',
+        telefone = 'telefone',
+        cargo = 'cargo',
+        setor = 'setor',
+        permissao = 'Gestor',
+        favoritos = ['asdsadasd', 'asdasdasd'],
+        senha = 'senha'
+    )
+    search = user_obj.search_user(matricula)
+    favoritos = search.results[0].favoritos
+    return {
+        'favoritos': search.results[0].favoritos,
+        'itens': search.results[0].itens,
+        'nome' : search.results[0].nome,
+        'matricula' : search.results[0].matricula,
+        'email' : search.results[0].email,
+        'orgao' : search.results[0].orgao,
+        'telefone' : search.results[0].telefone,
+        'cargo' : search.results[0].cargo,
+        'setor' : search.results[0].setor,
+        'permissao' : search.results[0].permissao,
+        'senha' : search.results[0].senha
+    }
+
+@view_config(route_name='edit_favoritos')
+def edit_favoritos(request):
+    """
+    Editar do Favoritos
+    """
+    documento = json.loads(request.params['documento'])
+    matricula = documento['matricola']
+    user_obj = User(
+        nome = documento['nome'],
+        matricula = documento['matricula'],
+        email = documento['email'],
+        orgao = documento['orgao'],
+        telefone = documento['telefone'],
+        cargo = documento['cargo'],
+        setor = documento['setor'],
+        permissao = documento['permissao'],
+        senha = documento['senha']
+    )
+    user = {
+        'nome' : documento['nome'],
+        'matricula' : documento['matricula'],
+        'email' : documento['email'],
+        'orgao' : documento['orgao'],
+        'telefone' : documento['telefone'],
+        'cargo' : documento['cargo'],
+        'setor' : documento['setor'],
+        'permissao' : documento['permissao'],
+        'senha' : documento['senha'],
+        'itens': documento['itens'],
+        'favoritos': documento['favoritos']
+    }
+    search = user_obj.search_user(matricula)
+    id = search.results[0]._metadata.id_doc
+    doc = json.dumps(user)
+    edit = user_obj.edit_user(id, doc)
+
+    return Response(edit)
+
+# Reports
+@view_config(route_name='create_orgao')
+def create_base(request):
+    nm_orgao = request.matchdict['nm_orgao']
+    coletaManualBase = coleta_manual.ColetaManualBase(nm_orgao)
+    lbbase = coletaManualBase.lbbase
+    retorno = coletaManualBase.create_base()
+
+    return HTTPFound(request.route_url('root') + 'orgao/lista')
+
+@view_config(route_name='conf_report', renderer='templates/conf_report.pt')
+def conf_report(request):
+    orgao_obj = Orgao(
+        nome = 'sahuds',
+        cargo = 'cargo',
+        coleta = '4h',
+        sigla = 'MPOG',
+        endereco = 'Esplanada bloco C',
+        email = 'admin@planemaneto.gov.br',
+        telefone = '(61) 2025-4117',
+        url = 'http://api.brlight.net/api'
+    )
+    search = orgao_obj.search_list_orgaos()
+    return {'orgao_doc': search.results}
+
+@view_config(route_name='report_itens', renderer='templates/report.pt')
+def report_itens(request):
+    nm_orgao = request.matchdict['nm_orgao']
+    attr = request.matchdict['attr']
+    child = request.matchdict['child']
+    data = Reports(nm_orgao).count_attribute(attr, child)
+    return {'data': data }
+
+# Users
 
 @view_config(route_name='user', renderer='templates/user.pt', permission='edit')
 def user(request):
@@ -471,44 +464,7 @@ def delete_user(request):
     delete = user_obj.delete_user(id)
     return Response(delete)
 
-@view_config(route_name='edit_favoritos')
-def edit_favoritos(request):
-    """
-    Editar do Favoritos
-    """
-    documento = json.loads(request.params['documento'])
-    matricula = documento['matricola']
-    user_obj = User(
-        nome = documento['nome'],
-        matricula = documento['matricula'],
-        email = documento['email'],
-        orgao = documento['orgao'],
-        telefone = documento['telefone'],
-        cargo = documento['cargo'],
-        setor = documento['setor'],
-        permissao = documento['permissao'],
-        senha = documento['senha']
-    )
-    user = {
-        'nome' : documento['nome'],
-        'matricula' : documento['matricula'],
-        'email' : documento['email'],
-        'orgao' : documento['orgao'],
-        'telefone' : documento['telefone'],
-        'cargo' : documento['cargo'],
-        'setor' : documento['setor'],
-        'permissao' : documento['permissao'],
-        'senha' : documento['senha'],
-        'itens': documento['itens'],
-        'favoritos': documento['favoritos']
-    }
-    search = user_obj.search_user(matricula)
-    id = search.results[0]._metadata.id_doc
-    doc = json.dumps(user)
-    edit = user_obj.edit_user(id, doc)
-
-    return Response(edit)
-
+# Autenticação
 @view_config(route_name='login', renderer='templates/login.pt')
 @forbidden_view_config(renderer='templates/login.pt')
 def login(request):
@@ -563,18 +519,7 @@ def logout(request):
     return HTTPFound(location = request.route_url('login'),
                      headers = headers)
 
-@view_config(route_name='post_notify')
-def post_notify(request):
-    requests = request.params
-    notify_obj = Notify(
-        orgao = requests['orgao'],
-        id_coleta = requests['id_coleta'],
-        notify = requests['notify'],
-        status = requests['status']
-    )
-    results = notify_obj.create_notify()
-    return Response(str(results))
-
+# Coleta
 @view_config(route_name='cadastro_coleta', renderer='templates/cadastro_coleta.pt')
 def cadastro_coleta(request):
     orgao_obj = Orgao(
@@ -596,35 +541,34 @@ def post_coleta_manual(request):
     """
     Post doc ColetaManual
     """
-    rest_url = REST_URL
     document = request.params
-    orgao = document['orgao']
-    coleta_obj = Reports(
-        data_coleta = document['data_coleta'],
-        marca_hd = document['marca_hd'],
-        tamanho_hd = document['tamanho_hd'],
-        tipo_hd = document['tipo_hd'],
-        idade_hd = document['idade_hd'],
-        nome_so = document['nome_so'],
-        versao_so = document['versao_so'],
-        fabricante_so = document['fabricante_so'],
-        patrimonio_bios = document['patrimonio_bios'],
-        fabricante_bios = document['fabricante_bios'],
-        interface_memoria = document['interface_memoria'],
-        armazenamento_memoria = document['armazenamento_memoria'],
-        idade_memoria = document['idade_memoria'],
-        nome_processador = document['nome_processador'],
-        versao_processador = document['versao_processador'],
-        data_instalacao_processador = document['data_instalacao_processador']
-    )
+    nm_base = document['orgao']
+    data_coleta = document['data_coleta'],
+    softwarelist = document['softwarelist'],
+    win32_processor_manufacturer = document['win32_processor_manufacturer'],
+    win32_processor_numberoflogicalprocessors = document['win32_processor_numberoflogicalprocessors'],
+    win32_processor_caption = document['win32_processor_caption'],
+    operatingsystem_version = document['operatingsystem_version'],
+    operatingsystem_installdate = document['operatingsystem_installdate'],
+    operatingsystem_caption = document['operatingsystem_caption'],
+    win32_bios_manufacturer = document['win32_bios_manufacturer']
+
     coleta_dict= { 
         "data_coleta" : data_coleta,
-        "hd": {
-            "marca_hd": marca_hd,
-            "tamanho_hd": tamanho_hd,
-            "tipo_hd" : tipo_hd,
-            "idade_hd" : idade_hd
+        "softwarelist" : [softwarelist],
+        "win32_processor": {
+            "win32_processor_manufacturer": win32_processor_manufacturer,
+            "win32_processor_numberoflogicalprocessors": win32_processor_numberoflogicalprocessors,
+            "win32_processor_caption" : win32_processor_caption
         },
+        "operatingsystem": {
+            "operatingsystem_version": operatingsystem_version,
+            "operatingsystem_installdate": operatingsystem_installdate,
+            "operatingsystem_caption" : operatingsystem_caption
+        },
+        "win32_bios": {
+            "win32_bios_manufacturer": win32_bios_manufacturer
+        }
     }
-    id_doc = coleta_obj.create_coleta(orgao,coleta_dict)
-    return Response(str(id_doc))
+    id_doc = Reports(nm_base).create_coleta(coleta_dict)
+    return Response(str(id_coleta))

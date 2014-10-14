@@ -85,8 +85,8 @@
                     type: "POST",
                     url: "${request.route_url('root')}post_orgao",
                     data: data, 
-                    success: function(){ alert('aaaaaaaaaaaaaaaaaaaaaa')   },
-                    error: function(){ alert('ooooooooooooooooooooooooo') },
+                    success: function(){ alert('Cadastro realizado com sucesso')   },
+                    error: function(){ alert('Erro ao realizar o cadastro. Todos os campos são obrigatórios') },
                 }); 
             });
         </script>

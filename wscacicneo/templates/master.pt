@@ -40,16 +40,11 @@
 
 					<!-- Links -->
 						<ul class="nav navbar-nav pull-right">
-							<li class="dropdown pull-right">            
-								<a data-toggle="dropdown" class="dropdown-toggle" tal:condition="not request.authenticated_userid" href="#">
+							<li class=" pull-right">            
+								<a tal:condition="not request.authenticated_userid" href="${request.route_url('root')}login">
 									<i class="fa fa-user"></i> 
-										Usuário
-									<b class="caret"></b>              
+											Login 
 								</a>
-								<!-- Dropdown menu -->
-								<ul class="dropdown-menu">
-									<li><a  href="${request.route_url('root')}login"><i class="fa fa-user"></i> Login </a></li>
-								</ul>
 							</li>
 						</ul>
 
@@ -101,15 +96,8 @@
 
 						<!-- Page heading -->
 						<div class="page-head">
-							<h2 class="pull-left"><i class="fa fa-home"></i> Dashboard</h2>
+							<h2 class="pull-left"><i class="fa fa-home"></i> ${request.path}</h2>
 
-							<!-- Breadcrumb -->
-							<div class="bread-crumb pull-right">
-								<a href="home"><i class="fa fa-home"></i> Inicio</a> 
-								<!-- Divider -->
-								<span class="divider">/</span> 
-								<a href="#" class="bread-current">Dashboard</a>
-							</div>
 
 							<div class="clearfix"></div>
 
