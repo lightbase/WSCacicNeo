@@ -7,6 +7,7 @@
 		<metal:content define-slot="css"/>
 	</metal:content>
 
+	
 
 	<!-- Conteúdo da Página -->
 	<metal:content fill-slot="conteudo">
@@ -96,7 +97,12 @@
 
 						<!-- Page heading -->
 						<div class="page-head">
-							<h2 class="pull-left"><i class="fa fa-home"></i> Você está em: ${request.path}</h2>
+							<h2 class="pull-left">
+							<i class="fa fa-home"></i>&nbsp;
+							</h2>
+							<h2 class="pull-left" id="dashlocation">
+								Você está em: ${request.path} 
+							</h2>
 
 
 							<div class="clearfix"></div>
@@ -124,5 +130,14 @@
 				<!-- Footer ends -->
 
 			</metal:content>
+			<metal:content fill-slot="javascript">
+			<script type="text/javascript">
+				$( document ).ready(function() {
+	    			var string = $('#dashlocation').text().replace("/wscacicneo/", "");
+	    			$('#dashlocation').text(string);
+				});
+		</script>
+		<metal:content define-slot="javascript"/>
+	</metal:content>
 
 		</metal:main>

@@ -89,7 +89,7 @@ def post_notify(request):
 def orgao(request):
     return {'project': 'WSCacicNeo'}
 
-@view_config(route_name='listorgao', renderer='templates/list_orgao.pt', permission="user")
+@view_config(route_name='listorgao', renderer='templates/list_orgao.pt', permission="admin")
 def listorgao(request):
     orgao_obj = Orgao(
         nome = 'sahuds',
@@ -282,7 +282,7 @@ def edit_favoritos(request):
 # Reports
 @view_config(route_name='create_orgao',permission="admin")
 def create_base(request):
-    nm_orgao = request.matchdict['nm_orgao']
+    nm_orgao = Utils.format_name(request.matchdict['nm_orgao'])
     coletaManualBase = coleta_manual.ColetaManualBase(nm_orgao)
     lbbase = coletaManualBase.lbbase
     retorno = coletaManualBase.create_base()
@@ -306,7 +306,7 @@ def conf_report(request):
 
 @view_config(route_name='report_itens', renderer='templates/report.pt', permission="admin")
 def report_itens(request):
-    nm_orgao = request.matchdict['nm_orgao']
+    nm_orgao = Utils.format_name(request.matchdict['nm_orgao'])
     attr = request.matchdict['attr']
     child = request.matchdict['child']
     data = Reports(nm_orgao).count_attribute(attr, child)
