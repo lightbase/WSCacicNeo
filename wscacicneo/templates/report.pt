@@ -30,7 +30,7 @@
                                                                 <td>${k}</td>
                                                                 <td tal:content="data[k]"></td>
                                                                 <td>
-                                                                    <a href="" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a>
+                                                                    <a href="" title="Sem Funcionalidade" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
