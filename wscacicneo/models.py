@@ -1,3 +1,5 @@
+#!/usr/env python
+# -*- coding: utf-8 -*-
 from pyramid.security import (
     Allow,
     Everyone,
