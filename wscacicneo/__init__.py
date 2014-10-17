@@ -12,7 +12,6 @@ from pyramid.httpexceptions import HTTPNotFound
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
-
     config.setup(settings)
     from wscacicneo.security import groupfinder
     authn_policy = AuthTktAuthenticationPolicy(

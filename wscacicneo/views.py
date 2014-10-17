@@ -1,14 +1,10 @@
+#!/usr/env python
+# -*- coding: utf-8 -*-
 import requests
 import json
 from pyramid.response import Response
 from pyramid.httpexceptions import HTTPFound, HTTPNotFound
 from pyramid.view import view_config
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine, MetaData
-from .models import (
-    DBSession,
-    SistemaOperacional,
-    )
 from wscacicneo.utils.utils import Utils
 from wscacicneo.model.orgao import Orgao
 from wscacicneo.model.orgao import OrgaoBase
@@ -30,11 +26,8 @@ from pyramid.security import (
     forget,
     )
 
-engine = create_engine('postgresql://rest:rest@localhost/cacic')
 REST_URL = 'http://api.brlight.net/api'
 
-Session = sessionmaker(bind=engine)
-session = Session()
 
 # Views de configuração
 @view_config(route_name='blankmaster', renderer='templates/blankmaster.pt')
