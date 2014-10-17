@@ -16,7 +16,7 @@ def main(global_config, **settings):
     config.setup(settings)
     from wscacicneo.security import groupfinder
     authn_policy = AuthTktAuthenticationPolicy(
-    'sosecret', callback=groupfinder, hashalg='sha512')
+    'sosecret', callback=groupfinder, hashalg='sha512', include_ip=True, timeout=3600)
     authz_policy = ACLAuthorizationPolicy()
     cfg = Configurator(settings=settings, root_factory='wscacicneo.models.RootFactory')
     cfg.set_authentication_policy(authn_policy)
