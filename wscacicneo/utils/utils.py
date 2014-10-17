@@ -1,6 +1,8 @@
 import requests
 import json
 import unicodedata
+import hashlib
+import uuid
 from wscacicneo.model.orgao import Orgao
 from wscacicneo.model.orgao import OrgaoBase
 
@@ -25,3 +27,7 @@ class Utils:
     def format_name(data):
 	    return ''.join(x for x in unicodedata.normalize('NFKD', data) if \
 	    unicodedata.category(x)[0] == 'L').lower()
+
+    def hash_password(password):
+        hash_object = hashlib.md5(password.encode())
+        return hash_object.hexdigest()

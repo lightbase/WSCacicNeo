@@ -59,12 +59,12 @@
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Senha</label>
                         <div class="col-lg-5">
-                        <input type="text" id="senha" class="form-control" placeholder="Informe novamente sua senha">
+                        <input type="password" id="senha" class="form-control" placeholder="Informe novamente sua senha">
                     </div>
                 </div><div class="form-group">
                     <label class="col-lg-2 control-label">Confirmar Senha</label>
                         <div class="col-lg-5">
-                        <input type="text" id="confirmarsenha"  class="form-control" placeholder="Confirme sua senha">
+                        <input type="password" id="confirmarsenha"  class="form-control" placeholder="Confirme sua senha">
                     </div>
                 </div>
                 <div class="form-group">
@@ -119,7 +119,7 @@
                 if (data.email.indexOf("gov.br") > -1 == true){
                   emailCorreto = 1;
                 }
-                if(senha.value == confirmarsenha.value && senha.value != "" ){
+                if($('#senha').val() == $('#confirmarsenha').val() && $('#senha').val() != "" ){
                   senhaConfere = 1;
                 }
                 if (emailCorreto == 0 || senhaConfere == 0){
@@ -134,7 +134,7 @@
                       type: "PUT",
                       url: "${request.route_url('root')}put_user",
                       data: data, 
-                      success: function(){ alert('Alteração realizado com sucesso') },
+                      success: function(){ alert('Alteração realizada com sucesso') },
                       error: function(){ alert('Erro ao Alterar do usuário. Todos os campos são obrigatórios') },
                   });
                 }

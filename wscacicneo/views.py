@@ -341,7 +341,7 @@ def post_user(request):
             cargo = doc['cargo'],
             setor = doc['setor'],
             permissao = doc['permissao'],
-            senha = doc['senha'],
+            senha = Utils.hash_password(doc['senha']),
             favoritos = favoritos,
             itens = itens
         )
@@ -405,7 +405,7 @@ def put_user(request):
         'cargo' : params['cargo'],
         'setor' : params['setor'],
         'permissao' : params['permissao'],
-        'senha' : params['senha']
+        'senha' : Utils.hash_password(params['senha'])
     }
     search = user_obj.search_user(matricula)
     id = search.results[0]._metadata.id_doc
@@ -489,9 +489,10 @@ def login(request):
     if 'form.submitted' in request.params:
         email = request.params['email']
         senha = request.params['senha']
+        senha_hash = Utils.hash_password(senha)
         try:
             usuario = user_obj.search_user_by_email(email)
-            if usuario.results[0].senha == senha:
+            if usuario.results[0].senha == senha_hash:
                 headers = remember(request, email)
                 return HTTPFound(location = came_from,
                                  headers = headers)
@@ -540,32 +541,35 @@ def post_coleta_manual(request):
     """
     document = request.params
     nm_base = document['orgao']
-    data_coleta = document['data_coleta'],
-    softwarelist = document['softwarelist'],
-    win32_processor_manufacturer = document['win32_processor_manufacturer'],
-    win32_processor_numberoflogicalprocessors = document['win32_processor_numberoflogicalprocessors'],
-    win32_processor_caption = document['win32_processor_caption'],
-    operatingsystem_version = document['operatingsystem_version'],
-    operatingsystem_installdate = document['operatingsystem_installdate'],
-    operatingsystem_caption = document['operatingsystem_caption'],
+    data_coleta = document['data_coleta']
+    softwarelist = document['softwarelist']
+    win32_processor_manufacturer = document['win32_processor_manufacturer']
+    win32_processor_numberoflogicalprocessors = document['win32_processor_numberoflogicalprocessors']
+    win32_processor_caption = document['win32_processor_caption']
+    operatingsystem_version = document['operatingsystem_version']
+    operatingsystem_installdate = document['operatingsystem_installdate']
+    operatingsystem_caption = document['operatingsystem_caption']
     win32_bios_manufacturer = document['win32_bios_manufacturer']
-
-    coleta_dict= { 
-        "data_coleta" : data_coleta,
-        "softwarelist" : [softwarelist],
+    nm_base_formatted = Utils.format_name(nm_base)
+    coleta_dict= {
+        "data_coleta": data_coleta,
         "win32_processor": {
             "win32_processor_manufacturer": win32_processor_manufacturer,
             "win32_processor_numberoflogicalprocessors": win32_processor_numberoflogicalprocessors,
-            "win32_processor_caption" : win32_processor_caption
+            "win32_processor_caption": win32_processor_caption
         },
         "operatingsystem": {
             "operatingsystem_version": operatingsystem_version,
             "operatingsystem_installdate": operatingsystem_installdate,
-            "operatingsystem_caption" : operatingsystem_caption
+            "operatingsystem_caption": operatingsystem_caption
         },
+        "softwarelist": [
+            softwarelist
+        ],
         "win32_bios": {
             "win32_bios_manufacturer": win32_bios_manufacturer
         }
     }
-    id_doc = Reports(nm_base).create_coleta(coleta_dict)
-    return Response(str(id_coleta))
+    dumps = json.dumps(coleta_dict)
+    id_doc = Reports(nm_base_formatted,response_object=False).create_coleta(dumps)
+    return Response(str(id_doc))

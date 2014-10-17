@@ -20,14 +20,15 @@ log = logging.getLogger()
 
 class Reports():
 
-    def __init__(self, nm_base, rest_url=None):
+    def __init__(self, nm_base, rest_url=None, response_object=True):
+        self.base_nm = nm_base
         if rest_url is None:
             self.rest_url = config.REST_URL
         else:
             self.rest_url = rest_url
         self.coleta_manual_base = coleta_manual.ColetaManualBase(nm_base, self.rest_url)
         self.base = self.coleta_manual_base.lbbase
-        self.documentrest = DocumentREST(self.rest_url, self.base, response_object=True)
+        self.documentrest = DocumentREST(self.rest_url, self.base, response_object)
 
 
     def get_base_orgao(self):
@@ -51,20 +52,19 @@ class Reports():
 
         return conv.document2dict(coleta_base.lbbase, self)
 
-    def coleta_to_json(self):
+    def coleta_to_json(self, document):
         """
         Convert object to json
         :return:
         """
 
-        return conv.document2json(nm_base.lbbase, self)
+        return conv.document2json(document.lbbase, self)
 
     def create_coleta(self, document):
         """
         Insere dados de coleta
         """
         result = self.documentrest.create(document)
-
         return result
   
     def update_coleta(self,id, document):
