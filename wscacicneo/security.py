@@ -1,3 +1,5 @@
+#!/usr/env python
+# -*- coding: utf-8 -*-
 # # 1. carregar usuário da sessão
 # # 2. carregar objeto usuário
 # # 3. pegar grupo do usuário
