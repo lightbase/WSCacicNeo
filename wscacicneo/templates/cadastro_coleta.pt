@@ -9,6 +9,7 @@
       <label class="col-lg-2 control-label">Orgão:</label>
       <div class="col-lg-5">
         <select  id="orgao" class="form-control">
+          <option></option>
           <option tal:repeat="doc orgao_doc">${doc.nome}</option>
         </select>
       </div>
@@ -21,15 +22,16 @@
     </div>
     <br/>
     <div class="form-group">
-      <div style="margin-left: 200px;font-size: 150%;">Software List</div>
+      <div style="margin-left: 200px;font-size: 150%;">Lista de Softwares</div>
     </div>
     <div class="form-group">
-      <label class="col-lg-2 control-label">softwarelist:</label>
-      <div class="col-lg-5">
-        <input type="text" id="softwarelist" class="form-control" placeholder="softwarelist">
+      <label class="col-lg-2 control-label">Lista de Softwares:</label>
+      <button class="add_field_button">Add More Fields</button>
+      <div class="col-lg-5 input_fields_wrap">
+        <input type="text" id="softwarelist" class="form-control" placeholder="software">
       </div>
     </div>
-    
+
     <br/>
     <div class="form-group">
       <div style="margin-left: 200px;font-size: 150%;">Sistema Operacional</div>
@@ -54,7 +56,7 @@
       </div>
     </div>
     <div class="form-group"> 
-      <div style="margin-left: 200px;font-size: 150%;">win32_bios</div>
+      <div style="margin-left: 200px;font-size: 150%;">BIOS</div>
     </div>
       <div class="form-group">
       <label class="col-lg-2 control-label">win32_bios_manufacturer:</label>
@@ -64,7 +66,7 @@
     </div>
         <br/>
     <div class="form-group">
-      <div style="margin-left: 200px;font-size: 150%;">win32_processor</div>
+      <div style="margin-left: 200px;font-size: 150%;">Processador</div>
     </div>
     <div class="form-group">
       <label class="col-lg-2 control-label">win32_processor_manufacturer:</label>
@@ -94,11 +96,32 @@
         <button type="button" id="enviar" class="btn btn-sm" style="margin-left: 315px;" >Enviar</button>
         <button type="button" id="limpar" class="btn btn-sm">Limpar</button>
       </div>
+
+
 </form>
 
 	</metal:content>
   <metal:content fill-slot="javascript">
     <script type="text/javascript">
+      $(document).ready(function() {
+          var max_fields      = 10; //maximum input boxes allowed
+          var wrapper         = $(".input_fields_wrap"); //Fields wrapper
+          var add_button      = $(".add_field_button"); //Add button ID
+          
+          var x = 1; //initlal text box count
+          $(add_button).click(function(e){ //on add input button click
+              e.preventDefault();
+              if(x < max_fields){ //max input box allowed
+                  x++; //text box increment
+                  $(wrapper).append('<div><input type="text" id="softwarelist" class="form-control" placeholder="software"/><a href="#" class="remove_field">Remove</a></div>'); //add input box
+              }
+          });
+          
+          $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+              e.preventDefault(); $(this).parent('div').remove(); x--;
+          })
+      });
+
        $('#limpar').click(function(){
                 $('#data_coleta').val('')
                 $('#softwarelist').val('')
