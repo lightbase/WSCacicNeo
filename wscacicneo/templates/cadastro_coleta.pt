@@ -26,9 +26,10 @@
     </div>
     <div class="form-group">
       <label class="col-lg-2 control-label">Lista de Softwares:</label>
-      <button class="add_field_button">Add More Fields</button>
+      <button class="add_field_button">Adicionar mais softwares</button>
       <div class="col-lg-5 input_fields_wrap">
-        <input type="text" id="softwarelist" class="form-control" placeholder="software">
+        <input type="text" id="softwarelist_1" class="form-control" placeholder="software">
+          <br/>
       </div>
     </div>
 
@@ -37,19 +38,19 @@
       <div style="margin-left: 200px;font-size: 150%;">Sistema Operacional</div>
     </div>
     <div class="form-group">
-      <label class="col-lg-2 control-label">operatingsystem_caption:</label>
+      <label class="col-lg-2 control-label">Modelo/Nome do SO:</label>
       <div class="col-lg-5">
         <input type="text" id="operatingsystem_caption" class="form-control" placeholder="operatingsystem_caption">
       </div>
     </div>
     <div class="form-group">
-      <label class="col-lg-2 control-label">operatingsystem_version:</label>
+      <label class="col-lg-2 control-label">Versão do SO:</label>
       <div class="col-lg-5">
         <input type="text" id="operatingsystem_version" class="form-control" placeholder="operatingsystem_version">
       </div>
     </div>
     <div class="form-group">
-      <label class="col-lg-2 control-label">operatingsystem_installdate:</label>
+      <label class="col-lg-2 control-label">Dado de instalação do SO:</label>
       <div class="col-lg-5">
         <input type="text" id="operatingsystem_installdate" class="form-control" 
                 placeholder="operatingsystem_installdate">
@@ -59,7 +60,7 @@
       <div style="margin-left: 200px;font-size: 150%;">BIOS</div>
     </div>
       <div class="form-group">
-      <label class="col-lg-2 control-label">win32_bios_manufacturer:</label>
+      <label class="col-lg-2 control-label">Nome da BIOS:</label>
       <div class="col-lg-5">
         <input type="text" id="win32_bios_manufacturer" class="form-control" placeholder="win32_bios_manufacturer">
       </div>
@@ -69,21 +70,21 @@
       <div style="margin-left: 200px;font-size: 150%;">Processador</div>
     </div>
     <div class="form-group">
-      <label class="col-lg-2 control-label">win32_processor_manufacturer:</label>
+      <label class="col-lg-2 control-label">Nome do Processador:</label>
       <div class="col-lg-5">
         <input type="text" id="win32_processor_manufacturer" class="form-control" 
                 placeholder="win32_processor_manufacturer">
       </div>
     </div>
     <div class="form-group">
-      <label class="col-lg-2 control-label">win32_processor_numberoflogicalprocessors:</label>
+      <label class="col-lg-2 control-label">Número de processadores lógicos:</label>
       <div class="col-lg-5">
         <input type="text" id="win32_processor_numberoflogicalprocessors" class="form-control" 
                 placeholder="win32_processor_numberoflogicalprocessors">
       </div>
     </div>
     <div class="form-group">
-      <label class="col-lg-2 control-label">win32_processor_caption</label>
+      <label class="col-lg-2 control-label">Modelo do processador:</label>
       <div class="col-lg-5">
         <input type="text" id="win32_processor_caption" class="form-control" 
                 placeholder="win32_processor_caption">
@@ -103,17 +104,17 @@
 	</metal:content>
   <metal:content fill-slot="javascript">
     <script type="text/javascript">
+      var x = 1; //initlal text box count
       $(document).ready(function() {
           var max_fields      = 10; //maximum input boxes allowed
           var wrapper         = $(".input_fields_wrap"); //Fields wrapper
           var add_button      = $(".add_field_button"); //Add button ID
           
-          var x = 1; //initlal text box count
           $(add_button).click(function(e){ //on add input button click
               e.preventDefault();
               if(x < max_fields){ //max input box allowed
                   x++; //text box increment
-                  $(wrapper).append('<div><input type="text" id="softwarelist" class="form-control" placeholder="software"/><a href="#" class="remove_field">Remove</a></div>'); //add input box
+                  $(wrapper).append('<div><input type="text" id="softwarelist_'+x+'" class="form-control" placeholder="software"/><a href="#" class="remove_field">Remove</a></div>'); //add input box
               }
           });
           
@@ -134,10 +135,15 @@
                 $('#win32_bios_manufacturer').val('')
        });
        $('#enviar').click(function(){
+                var all_softwares = [$('#softwarelist_1').val()];
+                for (i = 0; i < x; i++) { 
+                  all_softwares.push( $('#softwarelist_'+i).val() )
+                  console.log(all_softwares)
+                }
                 var data = {
                     'orgao': $('#orgao').val(), 
                     'data_coleta': $('#data_coleta').val(), 
-                    'softwarelist': $('#softwarelist').val(), 
+                    'softwarelist': all_softwares, 
                     'win32_processor_manufacturer': $('#win32_processor_manufacturer').val(),
                     'win32_processor_numberoflogicalprocessors': $('#win32_processor_numberoflogicalprocessors').val(),
                     'win32_processor_caption': $('#win32_processor_caption').val(),
