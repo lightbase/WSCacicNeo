@@ -135,15 +135,15 @@
                 $('#win32_bios_manufacturer').val('')
        });
        $('#enviar').click(function(){
-                var all_softwares = [$('#softwarelist_1').val()];
-                for (i = 0; i < x; i++) { 
-                  all_softwares.push( $('#softwarelist_'+i).val() )
-                  console.log(all_softwares)
-                }
+                var softwarelist = [];
+                for (i = 1; i <= x; i++) { 
+                softwarelist.push( $("#softwarelist_"+i).val() )
+              }
+                console.log(softwarelist)
                 var data = {
                     'orgao': $('#orgao').val(), 
                     'data_coleta': $('#data_coleta').val(), 
-                    'softwarelist': all_softwares, 
+                    'softwarelist': softwarelist, 
                     'win32_processor_manufacturer': $('#win32_processor_manufacturer').val(),
                     'win32_processor_numberoflogicalprocessors': $('#win32_processor_numberoflogicalprocessors').val(),
                     'win32_processor_caption': $('#win32_processor_caption').val(),
@@ -152,10 +152,11 @@
                     'operatingsystem_caption': $('#operatingsystem_caption').val(),
                     'win32_bios_manufacturer': $('#win32_bios_manufacturer').val(),
                     }
+                json = JSON.stringify(data)
                 $.ajax({
                     type: "POST",
                     url: "${request.route_url('root')}post_coleta_manual",
-                    data: data, 
+                    data: {'documento': json}, 
                     success: function(){ alert('sucesso') },
                     error: function(){ alert('erro') },
                 }); 
