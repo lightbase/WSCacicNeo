@@ -24,6 +24,7 @@ class ColetaManualBase():
         """
         Método construtor
         """
+        print(rest_url)
         self.nm_base = nm_base
         if rest_url is None:
             self.rest_url = config.REST_URL

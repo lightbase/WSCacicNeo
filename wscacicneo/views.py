@@ -200,7 +200,7 @@ def delete_orgao(request):
     id = search.results[0]._metadata.id_doc
     delete = orgao_obj.delete_orgao(id)
 
-    return Response(delete)
+    return HTTPFound(location = request.route_url('listorgao'))
 
 # Views de Favoritos
 @view_config(route_name='favoritos', renderer='templates/favoritos.pt', permission="admin")
@@ -451,7 +451,7 @@ def delete_user(request):
     search = user_obj.search_user(matricula)
     id = search.results[0]._metadata.id_doc
     delete = user_obj.delete_user(id)
-    return Response(delete)
+    return HTTPFound(location = request.route_url('listuser'))
 
 # Autenticação
 @view_config(route_name='login', renderer='templates/login.pt', permission="view")
@@ -533,7 +533,6 @@ def post_coleta_manual(request):
     Post doc ColetaManual
     """
     document = json.loads(request.params['documento'])
-    print(document['softwarelist'])
     nm_base = document['orgao']
     data_coleta = document['data_coleta']
     softwarelist = document['softwarelist']

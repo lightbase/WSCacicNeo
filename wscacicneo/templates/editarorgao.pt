@@ -105,7 +105,7 @@
                     type: "PUT",
                     url: "${request.route_url('root')}put_orgao",
                     data: data, 
-                    success: function(){ alert('Alteração realizado com sucesso')   },
+                    success: function(){alert("Aleteração realizado com sucesso"), window.location.href = "${request.route_url('listorgao')}";   },
                     error: function(){ alert('Erro ao alterar o orgão. Todos os campos são obrigatórios') },
                 }); 
             });

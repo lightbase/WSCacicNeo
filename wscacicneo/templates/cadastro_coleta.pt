@@ -106,7 +106,7 @@
     <script type="text/javascript">
       var x = 1; //initlal text box count
       $(document).ready(function() {
-          var max_fields      = 10; //maximum input boxes allowed
+          var max_fields      = 100; //maximum input boxes allowed
           var wrapper         = $(".input_fields_wrap"); //Fields wrapper
           var add_button      = $(".add_field_button"); //Add button ID
           
@@ -157,7 +157,7 @@
                     type: "POST",
                     url: "${request.route_url('root')}post_coleta_manual",
                     data: {'documento': json}, 
-                    success: function(){ alert('sucesso') },
+                    success: function(){ alert('sucesso'), window.location.href = "${request.route_url('home')}"; },
                     error: function(){ alert('erro') },
                 }); 
             });

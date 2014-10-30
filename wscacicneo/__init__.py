@@ -32,9 +32,9 @@ def main(global_config, **settings):
     # Rotas Básicas
     cfg.add_route('home', 'home')
     cfg.add_route('notifications', 'notifications')
-    cfg.add_route('orgao', 'orgao/cadastro')
     
     # Orgãos
+    cfg.add_route('orgao', 'orgao/cadastro')
     cfg.add_route('post_orgao', 'post_orgao')
     cfg.add_route('put_orgao', 'put_orgao')
     cfg.add_route('editorgao', 'orgao/editar/{sigla}')

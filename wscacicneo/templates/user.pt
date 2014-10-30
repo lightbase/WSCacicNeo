@@ -130,7 +130,7 @@
                         type: "POST",
                         url: "${request.route_url('root')}post_user",
                         data: data, 
-                        success: function(){ alert('Cadastro realizado com sucesso') },
+                        success: function(){ alert('Cadastro realizado com sucesso'), window.location.href = "${request.route_url('listuser')}"; },
                         error: function(){ alert('Erro ao realizar o cadastro. Todos os campos são obrigatórios') },
                     }); 
                 }

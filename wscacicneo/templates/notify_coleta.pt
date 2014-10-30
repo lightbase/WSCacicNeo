@@ -12,7 +12,7 @@
                     <div class="form-group">
                     <label class="col-lg-2 control-label">ID da Coleta</label>
                     <div class="col-lg-5">
-                        <input type="password" id="id_coleta" class="form-control" placeholder="ID">
+                        <input type="text" id="id_coleta" class="form-control" placeholder="ID">
                     </div>
                     </div>
                     <div class="form-group">
@@ -44,7 +44,7 @@
                         type: "POST",
                         url: "${request.route_url('root')}post_notify",
                         data: data, 
-                        success: function(){ alert('22222222') },
+                        success: function(){ alert('Sucesso'), window.location.href = "${request.route_url('home')}"; },
                         error: function(){ alert('Não foi desta vez Tente novamente mais tarde') },
                });
             });

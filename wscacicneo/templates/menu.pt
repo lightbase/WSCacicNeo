@@ -10,10 +10,10 @@
           <li class="has_sub"  tal:condition="request.authenticated_userid">
             <a href="#"><i class="fa fa-file-o"></i> Orgão <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
             <ul>
-              <li><a href="${request.route_url('root')}notificacoes/lista">Notificações</a></li>
               <li><a href="${request.route_url('root')}orgao/lista">Listar Orgãos</a></li>
-              <li><a href="${request.route_url('root')}coleta/cadastro">Cadastrar Coleta</a></li>
               <li><a href="${request.route_url('root')}orgao/cadastro">Cadastrar Orgão</a></li>
+              <li><a href="${request.route_url('root')}coleta/cadastro">Cadastrar Coleta</a></li>
+              <li><a href="${request.route_url('root')}notificacoes/cadastro">Cadastrar Notificação</a></li>
             </ul>
           </li>
           <li class="has_sub"  tal:condition="request.authenticated_userid">
@@ -28,6 +28,7 @@
             <a href="#"><i class="fa fa-file-o"></i> Favoritos <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
             <ul>
               <li><a href="#">Não disponível</a></li>
+              <li><a href="${request.route_url('root')}notificacoes/lista">Notificações</a></li>
             </ul>
           </li>
     </ul>
