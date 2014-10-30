@@ -532,7 +532,8 @@ def post_coleta_manual(request):
     """
     Post doc ColetaManual
     """
-    document = request.params
+    document = json.loads(request.params['documento'])
+    print(document['softwarelist'])
     nm_base = document['orgao']
     data_coleta = document['data_coleta']
     softwarelist = document['softwarelist']
@@ -543,6 +544,7 @@ def post_coleta_manual(request):
     operatingsystem_installdate = document['operatingsystem_installdate']
     operatingsystem_caption = document['operatingsystem_caption']
     win32_bios_manufacturer = document['win32_bios_manufacturer']
+
     nm_base_formatted = Utils.format_name(nm_base)
     coleta_dict= {
         "data_coleta": data_coleta,
@@ -556,9 +558,7 @@ def post_coleta_manual(request):
             "operatingsystem_installdate": operatingsystem_installdate,
             "operatingsystem_caption": operatingsystem_caption
         },
-        "softwarelist": [
-            softwarelist
-        ],
+        "softwarelist":softwarelist,
         "win32_bios": {
             "win32_bios_manufacturer": win32_bios_manufacturer
         }
