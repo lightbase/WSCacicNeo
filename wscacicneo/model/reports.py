@@ -114,6 +114,7 @@ class Reports():
             else:
                 attribute = getattr(elm, attr)
 
+            print(results)
             if saida.get(attribute):
                 saida[attribute] = saida.get(attribute) + 1
             else:

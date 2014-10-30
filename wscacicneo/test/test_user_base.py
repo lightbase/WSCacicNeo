@@ -15,13 +15,13 @@ class TestUserBase(unittest.TestCase):
         """
         Carregando atributos genéricos do teste
         """
-        pass
+        self.rest_url = 'uehuehuehue'
 
     def test_create_base(self):
         """
         Testa criação da base no LB
         """
-        user_base = user.UserBase()
+        user_base = user.UserBase(self.rest_url)
         lbbase = user_base.lbbase
         self.assertIsInstance(lbbase, Base)
 
