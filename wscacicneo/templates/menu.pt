@@ -7,16 +7,22 @@
               </i> Início</a>
               <a href="${request.route_url('root')}relatorios/configuracao" tal:condition="request.authenticated_userid"><i class="fa fa-file-o"></i> Relatorios <span class="pull-right"><i class=""></i></span></a>
           </li>
-          <li class="has_sub"  tal:condition="request.authenticated_userid">
-            <a href="#"><i class="fa fa-file-o"></i> Orgão <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
+          <li class="has_sub"  tal:condition="request.authenticated_userid" >
+            <a href="#"><i class="fa fa-file-o"></i> Notificações <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
             <ul>
-              <li><a href="${request.route_url('root')}orgao/lista">Listar Orgãos</a></li>
-              <li><a href="${request.route_url('root')}orgao/cadastro">Cadastrar Orgão</a></li>
+              <li><a href="${request.route_url('root')}notificacoes/lista">Notificações</a></li>
               <li><a href="${request.route_url('root')}coleta/cadastro">Cadastrar Coleta</a></li>
               <li><a href="${request.route_url('root')}notificacoes/cadastro">Cadastrar Notificação</a></li>
             </ul>
           </li>
-          <li class="has_sub"  tal:condition="request.authenticated_userid">
+          <li class="has_sub"  tal:condition="request.authenticated_userid" tal:condition="request.cookies.permission == 'Administrador'">
+            <a href="#"><i class="fa fa-file-o"></i> Orgão <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
+            <ul>
+              <li><a href="${request.route_url('root')}orgao/lista">Listar Orgãos</a></li>
+              <li><a href="${request.route_url('root')}orgao/cadastro">Cadastrar Orgão</a></li>
+            </ul>
+          </li>
+          <li class="has_sub"  tal:condition="request.authenticated_userid" tal:condition="request.cookies.permission == 'Administrador'">
             <a href="#"><i class="fa fa-file-o"></i> Usuário <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
             <ul>
               <li><a href="${request.route_url('root')}usuario/lista">Listar Usuários</a></li>
@@ -28,7 +34,6 @@
             <a href="#"><i class="fa fa-file-o"></i> Favoritos <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
             <ul>
               <li><a href="#">Não disponível</a></li>
-              <li><a href="${request.route_url('root')}notificacoes/lista">Notificações</a></li>
             </ul>
           </li>
     </ul>
