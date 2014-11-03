@@ -45,10 +45,8 @@ def root(request):
 # Views básicas
 @view_config(route_name='home', renderer='templates/home.pt', permission="user")
 def home(request):
-    response = Response()
-    response.set_cookie('permission', value="None", overwrite=True)
-    return response 
-
+   return {'project': 'WSCacicNeo'}
+   
 # Lista de Notificação
 @view_config(route_name='list_notify', renderer='templates/list_notify.pt', permission="gest")
 def list_notify(request):

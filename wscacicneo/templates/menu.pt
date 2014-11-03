@@ -1,3 +1,4 @@
+<!-- tal:condition="request.cookies.permission == 'Administrador' -->
 <div class="sidebar">
   <div class="sidebar-dropdown"><a href="#">Navigation</a></div>
     <ul id="nav">
@@ -15,14 +16,14 @@
               <li><a href="${request.route_url('root')}notificacoes/cadastro">Cadastrar Notificação</a></li>
             </ul>
           </li>
-          <li class="has_sub"  tal:condition="request.authenticated_userid" tal:condition="request.cookies.permission == 'Administrador'">
+          <li class="has_sub"  tal:condition="request.authenticated_userid" >
             <a href="#"><i class="fa fa-file-o"></i> Orgão <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
             <ul>
               <li><a href="${request.route_url('root')}orgao/lista">Listar Orgãos</a></li>
               <li><a href="${request.route_url('root')}orgao/cadastro">Cadastrar Orgão</a></li>
             </ul>
           </li>
-          <li class="has_sub"  tal:condition="request.authenticated_userid" tal:condition="request.cookies.permission == 'Administrador'">
+          <li class="has_sub"  tal:condition="request.authenticated_userid" >
             <a href="#"><i class="fa fa-file-o"></i> Usuário <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
             <ul>
               <li><a href="${request.route_url('root')}usuario/lista">Listar Usuários</a></li>
