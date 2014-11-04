@@ -40,12 +40,14 @@ def master(request):
 
 @view_config(route_name='root')
 def root(request):
-    return {'project': 'WSCacicNeo'}
-
+    permissao_usuario = Utils.retorna_permissao_usuario(request.authenticated_userid)
+    return {'permissao_usuario': permissao_usuario}
+    
 # Views básicas
 @view_config(route_name='home', renderer='templates/home.pt', permission="user")
 def home(request):
-   return {'project': 'WSCacicNeo'}
+    permissao_usuario = Utils.retorna_permissao_usuario(request.authenticated_userid)
+    return {'permissao_usuario': permissao_usuario}
    
 # Lista de Notificação
 @view_config(route_name='list_notify', renderer='templates/list_notify.pt', permission="gest")
@@ -491,7 +493,6 @@ def login(request):
                 headers = remember(request, email)
                 response = HTTPFound(location = came_from,
                                  headers = headers)
-                response.set_cookie('permission', value=permissao_usuario, overwrite=True)
                 return response
             message = 'E-mail ou senha incorretos'
         except:
@@ -514,7 +515,6 @@ def logout(request):
     response = Response()
     response = HTTPFound(location = request.route_url('login'),
                      headers = headers)
-    response.set_cookie('permission', value="None", overwrite=True)
     return response
 
 # Coleta
