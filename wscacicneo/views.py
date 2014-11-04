@@ -297,9 +297,10 @@ def conf_report(request):
     search = orgao_obj.search_list_orgaos()
     return {'orgao_doc': search.results}
 
-@view_config(route_name='report_itens', renderer='templates/report.pt', permission="admin")
+@view_config(route_name='report_itens', renderer='templates/report.pt', permission="user")
 def report_itens(request):
-    nm_orgao = Utils.format_name(request.matchdict['nm_orgao'])
+    orgao_nm = request.matchdict['nm_orgao']
+    nm_orgao = Utils.format_name(orgao_nm)
     attr = request.matchdict['attr']
     child = request.matchdict['child']
     data = Reports(nm_orgao).count_attribute(attr, child)
@@ -504,7 +505,7 @@ def login(request):
         is_visible = is_visible,
         )
 
-@view_config(route_name='logout', permission="admin")
+@view_config(route_name='logout', permission="user")
 def logout(request):
     headers = forget(request)
     return HTTPFound(location = request.route_url('login'),
