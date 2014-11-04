@@ -6,7 +6,8 @@ import unicodedata
 import hashlib
 from wscacicneo.model.orgao import Orgao
 from wscacicneo.model.orgao import OrgaoBase
-
+from wscacicneo.model.user import User
+from wscacicneo.model.user import UserBase
 
 class Utils:
 
@@ -33,3 +34,28 @@ class Utils:
     def hash_password(password):
         hash_object = hashlib.md5(password.encode("utf-8"))
         return hash_object.hexdigest()
+
+    def create_user_obj():
+        user_obj = User(
+            nome = 'usuario',
+            matricula = '000000',
+            email = 'usuario@gov.br',
+            orgao = 'mpog',
+            telefone = '(11)1111-1111',
+            cargo = 'adm',
+            setor = 'ti',
+            permissao = 'Administrador',
+            senha = '123',
+            favoritos = ['favoritos']
+        )
+        return user_obj
+        
+    def retorna_permissao_usuario(email):
+        if email is None:
+            return None
+        else:
+            user_obj = Utils.create_user_obj()
+            usuario = user_obj.search_user_by_email(email)
+            permissao = usuario.results[0].permissao
+            return permissao
+

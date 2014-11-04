@@ -7,6 +7,7 @@ from pyramid.security import (
 
 class RootFactory(object):
     __acl__ = [ (Allow, Everyone, 'user'),
-                (Allow, 'Administrador', 'admin') ]
+                (Allow, 'Administrador', ('admin', 'gest')),
+                (Allow, 'Gestor', 'gest') ]
     def __init__(self, request):
         pass

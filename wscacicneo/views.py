@@ -45,10 +45,10 @@ def root(request):
 # Views básicas
 @view_config(route_name='home', renderer='templates/home.pt', permission="user")
 def home(request):
-    return {'project': 'WSCacicNeo'}
-
+   eturn {'project': 'WSCacicNeo'}
+   
 # Lista de Notificação
-@view_config(route_name='list_notify', renderer='templates/list_notify.pt', permission="admin")
+@view_config(route_name='list_notify', renderer='templates/list_notify.pt', permission="gest")
 def list_notify(request):
     notify_obj = Notify(
         orgao = 'deasdsd',
@@ -61,11 +61,11 @@ def list_notify(request):
     return {'doc': doc}
 
 
-@view_config(route_name='notify', renderer='templates/notify_coleta.pt', permission="admin")
+@view_config(route_name='notify', renderer='templates/notify_coleta.pt', permission="gest")
 def notify(request):
     return {'project': 'WSCacicNeo'}
 
-@view_config(route_name='post_notify', permission="admin")
+@view_config(route_name='post_notify', permission="gest")
 def post_notify(request):
     requests = request.params
     notify_obj = Notify(
@@ -78,11 +78,11 @@ def post_notify(request):
     return Response(str(results))
 
 # Views de Orgão
-@view_config(route_name='orgao', renderer='templates/orgao.pt', permission="admin")
+@view_config(route_name='orgao', renderer='templates/orgao.pt', permission="gest")
 def orgao(request):
     return {'project': 'WSCacicNeo'}
 
-@view_config(route_name='listorgao', renderer='templates/list_orgao.pt', permission="admin")
+@view_config(route_name='listorgao', renderer='templates/list_orgao.pt', permission="gest")
 def listorgao(request):
     orgao_obj = Orgao(
         nome = 'sahuds',
@@ -97,7 +97,7 @@ def listorgao(request):
     search = orgao_obj.search_list_orgaos()
     return {'orgao_doc': search.results}
 
-@view_config(route_name='editorgao', renderer='templates/editarorgao.pt', permission="admin")
+@view_config(route_name='editorgao', renderer='templates/editarorgao.pt', permission="gest")
 def editorgao(request):
     sigla = request.matchdict['sigla']
     orgao_obj = Orgao(
@@ -122,7 +122,7 @@ def editorgao(request):
         'url' : search.results[0].url
     }
 
-@view_config(route_name='post_orgao', permission="admin")
+@view_config(route_name='post_orgao', permission="gest")
 def post_orgao(request):
     """
     Post doc órgãos
@@ -145,7 +145,7 @@ def post_orgao(request):
 
     return Response(str(id_doc))
 
-@view_config(route_name='put_orgao', permission="admin")
+@view_config(route_name='put_orgao', permission="gest")
 def put_orgao(request):
     """
     Edita um doc apartir do id
@@ -179,7 +179,7 @@ def put_orgao(request):
 
     return Response(edit)
 
-@view_config(route_name='delete_orgao', permission="admin")
+@view_config(route_name='delete_orgao', permission="gest")
 def delete_orgao(request):
     """
     Deleta doc apartir do id
@@ -203,7 +203,7 @@ def delete_orgao(request):
     return HTTPFound(location = request.route_url('listorgao'))
 
 # Views de Favoritos
-@view_config(route_name='favoritos', renderer='templates/favoritos.pt', permission="admin")
+@view_config(route_name='favoritos', renderer='templates/favoritos.pt', permission="gest")
 def favoritos(request):
     matricula = request.matchdict['matricula']
     user_obj = User(
@@ -234,7 +234,7 @@ def favoritos(request):
         'senha' : search.results[0].senha
     }
 
-@view_config(route_name='edit_favoritos', permission="admin")
+@view_config(route_name='edit_favoritos', permission="gest")
 def edit_favoritos(request):
     """
     Editar do Favoritos
@@ -273,7 +273,7 @@ def edit_favoritos(request):
     return Response(edit)
 
 # Reports
-@view_config(route_name='create_orgao',permission="admin")
+@view_config(route_name='create_orgao',permission="gest")
 def create_base(request):
     nm_orgao = Utils.format_name(request.matchdict['nm_orgao'])
     coletaManualBase = coleta_manual.ColetaManualBase(nm_orgao)
@@ -297,7 +297,11 @@ def conf_report(request):
     search = orgao_obj.search_list_orgaos()
     return {'orgao_doc': search.results}
 
+<<<<<<< HEAD
 @view_config(route_name='report_itens', renderer='templates/report.pt', permission="user")
+=======
+@view_config(route_name='report_itens', renderer='templates/report.pt', permission="gest")
+>>>>>>> 3ae8442249f63f9b4c90dd474c8d0a0a5d7a83dc
 def report_itens(request):
     orgao_nm = request.matchdict['nm_orgao']
     nm_orgao = Utils.format_name(orgao_nm)
@@ -455,7 +459,7 @@ def delete_user(request):
     return HTTPFound(location = request.route_url('listuser'))
 
 # Autenticação
-@view_config(route_name='login', renderer='templates/login.pt', permission="view")
+@view_config(route_name='login', renderer='templates/login.pt')
 @forbidden_view_config(renderer='templates/login.pt')
 def login(request):
     user_obj = User(
@@ -487,9 +491,13 @@ def login(request):
         try:
             usuario = user_obj.search_user_by_email(email)
             if usuario.results[0].senha == senha_hash:
+                response = Response()
+                permissao_usuario = usuario.results[0].permissao
                 headers = remember(request, email)
-                return HTTPFound(location = came_from,
+                response = HTTPFound(location = came_from,
                                  headers = headers)
+                response.set_cookie('permission', value=permissao_usuario, overwrite=True)
+                return response
             message = 'E-mail ou senha incorretos'
         except:
             message = 'E-mail ou senha incorretos'
@@ -508,11 +516,14 @@ def login(request):
 @view_config(route_name='logout', permission="user")
 def logout(request):
     headers = forget(request)
-    return HTTPFound(location = request.route_url('login'),
+    response = Response()
+    response = HTTPFound(location = request.route_url('login'),
                      headers = headers)
+    response.set_cookie('permission', value="None", overwrite=True)
+    return response
 
 # Coleta
-@view_config(route_name='cadastro_coleta', renderer='templates/cadastro_coleta.pt', permission="admin")
+@view_config(route_name='cadastro_coleta', renderer='templates/cadastro_coleta.pt', permission="gest")
 def cadastro_coleta(request):
     orgao_obj = Orgao(
         nome = 'teste',
@@ -528,7 +539,7 @@ def cadastro_coleta(request):
     return {'orgao_doc': search.results}
 
 
-@view_config(route_name='post_coleta_manual', permission="admin")
+@view_config(route_name='post_coleta_manual', permission="gest")
 def post_coleta_manual(request):
     """
     Post doc ColetaManual
