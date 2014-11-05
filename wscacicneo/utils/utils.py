@@ -52,10 +52,19 @@ class Utils:
         
     def retorna_permissao_usuario(email):
         if email is None:
-            return None
+            return "Usuario"
         else:
             user_obj = Utils.create_user_obj()
             usuario = user_obj.search_user_by_email(email)
             permissao = usuario.results[0].permissao
             return permissao
+
+    def retorna_favoritos_usuario(email):
+        if email is None:
+            return None
+        else:
+            user_obj = Utils.create_user_obj()
+            usuario = user_obj.search_user_by_email(email)
+            favoritos = usuario.results[0].favoritos
+            return favoritos
 

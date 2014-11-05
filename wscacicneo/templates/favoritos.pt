@@ -53,10 +53,10 @@
                 itens = ${itens}
                 itens.splice(index, 1)
                 favoritos = ${favoritos}
-                matricola = $('#url').val()
+                matricula = $('#url').val()
                 favoritos.push(value)
                 var data = {
-                    'matricola': matricola,
+                    'matricula': matricula,
                     'index': index,
                     'favoritos': favoritos,
                     'itens': itens,
@@ -67,7 +67,7 @@
                     'telefone' : '${telefone}',
                     'cargo' : '${cargo}',
                     'setor' : '${setor}', 
-                    'permissao' : '$permissao',
+                    'permissao' : '${permissao}',
                     'senha' : '${senha}'
                 }
                 json = JSON.stringify(data)
@@ -86,10 +86,10 @@
                 favoritos = ${favoritos}
                 favoritos.splice(index, 1)
                 itens = ${itens}
-                matricola = $('#url').val()
+                matricula = $('#url').val()
                 itens.push(value)
                 var data = {
-                    'matricola': matricola,
+                    'matricula': matricula,
                     'index': index,
                     'favoritos': favoritos,
                     'itens': itens,
@@ -100,7 +100,7 @@
                     'telefone' : '${telefone}',
                     'cargo' : '${cargo}',
                     'setor' : '${setor}', 
-                    'permissao' : '$permissao',
+                    'permissao' : '${permissao}',
                     'senha' : '${senha}'
                 }
                 json = JSON.stringify(data)

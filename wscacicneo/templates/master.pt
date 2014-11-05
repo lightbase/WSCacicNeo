@@ -101,7 +101,7 @@
 							<i class="fa fa-home"></i>&nbsp;
 							</h2>
 							<h2 class="pull-left" id="dashlocation">
-								${request.path} 
+								<metal:content define-slot="dash"/>
 							</h2>
 
 
@@ -131,13 +131,6 @@
 
 			</metal:content>
 			<metal:content fill-slot="javascript">
-			<script type="text/javascript">
-				$( document ).ready(function() {
-	    			var string = $('#dashlocation').text().split("/");
-	    			$('#dashlocation').text(string[2]);
-				});
-		</script>
-		<metal:content define-slot="javascript"/>
-	</metal:content>
-
+				<metal:content define-slot="javascript"/>
+			</metal:content>
 		</metal:main>
