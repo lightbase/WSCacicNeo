@@ -41,13 +41,19 @@ def master(request):
 @view_config(route_name='root')
 def root(request):
     permissao_usuario = Utils.retorna_permissao_usuario(request.authenticated_userid)
-    return {'permissao_usuario': permissao_usuario}
+    favoritos_usuario = Utils.retorna_favoritos_usuario(request.authenticated_userid)
+    return {'permissao_usuario': permissao_usuario,
+            'favoritos_usuario' : favoritos_usuario
+            }
     
 # Views básicas
 @view_config(route_name='home', renderer='templates/home.pt', permission="user")
 def home(request):
     permissao_usuario = Utils.retorna_permissao_usuario(request.authenticated_userid)
-    return {'permissao_usuario': permissao_usuario}
+    favoritos_usuario = Utils.retorna_favoritos_usuario(request.authenticated_userid)
+    return {'permissao_usuario': permissao_usuario,
+            'favoritos_usuario' : favoritos_usuario
+            }
    
 # Lista de Notificação
 @view_config(route_name='list_notify', renderer='templates/list_notify.pt', permission="gest")
@@ -60,12 +66,21 @@ def list_notify(request):
     )
     reg = notify_obj.search_list_notify()
     doc = reg.results
-    return {'doc': doc}
+    permissao_usuario = Utils.retorna_permissao_usuario(request.authenticated_userid)
+    favoritos_usuario = Utils.retorna_favoritos_usuario(request.authenticated_userid)
+    return {'doc': doc,
+            'permissao_usuario': permissao_usuario,
+            'favoritos_usuario': favoritos_usuario
+            }
 
 
 @view_config(route_name='notify', renderer='templates/notify_coleta.pt', permission="gest")
 def notify(request):
-    return {'project': 'WSCacicNeo'}
+    permissao_usuario = Utils.retorna_permissao_usuario(request.authenticated_userid)
+    favoritos_usuario = Utils.retorna_favoritos_usuario(request.authenticated_userid)
+    return {'permissao_usuario': permissao_usuario,
+            'favoritos_usuario': favoritos_usuario
+            }
 
 @view_config(route_name='post_notify', permission="gest")
 def post_notify(request):
@@ -80,9 +95,13 @@ def post_notify(request):
     return Response(str(results))
 
 # Views de Orgão
-@view_config(route_name='orgao', renderer='templates/orgao.pt', permission="gest")
+@view_config(route_name='orgao', renderer='templates/orgao.pt', permission="admin")
 def orgao(request):
-    return {'project': 'WSCacicNeo'}
+    permissao_usuario = Utils.retorna_permissao_usuario(request.authenticated_userid)
+    favoritos_usuario = Utils.retorna_favoritos_usuario(request.authenticated_userid)
+    return {'permissao_usuario': permissao_usuario,
+            'favoritos_usuario': favoritos_usuario
+            }
 
 @view_config(route_name='listorgao', renderer='templates/list_orgao.pt', permission="gest")
 def listorgao(request):
@@ -97,9 +116,14 @@ def listorgao(request):
         url = 'http://api.brlight.net/api'
     )
     search = orgao_obj.search_list_orgaos()
-    return {'orgao_doc': search.results}
+    permissao_usuario = Utils.retorna_permissao_usuario(request.authenticated_userid)
+    favoritos_usuario = Utils.retorna_favoritos_usuario(request.authenticated_userid)
+    return {'orgao_doc': search.results,
+            'permissao_usuario': permissao_usuario,
+            'favoritos_usuario': favoritos_usuario
+            }
 
-@view_config(route_name='editorgao', renderer='templates/editarorgao.pt', permission="gest")
+@view_config(route_name='editorgao', renderer='templates/editarorgao.pt', permission="admin")
 def editorgao(request):
     sigla = request.matchdict['sigla']
     orgao_obj = Orgao(
@@ -113,6 +137,8 @@ def editorgao(request):
         url = 'http://api.brlight.net/api'
     )
     search = orgao_obj.search_orgao(sigla)
+    permissao_usuario = Utils.retorna_permissao_usuario(request.authenticated_userid)
+    favoritos_usuario = Utils.retorna_favoritos_usuario(request.authenticated_userid)
     return {
         'nome' : search.results[0].nome,
         'cargo' : search.results[0].cargo,
@@ -121,10 +147,12 @@ def editorgao(request):
         'endereco' : search.results[0].endereco,
         'email' : search.results[0].email,
         'telefone' : search.results[0].telefone,
-        'url' : search.results[0].url
+        'url' : search.results[0].url,
+        'permissao_usuario': permissao_usuario,
+        'favoritos_usuario': favoritos_usuario
     }
 
-@view_config(route_name='post_orgao', permission="gest")
+@view_config(route_name='post_orgao', permission="admin")
 def post_orgao(request):
     """
     Post doc órgãos
@@ -142,12 +170,10 @@ def post_orgao(request):
         telefone = doc['telefone'],
         url = doc['url']
     )
-
     id_doc = orgao_obj.create_orgao()
-
     return Response(str(id_doc))
 
-@view_config(route_name='put_orgao', permission="gest")
+@view_config(route_name='put_orgao', permission="admin")
 def put_orgao(request):
     """
     Edita um doc apartir do id
@@ -178,10 +204,9 @@ def put_orgao(request):
     id = search.results[0]._metadata.id_doc
     doc = json.dumps(orgao)
     edit = orgao_obj.edit_orgao(id, doc)
-
     return Response(edit)
 
-@view_config(route_name='delete_orgao', permission="gest")
+@view_config(route_name='delete_orgao', permission="admin")
 def delete_orgao(request):
     """
     Deleta doc apartir do id
@@ -201,7 +226,6 @@ def delete_orgao(request):
     search = orgao_obj.search_orgao(sigla)
     id = search.results[0]._metadata.id_doc
     delete = orgao_obj.delete_orgao(id)
-
     return HTTPFound(location = request.route_url('listorgao'))
 
 # Views de Favoritos
@@ -221,6 +245,8 @@ def favoritos(request):
         senha = 'senha'
     )
     search = user_obj.search_user(matricula)
+    permissao_usuario = Utils.retorna_permissao_usuario(request.authenticated_userid)
+    favoritos_usuario = Utils.retorna_favoritos_usuario(request.authenticated_userid)
     favoritos = search.results[0].favoritos
     return {
         'favoritos': search.results[0].favoritos,
@@ -233,7 +259,9 @@ def favoritos(request):
         'cargo' : search.results[0].cargo,
         'setor' : search.results[0].setor,
         'permissao' : search.results[0].permissao,
-        'senha' : search.results[0].senha
+        'senha' : search.results[0].senha,
+        'permissao_usuario': permissao_usuario,
+        'favoritos_usuario': favoritos_usuario
     }
 
 @view_config(route_name='edit_favoritos', permission="gest")
@@ -242,7 +270,7 @@ def edit_favoritos(request):
     Editar do Favoritos
     """
     documento = json.loads(request.params['documento'])
-    matricula = documento['matricola']
+    matricula = documento['matricula']
     user_obj = User(
         nome = documento['nome'],
         matricula = documento['matricula'],
@@ -271,7 +299,8 @@ def edit_favoritos(request):
     id = search.results[0]._metadata.id_doc
     doc = json.dumps(user)
     edit = user_obj.edit_user(id, doc)
-
+    permissao_usuario = Utils.retorna_permissao_usuario(request.authenticated_userid)
+    favoritos_usuario = Utils.retorna_favoritos_usuario(request.authenticated_userid)
     return Response(edit)
 
 # Reports
@@ -281,7 +310,6 @@ def create_base(request):
     coletaManualBase = coleta_manual.ColetaManualBase(nm_orgao)
     lbbase = coletaManualBase.lbbase
     retorno = coletaManualBase.create_base()
-
     return HTTPFound(request.route_url('root') + 'orgao/lista')
 
 @view_config(route_name='conf_report', renderer='templates/conf_report.pt')
@@ -297,7 +325,12 @@ def conf_report(request):
         url = 'http://api.brlight.net/api'
     )
     search = orgao_obj.search_list_orgaos()
-    return {'orgao_doc': search.results}
+    permissao_usuario = Utils.retorna_permissao_usuario(request.authenticated_userid)
+    favoritos_usuario = Utils.retorna_favoritos_usuario(request.authenticated_userid)
+    return {'orgao_doc': search.results,
+            'permissao_usuario': permissao_usuario,
+            'favoritos_usuario': favoritos_usuario
+            }
 
 @view_config(route_name='report_itens', renderer='templates/report.pt', permission="user")
 def report_itens(request):
@@ -306,13 +339,22 @@ def report_itens(request):
     attr = request.matchdict['attr']
     child = request.matchdict['child']
     data = Reports(nm_orgao).count_attribute(attr, child)
-    return {'data': data }
+    permissao_usuario = Utils.retorna_permissao_usuario(request.authenticated_userid)
+    favoritos_usuario = Utils.retorna_favoritos_usuario(request.authenticated_userid)
+    return {'data': data,
+            'permissao_usuario': permissao_usuario,
+            'favoritos_usuario': favoritos_usuario
+            }
 
 # Users
 
 @view_config(route_name='user', renderer='templates/user.pt', permission='admin')
 def user(request):
-    return {'project': 'WSCacicNeo'}
+    permissao_usuario = Utils.retorna_permissao_usuario(request.authenticated_userid)
+    favoritos_usuario = Utils.retorna_favoritos_usuario(request.authenticated_userid)
+    return {'permissao_usuario': permissao_usuario,
+            'favoritos_usuario': favoritos_usuario
+            }
 
 @view_config(route_name='post_user', permission="admin")
 def post_user(request):
@@ -362,6 +404,8 @@ def edituser(request):
         senha = 'senha'
     )
     search = user_obj.search_user(matricula)
+    permissao_usuario = Utils.retorna_permissao_usuario(request.authenticated_userid)
+    favoritos_usuario = Utils.retorna_favoritos_usuario(request.authenticated_userid)
     return {
         'nome' : search.results[0].nome,
         'matricula' : search.results[0].matricula,
@@ -371,7 +415,11 @@ def edituser(request):
         'cargo' : search.results[0].cargo,
         'setor' : search.results[0].setor,
         'permissao' : search.results[0].permissao,
-        'senha' : search.results[0].senha
+        'senha' : search.results[0].senha,
+        'itens' : search.results[0].itens,
+        'favoritos' : search.results[0].favoritos,
+        'permissao_usuario': permissao_usuario,
+        'favoritos_usuario': favoritos_usuario
     }
 
 @view_config(route_name='put_user', permission="admin")
@@ -390,7 +438,9 @@ def put_user(request):
         cargo = params['cargo'],
         setor = params['setor'],
         permissao = params['permissao'],
-        senha = params['senha']
+        senha = params['senha'],
+        favoritos = params['favoritos'],
+        itens = params['itens']
     )
     user = {
         'nome' : params['nome'],
@@ -401,7 +451,9 @@ def put_user(request):
         'cargo' : params['cargo'],
         'setor' : params['setor'],
         'permissao' : params['permissao'],
-        'senha' : Utils.hash_password(params['senha'])
+        'senha' : Utils.hash_password(params['senha']),
+        'favoritos' : params['favoritos'],
+        'itens' : params['itens']
     }
     search = user_obj.search_user(matricula)
     id = search.results[0]._metadata.id_doc
@@ -411,7 +463,6 @@ def put_user(request):
         doc = json.dumps(user)
         edit = user_obj.edit_user(id, doc)
         return Response(edit)
-
     else:
         return { }
 
@@ -430,7 +481,12 @@ def listuser(request):
         favoritos = ['asdasdasdasd']
     )
     search = user_obj.search_list_users()
-    return {'user_doc': search.results}
+    permissao_usuario = Utils.retorna_permissao_usuario(request.authenticated_userid)
+    favoritos_usuario = Utils.retorna_favoritos_usuario(request.authenticated_userid)
+    return {'user_doc': search.results,
+            'permissao_usuario': permissao_usuario,
+            'favoritos_usuario': favoritos_usuario
+            }
 
 @view_config(route_name='delete_user', permission="admin")
 def delete_user(request):
@@ -482,6 +538,8 @@ def login(request):
     email = ''
     senha = ''
     is_visible = 'none'
+    permissao_usuario = Utils.retorna_permissao_usuario(request.authenticated_userid)
+    favoritos_usuario = Utils.retorna_favoritos_usuario(request.authenticated_userid)
     if 'form.submitted' in request.params:
         email = request.params['email']
         senha = request.params['senha']
@@ -508,6 +566,8 @@ def login(request):
         email = email,
         senha = senha,
         is_visible = is_visible,
+        permissao_usuario = permissao_usuario,
+        favoritos_usuario = favoritos_usuario,
         )
 
 @view_config(route_name='logout', permission="user")
@@ -532,7 +592,12 @@ def cadastro_coleta(request):
         url = 'http://api.brlight.net/api'
     )
     search = orgao_obj.search_list_orgaos()
-    return {'orgao_doc': search.results}
+    permissao_usuario = Utils.retorna_permissao_usuario(request.authenticated_userid)
+    favoritos_usuario = Utils.retorna_favoritos_usuario(request.authenticated_userid)
+    return {'orgao_doc': search.results,
+            'permissao_usuario': permissao_usuario,
+            'favoritos_usuario': favoritos_usuario
+            }
 
 
 @view_config(route_name='post_coleta_manual', permission="gest")
@@ -571,5 +636,5 @@ def post_coleta_manual(request):
         }
     }
     dumps = json.dumps(coleta_dict)
-    id_doc = Reports(nm_base_formatted,response_object=False).create_coleta(dumps)
     return Response(str(id_doc))
+    id_doc = Reports(nm_base_formatted,response_object=False).create_coleta(dumps)

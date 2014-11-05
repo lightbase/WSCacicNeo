@@ -87,7 +87,7 @@
                     $('#orgao').val('')
                     $('#cargo').val('')
                     $('#setor').val('')
-                    $('#permissao').val('Permissões')
+                    $('#permissao').val('')
                     $('#senha').val('')
            });
            $('#enviar').click(function(){
@@ -101,6 +101,8 @@
                     permissao = $('#permissao').val()
                     url = $('#url').val()
                     senha = $('#senha').val()
+                    itens = ${itens}
+                    favoritos = ${favoritos}
     
                 var data = {
                     'url': url,
@@ -112,8 +114,11 @@
                     'cargo': cargo,
                     'setor': setor,
                     'permissao': permissao,
-                    'senha': senha
+                    'senha': senha,
+                    'favoritos': favoritos,
+                    'itens': itens
                 }
+
                 var emailCorreto = 0;
                 var senhaConfere = 0;
                 if (data.email.indexOf("gov.br") > -1 == true){
