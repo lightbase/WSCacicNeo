@@ -45,7 +45,7 @@ def root(request):
 # Views básicas
 @view_config(route_name='home', renderer='templates/home.pt', permission="user")
 def home(request):
-   eturn {'project': 'WSCacicNeo'}
+   return {'project': 'WSCacicNeo'}
    
 # Lista de Notificação
 @view_config(route_name='list_notify', renderer='templates/list_notify.pt', permission="gest")
@@ -297,11 +297,7 @@ def conf_report(request):
     search = orgao_obj.search_list_orgaos()
     return {'orgao_doc': search.results}
 
-<<<<<<< HEAD
 @view_config(route_name='report_itens', renderer='templates/report.pt', permission="user")
-=======
-@view_config(route_name='report_itens', renderer='templates/report.pt', permission="gest")
->>>>>>> 3ae8442249f63f9b4c90dd474c8d0a0a5d7a83dc
 def report_itens(request):
     orgao_nm = request.matchdict['nm_orgao']
     nm_orgao = Utils.format_name(orgao_nm)
