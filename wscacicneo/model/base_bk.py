@@ -56,7 +56,7 @@ class BaseBackup():
             datatype='Text',
             indices=['Textual'],
             multivalued=False,
-            required=True
+            required=False
         ))
 
         """
