@@ -41,6 +41,8 @@
                 attr = $('#coleta').val()
                 if(attr == 'hd'){
                     alert('Não disponivel no momento')
+
+                    return True
                 }
                 else if(attr == 'bios'){
                     attr = 'win32_bios'
@@ -52,6 +54,8 @@
                 }
                 else if(attr == 'memoria'){
                     alert('não disponivel no momento')
+
+                    return True
                 }
                 else if(attr == 'processador'){
                     attr = 'win32_processor'
@@ -59,6 +63,8 @@
                 }
                 else{
                     alert('Selecione o Item da coleta')
+                    
+                    return True
                 }
                 window.location = "${request.route_url('root')}relatorio/"+orgao+"/"+attr+"/"+item+""
            });
