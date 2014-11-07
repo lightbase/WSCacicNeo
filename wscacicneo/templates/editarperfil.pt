@@ -13,13 +13,13 @@
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Matricula</label>
                         <div class="col-lg-5">
-                        <input type="text" id="matricula" value="${matricula}"  class="form-control" placeholder="Matricula">
+                        <input type="text" id="matricula" disabled value="${matricula}"  class="form-control" placeholder="Matricula">
                   </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label">E-Mail</label>
                         <div class="col-lg-5">
-                        <input type="text" id="email" value="${email}" class="form-control" placeholder="E-Mail">
+                        <input type="text" id="email" disabled value="${email}" class="form-control" placeholder="E-Mail">
                     </div>
                 </div>
                 <div class="form-group">
@@ -49,10 +49,8 @@
                 <div class="form-group">
                   <label class="col-lg-2 control-label">Permissão</label>
                   <div class="col-lg-2">
-                    <select id="permissao" class="form-control">
+                    <select disabled id="permissao" class="form-control">
                       <option selected>${permissao}</option>
-                      <option>Administrador</option>
-                      <option>Gestor</option>
                     </select>
                   </div>
                 </div>
@@ -70,13 +68,10 @@
         <script type="text/javascript">
            $('#limpar').click(function(){
                     $('#nome').val('')
-                    $('#matricula').val('')
-                    $('#email').val('')
                     $('#telefone').val('')
                     $('#orgao').val('')
                     $('#cargo').val('')
                     $('#setor').val('')
-                    $('#permissao').val('')
            });
            $('#enviar').click(function(){
                 var nome = $('#nome').val()
@@ -100,23 +95,13 @@
                     'setor': setor,
                     'permissao': permissao,
                 }
-
-                var emailCorreto = 0;
-                if (data.email.indexOf("gov.br") > -1 == true){
-                  emailCorreto = 1;
-                }
-                if (emailCorreto == 0 ){
-                  setTimeout(function() {noty({text: 'Erro: O campo "E-Mail" deve ser preenchido por um e-mail institucional',layout:'topRight',type:'error',timeout:5000});}, 100);
-                  
-                }else{
                   $.ajax({
                       type: "PUT",
-                      url: "${request.route_url('root')}put_user",
+                      url: "${request.route_url('root')}put_profile_user",
                       data: data, 
-                      success: function(){ alert('Alteração realizada com sucesso'), window.location.href = "${request.route_url('listuser')}"; },
+                      success: function(){ alert('Alteração realizada com sucesso'), location.reload(); },
                       error: function(){ alert('Erro ao Alterar do usuário. Todos os campos são obrigatórios') },
                   });
-                }
             });
         </script>
     </metal:content>

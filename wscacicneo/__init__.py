@@ -54,6 +54,9 @@ def main(global_config, **settings):
     cfg.add_route('notify', 'notificacoes/cadastro')
     cfg.add_route('post_notify', 'post_notify')
     cfg.add_route('list_notify', 'notificacoes/lista')
+    cfg.add_route('edit_profile_user', 'usuario/perfil/{matricula}')
+    cfg.add_route('put_profile_user', 'put_profile_user')
+    cfg.add_route('init_config', 'init_config')
     
     # Base de Rerpot por Orgãos
     cfg.add_route('create_orgao', 'create/orgao/{nm_orgao}')

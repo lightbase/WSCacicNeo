@@ -3,7 +3,8 @@
  	<div>
 		<p><h2 align="center">Sistema Super-Gerente</h2></p>
 		<br>
-		<p><h3 tal:condition="not request.authenticated_userid" align="center"><a href="${request.route_url('root')}login"> Faça Login </a></h3></p>
+		<p><h3 tal:condition="not request.authenticated_userid and menssagem == '' " align="center"><a href="${request.route_url('root')}login"> Faça Login </a></h3></p>
+		<p><h3 tal:condition="not request.authenticated_userid" align="center"><a href="${request.route_url('root')}login">${menssagem}</a></h3></p>
 	</div>
  </metal:content>
 </metal:main>

@@ -29,11 +29,15 @@
 							<li class="dropdown pull-right">            
 								<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 									<i class="fa fa-user"></i> 
-										${request.authenticated_userid}
+										${usuario_autenticado.results[0].nome}
 									<b class="caret"></b>              
 								</a>
 								<!-- Dropdown menu -->
 								<ul class="dropdown-menu">
+									<li><a href="${request.route_url('root')}usuario/perfil/${usuario_autenticado.results[0].matricula}">
+										<i class="fa fa-user"></i> Alterar Perfil</a></li>
+									<li><a href="${request.route_url('root')}usuario/perfil/senha/${usuario_autenticado.results[0].matricula}">
+										<i class="fa fa-cogs"></i> Alterar Senha</a></li>
 									<li><a href="${request.route_url('root')}logout"><i class="fa fa-sign-out"></i> Logout</a></li>
 								</ul>
 							</li>
