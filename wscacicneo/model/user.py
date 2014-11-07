@@ -176,7 +176,7 @@ class UserBase():
         Retorna metaclass para essa base
         """
         return self.lbbase.metaclass()
-
+    
     def create_base(self):
         """
         Cria base no LB

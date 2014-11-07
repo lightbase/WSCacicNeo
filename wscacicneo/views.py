@@ -10,6 +10,7 @@ from wscacicneo.model.orgao import Orgao
 from wscacicneo.model.orgao import OrgaoBase
 from wscacicneo.model.user import User
 from wscacicneo.model.user import UserBase
+from wscacicneo.model import user
 from wscacicneo.model.reports import Reports
 from wscacicneo.model.notify import Notify
 from wscacicneo.model.notify import NotifyBase
@@ -46,18 +47,29 @@ def root(request):
     return {'usuario_autenticado':usuario_autenticado}
     
 # Views básicas
-@view_config(route_name='home', renderer='templates/home.pt', permission="user")
+@view_config(route_name='home', renderer='templates/home.pt')
 def home(request):
-    user_obj = Utils.create_user_obj()
-    search = user_obj.search_list_users()
-    result_count = search.result_count
-    menssagem = ""
-    if(result_count == 0):
-        menssagem = "Cofiguração inicial" 
-    usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
-    return {'usuario_autenticado':usuario_autenticado,
-            'menssagem': menssagem
-            }
+    try:
+        user_obj = Utils.create_user_obj()
+        search = user_obj.search_list_users()
+        result_count = search.result_count
+        menssagem = ""
+        if(result_count == 0):
+            menssagem = "Cofiguração inicial" 
+        usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
+        return {'usuario_autenticado':usuario_autenticado,
+                'menssagem': menssagem
+                }
+    except:
+        user_base = user.UserBase()
+        retorno = user_base.create_base()
+        return {'te':'s'}
+        #return HTTPFound(location = request.route_url('create_config_initial'))
+
+@view_config(route_name='create_config_initial')
+def create_config_initial(request):
+    base_usuario = UserBase.create_base()
+    return HTTPFound(location = request.route_url('home'))
    
 # Lista de Notificação
 @view_config(route_name='list_notify', renderer='templates/list_notify.pt', permission="gest")

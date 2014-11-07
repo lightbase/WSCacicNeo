@@ -20,7 +20,6 @@ class TestColetaManualBase(unittest.TestCase):
         """
         Testa criação da base no LB
         """
-        print()
         coletaManualBase = coleta_manual.ColetaManualBase(nm_base="mpogteste", rest_url=self.rest_url)
         lbbase = coletaManualBase.lbbase
         self.assertIsInstance(lbbase, Base)

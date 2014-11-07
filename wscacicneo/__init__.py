@@ -28,6 +28,7 @@ def main(global_config, **settings):
     cfg.add_route('master', 'master')
     cfg.add_route('blankmaster', 'blankmaster')
     cfg.add_route('root', '/')
+    cfg.add_route('create_config_initial', 'create_config_initial')
 
     # Rotas Básicas
     cfg.add_route('home', 'home')
