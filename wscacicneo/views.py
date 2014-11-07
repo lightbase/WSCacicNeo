@@ -9,8 +9,7 @@ from wscacicneo.utils.utils import Utils
 from wscacicneo.model.orgao import Orgao
 from wscacicneo.model.orgao import OrgaoBase
 from wscacicneo.model.user import User
-from wscacicneo.model.user import UserBase
-from wscacicneo.model import user
+from wscacicneo.model import user as model_usuario
 from wscacicneo.model.reports import Reports
 from wscacicneo.model.notify import Notify
 from wscacicneo.model.notify import NotifyBase
@@ -50,25 +49,26 @@ def root(request):
 @view_config(route_name='home', renderer='templates/home.pt')
 def home(request):
     try:
+        usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
+        return {'usuario_autenticado':usuario_autenticado,
+                'menssagem': menssagem
+                }
+    except:
         user_obj = Utils.create_user_obj()
         search = user_obj.search_list_users()
         result_count = search.result_count
         menssagem = ""
         if(result_count == 0):
             menssagem = "Cofiguração inicial" 
-        usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
-        return {'usuario_autenticado':usuario_autenticado,
-                'menssagem': menssagem
-                }
-    except:
-        user_base = user.UserBase()
+            return HTTPFound(location=request.route_url("init_config"))
+        user_base = model_usuario.UserBase()
         retorno = user_base.create_base()
         return {'te':'s'}
         #return HTTPFound(location = request.route_url('create_config_initial'))
 
 @view_config(route_name='create_config_initial')
 def create_config_initial(request):
-    base_usuario = UserBase.create_base()
+    base_usuario = model_usuario.UserBase.create_base()
     return HTTPFound(location = request.route_url('home'))
    
 # Lista de Notificação
@@ -362,7 +362,7 @@ def post_user(request):
     Post doc users
     """
     rest_url = REST_URL
-    userbase = UserBase().lbbase
+    userbase = model_usuario.UserBase().lbbase
     doc = request.params
     email_user = doc['email']
     email_is_institucional = Utils.verifica_email_institucional(email_user)
@@ -523,7 +523,7 @@ def put_profile_user(request):
     edit = user_obj.edit_user(id, doc)
     return Response(edit)
 
-@view_config(route_name='init_config', renderer='templates/init_config.pt', permission="user")
+@view_config(route_name='init_config', renderer='templates/init_config.pt')
 def init_config(request):
     user_obj = Utils.create_user_obj()
     search = user_obj.search_list_users()
