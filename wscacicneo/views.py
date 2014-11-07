@@ -120,7 +120,7 @@ def listorgao(request):
     favoritos_usuario = Utils.retorna_favoritos_usuario(request.authenticated_userid)
     return {'orgao_doc': search.results,
             'permissao_usuario': permissao_usuario,
-            'favoritos_usuario': favoritos_usuario
+            'favoritos_usuario': favoritos_usuario,
             }
 
 @view_config(route_name='editorgao', renderer='templates/editarorgao.pt', permission="admin")
@@ -149,7 +149,7 @@ def editorgao(request):
         'telefone' : search.results[0].telefone,
         'url' : search.results[0].url,
         'permissao_usuario': permissao_usuario,
-        'favoritos_usuario': favoritos_usuario
+        'favoritos_usuario': favoritos_usuario,
     }
 
 @view_config(route_name='post_orgao', permission="admin")
