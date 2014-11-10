@@ -7,14 +7,15 @@ from pyramid.httpexceptions import HTTPFound, HTTPNotFound
 from pyramid.view import view_config
 from wscacicneo.utils.utils import Utils
 from wscacicneo.model.orgao import Orgao
-from wscacicneo.model.orgao import OrgaoBase
+from wscacicneo.model import orgao as model_orgao
 from wscacicneo.model.user import User
 from wscacicneo.model import user as model_usuario
 from wscacicneo.model.reports import Reports
 from wscacicneo.model.notify import Notify
-from wscacicneo.model.notify import NotifyBase
+from wscacicneo.model import notify as model_notify
 from wscacicneo.model import coleta_manual
 from wscacicneo.model.reports import Reports
+from wscacicneo.model import base_bk as model_base_bk
 
 from liblightbase.lbbase.struct import Base
 from liblightbase.lbutils import conv
@@ -46,31 +47,33 @@ def root(request):
     return {'usuario_autenticado':usuario_autenticado}
     
 # Views básicas
-@view_config(route_name='home', renderer='templates/home.pt')
-def home(request):
-    try:
-        usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
-        return {'usuario_autenticado':usuario_autenticado,
-                'menssagem': menssagem
-                }
-    except:
-        user_obj = Utils.create_user_obj()
-        search = user_obj.search_list_users()
-        result_count = search.result_count
-        menssagem = ""
-        if(result_count == 0):
-            menssagem = "Cofiguração inicial" 
-            return HTTPFound(location=request.route_url("init_config"))
-        user_base = model_usuario.UserBase()
-        retorno = user_base.create_base()
-        return {'te':'s'}
-        #return HTTPFound(location = request.route_url('create_config_initial'))
-
 @view_config(route_name='create_config_initial')
 def create_config_initial(request):
-    base_usuario = model_usuario.UserBase.create_base()
-    return HTTPFound(location = request.route_url('home'))
-   
+    user_base = model_usuario.UserBase()
+    orgao_base = model_orgao.OrgaoBase()
+    notify_base = model_notify.NotifyBase()
+    basebk_base = model_base_bk.BaseBackup()
+    # Cria tudo que precisa para carregar.
+    if (user_base.is_created() == False):
+        createUser = user_base.create_base()
+    if (orgao_base.is_created() == False):
+        createOrgao = orgao_base.create_base()
+    if (notify_base.is_created() == False):
+        createNotify = notify_base.create_base()
+    if (basebk_base.is_created() == False):
+        createBaseBk = basebk_base.create_base()
+    return HTTPFound(location=request.route_url("home"))
+
+@view_config(route_name='home', renderer='templates/home.pt')
+def home(request):
+    user_obj = Utils.create_user_obj()
+    search = user_obj.search_list_users()
+    result_count = search.result_count
+    if(result_count == 0):
+        return HTTPFound(location=request.route_url("init_config_user"))
+    usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
+    return {'usuario_autenticado':usuario_autenticado}
+
 # Lista de Notificação
 @view_config(route_name='list_notify', renderer='templates/list_notify.pt', permission="gest")
 def list_notify(request):
@@ -164,7 +167,7 @@ def post_orgao(request):
     Post doc órgãos
     """
     rest_url = REST_URL
-    orgaobase = OrgaoBase().lbbase
+    orgaobase = model_orgao.OrgaoBase().lbbase
     doc = request.params
     orgao_obj = Orgao(
         nome = doc['nome'],
@@ -389,6 +392,45 @@ def post_user(request):
     else:
         return {"emailerrado":"emailerrado"}
 
+@view_config(route_name='post_first_user')
+def post_first_user(request):
+    """
+    Post doc users
+    """
+    user_obj = Utils.create_user_obj()
+    search = user_obj.search_list_users()
+    result_count = search.result_count
+    if(result_count == 0):
+        rest_url = REST_URL
+        userbase = model_usuario.UserBase().lbbase
+        doc = request.params
+        email_user = doc['email']
+        email_is_institucional = Utils.verifica_email_institucional(email_user)
+        if(email_is_institucional):
+            document = doc['favoritos']
+            favoritos = [document]
+            itens = [doc['lista_orgao'], doc['cadastro_orgao'], doc['lista_user'], doc['cadastro_user'], doc['coleta'], doc['notify']]
+            user_obj = User(
+                nome = doc['nome'],
+                matricula = doc['matricula'],
+                email = doc['email'],
+                orgao = doc['orgao'],
+                telefone = doc['telefone'],
+                cargo = doc['cargo'],
+                setor = doc['setor'],
+                permissao = doc['permissao'],
+                senha = Utils.hash_password(doc['senha']),
+                favoritos = favoritos,
+                itens = itens
+            )
+            id_doc = user_obj.create_user()
+
+            return Response(str(id_doc))
+        else:
+            return {"emailerrado":"emailerrado"}
+    else:
+        return HTTPFound(location = request.route_url('home')) 
+
 @view_config(route_name='edituser', renderer='templates/editaruser.pt', permission="admin")
 def edituser(request):
     matricula = request.matchdict['matricula']
@@ -523,8 +565,8 @@ def put_profile_user(request):
     edit = user_obj.edit_user(id, doc)
     return Response(edit)
 
-@view_config(route_name='init_config', renderer='templates/init_config.pt')
-def init_config(request):
+@view_config(route_name='init_config_user', renderer='templates/init_config_user.pt')
+def init_config_user(request):
     user_obj = Utils.create_user_obj()
     search = user_obj.search_list_users()
     result_count = search.result_count
@@ -541,7 +583,7 @@ def login(request):
     search = user_obj.search_list_users()
     result_count = search.result_count
     if(result_count == 0):
-        return HTTPFound(location = request.route_url('init_config'))
+        return HTTPFound(location = request.route_url('init_config_user'))
     else:
         user_obj = User(
             nome = 'asdasd',
