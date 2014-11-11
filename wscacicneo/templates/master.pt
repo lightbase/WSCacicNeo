@@ -52,16 +52,7 @@
 								</a>
 							</li>
 						</ul>
-
-
-						<!-- Search form -->
-						<form class="navbar-form navbar-right" role="search">
-							<div class="form-group">
-								<input type="text" class="form-control" placeholder="Buscar">
-							</div>
-						</form>
 					</nav>
-
 				</div>
 			</div>
 			<!-- Header starts -->
