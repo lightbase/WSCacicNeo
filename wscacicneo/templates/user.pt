@@ -7,43 +7,43 @@
                 <div class="form-group">
                   <label class="col-lg-2 control-label">Nome</label>
                   <div class="col-lg-5">
-                    <input type="text" id="nome" class="form-control" placeholder="Nome do Usuário">
+                    <input type="text" id="nome" class="form-control" placeholder="Nome do Usuário*">
                   </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Matricula</label>
                         <div class="col-lg-5">
-                        <input type="text" id="matricula"  class="form-control" placeholder="Matricula">
+                        <input type="text" id="matricula"  class="form-control" placeholder="Matricula*">
                   </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label">E-Mail</label>
                         <div class="col-lg-5">
-                        <input type="text" id="email" class="form-control" placeholder="E-Mail">
+                        <input type="text" id="email" class="form-control" placeholder="E-Mail*">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Telefone</label>
                         <div class="col-lg-5">
-                        <input type="text" id="telefone" class="form-control" placeholder="Telefone">
+                        <input type="text" id="telefone" class="form-control" placeholder="Telefone*">
                     </div>
                 </div>
                 <div class="form-group">
                   <label class="col-lg-2 control-label">Orgão</label>
                   <div class="col-lg-5">
-                    <input type="text" id="orgao" class="form-control" placeholder="Orgão">
+                    <input type="text" id="orgao" class="form-control" placeholder="Orgão*">
                   </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Cargo</label>
                         <div class="col-lg-5">
-                        <input type="text" id="cargo" class="form-control" placeholder="Cargo">
+                        <input type="text" id="cargo" class="form-control" placeholder="Cargo*">
                   </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Setor</label>
                         <div class="col-lg-5">
-                        <input type="text" id="setor" class="form-control" placeholder="Setor">
+                        <input type="text" id="setor" class="form-control" placeholder="Setor*">
                     </div>
                 </div>
                 <div class="form-group">
@@ -59,13 +59,13 @@
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Senha</label>
                         <div class="col-lg-5">
-                        <input type="password" id="senha" name="senha" class="form-control" placeholder="Senha">
+                        <input type="password" id="senha" name="senha" class="form-control" placeholder="Senha*">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Confirmar Senha</label>
                         <div class="col-lg-5">
-                        <input type="password" id="confirmarsenha" name="confirmarsenha" class="form-control" placeholder="Confirme sua senha">
+                        <input type="password" id="confirmarsenha" name="confirmarsenha" class="form-control" placeholder="Confirme sua senha*">
                     </div>
                 </div>
                 <div class="form-group">
@@ -79,6 +79,9 @@
 	</metal:content>
 	<metal:content fill-slot="javascript">
         <script type="text/javascript">
+            $(document).ready(function(){
+                alert('Os campos marcados com  *  são de preenchimento orbigatório')
+            });
            $('#limpar').click(function(){
                     $('#nome').val('')
                     $('#matricula').val('')

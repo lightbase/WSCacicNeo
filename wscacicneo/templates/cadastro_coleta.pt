@@ -28,7 +28,7 @@
       <label class="col-lg-2 control-label">Lista de Softwares:</label>
       <button class="add_field_button">Adicionar mais softwares</button>
       <div class="col-lg-5 input_fields_wrap">
-        <input type="text" id="softwarelist_1" class="form-control" placeholder="software">
+        <input type="text" id="softwarelist_1" class="form-control" placeholder="software*">
           <br/>
       </div>
     </div>
@@ -40,13 +40,13 @@
     <div class="form-group">
       <label class="col-lg-2 control-label">Modelo/Nome do SO:</label>
       <div class="col-lg-5">
-        <input type="text" id="operatingsystem_caption" class="form-control" placeholder="operatingsystem_caption">
+        <input type="text" id="operatingsystem_caption" class="form-control" placeholder="operatingsystem_caption*">
       </div>
     </div>
     <div class="form-group">
       <label class="col-lg-2 control-label">Versão do SO:</label>
       <div class="col-lg-5">
-        <input type="text" id="operatingsystem_version" class="form-control" placeholder="operatingsystem_version">
+        <input type="text" id="operatingsystem_version" class="form-control" placeholder="operatingsystem_version*">
       </div>
     </div>
     <div class="form-group">
@@ -62,7 +62,7 @@
       <div class="form-group">
       <label class="col-lg-2 control-label">Nome da BIOS:</label>
       <div class="col-lg-5">
-        <input type="text" id="win32_bios_manufacturer" class="form-control" placeholder="win32_bios_manufacturer">
+        <input type="text" id="win32_bios_manufacturer" class="form-control" placeholder="win32_bios_manufacturer*">
       </div>
     </div>
         <br/>
@@ -73,21 +73,21 @@
       <label class="col-lg-2 control-label">Nome do Processador:</label>
       <div class="col-lg-5">
         <input type="text" id="win32_processor_manufacturer" class="form-control" 
-                placeholder="win32_processor_manufacturer">
+                placeholder="win32_processor_manufacturer*">
       </div>
     </div>
     <div class="form-group">
       <label class="col-lg-2 control-label">Número de processadores lógicos:</label>
       <div class="col-lg-5">
         <input type="text" id="win32_processor_numberoflogicalprocessors" class="form-control" 
-                placeholder="win32_processor_numberoflogicalprocessors">
+                placeholder="win32_processor_numberoflogicalprocessors*">
       </div>
     </div>
     <div class="form-group">
       <label class="col-lg-2 control-label">Modelo do processador:</label>
       <div class="col-lg-5">
         <input type="text" id="win32_processor_caption" class="form-control" 
-                placeholder="win32_processor_caption">
+                placeholder="win32_processor_caption*">
       </div>
     </div> 
     <br/>
@@ -104,6 +104,9 @@
 	</metal:content>
   <metal:content fill-slot="javascript">
     <script type="text/javascript">
+      $(document).ready(function(){
+        alert('Os campos marcados com  *  são de preenchimento orbigatório')
+      });
       var x = 1; //initlal text box count
       $(document).ready(function() {
           var max_fields      = 100; //maximum input boxes allowed
