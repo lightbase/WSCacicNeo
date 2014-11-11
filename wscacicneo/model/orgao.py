@@ -168,6 +168,16 @@ class OrgaoBase():
         else:
             raise IOError('Error excluding base from LB')
 
+    def is_created(self):
+        """
+        Retorna se a base já existe
+        """
+        try:
+            response = self.baserest.get(self.lbbase.metadata.name)
+            return True
+        except:
+            return False
+
 orgao_base = OrgaoBase()
 
 class Orgao(orgao_base.metaclass):

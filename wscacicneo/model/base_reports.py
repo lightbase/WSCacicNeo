@@ -101,3 +101,13 @@ class ReportsBase():
             return True
         else:
             raise IOError('Error excluding base from LB')
+
+    def is_created(self):
+        """
+        Retorna se a base já existe
+        """
+        try:
+            response = self.baserest.get(self.lbbase.metadata.name)
+            return True
+        except:
+            return False

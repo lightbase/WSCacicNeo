@@ -176,7 +176,7 @@ class UserBase():
         Retorna metaclass para essa base
         """
         return self.lbbase.metaclass()
-
+    
     def create_base(self):
         """
         Cria base no LB
@@ -198,6 +198,18 @@ class UserBase():
             return True
         else:
             raise IOError('Error excluding base from LB')
+
+    def is_created(self):
+        """
+        Retorna se a base já existe
+        """
+        try:
+            self.baserest.response_object = False
+            response = self.baserest.get(self.lbbase.metadata.name)
+            return True
+        except:
+            return False
+        
 
 user_base = UserBase()
 

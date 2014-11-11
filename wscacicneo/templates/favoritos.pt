@@ -11,10 +11,9 @@
                 </div>
                 <div class="widget-content">
                   <div class="padd">
-                    <!-- Visitors, pageview, bounce rate, etc., Sparklines plugin used -->
                     <ul  id='itens' class="current-status">
                         <li tal:repeat="i itens">
-                            <a id="${i}">${i}</a>
+                            <a href="#" id="${i}">${i}</a>
                         </li>
                     </ul>
                   </div>
@@ -35,7 +34,7 @@
                     <!-- Visitors, pageview, bounce rate, etc., Sparklines plugin used -->
                     <ul id="favoritos" class="current-status">
                         <li tal:repeat="doc favoritos">
-                            <a id="${doc}">${doc}</a>
+                            <a href="#" id="${doc}">${doc}</a>
                         </li>
                     </ul>
                   </div>

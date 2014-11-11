@@ -1,78 +1,76 @@
-<!-- MENU DE UM USUARIO NAO AUTENTICADO -->
-<div class="sidebar" tal:condition="permissao_usuario == 'Usuario' " >
-  <div class="sidebar-dropdown"><a href="#">Navigation</a></div>
-    <ul id="nav">
-          <li><a href="${request.route_url('root')}home">
-            <i class="fa fa-home">
-              </i> Início</a>
+  <div class="sidebar" tal:condition="usuario_autenticado == None " >
+    <div class="sidebar-dropdown"><a href="#">Navigation</a></div>
+      <ul id="nav">
+            <li><a href="${request.route_url('root')}home">
+              <i class="fa fa-home">
+                </i> Início</a>
+            </li>
+            <li><a href="${request.route_url('root')}relatorios/configuracao">
+              <i class="fa fa-bar-chart-o">
+                </i> Relatórios</a>
+            </li>
+      </ul>
+  </div>
+
+<div tal:condition="usuario_autenticado != None">
+
+  <div class="sidebar" tal:condition="usuario_autenticado.results[0].permissao  == 'Administrador'" >
+    <div class="sidebar-dropdown"><a href="#">Navigation</a></div>
+      <ul id="nav">
+        <li><a href="${request.route_url('root')}home">
+          <i class="fa fa-home">
+            </i> Início</a>
           </li>
           <li><a href="${request.route_url('root')}relatorios/configuracao">
             <i class="fa fa-bar-chart-o">
               </i> Relatórios</a>
           </li>
-    </ul>
-  </div>
-
-
-<!-- MENU DO ADMINISTRADOR -->
-<div class="sidebar" tal:condition="permissao_usuario == 'Administrador'" >
-  <div class="sidebar-dropdown"><a href="#">Navigation</a></div>
-    <ul id="nav">
-      <li><a href="${request.route_url('root')}home">
-        <i class="fa fa-home">
-          </i> Início</a>
-        </li>
-        <li><a href="${request.route_url('root')}relatorios/configuracao">
-          <i class="fa fa-bar-chart-o">
-            </i> Relatórios</a>
-        </li>
-        <li><a href="${request.route_url('root')}coleta/cadastro">
-          <i class="fa fa-tasks">
-            </i> Cadastrar Coleta</a>
-        </li>
-        <li class="has_sub">
-          <a href="#">
-            <i class="fa fa-table"></i> 
-              Notificações 
+          <li><a href="${request.route_url('root')}coleta/cadastro">
+            <i class="fa fa-tasks">
+              </i> Cadastrar Coleta</a>
+          </li>
+          <li class="has_sub">
+            <a href="#">
+              <i class="fa fa-table"></i> 
+                Notificações 
+                <span class="pull-right">
+                  <i class="fa fa-chevron-right"></i>
+                </span>
+            </a>
+            <ul>
+              <li><a href="${request.route_url('root')}notificacoes/lista">Notificações</a></li>
+              <li><a href="${request.route_url('root')}notificacoes/cadastro">Cadastrar Notificação</a></li>
+            </ul>
+          </li>
+          <li class="has_sub">
+            <a href="#"><i class="fa fa-table"></i> 
+              Orgão 
               <span class="pull-right">
                 <i class="fa fa-chevron-right"></i>
               </span>
-          </a>
-          <ul>
-            <li><a href="${request.route_url('root')}notificacoes/lista">Notificações</a></li>
-            <li><a href="${request.route_url('root')}notificacoes/cadastro">Cadastrar Notificação</a></li>
-          </ul>
-        </li>
+            </a>
+            <ul>
+              <li><a href="${request.route_url('root')}orgao/lista">Listar Orgãos</a></li>
+              <li><a href="${request.route_url('root')}orgao/cadastro">Cadastrar Orgão</a></li>
+            </ul>
+          </li>
+          <li class="has_sub">
+            <a href="#"><i class="fa fa-table"></i> Usuário <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
+            <ul>
+              <li><a href="${request.route_url('root')}usuario/lista">Listar Usuários</a></li>
+              <li><a href="${request.route_url('root')}usuario/cadastro">Cadastrar Usuário</a></li>
+            </ul>
+          </li>
         <li class="has_sub">
-          <a href="#"><i class="fa fa-table"></i> 
-            Orgão 
-            <span class="pull-right">
-              <i class="fa fa-chevron-right"></i>
-            </span>
-          </a>
-          <ul>
-            <li><a href="${request.route_url('root')}orgao/lista">Listar Orgãos</a></li>
-            <li><a href="${request.route_url('root')}orgao/cadastro">Cadastrar Orgão</a></li>
-          </ul>
-        </li>
-        <li class="has_sub">
-          <a href="#"><i class="fa fa-table"></i> Usuário <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
-          <ul>
-            <li><a href="${request.route_url('root')}usuario/lista">Listar Usuários</a></li>
-            <li><a href="${request.route_url('root')}usuario/cadastro">Cadastrar Usuário</a></li>
-          </ul>
-        </li>
-        <li class="has_sub">
-          <a href="#"><i class="fa fa-list-alt"></i> Favoritos <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
-          <ul tal:repeat="fav favoritos_usuario">
+            <a href="#"><i class="fa fa-list-alt"></i> Favoritos <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
+          <ul tal:repeat="fav usuario_autenticado.results[0].favoritos">
             <li><a href="#">${fav}</a></li>
           </ul>
         </li>
     </ul>
   </div>
 
-  <!-- MENU DO GESTOR -->
-  <div class="sidebar" tal:condition="permissao_usuario == 'Gestor'" >
+  <div class="sidebar" tal:condition="usuario_autenticado.results[0].permissao == 'Gestor'" >
   <div class="sidebar-dropdown"><a href="#">Navigation</a></div>
     <ul id="nav">
       <li><a href="${request.route_url('root')}home">
@@ -102,9 +100,10 @@
         </li>
         <li class="has_sub">
           <a href="#"><i class="fa fa-list-alt"></i> Favoritos <span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
-          <ul tal:repeat="fav favoritos_usuario">
+          <ul tal:repeat="fav usuario_autenticado.results[0].favoritos">
             <li><a href="#">${fav}</a></li>
           </ul>
         </li>
     </ul>
   </div>
+</div>

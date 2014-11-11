@@ -21,7 +21,7 @@ class TestUserBase(unittest.TestCase):
         """
         Testa criação da base no LB
         """
-        user_base = user.UserBase(self.rest_url)
+        user_base = user.UserBase(rest_url=self.rest_url)
         lbbase = user_base.lbbase
         self.assertIsInstance(lbbase, Base)
 
