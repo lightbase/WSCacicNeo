@@ -1,0 +1,106 @@
+<metal:main use-macro="load: blankmaster.pt">
+	<metal:content fill-slot="head">
+		<metal:content define-slot="head"/>
+	</metal:content>
+
+	<metal:content fill-slot="css">
+		<metal:content define-slot="css"/>
+	</metal:content>
+
+	
+
+	<!-- Conteúdo da Página -->
+	<metal:content fill-slot="conteudo">
+		<div class="navbar navbar-fixed-top bs-docs-nav" role="banner">
+
+			<div class="conjtainer">
+				<!-- Menu button for smallar screens -->
+				<div class="navbar-header">
+					<button class="navbar-toggle btn-navbar" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+						<span>Menu</span>
+					</button>
+					<!-- Site name for smallar screens -->
+					<a href="index.html" class="navbar-brand hidden-lg">Super-Gerente</a>
+				</div>
+			</div>
+			<!-- Header starts -->
+			<header>
+				<div class="container">
+					<div class="row">
+						<!-- Logo section -->
+						<div class="col-md-4">
+							<!-- Logo. -->
+							<div class="logo">
+								<h1><a href="${request.route_url('root')}home"><img src="${request.route_url('root')}static/caciclogo_transparent.png"> </a>
+								<a href="${request.route_url('root')}home">Super<span class="bold">Gerente</span></a></h1>
+							</div>
+							<!-- Logo ends -->
+						</div>
+						<!-- Button section -->
+											</div>
+				</div>
+			</header>
+
+			<!-- Header ends -->
+
+			<!-- Main content starts -->
+
+			<div class="content">
+
+				<!-- Sidebar -->
+				
+					<!--- Sidebar navigation -->
+					<!-- If the main navigation has sub navigation, then add the class "has_sub" to "li" of main navigation. -->
+					<div class="sidebar"  >
+					    <div class="sidebar-dropdown"><a href="#">Navigation</a></div>
+					      <ul id="nav">
+					            <li><a href="${request.route_url('home')}">
+					              <i class="fa fa-home">
+					                </i> Início</a>
+					            </li>
+					      </ul>
+					</div>
+					<!-- Sidebar ends -->
+
+					<!-- Main bar -->
+					<div class="mainbar">
+
+						<!-- Page heading -->
+						<div class="page-head">
+							<h2 class="pull-left">
+							<i class="fa fa-home"></i>&nbsp;
+							</h2>
+							<h2 class="pull-left" id="dashlocation">
+								<metal:content define-slot="dash"/>
+							</h2>
+
+
+							<div class="clearfix"></div>
+
+						</div>
+						<!-- Page heading ends -->
+
+						<!-- Define Slot do Conteúdo -->
+						<div class="metter">
+							<metal:content define-slot="conteudo" />
+						</div>
+					</div>
+				</div>
+				<!-- Footer starts -->
+				<footer>
+					<div class="container">
+						<div class="row">
+							<div class="col-md-12">
+								<!-- Copyright info -->
+								<p class="copy">Copyright © 2014 | <a href="#">Super-Gerente</a> </p>
+							</div>
+						</div>
+					</div>
+				</footer>
+				<!-- Footer ends -->
+
+			</metal:content>
+			<metal:content fill-slot="javascript">
+				<metal:content define-slot="javascript"/>
+			</metal:content>
+		</metal:main>

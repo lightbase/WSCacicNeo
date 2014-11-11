@@ -1,12 +1,12 @@
-<metal:main use-macro="load: master.pt">
+<metal:main use-macro="load: config_initial_master.pt">
 	<metal:content fill-slot="dash">
-      Início
+      Primeira Configuração
   </metal:content>
  <metal:content fill-slot="conteudo">
  	<div>
 		<p><h2 align="center">Sistema Super-Gerente</h2></p>
 		<br>
-		<p><h3 tal:condition="not request.authenticated_userid" align="center"><a href="${request.route_url('root')}login"> Faça Login </a></h3></p>
+		<p><h3 align="center"><a href="${request.route_url('create_config_initial')}">${base_criada}</a></h3></p>
 	</div>
  </metal:content>
 </metal:main>

@@ -206,10 +206,10 @@ class UserBase():
         try:
             self.baserest.response_object = False
             response = self.baserest.get(self.lbbase.metadata.name)
+            self.baserest.response_object = True
             return True
         except:
             return False
-        
 
 user_base = UserBase()
 

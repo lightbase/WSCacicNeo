@@ -1,4 +1,7 @@
 <metal:main use-macro="load: master.pt">
+  <metal:content fill-slot="dash">
+      Editar Orgão      
+  </metal:content>
 	<metal:content fill-slot="conteudo">
         <div class="padd">
             <br />

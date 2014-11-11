@@ -1,0 +1,77 @@
+<metal:main use-macro="load: master.pt">
+  <metal:content fill-slot="dash">
+        Alterar Senha
+    </metal:content>
+  <metal:content fill-slot="conteudo">
+        <div class="padd">
+            <br />
+            <!-- Form starts.  -->
+             <form id="form_editaruser" class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">Senha</label>
+                        <div class="col-lg-5">
+                        <input type="password" id="senha" class="form-control" placeholder="Informe a senha">
+                    </div>
+                </div><div class="form-group">
+                    <label class="col-lg-2 control-label">Confirmar Senha</label>
+                        <div class="col-lg-5">
+                        <input type="password" id="confirmarsenha"  class="form-control" placeholder="Informe novamente sua senha">
+                    </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-lg-offset-2 col-lg-6">
+                    <button type="button" id="enviar" class="btn btn-sm" style="margin-left: 315px;" >Enviar</button>
+                    <input style="display:none;" id="url" value="${request.matchdict['matricula']}">
+                    <button type="button" id="limpar" class="btn btn-sm">Limpar</button>
+                  </div>
+                </div>
+              </form>
+          </div>
+  </metal:content>
+  <metal:content fill-slot="javascript">
+        <script type="text/javascript">
+           $('#limpar').click(function(){
+                    $('#senha').val('')
+           });
+           $('#enviar').click(function(){
+                var nome = '${nome}'
+                    matricula = '${matricula}'
+                    email = '${email}'
+                    telefone = '${telefone}'
+                    orgao = '${orgao}'
+                    cargo = '${cargo}'
+                    setor = '${setor}'
+                    permissao = '${permissao}'
+                    url = $('#url').val()
+                    senha = $('#senha').val()
+    
+                var data = {
+                    'url': url,
+                    'nome': nome,
+                    'matricula': matricula,
+                    'email': email,
+                    'telefone': telefone,
+                    'orgao': orgao,
+                    'cargo': cargo,
+                    'setor': setor,
+                    'permissao': permissao,
+                    'senha': senha
+                }
+                console.log(data)
+                if($('#senha').val() != $('#confirmarsenha').val() ){
+                  setTimeout(function() {noty({text: 'Erro: O campo "Senha" e "Confirmar Senha" estão diferentes',layout:'topRight',type:'error',timeout:5000});}, 100);
+                }else if( $('#senha').val() == "" || $('#confirmarsenha').val() == "" ){
+                  setTimeout(function() {noty({text: 'Erro: O campo "Senha" e "Confirmar Senha" devem ser preenchidos',layout:'topRight',type:'error',timeout:5000});}, 100);
+                }else{
+                  $.ajax({
+                      type: "PUT",
+                      url: "${request.route_url('root')}put_password_user",
+                      data: data, 
+                      success: function(){ alert('Alteração realizada com sucesso'), window.location.href = "${request.route_url('home')}"; },
+                      error: function(){ alert('Erro ao Alterar do usuário. Todos os campos são obrigatórios') },
+                  });
+                }
+            });
+        </script>
+    </metal:content>
+</metal:main>
