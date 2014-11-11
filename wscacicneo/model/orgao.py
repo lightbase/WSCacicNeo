@@ -173,7 +173,9 @@ class OrgaoBase():
         Retorna se a base já existe
         """
         try:
+            self.baserest.response_object = False
             response = self.baserest.get(self.lbbase.metadata.name)
+            self.baserest.response_object = True
             return True
         except:
             return False

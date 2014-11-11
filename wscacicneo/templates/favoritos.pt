@@ -1,4 +1,7 @@
 <metal:main use-macro="load: master.pt">
+    <metal:content fill-slot="dash">
+      Favoritos
+  </metal:content>
 	<metal:content fill-slot="conteudo">
         <div class="col-md-4" style="margin-left: 200px;">
               <div class="widget">

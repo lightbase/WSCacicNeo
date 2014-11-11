@@ -52,20 +52,43 @@ def create_config_initial(request):
     user_base = model_usuario.UserBase()
     orgao_base = model_orgao.OrgaoBase()
     notify_base = model_notify.NotifyBase()
-    basebk_base = model_base_bk.BaseBackup()
     # Cria tudo que precisa para carregar.
-    if (user_base.is_created() == False):
-        createUser = user_base.create_base()
+    # Pelo fato do object ser response_object = False ele dá erro na hora da criação
+    # Sendo necessário passar duas vezes pela função is_created, dessa maneira o try força
+    #ele a retornar a essa página
+    try:
+        if (user_base.is_created() == False):
+            createUser = user_base.create_base()
+        if (orgao_base.is_created() == False):
+            createOrgao = orgao_base.create_base()
+        if (notify_base.is_created() == False):
+            createNotify = notify_base.create_base()
+    except:
+        return HTTPFound(location=request.route_url("home_config_initial"))
+
+@view_config(route_name='home_config_initial', renderer='templates/home_config_initial.pt')
+def home_config_initial(request):
+    user_base = model_usuario.UserBase()
+    orgao_base = model_orgao.OrgaoBase()
+    notify_base = model_notify.NotifyBase()
+    if (user_base.is_created() == False ):
+        base_criada = "Criar Base de Usuário"
+        return {'base_criada':base_criada}
     if (orgao_base.is_created() == False):
-        createOrgao = orgao_base.create_base()
+        base_criada = "Criar Base de Órgãos"
+        return {'base_criada':base_criada}
     if (notify_base.is_created() == False):
-        createNotify = notify_base.create_base()
-    if (basebk_base.is_created() == False):
-        createBaseBk = basebk_base.create_base()
+        base_criada = "Criar Base de Notificações"
+        return {'base_criada':base_criada}
     return HTTPFound(location=request.route_url("home"))
 
 @view_config(route_name='home', renderer='templates/home.pt')
 def home(request):
+    user_base = model_usuario.UserBase()
+    orgao_base = model_orgao.OrgaoBase()
+    notify_base = model_notify.NotifyBase()
+    if (user_base.is_created() == False or orgao_base.is_created() == False or notify_base.is_created() == False):
+        return HTTPFound(location=request.route_url("home_config_initial"))
     user_obj = Utils.create_user_obj()
     search = user_obj.search_list_users()
     result_count = search.result_count
@@ -519,7 +542,7 @@ def edit_profile_user(request):
     search = user_obj.search_user(matricula)
     email = search.results[0].email
     usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
-    if (usuario_autenticado.results[0].permissao == "Administrador" or usuario_autenticado.results[0].email ==  email):
+    if (usuario_autenticado.results[0].email ==  email):
         return {
             'nome' : search.results[0].nome,
             'matricula' : search.results[0].matricula,
@@ -565,6 +588,59 @@ def put_profile_user(request):
     edit = user_obj.edit_user(id, doc)
     return Response(edit)
 
+@view_config(route_name='edit_password_user', renderer='templates/alterar_senha.pt', permission="gest")
+def edit_password_user(request):
+    matricula = request.matchdict['matricula']
+    user_obj = Utils.create_user_obj()
+    search = user_obj.search_user(matricula)
+    email = search.results[0].email
+    usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
+    if (usuario_autenticado.results[0].email ==  email):
+        return {
+            'nome' : search.results[0].nome,
+            'matricula' : search.results[0].matricula,
+            'email' : search.results[0].email,
+            'orgao' : search.results[0].orgao,
+            'telefone' : search.results[0].telefone,
+            'cargo' : search.results[0].cargo,
+            'setor' : search.results[0].setor,
+            'permissao' : search.results[0].permissao,
+            'senha' : search.results[0].senha,
+            'itens' : search.results[0].itens,
+            'favoritos' : search.results[0].favoritos,
+            'usuario_autenticado':usuario_autenticado,
+        }
+    else:
+        return HTTPFound(location = request.route_url('home'))
+
+@view_config(route_name='put_password_user', permission="gest")
+def put_password_user(request):
+    """
+    Edita um doc de user apartir do id
+    """
+    params = request.params
+    matricula = params['url']
+    email_user = params['email']
+    user_obj = Utils.create_user_obj()
+    user = {
+        'nome' : Utils.retorna_usuario_autenticado(email_user).results[0].nome,
+        'orgao' : Utils.retorna_usuario_autenticado(email_user).results[0].orgao,
+        'telefone' : Utils.retorna_usuario_autenticado(email_user).results[0].telefone,
+        'cargo' : Utils.retorna_usuario_autenticado(email_user).results[0].cargo,
+        'setor' : Utils.retorna_usuario_autenticado(email_user).results[0].setor,
+        'matricula' : Utils.retorna_usuario_autenticado(email_user).results[0].matricula,
+        'email' : Utils.retorna_usuario_autenticado(email_user).results[0].email,
+        'permissao' : Utils.retorna_usuario_autenticado(email_user).results[0].permissao,
+        'senha' : Utils.hash_password(params['senha']),
+        'favoritos' : Utils.retorna_usuario_autenticado(email_user).results[0].favoritos,
+        'itens' : Utils.retorna_usuario_autenticado(email_user).results[0].itens
+    }
+    search = user_obj.search_user(matricula)
+    id = search.results[0]._metadata.id_doc
+    doc = json.dumps(user)
+    edit = user_obj.edit_user(id, doc)
+    return Response(edit)
+
 @view_config(route_name='init_config_user', renderer='templates/init_config_user.pt')
 def init_config_user(request):
     user_obj = Utils.create_user_obj()
@@ -584,6 +660,8 @@ def login(request):
     result_count = search.result_count
     if(result_count == 0):
         return HTTPFound(location = request.route_url('init_config_user'))
+    elif(request.authenticated_userid):
+        return HTTPFound(location = request.route_url('home'))
     else:
         user_obj = User(
             nome = 'asdasd',

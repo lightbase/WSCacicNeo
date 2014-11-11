@@ -29,6 +29,7 @@ def main(global_config, **settings):
     cfg.add_route('blankmaster', 'blankmaster')
     cfg.add_route('root', '/')
     cfg.add_route('create_config_initial', 'config_inicial')
+    cfg.add_route('home_config_initial', 'home/config')
 
     # Rotas Básicas
     cfg.add_route('home', 'home')
@@ -57,6 +58,8 @@ def main(global_config, **settings):
     cfg.add_route('post_notify', 'post_notify')
     cfg.add_route('list_notify', 'notificacoes/lista')
     cfg.add_route('edit_profile_user', 'usuario/perfil/{matricula}')
+    cfg.add_route('edit_password_user', 'usuario/perfil/senha/{matricula}')
+    cfg.add_route('put_password_user', 'put_password_user')
     cfg.add_route('put_profile_user', 'put_profile_user')
     cfg.add_route('init_config_user', 'configuracao_inicial/usuario')
     

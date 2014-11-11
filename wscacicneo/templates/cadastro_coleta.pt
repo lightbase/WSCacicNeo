@@ -1,4 +1,7 @@
 <metal:main use-macro="load: master.pt">
+  <metal:content fill-slot="dash">
+      Cadastro Coleta      
+  </metal:content>
 	<metal:content fill-slot="conteudo">
 <form role="form" class="form-horizontal" id="coleta_manual">
     <br/>

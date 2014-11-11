@@ -1,4 +1,7 @@
 <metal:main use-macro="load: master.pt">
+    <metal:content fill-slot="dash">
+        Primeiro usuário do sistema - Administrador
+    </metal:content>
 	<metal:content fill-slot="conteudo">
         <div class="padd">
             <br />
@@ -49,10 +52,8 @@
                 <div class="form-group">
                   <label class="col-lg-2 control-label">Permissão</label>
                   <div class="col-lg-2">
-                    <select id="permissao" class="form-control">
-                      <option></option>
+                    <select disabled id="permissao" class="form-control">
                       <option>Administrador</option>
-                      <option>Gestor</option>
                     </select>
                   </div>
                 </div>
