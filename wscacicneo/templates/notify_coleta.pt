@@ -6,7 +6,7 @@
                     <div class="form-group">
                         <label class="col-lg-2 control-label">Ministério</label>
                         <div class="col-lg-5">
-                            <input type="text" id="orgao" class="form-control" placeholder="Ministério">
+                            <input type="text" id="orgao" class="form-control" placeholder="Ministério*">
                         </div>
                     </div>
                     <div class="form-group">

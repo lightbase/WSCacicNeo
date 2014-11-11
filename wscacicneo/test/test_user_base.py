@@ -15,7 +15,7 @@ class TestUserBase(unittest.TestCase):
         """
         Carregando atributos genéricos do teste
         """
-        self.rest_url = 'uehuehuehue'
+        self.rest_url = 'http://api.brlight.net/api'
 
     def test_create_base(self):
         """
