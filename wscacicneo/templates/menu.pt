@@ -1,5 +1,5 @@
   <div class="sidebar" tal:condition="usuario_autenticado == None " >
-    <div class="sidebar-dropdown"><a href="#">Navigation</a></div>
+    <div class="sidebar-dropdown"><a href="#">Navegação</a></div>
       <ul id="nav">
             <li><a href="${request.route_url('root')}home">
               <i class="fa fa-home">
@@ -15,7 +15,7 @@
 <div tal:condition="usuario_autenticado != None">
 
   <div class="sidebar" tal:condition="usuario_autenticado.results[0].permissao  == 'Administrador'" >
-    <div class="sidebar-dropdown"><a href="#">Navigation</a></div>
+    <div class="sidebar-dropdown"><a href="#">Super-Gerente</a></div>
       <ul id="nav">
         <li><a href="${request.route_url('root')}home">
           <i class="fa fa-home">
@@ -38,7 +38,7 @@
                 </span>
             </a>
             <ul>
-              <li><a href="${request.route_url('root')}notificacoes/lista">Notificações</a></li>
+              <li><a href="${request.route_url('root')}notificacoes/lista">Listar Notificações</a></li>
               <li><a href="${request.route_url('root')}notificacoes/cadastro">Cadastrar Notificação</a></li>
             </ul>
           </li>
@@ -71,7 +71,7 @@
   </div>
 
   <div class="sidebar" tal:condition="usuario_autenticado.results[0].permissao == 'Gestor'" >
-  <div class="sidebar-dropdown"><a href="#">Navigation</a></div>
+  <div class="sidebar-dropdown"><a href="#">Navegação</a></div>
     <ul id="nav">
       <li><a href="${request.route_url('root')}home">
         <i class="fa fa-home">
