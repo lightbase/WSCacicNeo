@@ -1,53 +1,72 @@
 <metal:main use-macro="load: master.pt">
     <metal:content fill-slot="dash">
       Relatórios      
-    </metal:content>
-	<metal:content fill-slot="conteudo">
-        <div class="matter">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="widget">
-                            <div class="widget-head">
-                                <div class="pull-left">Relatório</div>
-                                    <div class="widget-icons pull-right">
-                                        <a href="#" id="print"  onclick="window.print();" title="Imprimir Tabela">Imprimir<i class="fa fa-print"></i></a>
-                                    </div> 
-                                    <div class="clearfix"></div>
+  </metal:content>
+  <metal:content fill-slot="conteudo">
+    <div class="matter">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="widget" id="tabela_relatorio">
+                        <div class="widget-head">
+                            <div class="pull-left">Relatório</div>
+                            <div class="widget-icons pull-right">
+                                <a href="#" id="print"  onclick="PrintElem('#tabela_relatorio')" title="Imprimir Tabela"><i class="fa fa-print"></i></a>
+                            </div> 
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="widget-content">
+                            <div class="padd">
+                                <div class="page-tables">
+                                    <div class="table-responsive">
+                                        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Item</th>
+                                                    <th>Quantidade</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr tal:repeat="k data.keys()">
+                                                    <td>${k}</td>
+                                                    <td tal:content="data[k]"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="clearfix"></div>
                                     </div>
-                                    <div class="widget-content">
-                                        <div class="padd">
-                                            <div class="page-tables">
-                                                <div class="table-responsive">
-                                                    <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Item</th>
-                                                                <th>Quantidade</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr tal:repeat="k data.keys()">
-                                                                <td>${k}</td>
-                                                                <td tal:content="data[k]"></td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                    <div class="clearfix"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <div class="widget-foot">
                                 </div>
                             </div>
+                        </div>
+                        <div class="widget-foot">
                         </div>
                     </div>
                 </div>
             </div>
-    </metal:content>
-	<metal:content fill-slot="javascript">
-        <script type="text/javascript">
-        </script>
-    </metal:content>
+        </div>
+    </div>
+</metal:content>
+<metal:content fill-slot="javascript">
+    <script type="text/javascript">
+        function PrintElem(elem)
+        {
+        Popup($(elem).html());
+        }
+
+        function Popup(data)
+        {
+        var mywindow = window.open('', 'new div', 'height=400,width=800');
+        mywindow.document.write('<html><head>');
+        /*optional stylesheet*/ //mywindow.document.write('<link rel="stylesheet" href="main.css" type="text/css" />');
+        mywindow.document.write('</head><body >');
+        mywindow.document.write(data);
+        mywindow.document.write('</body></html>');
+
+        mywindow.print();
+        mywindow.close();
+
+        return true;
+        }
+    </script>
+</metal:content>
 </metal:main>
