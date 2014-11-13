@@ -191,7 +191,7 @@ def orgao(request):
     usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
     return {'usuario_autenticado':usuario_autenticado}
 
-@view_config(route_name='listorgao', renderer='templates/list_orgao.pt', permission="gest")
+@view_config(route_name='listorgao', renderer='templates/list_orgao.pt', permission="admin")
 def listorgao(request):
     orgao_obj = Orgao(
         nome = 'sahuds',
@@ -318,36 +318,31 @@ def delete_orgao(request):
 @view_config(route_name='favoritos', renderer='templates/favoritos.pt', permission="gest")
 def favoritos(request):
     matricula = request.matchdict['matricula']
-    user_obj = User(
-        nome = 'base',
-        matricula = matricula,
-        email = 'base@gov.br',
-        orgao = 'orgao',
-        telefone = 'telefone',
-        cargo = 'cargo',
-        setor = 'setor',
-        permissao = 'Gestor',
-        favoritos = ['asdsadasd', 'asdasdasd'],
-        senha = 'senha'
-    )
+    user_obj = Utils.create_user_obj()
     search = user_obj.search_user(matricula)
+    email = search.results[0].email
     usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
-    
-    favoritos = search.results[0].favoritos
-    return {
-        'favoritos': search.results[0].favoritos,
-        'itens': search.results[0].itens,
-        'nome' : search.results[0].nome,
-        'matricula' : search.results[0].matricula,
-        'email' : search.results[0].email,
-        'orgao' : search.results[0].orgao,
-        'telefone' : search.results[0].telefone,
-        'cargo' : search.results[0].cargo,
-        'setor' : search.results[0].setor,
-        'permissao' : search.results[0].permissao,
-        'senha' : search.results[0].senha,
-        'usuario_autenticado':usuario_autenticado
-    }
+    if (usuario_autenticado.results[0].email ==  email):
+        search = user_obj.search_user(matricula)
+        usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
+        
+        favoritos = search.results[0].favoritos
+        return {
+            'favoritos': search.results[0].favoritos,
+            'itens': search.results[0].itens,
+            'nome' : search.results[0].nome,
+            'matricula' : search.results[0].matricula,
+            'email' : search.results[0].email,
+            'orgao' : search.results[0].orgao,
+            'telefone' : search.results[0].telefone,
+            'cargo' : search.results[0].cargo,
+            'setor' : search.results[0].setor,
+            'permissao' : search.results[0].permissao,
+            'senha' : search.results[0].senha,
+            'usuario_autenticado':usuario_autenticado
+        }
+    else:
+        return HTTPFound(location = request.route_url('home'))        
 
 @view_config(route_name='edit_favoritos', permission="gest")
 def edit_favoritos(request):

@@ -117,7 +117,7 @@
 						<div class="row">
 							<div class="col-md-12">
 								<!-- Copyright info -->
-								<p class="copy">Copyright © 2014 | <a href="#">Super-Gerente</a> </p>
+								<p class="copy">Copyright © 2014 | <a href="${request.route_url('home')}">Super-Gerente</a> </p>
 							</div>
 						</div>
 					</div>
@@ -126,6 +126,32 @@
 
 			</metal:content>
 			<metal:content fill-slot="javascript">
+				<script type="text/javascript">
+					function getLinkFav(nomeFavorito) {
+						fav = nomeFavorito;
+						if (fav == 'Relatórios'){
+						  window.location.href = "${request.route_url('conf_report')}";
+						}
+						else if(fav == 'Lista de Órgãos'){
+					      window.location.href = "${request.route_url('listorgao')}";
+					    }
+					    else if(fav == 'Cadastro de Órgãos'){
+					      window.location.href = "${request.route_url('orgao')}";
+					    }
+					    else if(fav == 'Cadastro de Usuário'){
+					      window.location.href = "${request.route_url('user')}";
+					    }
+					    else if(fav == 'Lista de Usuários'){
+					      window.location.href = "${request.route_url('listuser')}";
+					    }
+					    else if(fav == 'Questionar Coletas'){
+					      window.location.href = "${request.route_url('home')}";
+					    }
+					    else if(fav == 'Notificações'){
+					      window.location.href = "${request.route_url('list_notify')}";
+					    }
+					}
+				</script>
 				<metal:content define-slot="javascript"/>
 			</metal:content>
 		</metal:main>
