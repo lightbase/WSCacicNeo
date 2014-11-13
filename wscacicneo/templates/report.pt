@@ -21,13 +21,13 @@
                                     <div class="table-responsive ">
                                         <table class="table table-condensed table-bordered table-hover no-margin">
                                             <thead>
-                                                <tr>
+                                                <tr class="info">
                                                     <th>Item</th>
                                                     <th>Quantidade</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr tal:repeat="k data.keys()">
+                                                <tr class="active" tal:repeat="k data.keys()">
                                                     <td>${k}</td>
                                                     <td tal:content="data[k]"></td>
                                                 </tr>
