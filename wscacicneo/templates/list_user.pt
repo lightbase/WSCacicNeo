@@ -3,17 +3,14 @@
       Lista de Usuário      
     </metal:content>
     <metal:content fill-slot="conteudo">
+        <link rel="stylesheet" type="text/css" media="print" href="print.css">
     <div class="matter">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="widget">
                         <div class="widget-head">
-                          <div class="pull-left">Data Tables</div>
-                            <div class="widget-icons pull-right">
-                                <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
-                                <a href="#" class="wclose"><i class="fa fa-times"></i></a>
-                            </div>  
+                          <div class="pull-left">Usuários</div>
                           <div class="clearfix"></div>
                         </div>
                         <div class="widget-content">
@@ -40,9 +37,13 @@
                                                     <td>${doc.email}</td>
                                                     <td>${doc.orgao}</td>
                                                     <td>${doc.permissao}</td>
-                                                    <td>
+                                                    <td tal:condition="usuario_autenticado.results[0].email != doc.email">
                                                         <a href="${request.route_url('root')}usuario/editar/${doc.matricula}" class="btn btn-xs btn-warning" title="Editar"><i class="fa fa-pencil"></i></a>
                                                         <a href="${request.route_url('root')}usuario/delete/${doc.matricula}" class="btn btn-xs btn-danger" title="Apagar"><i class="fa fa-times"></i></a>
+                                                    </td>
+                                                    <td tal:condition="usuario_autenticado.results[0].email == doc.email">
+                                                        <a href="#" class="btn no-print btn-xs btn-warning" title="Não é possível alterar a sí próprio, utilize a opção Alterar Perfil no menu superior."><i class="fa fa-pencil"></i></a>
+                                                        <a href="#" class="btn btn-xs btn-danger" title="Não é possível excluir a sí próprio."><i class="fa fa-times"></i></a>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -57,5 +58,8 @@
             </div>
         </div>
     </div>
+    </metal:content>
+    <metal:content fill-slot="css">
+        <link href="${request.route_url('root')}static/css/print.css" rel="stylesheet">
     </metal:content>
 </metal:main>

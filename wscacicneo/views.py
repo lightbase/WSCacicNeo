@@ -516,7 +516,7 @@ def edituser(request):
     search = user_obj.search_user(matricula)
     email = search.results[0].email
     usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
-    if (usuario_autenticado.results[0].permissao == "Administrador" or usuario_autenticado.results[0].email ==  email):
+    if (usuario_autenticado.results[0].email !=  email):
         return {
             'nome' : search.results[0].nome,
             'matricula' : search.results[0].matricula,
@@ -532,7 +532,7 @@ def edituser(request):
             'usuario_autenticado':usuario_autenticado
         }
     else:
-        return HTTPFound(location = request.route_url('home')) 
+        return HTTPFound(location = request.route_url('listuser')) 
 
 @view_config(route_name='put_user', permission="admin")
 def put_user(request):
@@ -571,7 +571,6 @@ def listuser(request):
     user_obj = Utils.create_user_obj()
     search = user_obj.search_list_users()
     usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
-    
     return {'user_doc': search.results,
             'usuario_autenticado':usuario_autenticado
             }
@@ -581,13 +580,19 @@ def delete_user(request):
     """
     Deleta doc apartir do id
     """
+    usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
     doc = request.params
     matricula = request.matchdict['matricula']
     user_obj = Utils.create_user_obj()
     search = user_obj.search_user(matricula)
-    id = search.results[0]._metadata.id_doc
-    delete = user_obj.delete_user(id)
-    return HTTPFound(location = request.route_url('listuser'))
+    email = search.results[0].email
+    if(usuario_autenticado.results[0].email !=  email):
+        id = search.results[0]._metadata.id_doc
+        delete = user_obj.delete_user(id)
+        return HTTPFound(location = request.route_url('listuser'))
+    else:
+        return HTTPFound(location = request.route_url('listuser'))
+
 
 @view_config(route_name='edit_profile_user', renderer='templates/editarperfil.pt', permission="gest")
 def edit_profile_user(request):
