@@ -56,6 +56,8 @@ def main(global_config, **settings):
     cfg.add_route('delete_user', 'usuario/delete/{matricula}')
     cfg.add_route('notify', 'notificacoes/cadastro')
     cfg.add_route('post_notify', 'post_notify')
+    cfg.add_route('delete_notify', 'delete_notify/{orgao}')
+    cfg.add_route('edit_notify', 'edit_notify/{orgao}')
     cfg.add_route('list_notify', 'notificacoes/lista')
     cfg.add_route('edit_profile_user', 'usuario/perfil/{matricula}')
     cfg.add_route('edit_password_user', 'usuario/perfil/senha/{matricula}')

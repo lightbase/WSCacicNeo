@@ -3,54 +3,57 @@
       Cadastrar Orgão      
     </metal:content>
 	<metal:content fill-slot="conteudo">
+    <div class="alert alert-warning">
+           Os campos marcados com  *  são de preenchimento obigatório
+    </div>
         <div class="padd">
             <br />
             <!-- Form starts.  -->
              <form class="form-horizontal" role="form">
                 <div class="form-group">
-                  <label class="col-lg-2 control-label">Nome do Órgão</label>
+                  <label class="col-lg-2 control-label">* Nome do Órgão:</label>
                   <div class="col-lg-5">
-                    <input type="text" id="nome" class="form-control" placeholder="Nome do Órgão*">
+                    <input type="text" id="nome" class="form-control" placeholder="Nome do Órgão">
                   </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">Telefone</label>
+                    <label class="col-lg-2 control-label">* Telefone:</label>
                         <div class="col-lg-5">
-                        <input type="text" id="telefone"  class="form-control" placeholder="Telefone*">
+                        <input type="text" id="telefone"  class="form-control" placeholder="Telefone">
                   </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">Gestor</label>
+                    <label class="col-lg-2 control-label">* Gestor</label>
                         <div class="col-lg-5">
-                        <input type="text" id="gestor" class="form-control" placeholder="Gestor*">
+                        <input type="text" id="gestor" class="form-control" placeholder="Gestor">
                     </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-lg-2 control-label">Sigla</label>
+                  <label class="col-lg-2 control-label">* Sigla:</label>
                   <div class="col-lg-5">
-                    <input type="text" id="sigla" class="form-control" placeholder="Sigla*">
+                    <input type="text" id="sigla" class="form-control" placeholder="Sigla">
                   </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">Endereço</label>
+                    <label class="col-lg-2 control-label">* Endereço:</label>
                         <div class="col-lg-5">
-                        <input type="text" id="end" class="form-control" placeholder="Endereço*">
+                        <input type="text" id="end" class="form-control" placeholder="Endereço">
                   </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">E-mail</label>
+                    <label class="col-lg-2 control-label">* E-mail:</label>
                         <div class="col-lg-5">
-                        <input type="text" id="email" class="form-control" placeholder="E-mail*">
+                        <input type="text" id="email" class="form-control" placeholder="E-mail">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">URL da Base de Dados</label>
+                    <label class="col-lg-2 control-label">* URL da Base de Dados:</label>
                         <div class="col-lg-5">
-                        <input type="text" id="url" class="form-control" placeholder="URL*">
+                        <input type="text" id="url" class="form-control" placeholder="URL">
                     </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-lg-2 control-label">Tempo da Coleta</label>
+                  <label class="col-lg-2 control-label">* Tempo da Coleta:</label>
                   <div class="col-lg-2">
                     <select id="coleta" class="form-control">
                       <option>1 dia</option>
@@ -72,9 +75,6 @@
 	</metal:content>
 	<metal:content fill-slot="javascript">
         <script type="text/javascript">
-           $(document).ready(function(){
-                alert('Os campos marcados com  *  são de preenchimento orbigatório')
-            });
            $('#enviar').click(function(){
                 var data = {
                     'nome' : $('#nome').val(),

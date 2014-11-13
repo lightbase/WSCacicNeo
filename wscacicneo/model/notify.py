@@ -47,10 +47,10 @@ class NotifyBase():
             required=True
         ))
 
-        id_coleta = Field(**dict(
-            name='id_coleta',
-            alias='id_coleta',
-            description='id da coleta notificada',
+        data_coleta = Field(**dict(
+            name='data_coleta',
+            alias='data_coleta',
+            description='data da coleta notificada',
             datatype='Text',
             indices=['Textual'],
             multivalued=False,
@@ -60,7 +60,17 @@ class NotifyBase():
         notify = Field(**dict(
             name='notify',
             alias='notify',
-            description='campo de notificações',
+            description='tipo de notificação',
+            datatype='Text',
+            indices=['Textual'],
+            multivalued=False,
+            required=True
+        ))
+
+        coment = Field(**dict(
+            name='coment',
+            alias='coment',
+            description='comentario',
             datatype='Text',
             indices=['Textual'],
             multivalued=False,
@@ -80,11 +90,11 @@ class NotifyBase():
         base_metadata = BaseMetadata(
             name='notify',
         )
-
         content_list = Content()
         content_list.append(orgao)
-        content_list.append(id_coleta)
+        content_list.append(data_coleta)
         content_list.append(notify)
+        content_list.append(coment)
         content_list.append(status)
 
         lbbase = Base(
@@ -178,13 +188,13 @@ class Notify(notify_base.metaclass):
 
         return result
 
-    def search_notify(self, sigla):
+    def search_notify(self, orgao):
         """
         Busca registro completo do notify pelo id
         :return: obj collection com os dados da base
         """
         search = Search(
-            literal="document->>'sigla' = '"+orgao+"'"
+            literal="document->>'orgao' = '"+orgao+"'"
         )
         results = self.documentrest.get_collection(search_obj=search)
 
@@ -213,6 +223,6 @@ class Notify(notify_base.metaclass):
         """
         Deleta o Órgao apartir do ID
         """
-        results = orgao_base.documentrest.delete(id)
+        results = self.documentrest.delete(id)
 
         return results

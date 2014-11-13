@@ -102,8 +102,9 @@ def home(request):
 def list_notify(request):
     notify_obj = Notify(
         orgao = 'deasdsd',
-        id_coleta = 'saudhasd',
+        data_coleta = 'saudhasd',
         notify = 'sadsad',
+        coment = 'sadasd',
         status = 'sadasd'
     )
     reg = notify_obj.search_list_notify()
@@ -113,19 +114,72 @@ def list_notify(request):
             'usuario_autenticado':usuario_autenticado
             }
 
+@view_config(route_name='delete_notify', permission="gest")
+def delete_notify(request):
+    orgao = request.matchdict['orgao']
+    notify_obj = Notify(
+        orgao = 'deasdsd',
+        data_coleta = 'saudhasd',
+        notify = 'sadsad',
+        coment = 'sadasd',
+        status = 'sadasd'
+    )
+    reg = notify_obj.search_notify(orgao)
+    doc = reg.results[0]._metadata.id_doc
+    delete = notify_obj.delete_notify(doc)
+    return HTTPFound(location = request.route_url('list_notify'))
+
+@view_config(route_name='edit_notify', permission="gest")
+def edit_notify(request):
+    orgao = request.matchdict['orgao']
+    notify_obj = Notify(
+        orgao = 'deasdsd',
+        data_coleta = 'saudhasd',
+        notify = 'sadsad',
+        coment = 'sadasd',
+        status = 'sadasd'
+    )
+    reg = notify_obj.search_notify(orgao)
+    id = reg.results[0]._metadata.id_doc
+    document = {
+        'orgao' : reg.results[0].orgao,
+        'data_coleta' : reg.results[0].data_coleta,
+        'notify' : reg.results[0].notify,
+        'coment' : reg.results[0].coment,
+        'status' : 'Vizualizado'
+    }
+    doc = json.dumps(document)
+    edit = notify_obj.edit_notify(id, doc)
+    return HTTPFound(location = request.route_url('list_notify'))
+
 
 @view_config(route_name='notify', renderer='templates/notify_coleta.pt', permission="gest")
 def notify(request):
+    orgao_obj = Orgao(
+        nome = 'sahuds',
+        cargo = 'cargo',
+        coleta = '4h',
+        sigla = 'MPOG',
+        endereco = 'Esplanada bloco C',
+        email = 'admin@planemaneto.gov.br',
+        telefone = '(61) 2025-4117',
+        url = 'http://api.brlight.net/api'
+    )
+    search = orgao_obj.search_list_orgaos()
     usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
-    return {'usuario_autenticado':usuario_autenticado}
+
+    return {'orgao_doc': search.results,
+            'usuario_autenticado':usuario_autenticado
+            }
 
 @view_config(route_name='post_notify', permission="gest")
 def post_notify(request):
     requests = request.params
     notify_obj = Notify(
         orgao = requests['orgao'],
-        id_coleta = requests['id_coleta'],
+        data_coleta = requests['data_coleta'],
         notify = requests['notify'],
+        coment = requests['coment'],
         status = requests['status']
     )
     results = notify_obj.create_notify()
@@ -357,7 +411,7 @@ def conf_report(request):
     )
     search = orgao_obj.search_list_orgaos()
     usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
-    
+
     return {'orgao_doc': search.results,
             'usuario_autenticado':usuario_autenticado
             }
