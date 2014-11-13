@@ -12,7 +12,8 @@
                             <div class="pull-left">Relatório</div>
                             <div class="widget-icons pull-right">
                                 <a href="#" id="print" title="Imprimir Tabela"><i class="fa fa-print"></i></a>
-                            </div> 
+                                <a href="#" id="grafico" title="Gerar Gráfico"><i class="fa fa-bar-chart-o"></i></a>
+                            </div>
                             <div class="clearfix"></div>
                         </div>
                         <div class="widget-content">
@@ -42,7 +43,7 @@
                 </div>
             </div>
         </div>
-    </div>
+   </div>
 </metal:content>
 <metal:content fill-slot="javascript">
     <script type="text/javascript" src="${request.route_url('root')}static/jquery.print.js"></script>
@@ -51,6 +52,9 @@
             $("#print").click(function() {
                 $("#tabela_relatorio").print();
             });
+        });
+        $('#grafico').click(function(){
+            alert('ppk')
         });
     </script>
 </metal:content>
