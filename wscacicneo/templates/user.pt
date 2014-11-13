@@ -111,8 +111,8 @@
                     'favoritos': 'Relatórios',
                     'cadastro_orgao': 'Cadastro de Órgãos', 
                     'lista_orgao': 'Lista de Órgãos', 
-                    'cadastro_user': 'Cadastro de Usuario', 
-                    'lista_user': 'Lista de Usuarios', 
+                    'cadastro_user': 'Cadastro de Usuário', 
+                    'lista_user': 'Lista de Usuários', 
                     'coleta': 'Questionar Coleta', 
                     'notify': 'Notificações'
                 }

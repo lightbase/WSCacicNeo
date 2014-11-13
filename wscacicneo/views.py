@@ -191,7 +191,7 @@ def orgao(request):
     usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
     return {'usuario_autenticado':usuario_autenticado}
 
-@view_config(route_name='listorgao', renderer='templates/list_orgao.pt', permission="gest")
+@view_config(route_name='listorgao', renderer='templates/list_orgao.pt', permission="admin")
 def listorgao(request):
     orgao_obj = Orgao(
         nome = 'sahuds',

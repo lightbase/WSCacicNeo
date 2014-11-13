@@ -3,7 +3,6 @@
       Lista de Usuário      
     </metal:content>
     <metal:content fill-slot="conteudo">
-        <link rel="stylesheet" type="text/css" media="print" href="print.css">
     <div class="matter">
         <div class="container">
             <div class="row">
@@ -58,8 +57,5 @@
             </div>
         </div>
     </div>
-    </metal:content>
-    <metal:content fill-slot="css">
-        <link href="${request.route_url('root')}static/css/print.css" rel="stylesheet">
     </metal:content>
 </metal:main>
