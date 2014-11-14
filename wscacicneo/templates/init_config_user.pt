@@ -108,7 +108,6 @@
                     'lista_orgao': 'Lista de Órgãos', 
                     'cadastro_user': 'Cadastro de Usuario', 
                     'lista_user': 'Lista de Usuarios', 
-                    'coleta': 'Questionar Coleta', 
                     'notify': 'Notificações'
                 }
                 var emailCorreto = 0;
