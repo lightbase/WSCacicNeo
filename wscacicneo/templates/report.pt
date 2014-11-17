@@ -42,6 +42,9 @@
                     </div>
                 </div>
             </div>
+                <div class="box-chart">
+                    <canvas id="GraficoLine" style="width:100%;"></canvas>
+                </div>
         </div>
    </div>
 </metal:content>
@@ -53,8 +56,40 @@
                 $("#tabela_relatorio").print();
             });
         });
-        $('#grafico').click(function(){
-            alert('ppk')
+        $(document).ready(function(){
+            window.onload = function(){
+                var ctx = document.getElementById("GraficoLine").getContext("2d");
+                var data = {
+                    labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+                    datasets: [
+                        {
+                            label: "Dados primários",
+                            fillColor: "rgba(220,220,220,0.2)",
+                            strokeColor: "rgba(220,220,220,1)",
+                            pointColor: "rgba(220,220,220,1)",
+                            pointStrokeColor: "#fff",
+                            pointHighlightFill: "#fff",
+                            pointHighlightStroke: "rgba(220,220,220,1)",
+                            data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
+                        },
+                        {
+                            label: "Dados secundários",
+                            fillColor: "rgba(151,187,205,0.2)",
+                            strokeColor: "rgba(151,187,205,1)",
+                            pointColor: "rgba(151,187,205,1)",
+                            pointStrokeColor: "#fff",
+                            pointHighlightFill: "#fff",
+                            pointHighlightStroke: "rgba(151,187,205,1)",
+                            data: [28, 48, 40, 19, 86, 27, 90, 200, 87, 20, 50, 20]
+                        }
+                    ]   
+                };
+                var LineChart = new Chart(ctx).Line(data, options);
+                var options = {
+                    responsive:true
+                };
+
+            };
         });
     </script>
 </metal:content>

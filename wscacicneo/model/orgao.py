@@ -42,7 +42,7 @@ class OrgaoBase():
             description='Nome do órgão',
             alias='nome',
             datatype='Text',
-            indices=['Textual'],
+            indices=['Textual', 'Unico'],
             multivalued=False,
             required=True
         ))
@@ -52,7 +52,7 @@ class OrgaoBase():
             alias='sigla',
             description='Sigla do órgão',
             datatype='Text',
-            indices=['Textual'],
+            indices=['Textual', 'Unico'],
             multivalued=False,
             required=True
         ))
@@ -72,7 +72,7 @@ class OrgaoBase():
             alias='telefone',
             description='Telefone do órgão',
             datatype='Text',
-            indices=['Textual'],
+            indices=['Textual', 'Unico'],
             multivalued=False,
             required=True
         ))
@@ -82,7 +82,7 @@ class OrgaoBase():
             alias='email',
             description='E-mail do órgão',
             datatype='Text',
-            indices=['Textual'],
+            indices=['Textual', 'Unico'],
             multivalued=False,
             required=True
         ))
@@ -112,7 +112,7 @@ class OrgaoBase():
             alias='url',
             description='Url da base de dados',
             datatype='Text',
-            indices=['Textual'],
+            indices=['Textual', 'Unico'],
             multivalued=False,
             required=True
         ))
