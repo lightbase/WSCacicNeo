@@ -210,6 +210,32 @@ def listorgao(request):
             'usuario_autenticado':usuario_autenticado
             }
 
+@view_config(route_name='config_orgao', renderer='templates/config_orgao.pt', permission="admin")
+def config_orgao(request):
+    sigla = request.matchdict['sigla']
+    orgao_obj = Orgao(
+        nome = 'asdsad',
+        cargo = 'cargo',
+        coleta = '4h',
+        sigla = sigla,
+        endereco = 'Esplanada bloco C',
+        email = 'admin@planemaneto.gov.br',
+        telefone = '(61) 2025-4117',
+        url = 'http://api.brlight.net/api'
+    )
+    search = orgao_obj.search_orgao(sigla)
+    usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
+    
+    return {
+        'nome' : search.results[0].nome,
+        'cargo' : search.results[0].cargo,
+        'sigla' : search.results[0].sigla,
+        'endereco' : search.results[0].endereco,
+        'email' : search.results[0].email,
+        'telefone' : search.results[0].telefone,
+        'usuario_autenticado':usuario_autenticado
+    }
+
 @view_config(route_name='editorgao', renderer='templates/editarorgao.pt', permission="admin")
 def editorgao(request):
     sigla = request.matchdict['sigla']
@@ -249,12 +275,10 @@ def post_orgao(request):
     orgao_obj = Orgao(
         nome = doc['nome'],
         cargo = doc['gestor'],
-        coleta = doc['coleta'],
         sigla = doc['sigla'],
         endereco = doc['end'],
         email = doc['email'],
         telefone = doc['telefone'],
-        url = doc['url']
     )
     id_doc = orgao_obj.create_orgao()
     return Response(str(id_doc))

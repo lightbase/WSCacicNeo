@@ -21,7 +21,6 @@
                                                             <tr>
                                                                 <th>Nome</th>
                                                                 <th>Sigla</th>
-                                                                <th>Coleta</th>
                                                                 <th>Endereço</th>
                                                                 <th>E-mail</th>
                                                                 <th>Opções</th>
@@ -31,11 +30,10 @@
                                                             <tr tal:repeat="doc orgao_doc">
                                                                 <td>${doc.nome}</td>
                                                                 <td>${doc.sigla}</td>
-                                                                <td>${doc.coleta}</td>
                                                                 <td>${doc.endereco}</td>
                                                                 <td>${doc.email}</td>
                                                                 <td>
-                                                                    <a href="${request.route_url('root')}create/orgao/${doc.nome}" class="btn btn-xs btn-success" id="create"><i class="fa fa-check" title="Criar base ${doc.nome}" ></i></a>
+                                                                    <a href="${request.route_url('root')}orgao/configuracoes/${doc.sigla}" class="btn btn-xs btn-success" id="create"><i class="fa fa-cogs" title="Configuraçõe ${doc.nome}" ></i></a>
                                                                     <a href="${request.route_url('root')}orgao/editar/${doc.sigla}" title="Alterar Orgão" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i></a>
                                                                     <a href="${request.route_url('root')}orgao/delete/${doc.sigla}" class="btn btn-xs btn-danger" title="Apagar Orgão" ><i class="fa fa-times"></i></a>
                                                                 </td>
