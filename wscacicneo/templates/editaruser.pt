@@ -8,49 +8,49 @@
             <!-- Form starts.  -->
              <form id="form_editaruser" class="form-horizontal" role="form">
                 <div class="form-group">
-                  <label class="col-lg-2 control-label">Nome</label>
+                  <label class="col-lg-2 control-label">Nome:</label>
                   <div class="col-lg-5">
                     <input type="text" id="nome" value="${nome}" class="form-control" placeholder="Nome do Usuário">
                   </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">Matricula</label>
+                    <label class="col-lg-2 control-label">Matricula:</label>
                         <div class="col-lg-5">
                         <input type="text" id="matricula" value="${matricula}"  class="form-control" placeholder="Matricula">
                   </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">E-Mail</label>
+                    <label class="col-lg-2 control-label">E-Mail:</label>
                         <div class="col-lg-5">
                         <input type="text" id="email" value="${email}" class="form-control" placeholder="E-Mail">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">Telefone</label>
+                    <label class="col-lg-2 control-label">Telefone:</label>
                         <div class="col-lg-5">
                         <input type="text" id="telefone" value="${telefone}" class="form-control" placeholder="Telefone">
                     </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-lg-2 control-label">Orgão</label>
+                  <label class="col-lg-2 control-label">Orgão:</label>
                   <div class="col-lg-5">
                     <input type="text" id="orgao" value="${orgao}" class="form-control" placeholder="Orgão">
                   </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">Cargo</label>
+                    <label class="col-lg-2 control-label">Cargo:</label>
                         <div class="col-lg-5">
                         <input type="text" id="cargo" value="${cargo}" class="form-control" placeholder="Cargo">
                   </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">Setor</label>
+                    <label class="col-lg-2 control-label">Setor:</label>
                         <div class="col-lg-5">
                         <input type="text" id="setor" value="${setor}" class="form-control" placeholder="Setor">
                     </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-lg-2 control-label">Permissão</label>
+                  <label class="col-lg-2 control-label">Permissão:</label>
                   <div class="col-lg-2">
                     <select id="permissao" class="form-control">
                       <option selected>${permissao}</option>
@@ -58,6 +58,7 @@
                       <option>Gestor</option>
                     </select>
                   </div>
+                  <p>* Alterar a permissão irá reiniciar os favoritos.</p>
                 </div>
                 <div class="form-group">
                   <div class="col-lg-offset-2 col-lg-6">
@@ -102,6 +103,12 @@
                     'cargo': cargo,
                     'setor': setor,
                     'permissao': permissao,
+                    'favoritos': 'Relatórios',
+                    'cadastro_orgao': 'Cadastro de Órgãos', 
+                    'lista_orgao': 'Lista de Órgãos', 
+                    'cadastro_user': 'Cadastro de Usuário', 
+                    'lista_user': 'Lista de Usuários', 
+                    'notify': 'Notificações'
                 }
 
                 var emailCorreto = 0;

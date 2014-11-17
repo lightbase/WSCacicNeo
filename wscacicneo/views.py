@@ -444,7 +444,10 @@ def post_user(request):
     if(email_is_institucional):
         document = doc['favoritos']
         favoritos = [document]
-        itens = [doc['lista_orgao'], doc['cadastro_orgao'], doc['lista_user'], doc['cadastro_user'], doc['coleta'], doc['notify']]
+        if(doc['permissao'] == "Administrador "):
+            itens = [doc['lista_orgao'], doc['cadastro_orgao'], doc['lista_user'], doc['cadastro_user'], doc['notify']]
+        else:
+            itens = [doc['notify']]
         user_obj = User(
             nome = doc['nome'],
             matricula = doc['matricula'],
@@ -481,7 +484,7 @@ def post_first_user(request):
         if(email_is_institucional):
             document = doc['favoritos']
             favoritos = [document]
-            itens = [doc['lista_orgao'], doc['cadastro_orgao'], doc['lista_user'], doc['cadastro_user'], doc['coleta'], doc['notify']]
+            itens = [doc['lista_orgao'], doc['cadastro_orgao'], doc['lista_user'], doc['cadastro_user'], doc['notify']]
             user_obj = User(
                 nome = doc['nome'],
                 matricula = doc['matricula'],
@@ -490,7 +493,7 @@ def post_first_user(request):
                 telefone = doc['telefone'],
                 cargo = doc['cargo'],
                 setor = doc['setor'],
-                permissao = doc['permissao'],
+                permissao = "Administrador",
                 senha = Utils.hash_password(doc['senha']),
                 favoritos = favoritos,
                 itens = itens
@@ -506,7 +509,6 @@ def post_first_user(request):
 @view_config(route_name='edituser', renderer='templates/editaruser.pt', permission="admin")
 def edituser(request):
     matricula = request.matchdict['matricula']
-    
     user_obj = Utils.create_user_obj()
     search = user_obj.search_user(matricula)
     email = search.results[0].email
@@ -538,20 +540,54 @@ def put_user(request):
     matricula = params['url']
     email_user = params['email']
     user_obj = Utils.create_user_obj()
-    user = {
-        'nome' : params['nome'],
-        'matricula' : params['matricula'],
-        'email' : params['email'],
-        'orgao' : params['orgao'],
-        'telefone' : params['telefone'],
-        'cargo' : params['cargo'],
-        'setor' : params['setor'],
-        'permissao' : params['permissao'],
-        'senha' : Utils.retorna_usuario_autenticado(email_user).results[0].senha,
-        'favoritos' : Utils.retorna_usuario_autenticado(email_user).results[0].favoritos,
-        'itens' : Utils.retorna_usuario_autenticado(email_user).results[0].itens
-    }
     search = user_obj.search_user(matricula)
+    permissao_usuario = search.results[0].permissao
+    if(params['permissao'] == "Administrador" and params['permissao'] != permissao_usuario):
+        itens = [params['lista_orgao'], params['cadastro_orgao'], params['lista_user'], params['cadastro_user'], params['notify']]
+        favoritos = [params['favoritos']]
+        user = {
+            'nome' : params['nome'],
+            'matricula' : params['matricula'],
+            'email' : params['email'],
+            'orgao' : params['orgao'],
+            'telefone' : params['telefone'],
+            'cargo' : params['cargo'],
+            'setor' : params['setor'],
+            'permissao' : params['permissao'],
+            'senha' : Utils.retorna_usuario_autenticado(email_user).results[0].senha,
+            'favoritos' : favoritos,
+            'itens' : itens
+        }
+    elif(params['permissao'] == "Gestor" and params['permissao'] != permissao_usuario):
+        itens = [params['notify']]
+        favoritos = [params['favoritos']]
+        user = {
+            'nome' : params['nome'],
+            'matricula' : params['matricula'],
+            'email' : params['email'],
+            'orgao' : params['orgao'],
+            'telefone' : params['telefone'],
+            'cargo' : params['cargo'],
+            'setor' : params['setor'],
+            'permissao' : params['permissao'],
+            'senha' : Utils.retorna_usuario_autenticado(email_user).results[0].senha,
+            'favoritos' : favoritos,
+            'itens' : itens
+        }
+    else:
+        user = {
+            'nome' : params['nome'],
+            'matricula' : params['matricula'],
+            'email' : params['email'],
+            'orgao' : params['orgao'],
+            'telefone' : params['telefone'],
+            'cargo' : params['cargo'],
+            'setor' : params['setor'],
+            'permissao' : params['permissao'],
+            'senha' : Utils.retorna_usuario_autenticado(email_user).results[0].senha,
+            'favoritos' : Utils.retorna_usuario_autenticado(email_user).results[0].favoritos,
+            'itens' : Utils.retorna_usuario_autenticado(email_user).results[0].itens
+        }
     id = search.results[0]._metadata.id_doc
     email_is_institucional = Utils.verifica_email_institucional(email_user)
     if(email_is_institucional):

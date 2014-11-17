@@ -26,6 +26,7 @@
 				<nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">         
 					<!-- Links -->
 						<ul class="nav navbar-nav pull-right" tal:condition="request.authenticated_userid">
+							<metal:macro use-macro="load: menu_fav.pt">
 							<li class="dropdown pull-right">            
 								<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 									<i class="fa fa-user"></i> 
@@ -69,7 +70,7 @@
 							<!-- Logo ends -->
 						</div>
 						<!-- Button section -->
-											</div>
+					</div>
 				</div>
 			</header>
 
