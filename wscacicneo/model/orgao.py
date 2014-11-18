@@ -127,7 +127,15 @@ class OrgaoBase():
             required=False
         ))
 
-
+        abilitar_bot = Field(**dict(
+            name='abilitar_bot',
+            alias='abilitar_bot',
+            description='bot',
+            datatype='Text',
+            indices=['Textual', 'Unico'],
+            multivalued=True,
+            required=False
+        ))
 
         base_metadata = BaseMetadata(
             name='orgaos',
@@ -142,6 +150,7 @@ class OrgaoBase():
         content_list.append(endereco)
         content_list.append(coleta)
         content_list.append(url)
+        content_list.append(abilitar_bot)
 
         lbbase = Base(
             metadata=base_metadata,
