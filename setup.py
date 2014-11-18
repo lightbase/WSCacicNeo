@@ -20,7 +20,8 @@ requires = [
     'pyramid_restler',
     'pyramid_who',
     'requests',
-    'waitress'
+    'waitress',
+    'liblightbase'
 ]
 
 setup(name='WSCacicNeo',

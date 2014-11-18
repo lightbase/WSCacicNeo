@@ -81,5 +81,10 @@ def main(global_config, **settings):
     cfg.add_route('login', 'login')
     cfg.add_route('logout', 'logout')
 
+    # REST API
+    cfg.add_route('orgao_config', 'api/orgaos/{orgao}', request_method='GET')
+    cfg.add_route('orgao_coleta', 'api/{orgao}', request_method='GET')
+    cfg.add_route('orgao_relatorio', 'api/{orgao}/relatorios', request_method='GET')
+
     cfg.scan()
     return cfg.make_wsgi_app()
