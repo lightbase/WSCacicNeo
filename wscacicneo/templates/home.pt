@@ -6,7 +6,17 @@
  	<div>
 		<p><h2 align="center">Sistema Super-Gerente</h2></p>
 		<br>
-		<p><h3 tal:condition="not request.authenticated_userid" align="center"><a href="${request.route_url('root')}login"> Faça Login </a></h3></p>
+			<!-- Não Autenticado -->
+		<div tal:condition="not request.authenticated_userid">
+			<p>
+				<h3 style="text-align:center;"><a href="${request.route_url('root')}login"><img src="${request.route_url('root')}static/imgs/employ.png" alt="Login" height="52" width="52"/>Já é usuário? Autentique-se. </a></h3>
+			</p>
+			<br/>
+			<p>
+				<h3 style="text-align:center;"><a href="${request.route_url('root')}relatorios/configuracao"><img src="${request.route_url('root')}static/imgs/img-relatorio.png" alt="Relatórios" height="42" width="72"/>Veja os relatórios disponíveis. </a></h3>
+			</p>
+			<!-- Fim Não Autenticado -->
+		</div>
 	</div>
  </metal:content>
 </metal:main>
