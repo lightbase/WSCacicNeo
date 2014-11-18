@@ -20,7 +20,7 @@ log = logging.getLogger()
 
 class ConfReports():
 
-    def __init__(self, nm_base, rest_url=None, response_object=True):
+    def __init__(self, nm_base, rest_url=None, response_object=False):
         self.base_nm = nm_base
         if rest_url is None:
             self.rest_url = config.REST_URL

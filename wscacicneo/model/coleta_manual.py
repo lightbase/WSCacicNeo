@@ -71,7 +71,7 @@ class ColetaManualBase():
             multivalued=False,
             required=False
         ))
-        
+
         Win32_Processor_Caption = Field(**dict(
             name='Win32_Processor_Caption',
             description='Win32_Processor_Caption',
@@ -138,7 +138,7 @@ class ColetaManualBase():
             multivalued=False,
             required=False
         ))
-       
+
         """
         GROUP Sistema Operacional
         """

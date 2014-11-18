@@ -38,8 +38,8 @@ class ReportsBase():
         """
         LB Base do órgão
         """
-        item = Field(**dict(
-            name='item',
+        OperatingSystem_item = Field(**dict(
+            name='OperatingSystem_item',
             description='Item Coletado',
             alias='Item',
             datatype='Text',
@@ -48,8 +48,8 @@ class ReportsBase():
             required=True
         ))
 
-        amount = Field(**dict(
-            name='amount',
+        OperatingSystem_amount = Field(**dict(
+            name='OperatingSystem_amount',
             alias='amount',
             description='amount',
             datatype='Text',
@@ -58,13 +58,112 @@ class ReportsBase():
             required=True
         ))
 
+        Win32_BIOS_item = Field(**dict(
+            name='Win32_BIOS_item',
+            description='Item Coletado',
+            alias='Item',
+            datatype='Text',
+            indices=['Textual'],
+            multivalued=False,
+            required=True
+        ))
+
+        Win32_BIOS_amount = Field(**dict(
+            name='Win32_BIOS_amount',
+            alias='amount',
+            description='amount',
+            datatype='Text',
+            indices=['Textual'],
+            multivalued=False,
+            required=True
+        ))
+
+        Win32_Processor_item = Field(**dict(
+            name='Win32_Processor_item',
+            description='Item Coletado',
+            alias='Item',
+            datatype='Text',
+            indices=['Textual'],
+            multivalued=False,
+            required=True
+        ))
+
+        Win32_Processor_amount = Field(**dict(
+            name='Win32_Processor_amount',
+            alias='amount',
+            description='amount',
+            datatype='Text',
+            indices=['Textual'],
+            multivalued=False,
+            required=True
+        ))
+
+        """
+        GROUP Sistema Operacional
+        """
+        OperatingSystem_content = Content()
+        OperatingSystem_content.append(OperatingSystem_item)
+        OperatingSystem_content.append(OperatingSystem_amount)
+
+        OperatingSystem_metadata = GroupMetadata(
+            name='OperatingSystem',
+            alias='OperatingSystem',
+            description='OperatingSystem',
+            multivalued = False
+        )
+
+        OperatingSystem = Group(
+            metadata = OperatingSystem_metadata,
+            content = OperatingSystem_content
+        )
+
+        """
+        GROUP Bios
+        """
+        Win32_BIOS_content = Content()
+        Win32_BIOS_content.append(Win32_BIOS_item)
+        Win32_BIOS_content.append(Win32_BIOS_amount)
+
+        Win32_BIOS_metadata = GroupMetadata(
+            name='Win32_BIOS',
+            alias='Win32_BIOS',
+            description='Win32_BIOS',
+            multivalued = False
+        )
+
+        Win32_BIOS = Group(
+            metadata = Win32_BIOS_metadata,
+            content = Win32_BIOS_content
+        )
+
+        """
+        GROUP Processador
+        """
+        Win32_Processor_content = Content()
+        Win32_Processor_content.append(Win32_Processor_item)
+        Win32_Processor_content.append(Win32_Processor_amount)
+
+        Win32_Processor_metadata = GroupMetadata(
+            name='Win32_Processor',
+            alias='Win32_Processor',
+            description='Win32_Processor',
+            multivalued = False
+        )
+
+        Win32_Processor = Group(
+            metadata = Win32_Processor_metadata,
+            content = Win32_Processor_content
+        )
+
+
         base_metadata = BaseMetadata(
             name = self.nm_base + "_bk",
         )
 
         content_list = Content()
-        content_list.append(item)
-        content_list.append(amount)
+        content_list.append(OperatingSystem)
+        content_list.append(Win32_BIOS)
+        content_list.append(Win32_Processor)
 
         lbbase = Base(
             metadata=base_metadata,
@@ -84,6 +183,7 @@ class ReportsBase():
         """
         Cria base no LB
         """
+        self.baserest.response_object = True
         response = self.baserest.create(self.lbbase)
         if response.status_code == 200:
             return self.lbbase
