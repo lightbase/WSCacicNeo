@@ -1,15 +1,18 @@
 <metal:main use-macro="load: master.pt">
   <metal:content fill-slot="dash">
-      Cadastro Coleta      
+      Cadastro Coleta
   </metal:content>
 	<metal:content fill-slot="conteudo">
+    <div class="alert alert-warning">
+           Os campos marcados com  *  são de preenchimento obrigatório
+    </div>
 <form role="form" class="form-horizontal" id="coleta_manual">
     <br/>
     <div class="form-group">
       <div style="margin-left: 200px;font-size: 150%;">Configuração</div>
     </div>
     <div class="form-group">
-      <label class="col-lg-2 control-label">Orgão:</label>
+      <label class="col-lg-2 control-label">Orgão *:</label>
       <div class="col-lg-5">
         <select  id="orgao" class="form-control">
           <option></option>
@@ -18,7 +21,7 @@
       </div>
     </div>
     <div class="form-group">
-      <label class="col-lg-2 control-label">Data da Coleta:</label>
+      <label class="col-lg-2 control-label">Data da Coleta *:</label>
       <div class="col-lg-2">
         <input type="date" id="data_coleta" class="form-control" >
       </div>
@@ -31,7 +34,7 @@
       <label class="col-lg-2 control-label">Lista de Softwares:</label>
       <button class="add_field_button">Adicionar mais softwares</button>
       <div class="col-lg-5 input_fields_wrap">
-        <input type="text" id="softwarelist_1" class="form-control" placeholder="software*">
+        <input type="text" id="softwarelist_1" class="form-control" placeholder="software">
           <br/>
       </div>
     </div>
@@ -43,13 +46,13 @@
     <div class="form-group">
       <label class="col-lg-2 control-label">Modelo/Nome do SO:</label>
       <div class="col-lg-5">
-        <input type="text" id="operatingsystem_caption" class="form-control" placeholder="operatingsystem_caption*">
+        <input type="text" id="operatingsystem_caption" class="form-control" placeholder="operatingsystem_caption">
       </div>
     </div>
     <div class="form-group">
       <label class="col-lg-2 control-label">Versão do SO:</label>
       <div class="col-lg-5">
-        <input type="text" id="operatingsystem_version" class="form-control" placeholder="operatingsystem_version*">
+        <input type="text" id="operatingsystem_version" class="form-control" placeholder="operatingsystem_version">
       </div>
     </div>
     <div class="form-group">
@@ -65,7 +68,7 @@
       <div class="form-group">
       <label class="col-lg-2 control-label">Nome da BIOS:</label>
       <div class="col-lg-5">
-        <input type="text" id="win32_bios_manufacturer" class="form-control" placeholder="win32_bios_manufacturer*">
+        <input type="text" id="win32_bios_manufacturer" class="form-control" placeholder="win32_bios_manufacturer">
       </div>
     </div>
         <br/>
@@ -76,25 +79,25 @@
       <label class="col-lg-2 control-label">Nome do Processador:</label>
       <div class="col-lg-5">
         <input type="text" id="win32_processor_manufacturer" class="form-control" 
-                placeholder="win32_processor_manufacturer*">
+                placeholder="win32_processor_manufacturer">
       </div>
     </div>
     <div class="form-group">
       <label class="col-lg-2 control-label">Número de processadores lógicos:</label>
       <div class="col-lg-5">
         <input type="text" id="win32_processor_numberoflogicalprocessors" class="form-control" 
-                placeholder="win32_processor_numberoflogicalprocessors*">
+                placeholder="win32_processor_numberoflogicalprocessors">
       </div>
     </div>
     <div class="form-group">
       <label class="col-lg-2 control-label">Modelo do processador:</label>
       <div class="col-lg-5">
         <input type="text" id="win32_processor_caption" class="form-control" 
-                placeholder="win32_processor_caption*">
+                placeholder="win32_processor_caption">
       </div>
-    </div> 
+    </div>
     <br/>
-    
+
     <div class="form-group">
       <div class="col-lg-offset-2 col-lg-6">
         <button type="button" id="enviar" class="btn btn-sm" style="margin-left: 315px;" >Enviar</button>
@@ -107,9 +110,6 @@
 	</metal:content>
   <metal:content fill-slot="javascript">
     <script type="text/javascript">
-      $(document).ready(function(){
-        alert('Os campos marcados com  *  são de preenchimento orbigatório')
-      });
       var x = 1; //initlal text box count
       $(document).ready(function() {
           var max_fields      = 100; //maximum input boxes allowed

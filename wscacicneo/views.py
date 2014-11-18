@@ -8,6 +8,8 @@ from pyramid.view import view_config
 from wscacicneo.utils.utils import Utils
 from wscacicneo.model.orgao import Orgao
 from wscacicneo.model import orgao as model_orgao
+from wscacicneo.model import base_reports
+from wscacicneo.model import config_reports
 from wscacicneo.model.user import User
 from wscacicneo.model import user as model_usuario
 from wscacicneo.model.reports import Reports
@@ -42,7 +44,7 @@ def master(request):
 @view_config(route_name='root')
 def root(request):
     return HTTPFound(location=request.route_url("home"))
-    
+
 # Views básicas
 @view_config(route_name='create_config_initial')
 def create_config_initial(request):
@@ -94,6 +96,8 @@ def home(request):
     if(result_count == 0):
         return HTTPFound(location=request.route_url("init_config_user"))
     usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
+    # bases = requests.get("http://127.0.0.1/lbgenerator/")
+    # print(1111111111111111111111111111111111111111111111111111111,bases.text)
     return {'usuario_autenticado':usuario_autenticado}
 
 # Lista de Notificação
@@ -204,7 +208,6 @@ def listorgao(request):
     )
     search = orgao_obj.search_list_orgaos()
     usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
-    
     return {'orgao_doc': search.results,
             'usuario_autenticado':usuario_autenticado
             }
@@ -224,7 +227,7 @@ def config_orgao(request):
     )
     search = orgao_obj.search_orgao(sigla)
     usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
-    
+
     return {
         'nome' : search.results[0].nome,
         'cargo' : search.results[0].cargo,
@@ -274,10 +277,12 @@ def post_orgao(request):
     orgao_obj = Orgao(
         nome = doc['nome'],
         cargo = doc['gestor'],
+        coleta = doc['coleta'],
         sigla = doc['sigla'],
         endereco = doc['end'],
         email = doc['email'],
         telefone = doc['telefone'],
+        url = doc['url']
     )
     id_doc = orgao_obj.create_orgao()
     return Response(str(id_doc))
@@ -348,7 +353,6 @@ def favoritos(request):
     if (usuario_autenticado.results[0].email ==  email):
         search = user_obj.search_user(matricula)
         usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
-        
         favoritos = search.results[0].favoritos
         return {
             'favoritos': search.results[0].favoritos,
@@ -365,7 +369,7 @@ def favoritos(request):
             'usuario_autenticado':usuario_autenticado
         }
     else:
-        return HTTPFound(location = request.route_url('home'))        
+        return HTTPFound(location = request.route_url('home'))
 
 @view_config(route_name='edit_favoritos', permission="gest")
 def edit_favoritos(request):
@@ -403,7 +407,6 @@ def edit_favoritos(request):
     doc = json.dumps(user)
     edit = user_obj.edit_user(id, doc)
     usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
-    
     return Response(edit)
 
 # Reports
@@ -413,7 +416,7 @@ def create_base(request):
     coletaManualBase = coleta_manual.ColetaManualBase(nm_orgao)
     lbbase = coletaManualBase.lbbase
     retorno = coletaManualBase.create_base()
-    return HTTPFound(request.route_url('root') + 'orgao/lista')
+    return Response(retorno)
 
 @view_config(route_name='conf_report', renderer='templates/conf_report.pt')
 def conf_report(request):
@@ -438,14 +441,33 @@ def conf_report(request):
 def report_itens(request):
     orgao_nm = request.matchdict['nm_orgao']
     nm_orgao = Utils.format_name(orgao_nm)
-    attr = request.matchdict['attr']
-    child = request.matchdict['child']
-    data = Reports(nm_orgao).count_attribute(attr, child)
-    usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
-    
-    return {'data': data,
-            'usuario_autenticado':usuario_autenticado
-            }
+    report_base = base_reports.ReportsBase(nm_orgao)
+    if(report_base.is_created() == False):
+        create_base = report_base.create_base()
+        attr = request.matchdict['attr']
+        child = request.matchdict['child']
+        data = Reports(nm_orgao).count_attribute(attr, child)
+        reports_config = config_reports.ConfReports(nm_orgao)
+        for items in data:
+            data_json = {'item' : items, 'amount': str(data[items])}
+            document = json.dumps(data_json)
+            reports_config.create_coleta(document)
+        usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
+        return {'data': data,
+                'status_base': create_base,
+                'usuario_autenticado':usuario_autenticado
+                }
+    else:
+        orgao_nm = request.matchdict['nm_orgao']
+        nm_orgao = Utils.format_name(orgao_nm)
+        attr = request.matchdict['attr']
+        child = request.matchdict['child']
+        data = Reports(nm_orgao).count_attribute(attr, child)
+        usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
+        return {
+                'data': data,
+                'usuario_autenticado':usuario_autenticado
+                }
 
 # Users
 
@@ -869,7 +891,7 @@ def cadastro_coleta(request):
     )
     search = orgao_obj.search_list_orgaos()
     usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
-    
+
     return {'orgao_doc': search.results,
             'usuario_autenticado':usuario_autenticado
             }
