@@ -458,7 +458,11 @@ def report_itens(request):
                 'usuario_autenticado':usuario_autenticado
                 }
     else:
-        data = dict({'eduardo': 'severo'})
+        orgao_nm = request.matchdict['nm_orgao']
+        nm_orgao = Utils.format_name(orgao_nm)
+        attr = request.matchdict['attr']
+        child = request.matchdict['child']
+        data = Reports(nm_orgao).count_attribute(attr, child)
         usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
         return {
                 'data': data,
