@@ -8,6 +8,8 @@ from pyramid.view import view_config
 from wscacicneo.utils.utils import Utils
 from wscacicneo.model.orgao import Orgao
 from wscacicneo.model import orgao as model_orgao
+from wscacicneo.model import base_reports
+from wscacicneo.model import config_reports
 from wscacicneo.model.user import User
 from wscacicneo.model import user as model_usuario
 from wscacicneo.model.reports import Reports
@@ -410,7 +412,7 @@ def create_base(request):
     coletaManualBase = coleta_manual.ColetaManualBase(nm_orgao)
     lbbase = coletaManualBase.lbbase
     retorno = coletaManualBase.create_base()
-    return HTTPFound(request.route_url('root') + 'orgao/lista')
+    return Response(retorno)
 
 @view_config(route_name='conf_report', renderer='templates/conf_report.pt')
 def conf_report(request):
@@ -435,14 +437,29 @@ def conf_report(request):
 def report_itens(request):
     orgao_nm = request.matchdict['nm_orgao']
     nm_orgao = Utils.format_name(orgao_nm)
-    attr = request.matchdict['attr']
-    child = request.matchdict['child']
-    data = Reports(nm_orgao).count_attribute(attr, child)
-    usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
-    
-    return {'data': data,
-            'usuario_autenticado':usuario_autenticado
-            }
+    report_base = base_reports.ReportsBase(nm_orgao)
+    if(report_base.is_created() == False):
+        create_base = report_base.create_base()
+        attr = request.matchdict['attr']
+        child = request.matchdict['child']
+        data = Reports(nm_orgao).count_attribute(attr, child)
+        reports_config = config_reports.ConfReports(nm_orgao)
+        for items in data:
+            data_json = {'item' : items, 'amount': str(data[items])}
+            document = json.dumps(data_json)
+            reports_config.create_coleta(document)
+        usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
+        return {'data': data,
+                'status_base': create_base,
+                'usuario_autenticado':usuario_autenticado
+                }
+    else:
+        data = dict({'eduardo': 'severo'})
+        usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
+        return {
+                'data': data,
+                'usuario_autenticado':usuario_autenticado
+                }
 
 # Users
 
@@ -866,7 +883,7 @@ def cadastro_coleta(request):
     )
     search = orgao_obj.search_list_orgaos()
     usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
-    
+
     return {'orgao_doc': search.results,
             'usuario_autenticado':usuario_autenticado
             }
