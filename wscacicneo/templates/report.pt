@@ -12,7 +12,8 @@
                             <div class="pull-left">Relatório</div>
                             <div class="widget-icons pull-right">
                                 <a href="#" id="print" title="Imprimir Tabela"><i class="fa fa-print"></i></a>
-                            </div> 
+                                <a href="#" id="grafico" title="Gerar Gráfico"><i class="fa fa-bar-chart-o"></i></a>
+                            </div>
                             <div class="clearfix"></div>
                         </div>
                         <div class="widget-content">
@@ -41,8 +42,11 @@
                     </div>
                 </div>
             </div>
+                <div class="box-chart">
+                    <canvas id="GraficoLine" style="width:100%;"></canvas>
+                </div>
         </div>
-    </div>
+   </div>
 </metal:content>
 <metal:content fill-slot="javascript">
     <script type="text/javascript" src="${request.route_url('root')}static/jquery.print.js"></script>
@@ -51,6 +55,41 @@
             $("#print").click(function() {
                 $("#tabela_relatorio").print();
             });
+        });
+        $(document).ready(function(){
+            window.onload = function(){
+                var ctx = document.getElementById("GraficoLine").getContext("2d");
+                var data = {
+                    labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+                    datasets: [
+                        {
+                            label: "Dados primários",
+                            fillColor: "rgba(220,220,220,0.2)",
+                            strokeColor: "rgba(220,220,220,1)",
+                            pointColor: "rgba(220,220,220,1)",
+                            pointStrokeColor: "#fff",
+                            pointHighlightFill: "#fff",
+                            pointHighlightStroke: "rgba(220,220,220,1)",
+                            data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
+                        },
+                        {
+                            label: "Dados secundários",
+                            fillColor: "rgba(151,187,205,0.2)",
+                            strokeColor: "rgba(151,187,205,1)",
+                            pointColor: "rgba(151,187,205,1)",
+                            pointStrokeColor: "#fff",
+                            pointHighlightFill: "#fff",
+                            pointHighlightStroke: "rgba(151,187,205,1)",
+                            data: [28, 48, 40, 19, 86, 27, 90, 200, 87, 20, 50, 20]
+                        }
+                    ]   
+                };
+                var LineChart = new Chart(ctx).Line(data, options);
+                var options = {
+                    responsive:true
+                };
+
+            };
         });
     </script>
 </metal:content>

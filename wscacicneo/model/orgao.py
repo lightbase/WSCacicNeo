@@ -42,7 +42,7 @@ class OrgaoBase():
             description='Nome do órgão',
             alias='nome',
             datatype='Text',
-            indices=['Textual'],
+            indices=['Textual', 'Unico'],
             multivalued=False,
             required=True
         ))
@@ -52,7 +52,7 @@ class OrgaoBase():
             alias='sigla',
             description='Sigla do órgão',
             datatype='Text',
-            indices=['Textual'],
+            indices=['Textual', 'Unico'],
             multivalued=False,
             required=True
         ))
@@ -82,7 +82,7 @@ class OrgaoBase():
             alias='email',
             description='E-mail do órgão',
             datatype='Text',
-            indices=['Textual'],
+            indices=['Textual', 'Unico'],
             multivalued=False,
             required=True
         ))
@@ -104,7 +104,7 @@ class OrgaoBase():
             datatype='Text',
             indices=['Textual'],
             multivalued=False,
-            required=True
+            required=False
         ))
 
         url = Field(**dict(
@@ -112,10 +112,21 @@ class OrgaoBase():
             alias='url',
             description='Url da base de dados',
             datatype='Text',
-            indices=['Textual'],
+            indices=['Textual', 'Unico'],
             multivalued=False,
-            required=True
+            required=False
         ))
+
+        dependence = Field(**dict(
+            name='dependence',
+            alias='dependence',
+            description='orgaos dependentes',
+            datatype='Text',
+            indices=['Textual', 'Unico'],
+            multivalued=True,
+            required=False
+        ))
+
 
 
         base_metadata = BaseMetadata(

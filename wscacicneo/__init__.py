@@ -34,7 +34,7 @@ def main(global_config, **settings):
     # Rotas Básicas
     cfg.add_route('home', 'home')
     cfg.add_route('notifications', 'notifications')
-    
+
     # Orgãos
     cfg.add_route('orgao', 'orgao/cadastro')
     cfg.add_route('post_orgao', 'post_orgao')
@@ -43,7 +43,8 @@ def main(global_config, **settings):
     cfg.add_route('listorgao', 'orgao/lista')
     cfg.add_route('delete_orgao', 'orgao/delete/{sigla}')
     cfg.add_route('base_de_dados', 'orgao/base/{sigla}')
-    
+    cfg.add_route('config_orgao', 'orgao/configuracoes/{sigla}')
+
     # Users
     cfg.add_route('user', 'usuario/cadastro')
     cfg.add_route('post_user', 'post_user')

@@ -1,0 +1,87 @@
+<metal:main use-macro="load: master.pt">
+  <metal:content fill-slot="dash">
+      Configurar Órgão
+  </metal:content>
+	<metal:content fill-slot="conteudo">
+        <div class="padd">
+            <br />
+            <!-- Form starts.  -->
+             <form class="form-horizontal" id='form_orgaos' role="form">
+                <div class="form-group">
+                  <label class="col-lg-2 control-label">Nome do Órgão</label>
+                  <div class="col-lg-5">
+                    <input type="text" name='nome' disabled id="nome" class="form-control" value="${nome}" placeholder="Nome do Órgão">
+                  </div>
+                </div>
+                               <div class="form-group">
+                    <label class="col-lg-2 control-label">URL da Base de Dados</label>
+                        <div class="col-lg-5">
+                            <a type="button" href="${request.route_url('root')}create/orgao/${nome}" class="btn btn-sm btn-success">Criar Base de Dados</a>
+                    </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 control-label">Tempo da Coleta</label>
+                  <div class="col-lg-2">
+                    <select id="coleta" value="" class="form-control">
+                      <option>1 dia</option>
+                      <option>2 dias</option>
+                      <option>3 dias</option>
+                      <option>30 minutos</option>
+                      <option>1 hora</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-lg-offset-2 col-lg-6">
+                    <button type="button" id="enviar" class="btn btn-sm" style="margin-left: 315px;" >Enviar</button>
+                    <input style="display:none;" id="id" value="${request.matchdict['sigla']}">
+                    <button type="button" id="limpar" class="btn btn-sm">Limpar</button>
+                  </div>
+                </div>
+              </form>
+          </div>
+	</metal:content>
+	<metal:content fill-slot="javascript">
+        <script type="text/javascript">
+           $('#limpar').click(function(){
+                    $('#nome').val('')
+                    $('#email').val('')
+                    $('#telefone').val('')
+                    $('#gestor').val('')
+                    $('#sigla').val('')
+                    $('#coleta').val('')
+                    $('#end').val('')
+           });
+           $('#enviar').click(function(){
+                var nome = $('#nome').val()
+                    email = $('#email').val()
+                    telefone = $('#telefone').val()
+                    gestor = $('#gestor').val()
+                    sigla = $('#sigla').val()
+                    coleta = $('#coleta').val()
+                    end = $('#end').val()
+                    id = $('#id').val()
+                    url = $('#url').val()
+    
+                var data = {
+                    'id': id,
+                    'nome': nome,
+                    'email': email,
+                    'telefone': telefone,
+                    'gestor': gestor,
+                    'sigla': sigla,
+                    'coleta': coleta,
+                    'end': end,
+                    'url': url
+                }
+                $.ajax({
+                    type: "PUT",
+                    url: "${request.route_url('root')}put_orgao",
+                    data: data, 
+                    success: function(){alert("Aleteração realizado com sucesso"), window.location.href = "${request.route_url('listorgao')}";   },
+                    error: function(){ alert('Erro ao alterar o orgão. Todos os campos são obrigatórios') },
+                }); 
+            });
+        </script>
+    </metal:content>
+</metal:main>
