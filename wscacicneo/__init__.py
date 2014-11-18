@@ -65,21 +65,21 @@ def main(global_config, **settings):
     cfg.add_route('put_password_user', 'put_password_user')
     cfg.add_route('put_profile_user', 'put_profile_user')
     cfg.add_route('init_config_user', 'configuracao_inicial/usuario')
-    
+
     # Base de Rerpot por Orgãos
-    cfg.add_route('create_orgao', 'create/orgao/{nm_orgao}')
-    
+    cfg.add_route('create_orgao', 'create/coleta/{nm_orgao}')
+
     # Relatórios
     cfg.add_route('conf_report', 'relatorios/configuracao')
     cfg.add_route('report_itens', 'relatorio/{nm_orgao}/{attr}/{child}')
-    
+
     # Coleta Manual
     cfg.add_route('cadastro_coleta', 'coleta/cadastro')
     cfg.add_route('post_coleta_manual', 'post_coleta_manual')
-    
+
     # Autenticação
     cfg.add_route('login', 'login')
     cfg.add_route('logout', 'logout')
-    
+
     cfg.scan()
     return cfg.make_wsgi_app()

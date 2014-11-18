@@ -59,7 +59,7 @@ class ReportsBase():
         ))
 
         base_metadata = BaseMetadata(
-            name = self.nm_base,
+            name = self.nm_base + "_bk",
         )
 
         content_list = Content()
@@ -107,7 +107,10 @@ class ReportsBase():
         Retorna se a base já existe
         """
         try:
+            self.baserest.response_object = False
             response = self.baserest.get(self.lbbase.metadata.name)
+            self.baserest.response_object = True
             return True
         except:
             return False
+
