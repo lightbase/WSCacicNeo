@@ -72,7 +72,6 @@ class Utils:
             endereco = 'Esplanada bloco C',
             email = 'admin@planemaneto.gov.br',
             telefone = '(61) 2025-4117',
-            url = 'http://api.brlight.net/api'
-            itens = ['itens']
+            url = 'http://api.brlight.net/api',
         )
         return user_obj
