@@ -33,18 +33,15 @@ REST_URL = 'http://api.brlight.net/api'
 # Views de configuração
 @view_config(route_name='blankmaster', renderer='templates/blankmaster.pt')
 def blankmaster(request):
-    usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
-    return {'usuario_autenticado':usuario_autenticado}
+    return HTTPFound(location=request.route_url("home"))
 
 @view_config(route_name='master', renderer='templates/master.pt')
 def master(request):
-    usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
-    return {'usuario_autenticado':usuario_autenticado}
+    return HTTPFound(location=request.route_url("home"))
 
 @view_config(route_name='root')
 def root(request):
-    usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
-    return {'usuario_autenticado':usuario_autenticado}
+    return HTTPFound(location=request.route_url("home"))
     
 # Views básicas
 @view_config(route_name='create_config_initial')
@@ -84,17 +81,19 @@ def home_config_initial(request):
 
 @view_config(route_name='home', renderer='templates/home.pt')
 def home(request):
+    #CONFIGURAÇÃO INICIAL
     user_base = model_usuario.UserBase()
     orgao_base = model_orgao.OrgaoBase()
     notify_base = model_notify.NotifyBase()
     if (user_base.is_created() == False or orgao_base.is_created() == False or notify_base.is_created() == False):
         return HTTPFound(location=request.route_url("home_config_initial"))
+    #END CONFIGURAÇÃO INICIAL
     user_obj = Utils.create_user_obj()
     search = user_obj.search_list_users()
     result_count = search.result_count
     if(result_count == 0):
         return HTTPFound(location=request.route_url("init_config_user"))
-    usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
+    usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
     return {'usuario_autenticado':usuario_autenticado}
 
 # Lista de Notificação
@@ -109,7 +108,7 @@ def list_notify(request):
     )
     reg = notify_obj.search_list_notify()
     doc = reg.results
-    usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
+    usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
     return {'doc': doc,
             'usuario_autenticado':usuario_autenticado
             }
@@ -166,7 +165,7 @@ def notify(request):
         url = 'http://api.brlight.net/api'
     )
     search = orgao_obj.search_list_orgaos()
-    usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
+    usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
 
     return {'orgao_doc': search.results,
             'usuario_autenticado':usuario_autenticado
@@ -188,7 +187,7 @@ def post_notify(request):
 # Views de Orgão
 @view_config(route_name='orgao', renderer='templates/orgao.pt', permission="admin")
 def orgao(request):
-    usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
+    usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
     return {'usuario_autenticado':usuario_autenticado}
 
 @view_config(route_name='listorgao', renderer='templates/list_orgao.pt', permission="admin")
@@ -204,7 +203,7 @@ def listorgao(request):
         url = 'http://api.brlight.net/api'
     )
     search = orgao_obj.search_list_orgaos()
-    usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
+    usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
     
     return {'orgao_doc': search.results,
             'usuario_autenticado':usuario_autenticado
@@ -224,7 +223,7 @@ def editorgao(request):
         url = 'http://api.brlight.net/api'
     )
     search = orgao_obj.search_orgao(sigla)
-    usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
+    usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
     
     return {
         'nome' : search.results[0].nome,
@@ -321,10 +320,10 @@ def favoritos(request):
     user_obj = Utils.create_user_obj()
     search = user_obj.search_user(matricula)
     email = search.results[0].email
-    usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
+    usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
     if (usuario_autenticado.results[0].email ==  email):
         search = user_obj.search_user(matricula)
-        usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
+        usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
         
         favoritos = search.results[0].favoritos
         return {
@@ -379,7 +378,7 @@ def edit_favoritos(request):
     id = search.results[0]._metadata.id_doc
     doc = json.dumps(user)
     edit = user_obj.edit_user(id, doc)
-    usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
+    usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
     
     return Response(edit)
 
@@ -405,7 +404,7 @@ def conf_report(request):
         url = 'http://api.brlight.net/api'
     )
     search = orgao_obj.search_list_orgaos()
-    usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
+    usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
 
     return {'orgao_doc': search.results,
             'usuario_autenticado':usuario_autenticado
@@ -418,7 +417,7 @@ def report_itens(request):
     attr = request.matchdict['attr']
     child = request.matchdict['child']
     data = Reports(nm_orgao).count_attribute(attr, child)
-    usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
+    usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
     
     return {'data': data,
             'usuario_autenticado':usuario_autenticado
@@ -428,7 +427,7 @@ def report_itens(request):
 
 @view_config(route_name='user', renderer='templates/user.pt', permission='admin')
 def user(request):
-    usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
+    usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
     return {'usuario_autenticado':usuario_autenticado}
 
 @view_config(route_name='post_user', permission="admin")
@@ -512,24 +511,21 @@ def edituser(request):
     user_obj = Utils.create_user_obj()
     search = user_obj.search_user(matricula)
     email = search.results[0].email
-    usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
-    if (usuario_autenticado.results[0].email !=  email):
-        return {
-            'nome' : search.results[0].nome,
-            'matricula' : search.results[0].matricula,
-            'email' : search.results[0].email,
-            'orgao' : search.results[0].orgao,
-            'telefone' : search.results[0].telefone,
-            'cargo' : search.results[0].cargo,
-            'setor' : search.results[0].setor,
-            'permissao' : search.results[0].permissao,
-            'senha' : search.results[0].senha,
-            'itens' : search.results[0].itens,
-            'favoritos' : search.results[0].favoritos,
-            'usuario_autenticado':usuario_autenticado
-        }
-    else:
-        return HTTPFound(location = request.route_url('listuser')) 
+    usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
+    return {
+        'nome' : search.results[0].nome,
+        'matricula' : search.results[0].matricula,
+        'email' : search.results[0].email,
+        'orgao' : search.results[0].orgao,
+        'telefone' : search.results[0].telefone,
+        'cargo' : search.results[0].cargo,
+        'setor' : search.results[0].setor,
+        'permissao' : search.results[0].permissao,
+        'senha' : search.results[0].senha,
+        'itens' : search.results[0].itens,
+        'favoritos' : search.results[0].favoritos,
+        'usuario_autenticado':usuario_autenticado,
+    }
 
 @view_config(route_name='put_user', permission="admin")
 def put_user(request):
@@ -541,8 +537,15 @@ def put_user(request):
     email_user = params['email']
     user_obj = Utils.create_user_obj()
     search = user_obj.search_user(matricula)
-    permissao_usuario = search.results[0].permissao
-    if(params['permissao'] == "Administrador" and params['permissao'] != permissao_usuario):
+    permissao_usuario_edit = search.results[0].permissao
+    email_usuario_edit = search.results[0].email
+    usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
+    usuario_autenticado_email = usuario_autenticado.results[0].email
+    edit_yourself = False
+    if(usuario_autenticado_email == email_usuario_edit):
+        edit_yourself = True
+        email_user = usuario_autenticado_email
+    if(params['permissao'] == "Administrador" and params['permissao'] != permissao_usuario_edit):
         itens = [params['lista_orgao'], params['cadastro_orgao'], params['lista_user'], params['cadastro_user'], params['notify']]
         favoritos = [params['favoritos']]
         user = {
@@ -554,11 +557,11 @@ def put_user(request):
             'cargo' : params['cargo'],
             'setor' : params['setor'],
             'permissao' : params['permissao'],
-            'senha' : Utils.retorna_usuario_autenticado(email_user).results[0].senha,
+            'senha' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].senha,
             'favoritos' : favoritos,
             'itens' : itens
         }
-    elif(params['permissao'] == "Gestor" and params['permissao'] != permissao_usuario):
+    elif(params['permissao'] == "Gestor" and params['permissao'] != permissao_usuario_edit):
         itens = [params['notify']]
         favoritos = [params['favoritos']]
         user = {
@@ -570,7 +573,7 @@ def put_user(request):
             'cargo' : params['cargo'],
             'setor' : params['setor'],
             'permissao' : params['permissao'],
-            'senha' : Utils.retorna_usuario_autenticado(email_user).results[0].senha,
+            'senha' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].senha,
             'favoritos' : favoritos,
             'itens' : itens
         }
@@ -584,16 +587,23 @@ def put_user(request):
             'cargo' : params['cargo'],
             'setor' : params['setor'],
             'permissao' : params['permissao'],
-            'senha' : Utils.retorna_usuario_autenticado(email_user).results[0].senha,
-            'favoritos' : Utils.retorna_usuario_autenticado(email_user).results[0].favoritos,
-            'itens' : Utils.retorna_usuario_autenticado(email_user).results[0].itens
+            'senha' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].senha,
+            'favoritos' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].favoritos,
+            'itens' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].itens
         }
     id = search.results[0]._metadata.id_doc
     email_is_institucional = Utils.verifica_email_institucional(email_user)
     if(email_is_institucional):
         doc = json.dumps(user)
         edit = user_obj.edit_user(id, doc)
-        return Response(edit)
+        if(edit_yourself == False):
+            return Response(edit)
+        else:
+            headers = forget(request)
+            response = Response()
+            response = HTTPFound(location = request.route_url('login'),
+                             headers = headers)
+            return response
     else:
         return {"emailerrado":"E-mail não institucional"}
 
@@ -601,7 +611,7 @@ def put_user(request):
 def listuser(request):
     user_obj = Utils.create_user_obj()
     search = user_obj.search_list_users()
-    usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
+    usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
     return {'user_doc': search.results,
             'usuario_autenticado':usuario_autenticado
             }
@@ -611,7 +621,7 @@ def delete_user(request):
     """
     Deleta doc apartir do id
     """
-    usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
+    usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
     doc = request.params
     matricula = request.matchdict['matricula']
     user_obj = Utils.create_user_obj()
@@ -631,7 +641,7 @@ def edit_profile_user(request):
     user_obj = Utils.create_user_obj()
     search = user_obj.search_user(matricula)
     email = search.results[0].email
-    usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
+    usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
     if (usuario_autenticado.results[0].email ==  email):
         return {
             'nome' : search.results[0].nome,
@@ -657,26 +667,34 @@ def put_profile_user(request):
     """
     params = request.params
     matricula = params['url']
-    email_user = params['email']
+    email_user_new = params['email']
     user_obj = Utils.create_user_obj()
+    email_user_init = Utils.retorna_usuario_autenticado(matricula=matricula).results[0].email
     user = {
         'nome' : params['nome'],
         'orgao' : params['orgao'],
         'telefone' : params['telefone'],
         'cargo' : params['cargo'],
         'setor' : params['setor'],
-        'matricula' : Utils.retorna_usuario_autenticado(email_user).results[0].matricula,
-        'email' : Utils.retorna_usuario_autenticado(email_user).results[0].email,
-        'permissao' : Utils.retorna_usuario_autenticado(email_user).results[0].permissao,
-        'senha' : Utils.retorna_usuario_autenticado(email_user).results[0].senha,
-        'favoritos' : Utils.retorna_usuario_autenticado(email_user).results[0].favoritos,
-        'itens' : Utils.retorna_usuario_autenticado(email_user).results[0].itens
+        'email' : params['email'],
+        'matricula' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].matricula,
+        'permissao' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].permissao,
+        'senha' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].senha,
+        'favoritos' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].favoritos,
+        'itens' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].itens
     }
     search = user_obj.search_user(matricula)
     id = search.results[0]._metadata.id_doc
     doc = json.dumps(user)
     edit = user_obj.edit_user(id, doc)
-    return Response(edit)
+    if(email_user_init != email_user_new):
+        headers = forget(request)
+        response = Response()
+        response = HTTPFound(location = request.route_url('login'),
+                         headers = headers)
+        return response
+    else:
+        return Response(edit)
 
 @view_config(route_name='edit_password_user', renderer='templates/alterar_senha.pt', permission="gest")
 def edit_password_user(request):
@@ -684,7 +702,7 @@ def edit_password_user(request):
     user_obj = Utils.create_user_obj()
     search = user_obj.search_user(matricula)
     email = search.results[0].email
-    usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
+    usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
     if (usuario_autenticado.results[0].email ==  email):
         return {
             'nome' : search.results[0].nome,
@@ -713,17 +731,17 @@ def put_password_user(request):
     email_user = params['email']
     user_obj = Utils.create_user_obj()
     user = {
-        'nome' : Utils.retorna_usuario_autenticado(email_user).results[0].nome,
-        'orgao' : Utils.retorna_usuario_autenticado(email_user).results[0].orgao,
-        'telefone' : Utils.retorna_usuario_autenticado(email_user).results[0].telefone,
-        'cargo' : Utils.retorna_usuario_autenticado(email_user).results[0].cargo,
-        'setor' : Utils.retorna_usuario_autenticado(email_user).results[0].setor,
-        'matricula' : Utils.retorna_usuario_autenticado(email_user).results[0].matricula,
-        'email' : Utils.retorna_usuario_autenticado(email_user).results[0].email,
-        'permissao' : Utils.retorna_usuario_autenticado(email_user).results[0].permissao,
+        'nome' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].nome,
+        'orgao' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].orgao,
+        'telefone' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].telefone,
+        'cargo' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].cargo,
+        'setor' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].setor,
+        'matricula' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].matricula,
+        'email' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].email,
+        'permissao' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].permissao,
         'senha' : Utils.hash_password(params['senha']),
-        'favoritos' : Utils.retorna_usuario_autenticado(email_user).results[0].favoritos,
-        'itens' : Utils.retorna_usuario_autenticado(email_user).results[0].itens
+        'favoritos' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].favoritos,
+        'itens' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].itens
     }
     search = user_obj.search_user(matricula)
     id = search.results[0]._metadata.id_doc
@@ -738,7 +756,7 @@ def init_config_user(request):
     result_count = search.result_count
     if(result_count > 0):
         return HTTPFound(location = request.route_url('login'))
-    usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
+    usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
     return {'usuario_autenticado':usuario_autenticado}
 
 # Autenticação
@@ -775,7 +793,7 @@ def login(request):
         email = ''
         senha = ''
         is_visible = 'none'
-        usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
+        usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
         if 'form.submitted' in request.params:
             email = request.params['email']
             senha = request.params['senha']
@@ -826,7 +844,7 @@ def cadastro_coleta(request):
         url = 'http://api.brlight.net/api'
     )
     search = orgao_obj.search_list_orgaos()
-    usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
+    usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
     
     return {'orgao_doc': search.results,
             'usuario_autenticado':usuario_autenticado

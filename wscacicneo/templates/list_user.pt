@@ -36,13 +36,9 @@
                                                     <td>${doc.email}</td>
                                                     <td>${doc.orgao}</td>
                                                     <td>${doc.permissao}</td>
-                                                    <td tal:condition="usuario_autenticado.results[0].email != doc.email">
+                                                    <td>
                                                         <a href="${request.route_url('root')}usuario/editar/${doc.matricula}" class="btn btn-xs btn-warning" title="Editar"><i class="fa fa-pencil"></i></a>
                                                         <a href="${request.route_url('root')}usuario/delete/${doc.matricula}" class="btn btn-xs btn-danger" title="Apagar"><i class="fa fa-times"></i></a>
-                                                    </td>
-                                                    <td tal:condition="usuario_autenticado.results[0].email == doc.email">
-                                                        <a href="#" class="btn no-print btn-xs btn-warning" title="Não é possível alterar a sí próprio, utilize a opção Alterar Perfil no menu superior."><i class="fa fa-pencil"></i></a>
-                                                        <a href="#" class="btn btn-xs btn-danger" title="Não é possível excluir a sí próprio."><i class="fa fa-times"></i></a>
                                                     </td>
                                                 </tr>
                                             </tbody>

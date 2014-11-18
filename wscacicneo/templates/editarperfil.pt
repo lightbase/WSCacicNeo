@@ -22,7 +22,7 @@
                 <div class="form-group">
                     <label class="col-lg-2 control-label">E-Mail</label>
                         <div class="col-lg-5">
-                        <input type="text" id="email" disabled value="${email}" class="form-control" placeholder="E-Mail">
+                        <input type="text" id="email" value="${email}" class="form-control" placeholder="E-Mail">
                     </div>
                 </div>
                 <div class="form-group">

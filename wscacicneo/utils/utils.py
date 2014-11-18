@@ -51,10 +51,28 @@ class Utils:
         )
         return user_obj
         
-    def retorna_usuario_autenticado(email):
-        if email is None:
+    def retorna_usuario_autenticado(email=None,matricula=None):
+        if ( (email is None) and (matricula is None) ):
             return None
-        else:
+        elif (matricula is None):
             user_obj = Utils.create_user_obj()
             usuario = user_obj.search_user_by_email(email)
             return usuario
+        else:
+            user_obj = Utils.create_user_obj()
+            usuario = user_obj.search_user(matricula)
+            return usuario
+
+    def create_orgao_obj():
+        orgao_obj = Orgao(
+            nome = 'Orgao',
+            cargo = 'Cargo',
+            coleta = 'Coleta',
+            sigla = 'MPOG',
+            endereco = 'Esplanada bloco C',
+            email = 'admin@planemaneto.gov.br',
+            telefone = '(61) 2025-4117',
+            url = 'http://api.brlight.net/api'
+            itens = ['itens']
+        )
+        return user_obj
