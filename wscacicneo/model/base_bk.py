@@ -147,7 +147,7 @@ class BaseBackup():
             multivalued=False,
             required=False
         ))
-       
+
         """
         GROUP Sistema Operacional
         """

@@ -45,7 +45,7 @@ def master(request):
 def root(request):
     usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
     return {'usuario_autenticado':usuario_autenticado}
-    
+
 # Views básicas
 @view_config(route_name='create_config_initial')
 def create_config_initial(request):
@@ -205,7 +205,7 @@ def listorgao(request):
     )
     search = orgao_obj.search_list_orgaos()
     usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
-    
+
     return {'orgao_doc': search.results,
             'usuario_autenticado':usuario_autenticado
             }
@@ -225,7 +225,7 @@ def config_orgao(request):
     )
     search = orgao_obj.search_orgao(sigla)
     usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
-    
+
     return {
         'nome' : search.results[0].nome,
         'cargo' : search.results[0].cargo,
@@ -349,7 +349,7 @@ def favoritos(request):
     if (usuario_autenticado.results[0].email ==  email):
         search = user_obj.search_user(matricula)
         usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
-        
+
         favoritos = search.results[0].favoritos
         return {
             'favoritos': search.results[0].favoritos,
@@ -404,7 +404,7 @@ def edit_favoritos(request):
     doc = json.dumps(user)
     edit = user_obj.edit_user(id, doc)
     usuario_autenticado = Utils.retorna_usuario_autenticado(request.authenticated_userid)
-    
+
     return Response(edit)
 
 # Reports
