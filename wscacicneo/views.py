@@ -451,7 +451,7 @@ def report_itens(request):
         data = Reports(nm_orgao).count_attribute(attr, child)
         reports_config = config_reports.ConfReports(nm_orgao)
         for items in data:
-            data_json = {'item' : items, 'amount': str(data[items])}
+            data_json = {attr : { attr+'_item' : items, attr+'_amount': str(data[items])}}
             document = json.dumps(data_json)
             reports_config.create_coleta(document)
         usuario_autenticado = Utils.retorna_usuario_autenticado(email=request.authenticated_userid)
