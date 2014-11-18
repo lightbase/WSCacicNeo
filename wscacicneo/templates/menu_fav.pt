@@ -1,6 +1,6 @@
 <li role="presentation" class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
-      <img src="${request.route_url('root')}static/fav_star.png" border="0" alt="Favoritos">&nbsp
+      <span class="fa fa-star"></span>&nbsp
        Favoritos
     </a>
     <ul class="dropdown-menu pull-right" role="menu">

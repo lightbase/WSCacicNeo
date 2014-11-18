@@ -1,22 +1,201 @@
 <metal:main use-macro="load: master.pt">
 	<metal:content fill-slot="dash">
-      Início
-  </metal:content>
- <metal:content fill-slot="conteudo">
- 	<div>
-		<p><h2 align="center">Sistema Super-Gerente</h2></p>
-		<br>
-			<!-- Não Autenticado -->
+		Início
+	</metal:content>
+	<metal:content fill-slot="conteudo">
+		<!-- Não Autenticado -->
 		<div tal:condition="not request.authenticated_userid">
-			<p>
-				<h3 style="text-align:center;"><a href="${request.route_url('root')}login"><img src="${request.route_url('root')}static/imgs/employ.png" alt="Login" height="52" width="52"/>Já é usuário? Autentique-se. </a></h3>
-			</p>
-			<br/>
-			<p>
-				<h3 style="text-align:center;"><a href="${request.route_url('root')}relatorios/configuracao"><img src="${request.route_url('root')}static/imgs/img-relatorio.png" alt="Relatórios" height="42" width="72"/>Veja os relatórios disponíveis. </a></h3>
-			</p>
+			<p><h2 align="center">Sistema Super-Gerente</h2></p>
+			<br>
+				<p>
+					<h3 style="text-align:center;"><span class="fa fa-user fa-2x"></span><a href="${request.route_url('root')}login">  Já é usuário? Autentique-se. </a></h3>
+				</p>
+				<br/>
+				<p>
+					<h3 style="text-align:center;"><a href="${request.route_url('root')}relatorios/configuracao"><img src="${request.route_url('root')}static/imgs/img-relatorio.png" alt="Relatórios" height="42" width="72"/> Veja os relatórios disponíveis. </a></h3>
+				</p>
+			</div>
 			<!-- Fim Não Autenticado -->
-		</div>
-	</div>
- </metal:content>
-</metal:main>
+			<div tal:condition="request.authenticated_userid" style="text-align: center;">
+				<!-- Administrador -->
+				<div>
+
+
+					<div class="col-md-6">
+
+						<!-- User widget -->
+						<div class="widget">
+							<div class="widget-head">
+								<div class="pull-left">Administração</div>
+								<div class="widget-icons pull-right">
+									<a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
+									<a href="#" class="wclose"><i class="fa fa-times"></i></a>
+								</div>  
+								<div class="clearfix"></div>
+							</div>
+							<div class="widget-content">
+								<div class="padd">
+
+									<div class="user">
+										<div class="user-pic">
+											<a href="#"><i class="fa fa-users fa-4x"></i></a>
+										</div>
+
+										<div class="user-details">
+											<h3>Usuarios</h3>
+											<a href="#" class="btn btn-primary btn-xs"> Listar Usuários</a> 
+											<a href="#" class="btn btn-primary btn-xs"> Cadastrar Usuário</a> 
+										</div>
+										<div class="clearfix"></div>
+									</div>
+
+									<hr/>
+
+									<div class="user">
+										<div class="user-pic">
+											<a href="#"><i class="fa fa-file fa-4x"></i></a>
+										</div>
+
+										<div class="user-details">
+											<h3>Orgão</h3>
+											<a href="#" class="btn btn-primary btn-xs"> Listar Usuários</a> 
+											<a href="#" class="btn btn-primary btn-xs"> Cadastrar Usuário</a> 
+										</div>
+										<div class="clearfix"></div>
+									</div>
+
+									<hr/>
+
+									<div class="user">
+										<div class="user-pic">
+											<a href="#"><i class="fa fa-cogs fa-4x"></i></a>
+										</div>
+
+										<div class="user-details">
+											<h3>Configuração do Sistema</h3>
+											<a href="#" class="btn btn-primary btn-xs"> Listar Usuários</a> 
+											<a href="#" class="btn btn-primary btn-xs"> Cadastrar Usuário</a> 
+										</div>
+										<div class="clearfix"></div>
+									</div>
+
+								</div>
+								<div class="widget-foot"></div>
+							</div>
+						</div>  
+
+					</div>
+
+					<!-- Activity widget -->
+					<div class="col-md-5">
+						<div class="widget">
+							<!-- Widget title -->
+							<div class="widget-head">
+								<div class="pull-left">Recent Activity</div>
+								<div class="widget-icons pull-right">
+									<a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
+									<a href="#" class="wclose"><i class="fa fa-times"></i></a>
+								</div>  
+								<div class="clearfix"></div>
+							</div>
+							<div class="widget-content">
+								<!-- Widget content -->
+								<!-- activity starts -->
+								<ul class="activity">
+
+									<li>
+										<!-- Icon with avtivity  -->
+										<i class="fa fa-envelope"></i> <strong>Ashok</strong> Mailed you on 3/12/2032
+									</li>
+
+									<li>
+										<i class="fa fa-share"></i> <strong>Go to america</strong> Shared by <strong>Ravi Kumar</strong>
+									</li>
+
+									<li>
+										<i class="fa fa-sign-in"></i> <strong>Admin</strong> Signed in on 2/4/2012
+									</li>
+
+									<li>
+										<i class="fa fa-money"></i> <strong>Babu Kumar</strong> made $5000 today.
+									</li>
+
+									<li>
+										<i class="fa fa-upload"></i> <strong>Font Asesome Mp3</strong> got uploaded by <strong>Admin</strong>.
+									</li>
+
+									<li>
+										<i class="fa fa-upload"></i> <strong>Font Asesome Mp3</strong> got uploaded by <strong>Admin</strong>.
+									</li>
+
+								</ul>
+								<div class="clearfix"></div>
+								<div class="widget-foot">
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+
+
+
+					<div class="matter">
+						<div class="container">
+							<div class="row">
+								<div class="col-md-12">
+
+									<div class="widget">
+										<div class="widget-head">
+											<div class="pull-left">Data Tables</div>
+											<div class="widget-icons pull-right">
+												<a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
+												<a href="#" class="wclose"><i class="fa fa-times"></i></a>
+											</div>  
+											<div class="clearfix"></div>
+										</div>
+										<div class="widget-content">
+											<div class="padd">
+												<!-- Table Page -->
+												<div class="page-tables">
+													<!-- Table -->
+													<div class="table-responsive">
+														<table cellpadding="0" cellspacing="0" border="1" id="data-table" width="100%">
+															<thead>
+																<tr>
+																	<th>Rendering engine</th>
+																	<th>Browser</th>
+																	<th>Platform(s)</th>
+																	<th>Engine version</th>
+																	<th>CSS grade</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr>
+																	<td>Trident</td>
+																	<td>Internet Explorer 4.0</td>
+																	<td>Win 95+</td>
+																	<td> 4</td>
+																	<td>X</td>
+																</tr>
+															</table>
+															<div class="clearfix"></div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="widget-foot"></div>
+										</div>
+									</div>  
+
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+					<!-- Fim Administrador -->
+				</div>
+
+			</metal:content>
+		</metal:main>
