@@ -3,6 +3,7 @@
 __author__ = 'eduardo'
 
 from pyramid.view import view_config
+from pyramid.response import Response
 
 
 class Api(object):
@@ -17,13 +18,13 @@ class Api(object):
         self.request = request
 
     @view_config(route_name='orgao_config')
-    def api(request):
+    def api(self):
         """
         Rota que redireciona para o LightBase
         :param request:
         :return:
         """
-        orgao = request.matchdict['orgao']
+        orgao = self.request.matchdict['orgao']
         # Traz dados do órgão
         url = REST_URL + "orgaos/doc"
 
@@ -40,7 +41,7 @@ class Api(object):
             '$$': select_json
         }
 
-        resp = requests.get(url, params=params)
+        resp = self.requests.get(url, params=params)
 
         # Cria objeto de resposta
         response = Response(content_type='text/json')
@@ -50,16 +51,16 @@ class Api(object):
         return response
 
     @view_config(route_name='orgao_coleta')
-    def api(request):
+    def api(self):
         """
         Rota que redireciona para o LightBase
         :param request:
         :return:
         """
-        orgao = request.matchdict['orgao']
+        orgao = self.request.matchdict['orgao']
         # Traz dados do órgão
         url = REST_URL + orgao + "/doc"
-        resp = requests.get(url)
+        resp = self.requests.get(url)
 
         # Cria objeto de resposta
         response = Response(content_type='text/json')
@@ -69,17 +70,17 @@ class Api(object):
         return response
 
 
-    @view_config(route_name='orgao_coleta')
-    def api(request):
+    @view_config(route_name='orgao_relatorio')
+    def api(self):
         """
         Rota que redireciona para o LightBase
         :param request:
         :return:
         """
-        orgao = request.matchdict['orgao']
+        orgao = self.request.matchdict['orgao']
         # Traz dados do órgão
         url = REST_URL + orgao + "_bk/doc"
-        resp = requests.get(url)
+        resp = self.requests.get(url)
 
         # Cria objeto de resposta
         response = Response(content_type='text/json')
