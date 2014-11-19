@@ -13,7 +13,6 @@ def main(global_config, **settings):
     """
     config.setup(settings)
     from wscacicneo.security import groupfinder
-    from wscacicneo.config import routing
     authn_policy = AuthTktAuthenticationPolicy(
         'sosecret',
         callback=groupfinder,
@@ -27,6 +26,7 @@ def main(global_config, **settings):
     cfg.set_authorization_policy(authz_policy)
     cfg.include('pyramid_chameleon')
 
+    from wscacicneo.config import routing
     routing.make_routes(cfg)
     cfg.scan()
 

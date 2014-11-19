@@ -23,7 +23,7 @@ class Relatorios(object):
         """
         self.request = request
 
-    @view_config(route_name='conf_report', renderer='../templates/conf_report.pt')
+    #@view_config(route_name='conf_report', renderer='../templates/conf_report.pt')
     def conf_report(self):
         orgao_obj = Orgao(
             nome = 'sahuds',
@@ -42,7 +42,7 @@ class Relatorios(object):
                 'usuario_autenticado':usuario_autenticado
                 }
 
-    @view_config(route_name='report_itens', renderer='../templates/report.pt', permission="user")
+    #@view_config(route_name='report_itens', renderer='../templates/report.pt', permission="user")
     def report_itens(self):
         orgao_nm = self.request.matchdict['nm_orgao']
         nm_orgao = Utils.format_name(orgao_nm)
