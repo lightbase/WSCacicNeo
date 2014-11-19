@@ -75,8 +75,8 @@ class Relatorios(object):
                     'usuario_autenticado':usuario_autenticado
                     }
 
-    #@view_config(route_name='report_home', permission="user")
-    def report_home(self):
-        bases = self.requests.get("http://127.0.0.1/lbgenerator/")
-        randint(1, bases.result_count)
-        print(1111111111111111111111111111111111111111111111111111111,bases.text)
+    # @view_config(route_name='report_home', permission="user")
+    # def report_home(self):
+    #     bases = requests.get("http://127.0.0.1/lbgenerator/")
+    #     randint(1,bases.result_count)
+    #     print(1111111111111111111111111111111111111111111111111111111,bases.text)
