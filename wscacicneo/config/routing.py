@@ -42,7 +42,7 @@ def make_routes(cfg):
     # Orgãos
     cfg.add_route('orgao', 'orgao/cadastro')
     cfg.add_view(orgaos.Orgaos, attr='orgao', route_name='orgao',
-                 renderer='templates/list_orgao.pt', permission="admin")
+                 renderer='templates/orgao.pt', permission="admin")
 
     cfg.add_route('post_orgao', 'post_orgao')
     cfg.add_view(orgaos.Orgaos, attr='post_orgao', route_name='post_orgao',

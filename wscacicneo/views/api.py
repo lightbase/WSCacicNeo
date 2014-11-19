@@ -4,6 +4,8 @@ __author__ = 'eduardo'
 
 from pyramid.view import view_config
 from pyramid.response import Response
+from .. import config
+import requests
 
 
 class Api(object):
@@ -18,7 +20,7 @@ class Api(object):
         self.request = request
 
     #@view_config(route_name='orgao_config')
-    def api(self):
+    def orgao_config(self):
         """
         Rota que redireciona para o LightBase
         :param request:
@@ -26,7 +28,7 @@ class Api(object):
         """
         orgao = self.request.matchdict['orgao']
         # Traz dados do órgão
-        url = REST_URL + "orgaos/doc"
+        url = config.REST_URL + "orgaos/doc"
 
         # Busca campos da base
         select_json = {
@@ -41,7 +43,7 @@ class Api(object):
             '$$': select_json
         }
 
-        resp = self.requests.get(url, params=params)
+        resp = requests.get(url, params=params)
 
         # Cria objeto de resposta
         response = Response(content_type='text/json')
@@ -51,7 +53,7 @@ class Api(object):
         return response
 
     #@view_config(route_name='orgao_coleta')
-    def api(self):
+    def orgao_coleta(self):
         """
         Rota que redireciona para o LightBase
         :param request:
@@ -59,8 +61,8 @@ class Api(object):
         """
         orgao = self.request.matchdict['orgao']
         # Traz dados do órgão
-        url = REST_URL + orgao + "/doc"
-        resp = self.requests.get(url)
+        url = config.REST_URL + '/' + orgao + "/doc"
+        resp = requests.get(url)
 
         # Cria objeto de resposta
         response = Response(content_type='text/json')
@@ -71,7 +73,7 @@ class Api(object):
 
 
     #@view_config(route_name='orgao_relatorio')
-    def api(self):
+    def orgao_relatorio(self):
         """
         Rota que redireciona para o LightBase
         :param request:
@@ -79,8 +81,8 @@ class Api(object):
         """
         orgao = self.request.matchdict['orgao']
         # Traz dados do órgão
-        url = REST_URL + orgao + "_bk/doc"
-        resp = self.requests.get(url)
+        url = config.REST_URL + orgao + "_bk/doc"
+        resp = requests.get(url)
 
         # Cria objeto de resposta
         response = Response(content_type='text/json')
