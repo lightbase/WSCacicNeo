@@ -22,7 +22,6 @@ class Orgaos(object):
         """
         self.request = request
 
-    @view_config(route_name='listorgao', renderer='../templates/list_orgao.pt', permission="admin")
     def listorgao(self):
         orgao_obj = Orgao(
             nome = 'sahuds',
@@ -40,7 +39,6 @@ class Orgaos(object):
                 'usuario_autenticado':usuario_autenticado
                 }
 
-    @view_config(route_name='config_orgao', renderer='../templates/config_orgao.pt', permission="admin")
     def config_orgao(self):
         sigla = self.request.matchdict['sigla']
         orgao_obj = Orgao(
@@ -66,7 +64,6 @@ class Orgaos(object):
             'usuario_autenticado':usuario_autenticado
         }
 
-    @view_config(route_name='editorgao', renderer='../templates/editarorgao.pt', permission="admin")
     def editorgao(self):
         sigla = self.request.matchdict['sigla']
         orgao_obj = Orgao(
@@ -94,7 +91,6 @@ class Orgaos(object):
             'usuario_autenticado':usuario_autenticado
         }
 
-    @view_config(route_name='post_orgao', permission="admin")
     def post_orgao(self):
         """
         Post doc órgãos
@@ -115,7 +111,6 @@ class Orgaos(object):
         id_doc = orgao_obj.create_orgao()
         return Response(str(id_doc))
 
-    @view_config(route_name='put_orgao', permission="admin")
     def put_orgao(self):
         """
         Edita um doc apartir do id
@@ -148,7 +143,6 @@ class Orgaos(object):
         edit = orgao_obj.edit_orgao(id, doc)
         return Response(edit)
 
-    @view_config(route_name='delete_orgao', permission="admin")
     def delete_orgao(self):
         """
         Deleta doc apartir do id
@@ -170,3 +164,7 @@ class Orgaos(object):
         delete = orgao_obj.delete_orgao(id)
         return HTTPFound(location = self.request.route_url('listorgao'))
 
+    # Views de Orgão
+    def orgao(self):
+        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
+        return {'usuario_autenticado':usuario_autenticado}
