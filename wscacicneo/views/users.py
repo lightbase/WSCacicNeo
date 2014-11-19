@@ -31,7 +31,7 @@ class Users(object):
         self.request = request
 
     # Lista de Notificação
-    @view_config(route_name='list_notify', renderer='../templates/list_notify.pt', permission="gest")
+    ##@view_config(route_name='list_notify', renderer='../templates/list_notify.pt', permission="gest")
     def list_notify(self):
         notify_obj = Notify(
             orgao = 'deasdsd',
@@ -48,7 +48,7 @@ class Users(object):
             'usuario_autenticado':usuario_autenticado
         }
 
-    @view_config(route_name='delete_notify', permission="gest")
+    #@view_config(route_name='delete_notify', permission="gest")
     def delete_notify(self):
         orgao = self.request.matchdict['orgao']
         notify_obj = Notify(
@@ -63,7 +63,7 @@ class Users(object):
         delete = notify_obj.delete_notify(doc)
         return HTTPFound(location = self.request.route_url('list_notify'))
 
-    @view_config(route_name='edit_notify', permission="gest")
+    #@view_config(route_name='edit_notify', permission="gest")
     def edit_notify(self):
         orgao = self.request.matchdict['orgao']
         notify_obj = Notify(
@@ -87,7 +87,7 @@ class Users(object):
         return HTTPFound(location = self.request.route_url('list_notify'))
 
 
-    @view_config(route_name='notify', renderer='../templates/notify_coleta.pt', permission="gest")
+    #@view_config(route_name='notify', renderer='../templates/notify_coleta.pt', permission="gest")
     def notify(self):
         orgao_obj = Orgao(
             nome = 'sahuds',
@@ -106,7 +106,7 @@ class Users(object):
                 'usuario_autenticado':usuario_autenticado
                 }
 
-    @view_config(route_name='post_notify', permission="gest")
+    #@view_config(route_name='post_notify', permission="gest")
     def post_notify(self):
         requests = self.request.params
         notify_obj = Notify(
@@ -119,14 +119,10 @@ class Users(object):
         results = notify_obj.create_notify()
         return Response(str(results))
 
-    # Views de Orgão
-    @view_config(route_name='orgao', renderer='../templates/orgao.pt', permission="admin")
-    def orgao(self):
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
-        return {'usuario_autenticado':usuario_autenticado}
+    
 
     # Views de Favoritos
-    @view_config(route_name='favoritos', renderer='../templates/favoritos.pt', permission="gest")
+    #@view_config(route_name='favoritos', renderer='../templates/favoritos.pt', permission="gest")
     def favoritos(self):
         matricula = self.request.matchdict['matricula']
         user_obj = Utils.create_user_obj()
@@ -154,7 +150,7 @@ class Users(object):
         else:
             return HTTPFound(location = self.request.route_url('home'))
 
-    @view_config(route_name='edit_favoritos', permission="gest")
+    #@view_config(route_name='edit_favoritos', permission="gest")
     def edit_favoritos(self):
         """
         Editar do Favoritos
@@ -194,12 +190,12 @@ class Users(object):
 
     # Users
 
-    @view_config(route_name='user', renderer='../templates/user.pt', permission='admin')
+    #@view_config(route_name='user', renderer='../templates/user.pt', permission='admin')
     def user(self):
         usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
         return {'usuario_autenticado':usuario_autenticado}
 
-    @view_config(route_name='post_user', permission="admin")
+    #@view_config(route_name='post_user', permission="admin")
     def post_user(self):
         """
         Post doc users
@@ -235,7 +231,7 @@ class Users(object):
         else:
             return {"emailerrado":"emailerrado"}
 
-    @view_config(route_name='post_first_user')
+    #@view_config(route_name='post_first_user')
     def post_first_user(self):
         """
         Post doc users
@@ -274,7 +270,7 @@ class Users(object):
         else:
             return HTTPFound(location = self.request.route_url('home'))
 
-    @view_config(route_name='edituser', renderer='../templates/editaruser.pt', permission="admin")
+    #@view_config(route_name='edituser', renderer='../templates/editaruser.pt', permission="admin")
     def edituser(self):
         matricula = self.request.matchdict['matricula']
         user_obj = Utils.create_user_obj()
@@ -296,7 +292,7 @@ class Users(object):
             'usuario_autenticado':usuario_autenticado,
         }
 
-    @view_config(route_name='put_user', permission="admin")
+    #@view_config(route_name='put_user', permission="admin")
     def put_user(self):
         """
         Edita um doc de user apartir do id
@@ -376,7 +372,7 @@ class Users(object):
         else:
             return {"emailerrado":"E-mail não institucional"}
 
-    @view_config(route_name='listuser', renderer='../templates/list_user.pt', permission="admin")
+    #@view_config(route_name='listuser', renderer='../templates/list_user.pt', permission="admin")
     def listuser(self):
         user_obj = Utils.create_user_obj()
         search = user_obj.search_list_users()
@@ -385,7 +381,7 @@ class Users(object):
                 'usuario_autenticado':usuario_autenticado
                 }
 
-    @view_config(route_name='delete_user', permission="admin")
+    #@view_config(route_name='delete_user', permission="admin")
     def delete_user(self):
         """
         Deleta doc apartir do id
@@ -404,7 +400,7 @@ class Users(object):
             return HTTPFound(location = self.request.route_url('listuser'))
 
 
-    @view_config(route_name='edit_profile_user', renderer='../templates/editarperfil.pt', permission="gest")
+    #@view_config(route_name='edit_profile_user', renderer='../templates/editarperfil.pt', permission="gest")
     def edit_profile_user(self):
         matricula = self.request.matchdict['matricula']
         user_obj = Utils.create_user_obj()
@@ -429,7 +425,7 @@ class Users(object):
         else:
             return HTTPFound(location = self.request.route_url('home'))
 
-    @view_config(route_name='put_profile_user', permission="gest")
+    #@view_config(route_name='put_profile_user', permission="gest")
     def put_profile_user(self):
         """
         Edita um doc de user apartir do id
@@ -465,7 +461,7 @@ class Users(object):
         else:
             return Response(edit)
 
-    @view_config(route_name='edit_password_user', renderer='../templates/alterar_senha.pt', permission="gest")
+    #@view_config(route_name='edit_password_user', renderer='../templates/alterar_senha.pt', permission="gest")
     def edit_password_user(self):
         matricula = self.request.matchdict['matricula']
         user_obj = Utils.create_user_obj()
@@ -490,7 +486,7 @@ class Users(object):
         else:
             return HTTPFound(location = self.request.route_url('home'))
 
-    @view_config(route_name='put_password_user', permission="gest")
+    #@view_config(route_name='put_password_user', permission="gest")
     def put_password_user(self):
         """
         Edita um doc de user apartir do id
@@ -518,7 +514,7 @@ class Users(object):
         edit = user_obj.edit_user(id, doc)
         return Response(edit)
 
-    @view_config(route_name='init_config_user', renderer='../templates/init_config_user.pt')
+    #@view_config(route_name='init_config_user', renderer='../templates/init_config_user.pt')
     def init_config_user(self):
         user_obj = Utils.create_user_obj()
         search = user_obj.search_list_users()

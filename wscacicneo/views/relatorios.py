@@ -10,6 +10,7 @@ from wscacicneo.utils.utils import Utils
 from wscacicneo.model import base_reports
 from wscacicneo.model import config_reports
 from wscacicneo.model.reports import Reports
+from random import randint
 
 class Relatorios(object):
     """
@@ -22,7 +23,7 @@ class Relatorios(object):
         """
         self.request = request
 
-    @view_config(route_name='conf_report', renderer='templates/conf_report.pt')
+    #@view_config(route_name='conf_report', renderer='../templates/conf_report.pt')
     def conf_report(self):
         orgao_obj = Orgao(
             nome = 'sahuds',
@@ -41,7 +42,7 @@ class Relatorios(object):
                 'usuario_autenticado':usuario_autenticado
                 }
 
-    @view_config(route_name='report_itens', renderer='templates/report.pt', permission="user")
+    #@view_config(route_name='report_itens', renderer='../templates/report.pt', permission="user")
     def report_itens(self):
         orgao_nm = self.request.matchdict['nm_orgao']
         attr = self.request.matchdict['attr']
@@ -82,3 +83,18 @@ class Relatorios(object):
                         'usuario_autenticado':usuario_autenticado
                         }
 
+            orgao_nm = self.request.matchdict['nm_orgao']
+            nm_orgao = Utils.format_name(orgao_nm)
+            attr = self.request.matchdict['attr']
+            child = self.request.matchdict['child']
+            data = Reports(nm_orgao).count_attribute(attr, child)
+            usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
+            return {
+                    'data': data,
+                    'usuario_autenticado':usuario_autenticado
+                    }
+
+    @view_config(route_name='report_home', permission="user")
+    def report_home(self):
+        bases = requests.get("http://127.0.0.1/lbgenerator/")
+        randint(1,bases.result_count)

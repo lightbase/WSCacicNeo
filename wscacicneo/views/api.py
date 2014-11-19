@@ -17,7 +17,7 @@ class Api(object):
         """
         self.request = request
 
-    @view_config(route_name='orgao_config')
+    #@view_config(route_name='orgao_config')
     def api(self):
         """
         Rota que redireciona para o LightBase
@@ -50,7 +50,7 @@ class Api(object):
 
         return response
 
-    @view_config(route_name='orgao_coleta')
+    #@view_config(route_name='orgao_coleta')
     def api(self):
         """
         Rota que redireciona para o LightBase
@@ -70,7 +70,7 @@ class Api(object):
         return response
 
 
-    @view_config(route_name='orgao_relatorio')
+    #@view_config(route_name='orgao_relatorio')
     def api(self):
         """
         Rota que redireciona para o LightBase

@@ -23,7 +23,7 @@ class Coleta(object):
         self.request = request
 
     # Reports
-    @view_config(route_name='create_orgao', permission="gest")
+    #@view_config(route_name='create_orgao', permission="gest")permission="gest"
     def create_base(self):
         nm_orgao = Utils.format_name(self.request.matchdict['nm_orgao'])
         coletaManualBase = coleta_manual.ColetaManualBase(nm_orgao)
@@ -32,7 +32,7 @@ class Coleta(object):
         return Response(retorno)
 
     # Coleta
-    @view_config(route_name='cadastro_coleta', renderer='templates/cadastro_coleta.pt', permission="gest")
+    #@view_config(route_name='cadastro_coleta', renderer='templates/cadastro_coleta.pt', permission="gest")
     def cadastro_coleta(self):
         orgao_obj = Orgao(
             nome = 'teste',
@@ -52,7 +52,7 @@ class Coleta(object):
                 }
 
 
-    @view_config(route_name='post_coleta_manual', permission="gest")
+    #@view_config(route_name='post_coleta_manual', permission="gest")
     def post_coleta_manual(self):
         """
         Post doc ColetaManual

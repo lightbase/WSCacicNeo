@@ -24,20 +24,20 @@ class Home(object):
         self.request = request
 
     # Views de configuração
-    @view_config(route_name='blankmaster', renderer='../../templates/blankmaster.pt')
+    #@view_config(route_name='blankmaster', renderer='../../templates/blankmaster.pt')
     def blankmaster(self):
         return HTTPFound(location=self.request.route_url("home"))
 
-    @view_config(route_name='master', renderer='../templates/master.pt')
+    #@view_config(route_name='master', renderer='../templates/master.pt')
     def master(self):
         return HTTPFound(location=self.request.route_url("home"))
 
-    @view_config(route_name='root')
+    #@view_config(route_name='root')
     def root(self):
         return HTTPFound(location=self.request.route_url("home"))
 
     # Views básicas
-    @view_config(route_name='create_config_initial')
+    #@view_config(route_name='create_config_initial')
     def create_config_initial(self):
         user_base = model_usuario.UserBase()
         orgao_base = model_orgao.OrgaoBase()
@@ -57,7 +57,7 @@ class Home(object):
         except:
             return HTTPFound(location=self.request.route_url("home_config_initial"))
 
-    @view_config(route_name='home_config_initial', renderer='../templates/home_config_initial.pt')
+    #@view_config(route_name='home_config_initial', renderer='../templates/home_config_initial.pt')
     def home_config_initial(self):
         user_base = model_usuario.UserBase()
         orgao_base = model_orgao.OrgaoBase()
@@ -73,7 +73,7 @@ class Home(object):
             return {'base_criada':base_criada}
         return HTTPFound(location=self.request.route_url("home"))
 
-    @view_config(route_name='home', renderer='../templates/home.pt')
+    #@view_config(route_name='home', renderer='../templates/home.pt')
     def home(self):
         #CONFIGURAÇÃO INICIAL
         user_base = model_usuario.UserBase()
