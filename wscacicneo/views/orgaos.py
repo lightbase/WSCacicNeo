@@ -10,8 +10,6 @@ from wscacicneo.model import orgao as model_orgao
 from wscacicneo.utils.utils import Utils
 from wscacicneo.model.orgao import Orgao
 
-REST_URL = 'http://api.brlight.net/api'
-
 
 class Orgaos(object):
     """
@@ -118,11 +116,11 @@ class Orgaos(object):
         return Response(str(id_doc))
 
     @view_config(route_name='put_orgao', permission="admin")
-    def put_orgao(request):
+    def put_orgao(self):
         """
         Edita um doc apartir do id
         """
-        params = request.params
+        params = self.request.params
         sigla = params['id']
         orgao_obj = Orgao(
             nome = params['nome'],
@@ -151,12 +149,12 @@ class Orgaos(object):
         return Response(edit)
 
     @view_config(route_name='delete_orgao', permission="admin")
-    def delete_orgao(request):
+    def delete_orgao(self):
         """
         Deleta doc apartir do id
         """
-        doc = request.params
-        sigla = request.matchdict['sigla']
+        doc = self.request.params
+        sigla = self.request.matchdict['sigla']
         orgao_obj = Orgao(
             nome = 'asdasd',
             cargo = 'asdasdasd',
@@ -170,5 +168,5 @@ class Orgaos(object):
         search = orgao_obj.search_orgao(sigla)
         id = search.results[0]._metadata.id_doc
         delete = orgao_obj.delete_orgao(id)
-        return HTTPFound(location = request.route_url('listorgao'))
+        return HTTPFound(location = self.request.route_url('listorgao'))
 

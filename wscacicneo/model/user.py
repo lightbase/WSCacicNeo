@@ -16,6 +16,7 @@ from liblightbase.lbsearch.search import Search, OrderBy
 
 log = logging.getLogger()
 
+
 class UserBase():
     """
     Classe para a base de usuários
