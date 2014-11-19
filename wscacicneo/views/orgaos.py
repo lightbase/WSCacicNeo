@@ -22,7 +22,7 @@ class Orgaos(object):
         """
         self.request = request
 
-    @view_config(route_name='listorgao', renderer='../templates/list_orgao.pt', permission="admin")
+    @view_config(route_name='listorgao', renderer='../templates/list_orgao.pt', permission="user")
     def listorgao(self):
         orgao_obj = Orgao(
             nome = 'sahuds',
