@@ -59,6 +59,15 @@
                   </div>
                 </div>
                 <div class="form-group">
+                  <label class="col-lg-2 control-label">Habilitar Bot *:</label>
+                  <div class="col-lg-2">
+                    <select id="habilitar_bot" class="form-control">
+                      <option value="True">Sim</option>
+                      <option value="False">Não</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
                   <div class="col-lg-offset-2 col-lg-6">
                     <button type="button" id="enviar" class="btn btn-sm" style="margin-left: 315px;" >Enviar</button>
                     <button type="button" id="limpar" class="btn btn-sm">Limpar</button>
@@ -77,13 +86,15 @@
                     'gestor' : $('#gestor').val(),
                     'sigla' : $('#sigla').val(),
                     'end' : $('#end').val(),
+                    'coleta' : $('#coleta').val(),
+                    'habilitar_bot' : $('#habilitar_bot').val()
                 }
                 $.ajax({
                     type: "POST",
                     url: "${request.route_url('root')}post_orgao",
                     data: data, 
                     success: function(){alert("Cadastro realizado com sucesso"), window.location.href = "${request.route_url('listorgao')}";   },
-                    error: function(){ alert('Erro ao realizar o cadastro. Todos os campos são obrigatórios') },
+                    error: function(){ alert('Erro ao realizar o cadastro. Todos os campos são obrigatórios') }
                 }); 
             });
         </script>

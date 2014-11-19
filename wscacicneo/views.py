@@ -277,14 +277,14 @@ def post_orgao(request):
     orgaobase = model_orgao.OrgaoBase().lbbase
     doc = request.params
     orgao_obj = Orgao(
-        nome = doc['nome'],
-        cargo = doc['gestor'],
-        coleta = doc['coleta'],
-        sigla = doc['sigla'],
-        endereco = doc['end'],
-        email = doc['email'],
-        telefone = doc['telefone'],
-        url = doc['url']
+        nome=doc['nome'],
+        cargo=doc['gestor'],
+        coleta=doc['coleta'],
+        sigla=doc['sigla'],
+        endereco=doc['end'],
+        email=doc['email'],
+        telefone=doc['telefone'],
+        url=doc.get('url')
     )
     id_doc = orgao_obj.create_orgao()
     return Response(str(id_doc))

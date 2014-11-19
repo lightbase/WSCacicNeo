@@ -16,7 +16,8 @@ from liblightbase.lbsearch.search import Search, OrderBy
 
 log = logging.getLogger()
 
-class OrgaoBase():
+
+class OrgaoBase(object):
     """
     Classe para a base de órgãos
     """
@@ -127,13 +128,13 @@ class OrgaoBase():
             required=False
         ))
 
-        abilitar_bot = Field(**dict(
-            name='abilitar_bot',
-            alias='abilitar_bot',
-            description='bot',
-            datatype='Text',
-            indices=['Textual', 'Unico'],
-            multivalued=True,
+        habilitar_bot = Field(**dict(
+            name='habilitar_bot',
+            alias='habilitar_bot',
+            description='Habilitar Bot',
+            datatype='Boolean',
+            indices=[],
+            multivalued=False,
             required=False
         ))
 
@@ -150,7 +151,7 @@ class OrgaoBase():
         content_list.append(endereco)
         content_list.append(coleta)
         content_list.append(url)
-        content_list.append(abilitar_bot)
+        content_list.append(habilitar_bot)
 
         lbbase = Base(
             metadata=base_metadata,

@@ -43,8 +43,8 @@
 
 										<div class="user-details">
 											<h3>Usuarios</h3>
-											<a href="#" class="btn btn-primary btn-xs"> Listar Usuários</a> 
-											<a href="#" class="btn btn-primary btn-xs"> Cadastrar Usuário</a> 
+											<a href="${ request.route_url('listuser') }" class="btn btn-primary btn-xs"> Listar Usuários</a>
+											<a href="${ request.route_url('user') }" class="btn btn-primary btn-xs"> Cadastrar Usuário</a>
 										</div>
 										<div class="clearfix"></div>
 									</div>
@@ -58,8 +58,8 @@
 
 										<div class="user-details">
 											<h3>Orgão</h3>
-											<a href="#" class="btn btn-primary btn-xs"> Listar Usuários</a> 
-											<a href="#" class="btn btn-primary btn-xs"> Cadastrar Usuário</a> 
+											<a href="${ request.route_url('listorgao') }" class="btn btn-primary btn-xs"> Listar Órgãos</a>
+											<a href="${ request.route_url('orgao') }" class="btn btn-primary btn-xs"> Cadastrar Órgão</a>
 										</div>
 										<div class="clearfix"></div>
 									</div>
@@ -73,8 +73,7 @@
 
 										<div class="user-details">
 											<h3>Configuração do Sistema</h3>
-											<a href="#" class="btn btn-primary btn-xs"> Listar Usuários</a> 
-											<a href="#" class="btn btn-primary btn-xs"> Cadastrar Usuário</a> 
+											<a href="#" class="btn btn-primary btn-xs"> Alterar Configurações</a>
 										</div>
 										<div class="clearfix"></div>
 									</div>
