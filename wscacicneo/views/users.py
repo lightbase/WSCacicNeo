@@ -399,9 +399,9 @@ class Users(object):
         if(usuario_autenticado.results[0].email !=  email):
             id = search.results[0]._metadata.id_doc
             delete = user_obj.delete_user(id)
-            return HTTPFound(location = request.route_url('listuser'))
+            return HTTPFound(location = self.request.route_url('listuser'))
         else:
-            return HTTPFound(location = request.route_url('listuser'))
+            return HTTPFound(location = self.request.route_url('listuser'))
 
 
     @view_config(route_name='edit_profile_user', renderer='../templates/editarperfil.pt', permission="gest")
