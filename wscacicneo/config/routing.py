@@ -74,5 +74,3 @@ def make_routes(cfg):
     cfg.add_route('orgao_config', 'api/orgaos/{orgao}', request_method='GET', factory=api.Api)
     cfg.add_route('orgao_coleta', 'api/{orgao}', request_method='GET', factory=api.Api)
     cfg.add_route('orgao_relatorio', 'api/{orgao}/relatorios', request_method='GET', factory=api.Api)
-
-    cfg.scan()

@@ -22,7 +22,7 @@ class Orgaos(object):
         """
         self.request = request
 
-    @view_config(route_name='listorgao', renderer='templates/list_orgao.pt', permission="admin")
+    @view_config(route_name='listorgao', renderer='../templates/list_orgao.pt', permission="admin")
     def listorgao(self):
         orgao_obj = Orgao(
             nome = 'sahuds',
@@ -40,7 +40,7 @@ class Orgaos(object):
                 'usuario_autenticado':usuario_autenticado
                 }
 
-    @view_config(route_name='config_orgao', renderer='templates/config_orgao.pt', permission="admin")
+    @view_config(route_name='config_orgao', renderer='../templates/config_orgao.pt', permission="admin")
     def config_orgao(self):
         sigla = self.request.matchdict['sigla']
         orgao_obj = Orgao(
@@ -66,7 +66,7 @@ class Orgaos(object):
             'usuario_autenticado':usuario_autenticado
         }
 
-    @view_config(route_name='editorgao', renderer='templates/editarorgao.pt', permission="admin")
+    @view_config(route_name='editorgao', renderer='../templates/editarorgao.pt', permission="admin")
     def editorgao(self):
         sigla = self.request.matchdict['sigla']
         orgao_obj = Orgao(
