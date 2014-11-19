@@ -10,8 +10,6 @@ from pyramid.view import view_config
 from wscacicneo.model.orgao import Orgao
 from wscacicneo.model.reports import Reports
 
-REST_URL = 'http://api.brlight.net/api'
-
 
 class Coleta(object):
     """

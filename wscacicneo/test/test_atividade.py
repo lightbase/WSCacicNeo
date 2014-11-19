@@ -4,8 +4,7 @@ __author__ = 'eduardo'
 
 import unittest
 import datetime
-from pyramid import testing
-from . import settings
+#from . import settings
 from ..model import atividade
 
 
@@ -18,7 +17,6 @@ class TestAtividade(unittest.TestCase):
         """
         Carrega atributos
         """
-        self.config = testing.setUp(settings=settings)
         self.atividade_base = atividade.AtividadeBase()
 
     def test_create_base(self):

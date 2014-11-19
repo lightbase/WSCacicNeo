@@ -25,8 +25,8 @@ class Security(object):
         self.request = request
 
     # Autenticação
-    @view_config(route_name='login', renderer='templates/login.pt')
-    @forbidden_view_config(renderer='templates/login.pt')
+    @view_config(route_name='login', renderer='../templates/login.pt')
+    @forbidden_view_config(renderer='../templates/login.pt')
     def login(self):
         user_obj = Utils.create_user_obj()
         search = user_obj.search_list_users()

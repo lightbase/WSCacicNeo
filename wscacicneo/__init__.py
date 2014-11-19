@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from wscacicneo import config
-from wscacicneo.config import routing
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.config import Configurator
@@ -14,6 +13,7 @@ def main(global_config, **settings):
     """
     config.setup(settings)
     from wscacicneo.security import groupfinder
+    from wscacicneo.config import routing
     authn_policy = AuthTktAuthenticationPolicy(
         'sosecret',
         callback=groupfinder,
@@ -25,9 +25,9 @@ def main(global_config, **settings):
     cfg = Configurator(settings=settings, root_factory='wscacicneo.models.RootFactory')
     cfg.set_authentication_policy(authn_policy)
     cfg.set_authorization_policy(authz_policy)
-
     cfg.include('pyramid_chameleon')
 
     routing.make_routes(cfg)
+    cfg.scan()
 
     return cfg.make_wsgi_app()
