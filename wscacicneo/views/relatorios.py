@@ -10,6 +10,7 @@ from wscacicneo.utils.utils import Utils
 from wscacicneo.model import base_reports
 from wscacicneo.model import config_reports
 from wscacicneo.model.reports import Reports
+from random import randint
 
 
 class Relatorios(object):
@@ -73,3 +74,9 @@ class Relatorios(object):
                     'data': data,
                     'usuario_autenticado':usuario_autenticado
                     }
+
+    @view_config(route_name='report_home', permission="user")
+    def report_home(self):
+        bases = requests.get("http://127.0.0.1/lbgenerator/")
+        randint(1,bases.result_count)
+        print(1111111111111111111111111111111111111111111111111111111,bases.text)
