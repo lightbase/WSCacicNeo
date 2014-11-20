@@ -67,7 +67,7 @@ class Orgaos(object):
         orgao_obj = search_obj.search_by_name()
         usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.authenticated_userid)
 
-        saida = json.dumps(orgao_obj)
+        saida = orgao_obj.orgao_to_dict()
         saida['usuario_autenticado'] = usuario_autenticado
 
         return saida
