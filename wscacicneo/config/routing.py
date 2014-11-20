@@ -183,6 +183,7 @@ def make_routes(cfg):
                  permission="user")
 
     # REST API
+
     cfg.add_route('orgao_config', 'api/orgaos/{orgao}', request_method='GET')
     cfg.add_view(api.Api, attr='orgao_config', route_name='orgao_config',
                  permission='user')
