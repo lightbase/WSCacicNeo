@@ -82,8 +82,7 @@ def make_routes(cfg):
                  permission="admin")
 
     cfg.add_route('post_first_user', 'post_first_user')
-    cfg.add_view(users.Users, attr='post_first_user', route_name='post_first_user',
-                 permission='admin')
+    cfg.add_view(users.Users, attr='post_first_user', route_name='post_first_user')
 
     cfg.add_route('put_user', 'put_user')
     cfg.add_view(users.Users, attr='put_user', route_name='put_user',
