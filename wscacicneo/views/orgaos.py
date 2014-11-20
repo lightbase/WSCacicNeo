@@ -31,6 +31,7 @@ class Orgaos(object):
         orgao_obj = Orgao(
             nome = 'sahuds',
             cargo = 'cargo',
+            gestor = 'gestor',
             coleta = '4',
             sigla = 'MPOG',
             endereco = 'Esplanada bloco C',
@@ -55,6 +56,10 @@ class Orgaos(object):
         usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.authenticated_userid)
 
         saida = orgao_obj.orgao_to_dict()
+        # Coloca algum valor na URL
+        if saida.get('url') is None:
+            saida['url'] = self.request.application_url
+
         saida['usuario_autenticado'] = usuario_autenticado
 
         return saida
@@ -68,6 +73,8 @@ class Orgaos(object):
         usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.authenticated_userid)
 
         saida = orgao_obj.orgao_to_dict()
+        if saida.get('url') is None:
+            saida['url'] = self.request.application_url
         saida['usuario_autenticado'] = usuario_autenticado
 
         return saida
@@ -81,8 +88,9 @@ class Orgaos(object):
         doc = self.request.params
         orgao_obj = Orgao(
             nome=doc.get('nome'),
-            cargo=doc.get('gestor'),
-            coleta=doc.get('coleta'),
+            cargo=doc.get('cargo'),
+            gestor=doc.get('gestor'),
+            coleta=int(doc.get('coleta')),
             sigla=doc.get('sigla'),
             endereco=doc.get('end'),
             email=doc.get('email'),
@@ -102,8 +110,9 @@ class Orgaos(object):
         sigla = doc['id']
         orgao_obj = Orgao(
             nome=doc.get('nome'),
-            cargo=doc.get('gestor'),
-            coleta=doc.get('coleta'),
+            gestor=doc.get('gestor'),
+            cargo=doc.get('cargo'),
+            coleta=int(doc.get('coleta')),
             sigla=doc.get('sigla'),
             endereco=doc.get('end'),
             email=doc.get('email'),
@@ -112,18 +121,7 @@ class Orgaos(object):
             habilitar_bot=ast.literal_eval(doc.get('habilitar_bot')),
             api_key=doc.get('api_key')
         )
-        orgao = {
-            'nome': doc['nome'],
-            'cargo': doc['gestor'],
-            'coleta': doc['coleta'],
-            'sigla': doc['sigla'],
-            'endereco': doc['end'],
-            'email': doc['email'],
-            'telefone': doc['telefone'],
-            'url': doc['url'],
-            'habilitar_bot': doc['habilitar_bot'],
-            'api_key': doc['api_key']
-        }
+        orgao = orgao_obj.orgao_to_dict()
         search = orgao_obj.search_orgao(sigla)
         id = search.results[0]._metadata.id_doc
         doc = json.dumps(orgao)
@@ -138,6 +136,7 @@ class Orgaos(object):
         sigla = self.request.matchdict['sigla']
         orgao_obj = Orgao(
             nome = 'asdasd',
+            gestor= 'gestor',
             cargo = 'asdasdasd',
             coleta = '3',
             sigla = 'asdasdas',

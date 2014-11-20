@@ -41,6 +41,12 @@
                   </div>
                 </div>
                 <div class="form-group">
+                  <label class="col-lg-2 control-label">URL para comunicação *:</label>
+                  <div class="col-lg-5">
+                    <input type="text" name='url' id="url" class="form-control" value="${url}" placeholder="URL para comunicação">
+                  </div>
+                </div>
+                <div class="form-group">
                   <label class="col-lg-2 control-label">Chave de API:</label>
                   <div class="col-lg-5">
                     <input type="text" id="api_key" class="form-control" placeholder="Chave de API" value="${api_key}">
@@ -56,7 +62,8 @@
                 <input type="hidden" id="telefone" value="${telefone}">
                 <input type="hidden" id="sigla" value="${sigla}">
                 <input type="hidden" id="cargo" value="${cargo}">
-                <input type="hidden" id="endereco" value="${endereco}">
+                <input type="hidden" id="gestor" value="${gestor}">
+                <input type="hidden" id="end" value="${endereco}">
                 <input type="hidden" id="email" value="${email}">
                 <input type="hidden" id="telefone" value="${telefone}">
               </form>
@@ -72,6 +79,7 @@
                     $('#sigla').val('')
                     $('#coleta').val('')
                     $('#end').val('')
+                    $('#url').val('')
                     $('#habilitar_bot').val('')
                     $('#api_key').val('')
            });

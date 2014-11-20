@@ -29,6 +29,12 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="col-lg-2 control-label">Cargo *:</label>
+                        <div class="col-lg-5">
+                        <input type="text" id="cargo" class="form-control" placeholder="Cargo">
+                    </div>
+                </div>
+                <div class="form-group">
                   <label class="col-lg-2 control-label">Sigla *:</label>
                   <div class="col-lg-5">
                     <input type="text" id="sigla" class="form-control" placeholder="Sigla">
@@ -56,6 +62,12 @@
                       <option value="48">2 dias</option>
                       <option value="72">3 dias</option>
                     </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 control-label">URL para comunicação *:</label>
+                  <div class="col-lg-5">
+                    <input type="text" name='url' id="url" class="form-control" value="${request.application_url}" placeholder="URL para comunicação">
                   </div>
                 </div>
                 <div class="form-group">
@@ -90,6 +102,7 @@
                     'email' : $('#email').val(),
                     'telefone' : $('#telefone').val(),
                     'gestor' : $('#gestor').val(),
+                    'cargo' : $('#cargo').val(),
                     'sigla' : $('#sigla').val(),
                     'end' : $('#end').val(),
                     'coleta' : $('#coleta').val(),
