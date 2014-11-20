@@ -9,6 +9,7 @@ from pyramid.response import Response
 from pyramid.view import view_config
 from wscacicneo.model.orgao import Orgao
 from wscacicneo.model.reports import Reports
+from wscacicneo.search.orgao import SearchOrgao
 
 
 class Coleta(object):
@@ -34,21 +35,12 @@ class Coleta(object):
     # Coleta
     #@view_config(route_name='cadastro_coleta', renderer='templates/cadastro_coleta.pt', permission="gest")
     def cadastro_coleta(self):
-        orgao_obj = Orgao(
-            nome = 'teste',
-            cargo = 'cargo',
-            coleta = '4h',
-            sigla = 'MPOG',
-            endereco = 'Esplanada bloco C',
-            email = 'admin@planemaneto.gov.br',
-            telefone = '(61) 2025-4117',
-            url = 'http://api.brlight.net/api',
-            api_key = '12242142141'
-        )
-        search = orgao_obj.search_list_orgaos()
+        search_obj = SearchOrgao()
+        result = search_obj.list_by_name()
         usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
+        print(result)
 
-        return {'orgao_doc': search.results,
+        return {'orgao_doc': result,
                 'usuario_autenticado':usuario_autenticado
                 }
 
