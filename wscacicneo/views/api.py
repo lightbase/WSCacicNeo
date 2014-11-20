@@ -98,6 +98,10 @@ class Api(object):
         return response
 
     def orgao_create(self):
+        """
+        Cria base do órgão caso não exista
+        :return: Mensagem dizendo se o órgão foi criado
+        """
         try:
             orgao = self.check_permission()
         except HTTPForbidden:
@@ -124,6 +128,20 @@ class Api(object):
             response.text = retorno.json
 
         return response
+
+    def orgao_upload(self):
+        try:
+            orgao = self.check_permission()
+        except HTTPForbidden:
+            response = Response(content_type='text/json')
+            response.status = 403
+            response.text = json.dumps({
+                'error_msg': 'Chave inválida ou não encontrada'
+            })
+
+        orgao = self.request.matchdict['orgao']
+        # Traz dados do órgão
+        url = config.REST_URL + orgao + "_bk/doc"
 
     def check_permission(self):
         """

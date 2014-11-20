@@ -22,7 +22,13 @@
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Gestor</label>
                         <div class="col-lg-5">
-                        <input type="text" id="gestor" value="${cargo}" class="form-control" placeholder="Gestor">
+                        <input type="text" id="gestor" value="${gestor}" class="form-control" placeholder="Gestor">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">Cargo</label>
+                        <div class="col-lg-5">
+                        <input type="text" id="cargo" value="${cargo}" class="form-control" placeholder="Cargo">
                     </div>
                 </div>
                 <div class="form-group">
@@ -62,6 +68,12 @@
                   </div>
                 </div>
                 <div class="form-group">
+                  <label class="col-lg-2 control-label">URL para comunicação *:</label>
+                  <div class="col-lg-5">
+                    <input type="text" name='url' id="url" class="form-control" value="${url}" placeholder="URL para comunicação">
+                  </div>
+                </div>
+                <div class="form-group">
                   <label class="col-lg-2 control-label">Habilitar Bot *:</label>
                   <div class="col-lg-2">
                     <select id="habilitar_bot" class="form-control">
@@ -71,9 +83,15 @@
                   </div>
                 </div>
                 <div class="form-group">
+                  <label class="col-lg-2 control-label">URL para comunicação *:</label>
+                  <div class="col-lg-5">
+                    <input type="text" name='url' id="url" class="form-control" value="${url}" placeholder="URL para comunicação">
+                  </div>
+                </div>
+                <div class="form-group">
                   <label class="col-lg-2 control-label">Chave de API:</label>
                   <div class="col-lg-5">
-                    <input type="text" id="api_key" class="form-control" placeholder="Chave de API" disabled="disabled">
+                    <input type="text" id="api_key" class="form-control" placeholder="Chave de API" value="${api_key}" disabled="disabled">
                   </div>
                 </div>
                 <div class="form-group">
@@ -93,6 +111,7 @@
                     $('#email').val('')
                     $('#telefone').val('')
                     $('#gestor').val('')
+                    $('#cargo').val('')
                     $('#sigla').val('')
                     $('#coleta').val('')
                     $('#end').val('')
@@ -102,6 +121,7 @@
                     email = $('#email').val()
                     telefone = $('#telefone').val()
                     gestor = $('#gestor').val()
+                    cargo = $('#cargo').val()
                     sigla = $('#sigla').val()
                     coleta = $('#coleta').val()
                     end = $('#end').val()
@@ -116,11 +136,13 @@
                     'email': email,
                     'telefone': telefone,
                     'gestor': gestor,
+                    'cargo': cargo,
                     'sigla': sigla,
                     'coleta': coleta,
                     'end': end,
                     'url': url,
-                    'habilitar_bot': habilitar_bot
+                    'habilitar_bot': habilitar_bot,
+                    'api_key': api_key
                 }
                 $.ajax({
                     type: "PUT",

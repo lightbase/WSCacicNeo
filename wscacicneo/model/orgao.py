@@ -58,6 +58,16 @@ class OrgaoBase(object):
             required=True
         ))
 
+        gestor = Field(**dict(
+            name='gestor',
+            alias='gestor',
+            description='Nome do gestor',
+            datatype='Text',
+            indices=['Textual'],
+            multivalued=False,
+            required=True
+        ))
+
         cargo = Field(**dict(
             name='cargo',
             alias='cargo',
@@ -155,6 +165,7 @@ class OrgaoBase(object):
         content_list = Content()
         content_list.append(nome)
         content_list.append(sigla)
+        content_list.append(gestor)
         content_list.append(cargo)
         content_list.append(telefone)
         content_list.append(email)
