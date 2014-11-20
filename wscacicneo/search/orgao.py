@@ -71,3 +71,53 @@ class SearchOrgao(object):
         else:
             log.error("Erro na busca pelo orgao %s\n%s", self.param, response.text)
             return None
+
+    def list_by_name(self):
+        orderby = OrderBy(asc=['nome'])
+        search = Search(
+            select=[
+                "*"
+            ],
+            literal="document->>'nome' = '" + self.param + "'",
+            limit=None,
+            offset=0,
+            order_by=orderby
+        )
+        url = config.REST_URL
+        url += "/orgaos/doc"
+        vars = {
+            '$$': search._asjson()
+        }
+
+        response = requests.get(url, params=vars)
+        log.debug(response.url)
+        r_json = response.json()
+
+        saida = list()
+        for i in range(0, 10):
+            try:
+                result = r_json.results[i]
+            except IndexError:
+                break
+
+            if self.return_object:
+                #print(response.json())
+                doc = result
+                orgao_obj = orgao.Orgao(
+                    nome=doc.get('nome'),
+                    gestor=doc.get('gestor'),
+                    cargo=doc.get('cargo'),
+                    coleta=doc.get('coleta'),
+                    sigla=doc.get('sigla'),
+                    endereco=doc.get('endereco'),
+                    email=doc.get('email'),
+                    telefone=doc.get('telefone'),
+                    url=doc.get('url'),
+                    habilitar_bot=doc.get('habilitar_bot'),
+                    api_key=doc.get('api_key')
+                )
+                saida.append(orgao_obj)
+            else:
+                saida.append(result)
+
+        return saida
