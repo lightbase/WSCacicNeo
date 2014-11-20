@@ -59,13 +59,18 @@ class Relatorios(object):
                 reports_config.create_coleta(document)
             usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
             return {'data': data,
-                    'status_base': create_base,
                     'usuario_autenticado':usuario_autenticado
                     }
         else:
             try:
                 get_base = reports_config.get_base()
-                document = get_base.results[0].attr
+                results = get_base.results()
+                data = dict()
+                for element in results:
+                    for grupo in element.keys():
+                        if grupo != '_metadata':
+                            saida[element[grupo][grupo + '_item']] = element[grupo][grupo + '_amount']
+                print(data)
                 usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
                 return {
                         'data': data,
@@ -79,14 +84,9 @@ class Relatorios(object):
                     reports_config.create_coleta(document)
                 usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
                 return {'data': data,
-                        'status_base': create_base,
                         'usuario_autenticado':usuario_autenticado
                         }
 
-            orgao_nm = self.request.matchdict['nm_orgao']
-            nm_orgao = Utils.format_name(orgao_nm)
-            attr = self.request.matchdict['attr']
-            child = self.request.matchdict['child']
             data = Reports(nm_orgao).count_attribute(attr, child)
             usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
             return {

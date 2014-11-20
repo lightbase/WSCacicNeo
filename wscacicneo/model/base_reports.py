@@ -43,7 +43,7 @@ class ReportsBase():
             description='Item Coletado',
             alias='Item',
             datatype='Text',
-            indices=['Textual'],
+            indices=['Textual', 'Unico'],
             multivalued=False,
             required=True
         ))
@@ -63,7 +63,7 @@ class ReportsBase():
             description='Item Coletado',
             alias='Item',
             datatype='Text',
-            indices=['Textual'],
+            indices=['Textual', 'Unico'],
             multivalued=False,
             required=True
         ))
@@ -83,7 +83,7 @@ class ReportsBase():
             description='Item Coletado',
             alias='Item',
             datatype='Text',
-            indices=['Textual'],
+            indices=['Textual', 'Unico'],
             multivalued=False,
             required=True
         ))

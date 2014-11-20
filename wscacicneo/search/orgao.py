@@ -20,7 +20,7 @@ class SearchOrgao(object):
     Classe de métodos para busca do órgão
     """
 
-    def __init__(self, param, return_object=True):
+    def __init__(self, param=None, return_object=True):
         """
         Método construtor
         :param param: Parâmetro de busca
@@ -78,11 +78,13 @@ class SearchOrgao(object):
             select=[
                 "*"
             ],
-            literal="document->>'nome' = '" + self.param + "'",
+            #literal="document->>'nome' = '" + self.param + "'",
             limit=None,
             offset=0,
             order_by=orderby
         )
+        if self.param is not None:
+            search.literal = "document->>'nome' = '" + self.param + "'",
         url = config.REST_URL
         url += "/orgaos/doc"
         vars = {
@@ -92,11 +94,12 @@ class SearchOrgao(object):
         response = requests.get(url, params=vars)
         log.debug(response.url)
         r_json = response.json()
+        print(r_json)
 
         saida = list()
-        for i in range(0, 10):
+        for i in range(0, r_json['result_count']):
             try:
-                result = r_json.results[i]
+                result = r_json['results'][i]
             except IndexError:
                 break
 

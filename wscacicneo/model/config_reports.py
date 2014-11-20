@@ -91,3 +91,17 @@ class ConfReports():
             return True
         except:
             return False
+
+    def search_orgao(self, sigla):
+        """
+        Busca registro completo do órgao pelo nome
+        :return: obj collection com os dados da base
+        """
+        data = ['']
+        search = Search(
+            literal="document->>'sigla' = '"+sigla+"'"
+        )
+        results = self.documentrest.get_collection(search_obj=search)
+
+        return results
+

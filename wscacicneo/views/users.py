@@ -11,6 +11,7 @@ from wscacicneo.model.orgao import Orgao
 from pyramid.response import Response
 from wscacicneo.model.user import User
 from wscacicneo.model import user as model_usuario
+from wscacicneo.search.orgao import SearchOrgao
 from pyramid.security import (
     remember,
     forget,
@@ -89,20 +90,11 @@ class Users(object):
 
     #@view_config(route_name='notify', renderer='../templates/notify_coleta.pt', permission="gest")
     def notify(self):
-        orgao_obj = Orgao(
-            nome = 'sahuds',
-            cargo = 'cargo',
-            coleta = '4h',
-            sigla = 'MPOG',
-            endereco = 'Esplanada bloco C',
-            email = 'admin@planemaneto.gov.br',
-            telefone = '(61) 2025-4117',
-            url = 'http://api.brlight.net/api'
-        )
-        search = orgao_obj.search_list_orgaos()
+        search_obj = SearchOrgao()
+        result = search_obj.list_by_name()
         usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
 
-        return {'orgao_doc': search.results,
+        return {'orgao_doc': result,
                 'usuario_autenticado':usuario_autenticado
                 }
 
