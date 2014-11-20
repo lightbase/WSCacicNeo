@@ -10,10 +10,10 @@
                 <div class="form-group">
                   <label class="col-lg-2 control-label">Nome do Órgão</label>
                   <div class="col-lg-5">
-                    <input type="text" name='nome' disabled id="nome" class="form-control" value="${nome}" placeholder="Nome do Órgão">
+                    <input type="text" name='nome' readonly id="nome" class="form-control" value="${nome}" placeholder="Nome do Órgão">
                   </div>
                 </div>
-                               <div class="form-group">
+                <div class="form-group">
                     <label class="col-lg-2 control-label">URL da Base de Dados</label>
                         <div class="col-lg-5">
                             <a type="button" href="${request.route_url('root')}create/coleta/${nome}" class="btn btn-sm btn-success">Criar Base de Dados</a>
@@ -22,13 +22,28 @@
                 <div class="form-group">
                   <label class="col-lg-2 control-label">Tempo da Coleta</label>
                   <div class="col-lg-2">
-                    <select id="coleta" value="" class="form-control">
-                      <option>1 dia</option>
-                      <option>2 dias</option>
-                      <option>3 dias</option>
-                      <option>30 minutos</option>
-                      <option>1 hora</option>
+                    <select id="coleta" class="form-control">
+                      <option value="1">1 hora</option>
+                      <option value="3" selected>3 horas</option>
+                      <option value="24">1 dia</option>
+                      <option value="48">2 dias</option>
+                      <option value="72">3 dias</option>
                     </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 control-label">Habilitar Bot *:</label>
+                  <div class="col-lg-2">
+                    <select id="habilitar_bot" class="form-control">
+                      <option value="True">Sim</option>
+                      <option value="False">Não</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 control-label">Chave de API:</label>
+                  <div class="col-lg-5">
+                    <input type="text" id="api_key" class="form-control" placeholder="Chave de API" value="${api_key}">
                   </div>
                 </div>
                 <div class="form-group">
@@ -38,6 +53,12 @@
                     <button type="button" id="limpar" class="btn btn-sm">Limpar</button>
                   </div>
                 </div>
+                <input type="hidden" id="telefone" value="${telefone}">
+                <input type="hidden" id="sigla" value="${sigla}">
+                <input type="hidden" id="cargo" value="${cargo}">
+                <input type="hidden" id="endereco" value="${endereco}">
+                <input type="hidden" id="email" value="${email}">
+                <input type="hidden" id="telefone" value="${telefone}">
               </form>
           </div>
 	</metal:content>
@@ -51,17 +72,22 @@
                     $('#sigla').val('')
                     $('#coleta').val('')
                     $('#end').val('')
+                    $('#habilitar_bot').val('')
+                    $('#api_key').val('')
            });
            $('#enviar').click(function(){
                 var nome = $('#nome').val()
                     email = $('#email').val()
                     telefone = $('#telefone').val()
                     gestor = $('#gestor').val()
+                    cargo = $('#cargo').val()
                     sigla = $('#sigla').val()
                     coleta = $('#coleta').val()
                     end = $('#end').val()
                     id = $('#id').val()
                     url = $('#url').val()
+                    habilitar_bot = $('#habilitar_bot').val()
+                    api_key = $('#api_key').val()
     
                 var data = {
                     'id': id,
@@ -69,10 +95,13 @@
                     'email': email,
                     'telefone': telefone,
                     'gestor': gestor,
+                    'cargo': cargo,
                     'sigla': sigla,
                     'coleta': coleta,
                     'end': end,
-                    'url': url
+                    'url': url,
+                    'habilitar_bot': habilitar_bot,
+                    'api_key': api_key
                 }
                 $.ajax({
                     type: "PUT",

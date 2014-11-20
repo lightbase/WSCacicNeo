@@ -9,6 +9,13 @@ from wscacicneo.model.user import User
 
 
 def groupfinder(userid, request):
+    # Primeiro tenta busca pela chave de API
+    vars_dict = request.GET
+    print(vars_dict)
+    api_key = vars_dict.get('api_key')
+    if api_key is not None:
+        return ['Orgao']
+
     user_obj = User(
         nome = 'usuario',
         matricula = '000000',

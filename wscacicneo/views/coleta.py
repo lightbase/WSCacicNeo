@@ -42,7 +42,8 @@ class Coleta(object):
             endereco = 'Esplanada bloco C',
             email = 'admin@planemaneto.gov.br',
             telefone = '(61) 2025-4117',
-            url = 'http://api.brlight.net/api'
+            url = 'http://api.brlight.net/api',
+            api_key = '12242142141'
         )
         search = orgao_obj.search_list_orgaos()
         usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)

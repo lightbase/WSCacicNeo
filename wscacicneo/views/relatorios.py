@@ -87,10 +87,6 @@ class Relatorios(object):
                         'usuario_autenticado':usuario_autenticado
                         }
 
-            orgao_nm = self.request.matchdict['nm_orgao']
-            nm_orgao = Utils.format_name(orgao_nm)
-            attr = self.request.matchdict['attr']
-            child = self.request.matchdict['child']
             data = Reports(nm_orgao).count_attribute(attr, child)
             usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
             return {

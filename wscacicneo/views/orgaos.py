@@ -9,6 +9,11 @@ from pyramid.view import view_config, forbidden_view_config
 from wscacicneo.model import orgao as model_orgao
 from wscacicneo.utils.utils import Utils
 from wscacicneo.model.orgao import Orgao
+from liblightbase.lbutils import conv
+from .. import config
+from .. import search
+import uuid
+import ast
 
 
 class Orgaos(object):
@@ -26,12 +31,13 @@ class Orgaos(object):
         orgao_obj = Orgao(
             nome = 'sahuds',
             cargo = 'cargo',
-            coleta = '4h',
+            coleta = '4',
             sigla = 'MPOG',
             endereco = 'Esplanada bloco C',
             email = 'admin@planemaneto.gov.br',
             telefone = '(61) 2025-4117',
-            url = 'http://api.brlight.net/api'
+            url = 'http://api.brlight.net/api',
+            api_key = '12242142141'
         )
         search = orgao_obj.search_list_orgaos()
         usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
@@ -41,71 +47,49 @@ class Orgaos(object):
 
     def config_orgao(self):
         sigla = self.request.matchdict['sigla']
-        orgao_obj = Orgao(
-            nome = 'asdsad',
-            cargo = 'cargo',
-            coleta = '4h',
-            sigla = sigla,
-            endereco = 'Esplanada bloco C',
-            email = 'admin@planemaneto.gov.br',
-            telefone = '(61) 2025-4117',
-            url = 'http://api.brlight.net/api'
+
+        search_obj = search.orgao.SearchOrgao(
+            param=sigla
         )
-        search = orgao_obj.search_orgao(sigla)
+        orgao_obj = search_obj.search_by_name()
         usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.authenticated_userid)
 
-        return {
-            'nome' : search.results[0].nome,
-            'cargo' : search.results[0].cargo,
-            'sigla' : search.results[0].sigla,
-            'endereco' : search.results[0].endereco,
-            'email' : search.results[0].email,
-            'telefone' : search.results[0].telefone,
-            'usuario_autenticado':usuario_autenticado
-        }
+        saida = orgao_obj.orgao_to_dict()
+        saida['usuario_autenticado'] = usuario_autenticado
+
+        return saida
 
     def editorgao(self):
         sigla = self.request.matchdict['sigla']
-        orgao_obj = Orgao(
-            nome = 'asdsad',
-            cargo = 'cargo',
-            coleta = '4h',
-            sigla = sigla,
-            endereco = 'Esplanada bloco C',
-            email = 'admin@planemaneto.gov.br',
-            telefone = '(61) 2025-4117',
-            url = 'http://api.brlight.net/api'
+        search_obj = search.orgao.SearchOrgao(
+            param=sigla
         )
-        search = orgao_obj.search_orgao(sigla)
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
+        orgao_obj = search_obj.search_by_name()
+        usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.authenticated_userid)
 
-        return {
-            'nome' : search.results[0].nome,
-            'cargo' : search.results[0].cargo,
-            'coleta' : search.results[0].coleta,
-            'sigla' : search.results[0].sigla,
-            'endereco' : search.results[0].endereco,
-            'email' : search.results[0].email,
-            'telefone' : search.results[0].telefone,
-            'url' : search.results[0].url,
-            'usuario_autenticado':usuario_autenticado
-        }
+        saida = orgao_obj.orgao_to_dict()
+        saida['usuario_autenticado'] = usuario_autenticado
+
+        return saida
 
     def post_orgao(self):
         """
         Post doc órgãos
         """
+        rest_url = config.REST_URL
         orgaobase = model_orgao.OrgaoBase().lbbase
         doc = self.request.params
         orgao_obj = Orgao(
-            nome=doc['nome'],
-            cargo=doc['gestor'],
-            coleta=doc['coleta'],
-            sigla=doc['sigla'],
-            endereco=doc['end'],
-            email=doc['email'],
-            telefone=doc['telefone'],
-            url=doc.get('url')
+            nome=doc.get('nome'),
+            cargo=doc.get('gestor'),
+            coleta=doc.get('coleta'),
+            sigla=doc.get('sigla'),
+            endereco=doc.get('end'),
+            email=doc.get('email'),
+            telefone=doc.get('telefone'),
+            url=doc.get('url'),
+            habilitar_bot=ast.literal_eval(doc.get('habilitar_bot')),
+            api_key=doc.get('api_key')
         )
         id_doc = orgao_obj.create_orgao()
         return Response(str(id_doc))
@@ -114,27 +98,31 @@ class Orgaos(object):
         """
         Edita um doc apartir do id
         """
-        params = self.request.params
-        sigla = params['id']
+        doc = self.request.params
+        sigla = doc['id']
         orgao_obj = Orgao(
-            nome = params['nome'],
-            cargo = params['gestor'],
-            coleta = params['coleta'],
-            sigla = params['sigla'],
-            endereco = params['end'],
-            email = params['email'],
-            telefone = params['telefone'],
-            url = params['url']
+            nome=doc.get('nome'),
+            cargo=doc.get('gestor'),
+            coleta=doc.get('coleta'),
+            sigla=doc.get('sigla'),
+            endereco=doc.get('end'),
+            email=doc.get('email'),
+            telefone=doc.get('telefone'),
+            url=doc.get('url'),
+            habilitar_bot=ast.literal_eval(doc.get('habilitar_bot')),
+            api_key=doc.get('api_key')
         )
         orgao = {
-            'nome' : params['nome'],
-            'cargo' : params['gestor'],
-            'coleta' : params['coleta'],
-            'sigla' : params['sigla'],
-            'endereco' : params['end'],
-            'email' : params['email'],
-            'telefone' : params['telefone'],
-            'url' : params['url']
+            'nome': doc['nome'],
+            'cargo': doc['gestor'],
+            'coleta': doc['coleta'],
+            'sigla': doc['sigla'],
+            'endereco': doc['end'],
+            'email': doc['email'],
+            'telefone': doc['telefone'],
+            'url': doc['url'],
+            'habilitar_bot': doc['habilitar_bot'],
+            'api_key': doc['api_key']
         }
         search = orgao_obj.search_orgao(sigla)
         id = search.results[0]._metadata.id_doc
@@ -151,7 +139,7 @@ class Orgaos(object):
         orgao_obj = Orgao(
             nome = 'asdasd',
             cargo = 'asdasdasd',
-            coleta = 'asdasdasd',
+            coleta = '3',
             sigla = 'asdasdas',
             endereco = 'asdsad',
             email = 'asdsad',
@@ -166,4 +154,7 @@ class Orgaos(object):
     # Views de Orgão
     def orgao(self):
         usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
-        return {'usuario_autenticado':usuario_autenticado}
+        return {
+            'usuario_autenticado': usuario_autenticado,
+            'api_key': uuid.uuid4()
+        }

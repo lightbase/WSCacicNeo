@@ -182,11 +182,18 @@ def make_routes(cfg):
     cfg.add_view(security.Security, attr='logout', route_name='logout',
                  permission="user")
 
+    # REST API
+
     cfg.add_route('orgao_config', 'api/orgaos/{orgao}', request_method='GET')
-    cfg.add_view(api.Api, attr='orgao_config', route_name='orgao_config')
+    cfg.add_view(api.Api, attr='orgao_config', route_name='orgao_config',
+                 permission='user')
 
     cfg.add_route('orgao_coleta', 'api/{orgao}', request_method='GET')
     cfg.add_view(api.Api, attr='orgao_coleta', route_name='orgao_coleta')
 
     cfg.add_route('orgao_relatorio', 'api/{orgao}/relatorios', request_method='GET')
     cfg.add_view(api.Api, attr='orgao_relatorio', route_name='orgao_relatorio')
+
+    cfg.add_route('orgao_create', 'api/{orgao}', request_method='POST')
+    cfg.add_view(api.Api, attr='orgao_create', route_name='orgao_create',
+                 permission='user')
