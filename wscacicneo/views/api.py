@@ -2,10 +2,17 @@
 # -*- coding: utf-8 -*-
 __author__ = 'eduardo'
 
+import requests
+import json
+import logging
 from pyramid.view import view_config
 from pyramid.response import Response
+from pyramid.httpexceptions import HTTPForbidden, HTTPNotFound
 from .. import config
-import requests
+from .. import search
+from ..model import coleta_manual, base_bk
+
+log = logging.getLogger()
 
 
 class Api(object):
@@ -26,29 +33,29 @@ class Api(object):
         :param request:
         :return:
         """
-        orgao = self.request.matchdict['orgao']
-        # Traz dados do órgão
-        url = config.REST_URL + "orgaos/doc"
-
-        # Busca campos da base
-        select_json = {
-            "select": [
-                "url",
-                "coleta",
-                "habilitar_bot"
-            ],
-            "literal": "nome='" + orgao + "'"
-        }
-        params = {
-            '$$': select_json
-        }
-
-        resp = requests.get(url, params=params)
+        response = Response(content_type='text/json')
+        try:
+            orgao = self.check_permission()
+        except HTTPForbidden:
+            response.status = 403
+            response.text = json.dumps({
+                'error_msg': 'Chave inválida ou não encontrada'
+            })
+            return response
+        except HTTPNotFound:
+            response.status = 404
+            response.text = json.dumps({
+                'error_msg': 'Órgão não encontrado. Contate o administrador do sistema para cadastro'
+            })
+            return response
 
         # Cria objeto de resposta
-        response = Response(content_type='text/json')
-        response.status = resp.status_code
-        response.text = resp.text
+        response.status = 200
+        response.text = json.dumps({
+            'url': orgao.url,
+            'coleta': orgao.coleta,
+            'habilitar_bot': orgao.habilitar_bot
+        })
 
         return response
 
@@ -67,10 +74,9 @@ class Api(object):
         # Cria objeto de resposta
         response = Response(content_type='text/json')
         response.status = resp.status_code
-        response.text = resp.text
+        response.text = json.dumps(resp.text)
 
         return response
-
 
     #@view_config(route_name='orgao_relatorio')
     def orgao_relatorio(self):
@@ -90,3 +96,54 @@ class Api(object):
         response.text = resp.text
 
         return response
+
+    def orgao_create(self):
+        try:
+            orgao = self.check_permission()
+        except HTTPForbidden:
+            response = Response(content_type='text/json')
+            response.status = 403
+            response.text = json.dumps({
+                'error_msg': 'Chave inválida ou não encontrada'
+            })
+
+        orgao = self.request.matchdict['orgao']
+
+        # Faz a requisição para criar o órgão e retorna o Status
+        coletaManualBase = coleta_manual.ColetaManualBase(orgao)
+        lbbase = coletaManualBase.lbbase
+
+        # Agora cria a nova base
+        response = Response(content_type='text/json')
+        if coletaManualBase.is_created():
+            response.status = 200
+            response.text = coletaManualBase.lbbase.json
+        else:
+            retorno = coletaManualBase.create_base()
+            response.status = 200
+            response.text = retorno.json
+
+        return response
+
+    def check_permission(self):
+        """
+        Verifica permissão do órgão com base na chave de API
+        :return:
+        """
+        orgao = self.request.matchdict['orgao']
+        search_obj = search.orgao.SearchOrgao(
+            param=orgao
+        )
+        orgao_obj = search_obj.search_by_name()
+        if orgao_obj is None:
+            raise HTTPNotFound
+
+        vars_dict = self.request.GET
+        print(vars_dict)
+        if vars_dict.get('api_key') is None:
+            raise HTTPForbidden
+
+        if orgao_obj.api_key != vars_dict.get('api_key'):
+            raise HTTPForbidden
+
+        return orgao_obj

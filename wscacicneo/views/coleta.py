@@ -24,7 +24,7 @@ class Coleta(object):
 
     # Reports
     #@view_config(route_name='create_orgao', permission="gest")permission="gest"
-    def create_base(self):
+    def create_orgao(self):
         nm_orgao = Utils.format_name(self.request.matchdict['nm_orgao'])
         coletaManualBase = coleta_manual.ColetaManualBase(nm_orgao)
         lbbase = coletaManualBase.lbbase

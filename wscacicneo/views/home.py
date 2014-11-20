@@ -94,5 +94,4 @@ class Home(object):
         # for v in bases_dict["results"]:
             # if "_base" in v["metadata"]["name"]
              # print(v["metadata"]["name"])
-
         return {'usuario_autenticado':usuario_autenticado}
