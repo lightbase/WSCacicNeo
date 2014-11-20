@@ -26,7 +26,7 @@ class OrgaoBase(object):
         Método construtor
         """
         if rest_url is None:
-            self.rest_url= config.REST_URL
+            self.rest_url = config.REST_URL
         else:
             self.rest_url = rest_url
         self.baserest = BaseREST(rest_url=self.rest_url, response_object=True)
@@ -102,8 +102,8 @@ class OrgaoBase(object):
             name='coleta',
             alias='coleta',
             description='Intervalo de coleta',
-            datatype='Text',
-            indices=['Textual'],
+            datatype='Integer',
+            indices=[],
             multivalued=False,
             required=False
         ))
@@ -138,6 +138,16 @@ class OrgaoBase(object):
             required=False
         ))
 
+        api_key = Field(**dict(
+            name='api_key',
+            alias='api_key',
+            description='Chave de API',
+            datatype='Text',
+            indices=[],
+            multivalued=False,
+            required=True
+        ))
+
         base_metadata = BaseMetadata(
             name='orgaos',
         )
@@ -152,6 +162,7 @@ class OrgaoBase(object):
         content_list.append(coleta)
         content_list.append(url)
         content_list.append(habilitar_bot)
+        content_list.append(api_key)
 
         lbbase = Base(
             metadata=base_metadata,
@@ -203,6 +214,7 @@ class OrgaoBase(object):
 
 orgao_base = OrgaoBase()
 
+
 class Orgao(orgao_base.metaclass):
     """
     Classe genérica de órgãos
@@ -210,6 +222,26 @@ class Orgao(orgao_base.metaclass):
     def __init__(self, **args):
         super(Orgao, self).__init__(**args)
         self.documentrest = orgao_base.documentrest
+
+    @property
+    def coleta(self):
+        """
+        Tempo de coleta
+        :return: Retorna o valor gravado ou o mínimo de 3 horas
+        """
+        col = orgao_base.metaclass.coleta.__get__(self)
+        if col is None:
+            return 3
+        else:
+            return col
+
+    @coleta.setter
+    def coleta(self, value):
+        """
+        Setter
+        """
+        value = int(value)
+        orgao_base.metaclass.coleta.__set__(self, value)
 
     def orgao_to_dict(self):
         """

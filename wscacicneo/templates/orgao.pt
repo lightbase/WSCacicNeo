@@ -47,14 +47,14 @@
                     </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-lg-2 control-label">Tempo da Coleta *:</label>
+                  <label class="col-lg-2 control-label">Tempo da Coleta</label>
                   <div class="col-lg-2">
                     <select id="coleta" class="form-control">
-                      <option>1 dia</option>
-                      <option>2 dias</option>
-                      <option>3 dias</option>
-                      <option>30 minutos</option>
-                      <option>1 hora</option>
+                      <option value="1">1 hora</option>
+                      <option value="3" selected>3 horas</option>
+                      <option value="24">1 dia</option>
+                      <option value="48">2 dias</option>
+                      <option value="72">3 dias</option>
                     </select>
                   </div>
                 </div>
@@ -65,6 +65,12 @@
                       <option value="True">Sim</option>
                       <option value="False">Não</option>
                     </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 control-label">Chave de API:</label>
+                  <div class="col-lg-5">
+                    <input type="text" id="api_key" class="form-control" placeholder="Chave de API" value="${api_key}" readonly>
                   </div>
                 </div>
                 <div class="form-group">
@@ -87,7 +93,8 @@
                     'sigla' : $('#sigla').val(),
                     'end' : $('#end').val(),
                     'coleta' : $('#coleta').val(),
-                    'habilitar_bot' : $('#habilitar_bot').val()
+                    'habilitar_bot' : $('#habilitar_bot').val(),
+                    'api_key': $('#api_key').val()
                 }
                 $.ajax({
                     type: "POST",
