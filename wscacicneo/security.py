@@ -6,6 +6,7 @@
 # # 3. pegar grupo do usuário
 
 from wscacicneo.model.user import User
+from wscacicneo.utils.utils import Utils
 
 
 def groupfinder(userid, request):
@@ -15,19 +16,7 @@ def groupfinder(userid, request):
     api_key = vars_dict.get('api_key')
     if api_key is not None:
         return ['Orgao']
-
-    user_obj = User(
-        nome = 'usuario',
-        matricula = '000000',
-        email = 'usuario@gov.br',
-        orgao = 'mpog',
-        telefone = '(11)1111-1111',
-        cargo = 'adm',
-        setor = 'ti',
-        permissao = 'Administrador',
-        senha = '123',
-        favoritos = ['favoritos']
-    )
+    user_obj = Utils.create_user_obj()
     usuario = user_obj.search_user_by_email(userid)
     permissao = usuario.results[0].permissao
     return [permissao]
