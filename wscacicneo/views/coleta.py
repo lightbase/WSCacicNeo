@@ -30,7 +30,7 @@ class Coleta(object):
         coletaManualBase = coleta_manual.ColetaManualBase(nm_orgao)
         lbbase = coletaManualBase.lbbase
         retorno = coletaManualBase.create_base()
-        return Response(retorno)
+        return Response(retorno.json)
 
     # Coleta
     #@view_config(route_name='cadastro_coleta', renderer='templates/cadastro_coleta.pt', permission="gest")
