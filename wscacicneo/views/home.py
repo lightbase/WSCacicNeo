@@ -3,6 +3,7 @@
 __author__ = 'eduardo'
 import requests
 import json
+from random import randint
 from pyramid.response import Response
 from pyramid.httpexceptions import HTTPFound, HTTPNotFound
 from pyramid.view import view_config, forbidden_view_config
@@ -10,7 +11,7 @@ from wscacicneo.model import user as model_usuario
 from wscacicneo.model import orgao as model_orgao
 from wscacicneo.model import notify as model_notify
 from wscacicneo.utils.utils import Utils
-
+from wscacicneo import config
 
 class Home(object):
     """
@@ -88,6 +89,10 @@ class Home(object):
         if(result_count == 0):
             return HTTPFound(location=self.request.route_url("init_config_user"))
         usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
-        # bases = requests.get("http://127.0.0.1/lbgenerator/")
-        # print(1111111111111111111111111111111111111111111111111111111,bases.text)
+        bases = requests.get(config.REST_URL)
+        bases_dict = bases.json()
+        # for v in bases_dict["results"]:
+            # if "_base" in v["metadata"]["name"]
+             # print(v["metadata"]["name"])
+
         return {'usuario_autenticado':usuario_autenticado}
