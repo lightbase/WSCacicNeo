@@ -95,7 +95,6 @@ class Orgaos(object):
         """
         Post doc órgãos
         """
-        rest_url = REST_URL
         orgaobase = model_orgao.OrgaoBase().lbbase
         doc = self.request.params
         orgao_obj = Orgao(
