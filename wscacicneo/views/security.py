@@ -36,18 +36,6 @@ class Security(object):
         elif(self.request.authenticated_userid):
             return HTTPFound(location = self.request.route_url('home'))
         else:
-            user_obj = User(
-                nome = 'asdasd',
-                matricula = 'asdasd',
-                email = 'asdsad',
-                orgao = 'asdsad',
-                telefone = 'sdasd',
-                cargo = 'asdasdasd',
-                setor = 'asdasd',
-                permissao = 'asdasd',
-                senha = 'sadasdasd',
-                favoritos = ['asdasdasdasd']
-            )
             login_url = self.request.route_url('login')
             referrer = self.request.url
             message = 'Você não tem permissão para isso. Autentique-se.'

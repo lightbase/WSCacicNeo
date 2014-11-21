@@ -18,7 +18,7 @@
 			<!-- Fim Não Autenticado -->
 			<div tal:condition="request.authenticated_userid" style="text-align: center;">
 				<!-- Administrador -->
-				<div>
+				<div tal:condition="usuario_autenticado.results[0].permissao =='Administrador' ">
 
 
 					<div class="col-md-6">

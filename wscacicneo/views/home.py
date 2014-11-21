@@ -127,7 +127,13 @@ class Home(object):
         data = model_reports.Reports(chosen_base).count_attribute(win32_bios, win32_bios_manufacturer)
         # END RETORNA BASE RELATÓRIOS
 
+        # RETORNA BASE DE ATIVIDADES
+        atividade_obj = Utils.create_atividade_obj()
+        doc_atividade = atividade_obj.search_list_atividades(10)
+        # END RETORNA BASE DE ATIVIDADES
+
         usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
         return {'usuario_autenticado': usuario_autenticado,
-                'base_doc': data
+                'base_doc': data,
+                'doc_atividade': doc_atividade.results
         }

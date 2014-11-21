@@ -8,6 +8,8 @@ from wscacicneo.model.orgao import Orgao
 from wscacicneo.model.orgao import OrgaoBase
 from wscacicneo.model.user import User
 from wscacicneo.model.user import UserBase
+from wscacicneo.model.atividade import Atividade
+from wscacicneo.model.atividade import AtividadeBase
 from wscacicneo import config
 
 class Utils:
@@ -100,3 +102,12 @@ class Utils:
             return True
         except:
             return False
+
+    def create_atividade_obj():
+        atividade_obj = Atividade(
+            tipo='Inserção',
+            usuario='José',
+            descricao='breve descrição',
+            data='22/03/2014'
+        )
+        return atividade_obj
