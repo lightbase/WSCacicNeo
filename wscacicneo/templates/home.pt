@@ -12,7 +12,7 @@
 				</p>
 				<br/>
 				<p>
-					<h3 style="text-align:center;"><a href="${request.route_url('root')}relatorios/configuracao"><img src="${request.route_url('root')}static/imgs/img-relatorio.png" alt="Relatórios" height="42" width="72"/> Veja os relatórios disponíveis. </a></h3>
+					<h3 style="text-align:center;"><span class="fa fa-file-text fa-2x"></span><a href="${request.route_url('root')}relatorios/configuracao"> Veja os relatórios disponíveis. </a></h3>
 				</p>
 			</div>
 			<!-- Fim Não Autenticado -->

@@ -10,6 +10,7 @@ from pyramid.view import view_config, forbidden_view_config
 from wscacicneo.model import user as model_usuario
 from wscacicneo.model import orgao as model_orgao
 from wscacicneo.model import notify as model_notify
+from wscacicneo.model import reports as model_reports
 from wscacicneo.utils.utils import Utils
 from wscacicneo import config
 
@@ -92,15 +93,23 @@ class Home(object):
         is_base_right = False
         base_list = Utils.return_all_bases_list()
         num_bases = len(base_list) - 1
+        num_already_chosen = []
         while not is_base_right:
             chosen_base = base_list[randint(0, num_bases)]
-            base_obj = Utils.return_base_by_name(chosen_base)
-            is_coleta = Utils.is_base_coleta(base_obj)
-            if(is_coleta):
-                right_base = base_obj
-                is_base_right = True
+            if chosen_base in num_already_chosen:
+                pass
+            else:
+                base_obj = Utils.return_base_by_name(chosen_base)
+                is_coleta = Utils.is_base_coleta(base_obj)
+                if(is_coleta):
+                    right_base = base_obj
+                    is_base_right = True
+        win32_bios = "win32_bios"
+        win32_bios_manufacturer = "win32_bios_manufacturer"
+        print(chosen_base)
+        data = model_reports.Reports(chosen_base).count_attribute(win32_bios, win32_bios_manufacturer)
         # END RETORNA BASE RELATÓRIOS
         usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
         return {'usuario_autenticado': usuario_autenticado,
-                'base_doc': right_base
-                }
+                'base_doc': data
+        }

@@ -87,15 +87,15 @@ class Utils:
             base_list.append(value["metadata"]["name"])
         return base_list
 
-    def return_base_by_name(name_base):
+    def return_base_by_name(base_name):
         # RETORNA BASE ESPECÍFICA
-        base_doc = requests.get(config.REST_URL+'/'+name_base+'/doc')
+        base_doc = requests.get(config.REST_URL+'/'+base_name+'/doc')
         base_dict = base_doc.json()
         return base_dict
 
     def is_base_coleta(base_obj):
         try:
-            x = base_obj["results"][0]["matricula"]
+            x = base_obj["results"][0]["win32_bios"]
             print(x)
             return True
         except:
