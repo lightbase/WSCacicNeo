@@ -107,7 +107,6 @@ class Utils:
         except:
             return False
 
-<<<<<<< HEAD
     def create_report(self, nm_base):
         """
         Inseri Relatorio completo na base de relatorios
@@ -123,24 +122,17 @@ class Utils:
         }
         try:
             for elm in itens.keys():
-                 print(elm)
                  attr = elm
                  child = itens[elm]
-                 print(attr, child, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
                  data = report.count_attribute(attr, child)
-                 print(data)
                  for element in data:
-                    print(element)
                     data_json = {attr : { attr+'_item' : element, attr+'_amount': str(data[element])}}
                     document = json.dumps(data_json)
-                    print(document)
-                    print(reports_conf)
                     reports_conf.create_coleta(document)
-                    print('aa')
             return 1
         except:
             return 0
-=======
+
     def create_atividade_obj():
         atividade_obj = Atividade(
             tipo='Inserção',
@@ -149,4 +141,3 @@ class Utils:
             data='22/03/2014'
         )
         return atividade_obj
->>>>>>> 06e79162632d1d6116982f8c1e31f21d32148d62
