@@ -221,7 +221,7 @@ class User(user_base.metaclass):
     def __init__(self, **args):
         super(User, self).__init__(**args)
         self.documentrest = user_base.documentrest
-        self.valid_users = [
+        valid_users = [
             "Administrador",
             "Gestor"
         ]
@@ -235,7 +235,11 @@ class User(user_base.metaclass):
 
     @permissao.setter
     def permissao(self, value):
-        if value not in self.valid_users:
+        valid_users = [
+            "Administrador",
+            "Gestor"
+        ]
+        if value not in valid_users:
             raise AttributeError("Permissão de usuário inválida")
 
         user_base.metaclass.permissao.__set__(self, value)
