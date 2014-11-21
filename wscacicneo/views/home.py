@@ -11,8 +11,10 @@ from wscacicneo.model import user as model_usuario
 from wscacicneo.model import orgao as model_orgao
 from wscacicneo.model import notify as model_notify
 from wscacicneo.model import reports as model_reports
+from wscacicneo.model import atividade as model_atividade
 from wscacicneo.utils.utils import Utils
 from wscacicneo import config
+
 
 class Home(object):
     """
@@ -44,34 +46,44 @@ class Home(object):
         user_base = model_usuario.UserBase()
         orgao_base = model_orgao.OrgaoBase()
         notify_base = model_notify.NotifyBase()
-        print(orgao_base.rest_url)
+        atividade_base = model_atividade.AtividadeBase()
+        #print(orgao_base.rest_url)
         # Cria tudo que precisa para carregar.
         # Pelo fato do object ser response_object = False ele dá erro na hora da criação
         # Sendo necessário passar duas vezes pela função is_created, dessa maneira o try força
         #ele a retornar a essa página
-        try:
-            if (user_base.is_created() == False):
-                createUser = user_base.create_base()
-            if (orgao_base.is_created() == False):
-                createOrgao = orgao_base.create_base()
-            if (notify_base.is_created() == False):
-                createNotify = notify_base.create_base()
-        except:
+        if user_base.is_created() is False:
+            createUser = user_base.create_base()
             return HTTPFound(location=self.request.route_url("home_config_initial"))
+        elif orgao_base.is_created() is False:
+            createOrgao = orgao_base.create_base()
+            return HTTPFound(location=self.request.route_url("home_config_initial"))
+        elif notify_base.is_created() is False:
+            createNotify = notify_base.create_base()
+            return HTTPFound(location=self.request.route_url("home_config_initial"))
+        elif atividade_base.is_created() is False:
+            createAtividade = atividade_base.create_base()
+            return HTTPFound(location=self.request.route_url("home_config_initial"))
+        else:
+            return HTTPFound(location=self.request.route_url("home"))
 
     #@view_config(route_name='home_config_initial', renderer='../templates/home_config_initial.pt')
     def home_config_initial(self):
         user_base = model_usuario.UserBase()
         orgao_base = model_orgao.OrgaoBase()
         notify_base = model_notify.NotifyBase()
-        if (user_base.is_created() == False ):
+        atividade_base = model_atividade.AtividadeBase()
+        if user_base.is_created() is False:
             base_criada = "Criar Base de Usuário"
             return {'base_criada':base_criada}
-        if (orgao_base.is_created() == False):
+        if orgao_base.is_created() is False:
             base_criada = "Criar Base de Órgãos"
             return {'base_criada':base_criada}
-        if (notify_base.is_created() == False):
+        if notify_base.is_created() is False:
             base_criada = "Criar Base de Notificações"
+            return {'base_criada':base_criada}
+        if atividade_base.is_created() is False:
+            base_criada = "Criar Base de Atividades"
             return {'base_criada':base_criada}
         return HTTPFound(location=self.request.route_url("home"))
 
@@ -81,7 +93,12 @@ class Home(object):
         user_base = model_usuario.UserBase()
         orgao_base = model_orgao.OrgaoBase()
         notify_base = model_notify.NotifyBase()
-        if (user_base.is_created() == False or orgao_base.is_created() == False or notify_base.is_created() == False):
+        atividade_base = model_atividade.AtividadeBase()
+        if (user_base.is_created() is False or
+            orgao_base.is_created() is False or
+            notify_base.is_created() is False or
+            atividade_base.is_created() is False
+        ):
             return HTTPFound(location=self.request.route_url("home_config_initial"))
         user_obj = Utils.create_user_obj()
         search = user_obj.search_list_users()
@@ -89,6 +106,7 @@ class Home(object):
         if(result_count == 0):
             return HTTPFound(location=self.request.route_url("init_config_user"))
         # END CONFIGURAÇÃO INICIAL
+
         # RETORNA BASE DE RELATÓRIOS
         is_base_right = False
         base_list = Utils.return_all_bases_list()
@@ -106,9 +124,9 @@ class Home(object):
                     is_base_right = True
         win32_bios = "win32_bios"
         win32_bios_manufacturer = "win32_bios_manufacturer"
-        print(chosen_base)
         data = model_reports.Reports(chosen_base).count_attribute(win32_bios, win32_bios_manufacturer)
         # END RETORNA BASE RELATÓRIOS
+
         usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
         return {'usuario_autenticado': usuario_autenticado,
                 'base_doc': data

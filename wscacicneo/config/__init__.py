@@ -6,11 +6,13 @@
 
 def setup(settings):
 
-	# config = configparser.ConfigParser()
-	# here = os.path.abspath(os.path.dirname(__file__))
-	# config_file = os.path.join(here, '../../development.ini')
-	# config.read(config_file)
+    # config = configparser.ConfigParser()
+    # here = os.path.abspath(os.path.dirname(__file__))
+    # config_file = os.path.join(here, '../../development.ini')
+    # config.read(config_file)
 
-	global REST_URL
-	REST_URL = settings['rest_url']
+    global REST_URL
+    global BULK_URL
 
+    REST_URL = settings['rest_url']
+    BULK_URL = settings['bulk_url']
