@@ -29,7 +29,7 @@ class UserBase():
             self.rest_url = config.REST_URL
         else:
             self.rest_url = rest_url
-        self.baserest = BaseREST(rest_url=self.rest_url, response_object=True)
+        self.baserest = BaseREST(rest_url=self.rest_url, response_object=False)
         self.documentrest = DocumentREST(rest_url=self.rest_url,
                 base=self.lbbase, response_object=False)
 
@@ -182,11 +182,11 @@ class UserBase():
         """
         Cria base no LB
         """
-        response = self.baserest.create(self.lbbase)
-        if response.status_code == 200:
-            return self.lbbase
-        else:
-            return None
+        try:
+            response = self.baserest.create(self.lbbase)
+            return True
+        except HTTPError:
+            raise IOError('Error inserting base in LB')
 
     def remove_base(self):
         """
@@ -194,10 +194,10 @@ class UserBase():
         :param lbbase: LBBase object instance
         :return: True or Error if base was not excluded
         """
-        response = self.baserest.delete(self.lbbase)
-        if response.status_code == 200:
+        try:
+            response = self.baserest.delete(self.lbbase)
             return True
-        else:
+        except HTTPError:
             raise IOError('Error excluding base from LB')
 
     def is_created(self):
@@ -205,14 +205,14 @@ class UserBase():
         Retorna se a base já existe
         """
         try:
-            self.baserest.response_object = False
             response = self.baserest.get(self.lbbase.metadata.name)
-            self.baserest.response_object = True
             return True
-        except:
+        except HTTPError:
             return False
 
+
 user_base = UserBase()
+
 
 class User(user_base.metaclass):
     """
@@ -221,6 +221,24 @@ class User(user_base.metaclass):
     def __init__(self, **args):
         super(User, self).__init__(**args)
         self.documentrest = user_base.documentrest
+        self.valid_users = [
+            "Administrador",
+            "Gestor"
+        ]
+
+    @property
+    def permissao(self):
+        """
+        Getter da permissão
+        """
+        return user_base.metaclass.permissao.__get__(self)
+
+    @permissao.setter
+    def permissao(self, value):
+        if value not in self.valid_users:
+            raise AttributeError("Permissão de usuário inválida")
+
+        user_base.metaclass.permissao.__set__(self, value)
 
     def user_to_dict(self):
         """

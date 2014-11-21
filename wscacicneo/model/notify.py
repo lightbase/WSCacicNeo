@@ -28,7 +28,7 @@ class NotifyBase():
             self.rest_url = config.REST_URL
         else:
             self.rest_url = rest_url
-        self.baserest = BaseREST(rest_url=self.rest_url, response_object=True)
+        self.baserest = BaseREST(rest_url=self.rest_url, response_object=False)
         self.documentrest = DocumentREST(rest_url=self.rest_url,
                 base=self.lbbase, response_object=False)
 
@@ -115,11 +115,11 @@ class NotifyBase():
         """
         Cria base no LB
         """
-        response = self.baserest.create(self.lbbase)
-        if response.status_code == 200:
-            return self.lbbase
-        else:
-            return None
+        try:
+            response = self.baserest.create(self.lbbase)
+            return True
+        except HTTPError:
+            raise IOError('Error inserting base in LB')
 
     def remove_base(self):
         """
@@ -127,10 +127,10 @@ class NotifyBase():
         :param lbbase: LBBase object instance
         :return: True or Error if base was not excluded
         """
-        response = self.baserest.delete(self.lbbase)
-        if response.status_code == 200:
+        try:
+            response = self.baserest.delete(self.lbbase)
             return True
-        else:
+        except HTTPError:
             raise IOError('Error excluding base from LB')
 
     def is_created(self):
@@ -138,11 +138,9 @@ class NotifyBase():
         Retorna se a base já existe
         """
         try:
-            self.baserest.response_object = False
             response = self.baserest.get(self.lbbase.metadata.name)
-            self.baserest.response_object = True
             return True
-        except:
+        except HTTPError:
             return False
 
 notify_base = NotifyBase()

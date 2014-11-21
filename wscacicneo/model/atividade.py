@@ -2,9 +2,10 @@
 # -*- coding: utf-8 -*-
 __author__ = 'eduardo'
 
+import logging
+import datetime
 from requests.exceptions import HTTPError
 from wscacicneo import config
-import logging
 from liblightbase.lbbase.struct import Base, BaseMetadata
 from liblightbase.lbbase.lbstruct.group import *
 from liblightbase.lbbase.lbstruct.field import *
@@ -31,7 +32,7 @@ class AtividadeBase(object):
             self.rest_url = config.REST_URL
         else:
             self.rest_url = rest_url
-        self.baserest = BaseREST(rest_url=self.rest_url, response_object=True)
+        self.baserest = BaseREST(rest_url=self.rest_url, response_object=False)
         self.documentrest = DocumentREST(rest_url=self.rest_url,
                 base=self.lbbase, response_object=False)
 
@@ -88,11 +89,8 @@ class AtividadeBase(object):
         content_list.append(data)
 
         base_metadata = BaseMetadata(
-            name='atividade',
+            name='atividade'
         )
-
-        content_list = Content()
-        content_list.append(tipo)
 
         lbbase = Base(
             metadata=base_metadata,
@@ -112,11 +110,11 @@ class AtividadeBase(object):
         """
         Cria base no LB
         """
-        response = self.baserest.create(self.lbbase)
-        if response.status_code == 200:
-            return self.lbbase
-        else:
-            return None
+        try:
+            response = self.baserest.create(self.lbbase)
+            return True
+        except HTTPError:
+            raise IOError('Error inserting base in LB')
 
     def remove_base(self):
         """
@@ -124,11 +122,21 @@ class AtividadeBase(object):
         :param lbbase: LBBase object instance
         :return: True or Error if base was not excluded
         """
-        response = self.baserest.delete(self.lbbase)
-        if response.status_code == 200:
+        try:
+            response = self.baserest.delete(self.lbbase)
             return True
-        else:
+        except HTTPError:
             raise IOError('Error excluding base from LB')
+
+    def is_created(self):
+        """
+        Retorna se a base já existe
+        """
+        try:
+            response = self.baserest.get(self.lbbase.metadata.name)
+            return True
+        except HTTPError:
+            return False
 
 atividade_base = AtividadeBase()
 
@@ -140,6 +148,53 @@ class Atividade(atividade_base.metaclass):
     def __init__(self, **args):
         super(Atividade, self).__init__(**args)
         self.documentrest = atividade_base.documentrest
+        self.tipos_validos = [
+            "atividade",
+            "relatorio",
+            "coleta",
+            "insert",
+            "delete",
+            "put"
+        ]
+
+    @property
+    def tipo(self):
+        """
+        Getter para tipo
+        """
+        return atividade_base.metaclass.tipo.__get__(self)
+
+    @tipo.setter
+    def tipo(self, value):
+        """
+        Verifica se o tipo de atividade é válido
+        """
+        if value is None:
+            # Cadastra tipo padrão
+            value = 'atividade'
+        elif value not in self.tipos_validos:
+            log.error("Tipo de atividade %s inválido!!! Ajustando para valor padrão...", value)
+            value = "atividade"
+
+        atividade_base.metaclass.tipo.__set__(self, value)
+
+    @property
+    def data(self):
+        """
+        Getter da data
+        """
+        return atividade_base.metaclass.data.__get__(self)
+
+    @data.setter
+    def data(self, value):
+        """
+        Ajusta o valor da data se for nulo
+        :param value:
+        """
+        if value is None:
+            value = datetime.datetime.now()
+
+        atividade_base.metaclass.data.__set__(self, value)
 
     def create_atividade(self):
         """

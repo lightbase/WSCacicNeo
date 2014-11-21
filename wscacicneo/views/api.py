@@ -102,14 +102,21 @@ class Api(object):
         Cria base do órgão caso não exista
         :return: Mensagem dizendo se o órgão foi criado
         """
+        response = Response(content_type='text/json')
         try:
             orgao = self.check_permission()
         except HTTPForbidden:
-            response = Response(content_type='text/json')
             response.status = 403
             response.text = json.dumps({
                 'error_msg': 'Chave inválida ou não encontrada'
             })
+            return response
+        except HTTPNotFound:
+            response.status = 404
+            response.text = json.dumps({
+                'error_msg': 'Órgão não encontrado. Contate o administrador do sistema para cadastro'
+            })
+            return response
 
         orgao = self.request.matchdict['orgao']
 
@@ -118,7 +125,6 @@ class Api(object):
         lbbase = coletaManualBase.lbbase
 
         # Agora cria a nova base
-        response = Response(content_type='text/json')
         if coletaManualBase.is_created():
             response.status = 200
             response.text = coletaManualBase.lbbase.json
@@ -130,18 +136,29 @@ class Api(object):
         return response
 
     def orgao_upload(self):
+        response = Response(content_type='text/json')
         try:
             orgao = self.check_permission()
         except HTTPForbidden:
-            response = Response(content_type='text/json')
             response.status = 403
             response.text = json.dumps({
                 'error_msg': 'Chave inválida ou não encontrada'
             })
+            return response
+        except HTTPNotFound:
+            response.status = 404
+            response.text = json.dumps({
+                'error_msg': 'Órgão não encontrado. Contate o administrador do sistema para cadastro'
+            })
+            return response
 
-        orgao = self.request.matchdict['orgao']
-        # Traz dados do órgão
-        url = config.REST_URL + orgao + "_bk/doc"
+        nome_base = self.request.matchdict['orgao']
+
+        # 1 - Registra atividade de envio dos dados para o LBBulk
+
+        # 2 - Envia os dados recebidos para o LBBulk
+
+        # 3 - Registra atividade de envio para o LBBulk realizado
 
     def check_permission(self):
         """
