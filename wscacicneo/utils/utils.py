@@ -12,6 +12,8 @@ from wscacicneo.model.base_reports import ReportsBase
 from wscacicneo.model.config_reports import ConfReports
 from wscacicneo.model.coleta_manual import ColetaManualBase
 from wscacicneo.model.reports import Reports
+from wscacicneo.model.atividade import Atividade
+from wscacicneo.model.atividade import AtividadeBase
 from wscacicneo import config
 
 class Utils:
@@ -105,6 +107,7 @@ class Utils:
         except:
             return False
 
+<<<<<<< HEAD
     def create_report(self, nm_base):
         """
         Inseri Relatorio completo na base de relatorios
@@ -137,3 +140,13 @@ class Utils:
             return 1
         except:
             return 0
+=======
+    def create_atividade_obj():
+        atividade_obj = Atividade(
+            tipo='Inserção',
+            usuario='José',
+            descricao='breve descrição',
+            data='22/03/2014'
+        )
+        return atividade_obj
+>>>>>>> 06e79162632d1d6116982f8c1e31f21d32148d62

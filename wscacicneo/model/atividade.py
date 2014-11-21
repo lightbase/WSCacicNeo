@@ -146,8 +146,6 @@ class Atividade(atividade_base.metaclass):
     Objeto que contém a ativudade
     """
     def __init__(self, **args):
-        super(Atividade, self).__init__(**args)
-        self.documentrest = atividade_base.documentrest
         self.tipos_validos = [
             "atividade",
             "relatorio",
@@ -156,6 +154,8 @@ class Atividade(atividade_base.metaclass):
             "delete",
             "put"
         ]
+        super(Atividade, self).__init__(**args)
+        self.documentrest = atividade_base.documentrest
 
     @property
     def tipo(self):
@@ -225,3 +225,14 @@ class Atividade(atividade_base.metaclass):
         """
 
         return conv.document2json(atividade_base.lbbase, self)
+
+    def search_list_atividades(self, limit_docs):
+        """
+        Retorna todos os docs da base
+        """
+        search = Search(
+            limit=limit_docs
+        )
+        results = self.documentrest.get_collection(search)
+
+        return results
