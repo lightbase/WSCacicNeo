@@ -88,7 +88,7 @@ class Home(object):
 
     #@view_config(route_name='home', renderer='../templates/home.pt')
     def home(self):
-        #CONFIGURAÇÃO INICIAL
+        # CONFIGURAÇÃO INICIAL
         user_base = model_usuario.UserBase()
         orgao_base = model_orgao.OrgaoBase()
         notify_base = model_notify.NotifyBase()
@@ -99,16 +99,25 @@ class Home(object):
             atividade_base.is_created() is False
         ):
             return HTTPFound(location=self.request.route_url("home_config_initial"))
-        #END CONFIGURAÇÃO INICIAL
         user_obj = Utils.create_user_obj()
         search = user_obj.search_list_users()
         result_count = search.result_count
         if(result_count == 0):
             return HTTPFound(location=self.request.route_url("init_config_user"))
+        # END CONFIGURAÇÃO INICIAL
+        # RETORNA BASE DE RELATÓRIOS
+        is_base_right = False
+        base_list = Utils.return_all_bases_list()
+        num_bases = len(base_list) - 1
+        while not is_base_right:
+            chosen_base = base_list[randint(0, num_bases)]
+            base_obj = Utils.return_base_by_name(chosen_base)
+            is_coleta = Utils.is_base_coleta(base_obj)
+            if(is_coleta):
+                right_base = base_obj
+                is_base_right = True
+        # END RETORNA BASE RELATÓRIOS
         usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
-        bases = requests.get(config.REST_URL)
-        bases_dict = bases.json()
-        # for v in bases_dict["results"]:
-            # if "_base" in v["metadata"]["name"]
-             # print(v["metadata"]["name"])
-        return {'usuario_autenticado':usuario_autenticado}
+        return {'usuario_autenticado': usuario_autenticado,
+                'base_doc': right_base
+                }

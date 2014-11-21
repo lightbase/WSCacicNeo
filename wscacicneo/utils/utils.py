@@ -8,6 +8,7 @@ from wscacicneo.model.orgao import Orgao
 from wscacicneo.model.orgao import OrgaoBase
 from wscacicneo.model.user import User
 from wscacicneo.model.user import UserBase
+from wscacicneo import config
 
 class Utils:
 
@@ -20,15 +21,15 @@ class Utils:
     # Retorna verdadeiro para um email passado no qual contenha um e-mail institucional
     # no caso, quando o e-mail tiver gov.br
     def verifica_email_institucional(email):
-    	if("gov.br" in email):
-    		return True
-    	else:
-    		return False
+        if("gov.br" in email):
+            return True
+        else:
+            return False
 
     # Retorna uma string sem caracteres especiais(sem espaço e acentos).
     def format_name(data):
-	    return ''.join(x for x in unicodedata.normalize('NFKD', data) if \
-	    unicodedata.category(x)[0] == 'L').lower()
+        return ''.join(x for x in unicodedata.normalize('NFKD', data) if \
+        unicodedata.category(x)[0] == 'L').lower()
         
     # Retorna um hex de um objeto hash, com uma senha encryptada
     def hash_password(password):
@@ -65,13 +66,37 @@ class Utils:
 
     def create_orgao_obj():
         orgao_obj = Orgao(
-            nome = 'Orgao',
-            cargo = 'Cargo',
-            coleta = 'Coleta',
-            sigla = 'MPOG',
-            endereco = 'Esplanada bloco C',
-            email = 'admin@planemaneto.gov.br',
-            telefone = '(61) 2025-4117',
-            url = 'http://api.brlight.net/api',
+            nome='Orgao',
+            cargo='Cargo',
+            coleta=60,
+            sigla='MPOG',
+            endereco='Esplanada bloco C',
+            email='admin@planemaneto.gov.br',
+            telefone='(61) 2025-4117',
+            url='http://api.brlight.net/api',
+            apikey='123'
         )
-        return user_obj
+        return orgao_obj
+
+    def return_all_bases_list():
+        # RETORNA TODAS AS BASES
+        bases = requests.get(config.REST_URL)
+        bases_dict = bases.json()
+        base_list = []
+        for value in bases_dict["results"]:
+            base_list.append(value["metadata"]["name"])
+        return base_list
+
+    def return_base_by_name(name_base):
+        # RETORNA BASE ESPECÍFICA
+        base_doc = requests.get(config.REST_URL+'/'+name_base+'/doc')
+        base_dict = base_doc.json()
+        return base_dict
+
+    def is_base_coleta(base_obj):
+        try:
+            x = base_obj["results"][0]["matricula"]
+            print(x)
+            return True
+        except:
+            return False

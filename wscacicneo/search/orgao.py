@@ -35,7 +35,7 @@ class SearchOrgao(object):
             select=[
                 "*"
             ],
-            literal="document->>'nome' = '" + self.param + "'",
+            literal="document->>'sigla' = '" + self.param + "'",
             limit=1
         )
         url = config.REST_URL
@@ -84,7 +84,7 @@ class SearchOrgao(object):
             order_by=orderby
         )
         if self.param is not None:
-            search.literal = "document->>'nome' = '" + self.param + "'",
+            search.literal = "document->>'sigla' = '" + self.param + "'",
         url = config.REST_URL
         url += "/orgaos/doc"
         vars = {
