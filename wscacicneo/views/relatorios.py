@@ -3,6 +3,8 @@
 __author__ = 'eduardo'
 
 import json
+import re
+import logging
 from pyramid.view import view_config
 from wscacicneo.model.orgao import Orgao
 from wscacicneo.model.user import User
@@ -10,7 +12,12 @@ from wscacicneo.utils.utils import Utils
 from wscacicneo.model import base_reports
 from wscacicneo.model import config_reports
 from wscacicneo.model.reports import Reports
+from wscacicneo.search.orgao import SearchOrgao
+from liblightbase.lbutils import conv
 from random import randint
+
+log = logging.getLogger()
+
 
 class Relatorios(object):
     """
@@ -25,20 +32,11 @@ class Relatorios(object):
 
     #@view_config(route_name='conf_report', renderer='../templates/conf_report.pt')
     def conf_report(self):
-        orgao_obj = Orgao(
-            nome = 'sahuds',
-            cargo = 'cargo',
-            coleta = '4h',
-            sigla = 'MPOG',
-            endereco = 'Esplanada bloco C',
-            email = 'admin@planemaneto.gov.br',
-            telefone = '(61) 2025-4117',
-            url = 'http://api.brlight.net/api'
-        )
-        search = orgao_obj.search_list_orgaos()
+        search_obj = SearchOrgao()
+        result = search_obj.list_by_name()
         usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
 
-        return {'orgao_doc': search.results,
+        return {'orgao_doc': result,
                 'usuario_autenticado':usuario_autenticado
                 }
 
@@ -52,42 +50,22 @@ class Relatorios(object):
         reports_config = config_reports.ConfReports(nm_orgao)
         if(report_base.is_created() == False):
             create_base = report_base.create_base()
+            insert_reports = Utils().create_report(nm_orgao)
+            print(insert_reports)
             data = Reports(nm_orgao).count_attribute(attr, child)
-            for items in data:
-                data_json = {attr : { attr+'_item' : items, attr+'_amount': str(data[items])}}
-                document = json.dumps(data_json)
-                reports_config.create_coleta(document)
             usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
             return {'data': data,
                     'usuario_autenticado':usuario_autenticado
                     }
         else:
-            try:
-                get_base = reports_config.get_base()
-                results = get_base.results()
-                data = dict()
-                for element in results:
-                    for grupo in element.keys():
-                        if grupo != '_metadata':
-                            saida[element[grupo][grupo + '_item']] = element[grupo][grupo + '_amount']
-                print(data)
-                usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
-                return {
-                        'data': data,
-                        'usuario_autenticado':usuario_autenticado
-                        }
-            except:
-                data = Reports(nm_orgao).count_attribute(attr, child)
-                for items in data:
-                    data_json = {attr : { attr+'_item' : items, attr+'_amount': str(data[items])}}
-                    document = json.dumps(data_json)
-                    reports_config.create_coleta(document)
-                usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
-                return {'data': data,
-                        'usuario_autenticado':usuario_autenticado
-                        }
-
-            data = Reports(nm_orgao).count_attribute(attr, child)
+            get_base = reports_config.get_attribute(attr)
+            results = get_base.results
+            data = dict()
+            for elm in results:
+                parent = getattr(elm, attr)
+                item = getattr(parent, attr+'_item')
+                amount = getattr(parent, attr+'_amount')
+                data[item] = amount
             usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
             return {
                     'data': data,
@@ -97,5 +75,3 @@ class Relatorios(object):
     # @view_config(route_name='report_home', permission="user")
     # def report_home(self):
     #     bases = requests.get("http://127.0.0.1/lbgenerator/")
-    #     randint(1,bases.result_count)
-    #     print(1111111111111111111111111111111111111111111111111111111,bases.text)

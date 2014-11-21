@@ -105,3 +105,21 @@ class ConfReports():
 
         return results
 
+    def get_attribute(self, attr):
+        """
+        Testa recuperar atributo do Documento
+        """
+        # A resposta nao pode ser object aqui
+        self.documentrest.response_object = False
+
+        # FIXME: Adicionar lista de atributos obrigatórios nos campos que vao retornar na busca
+        # Referência: http://dev.lightbase.cc/projects/liblightbase/repository/revisions/master/entry/liblightbase/lbbase/content.py#L34
+
+        # A busca deve obrigatoriamente retornar todos os atributos obrigatórios
+        search = Search(
+            limit=None,
+            select=[attr]
+        )
+        get = self.documentrest.get_collection(search_obj=search)
+
+        return get
