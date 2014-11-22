@@ -227,3 +227,14 @@ class Atividade(atividade_base.metaclass):
         """
 
         return conv.document2json(atividade_base.lbbase, self)
+
+    def search_list_atividades(self, limit_docs):
+        """
+        Retorna todos os docs da base
+        """
+        search = Search(
+            limit=limit_docs
+        )
+        results = self.documentrest.get_collection(search)
+
+        return results

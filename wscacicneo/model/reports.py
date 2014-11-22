@@ -80,6 +80,7 @@ class Reports():
         """
         coleta = self.documentrest.update(id)
         return coleta
+
     def get_attribute(self, attr):
         """
         Testa recuperar atributo do Documento
@@ -114,7 +115,6 @@ class Reports():
             else:
                 attribute = getattr(elm, attr)
 
-            print(results)
             if saida.get(attribute):
                 saida[attribute] = saida.get(attribute) + 1
             else:

@@ -8,6 +8,12 @@ from wscacicneo.model.orgao import Orgao
 from wscacicneo.model.orgao import OrgaoBase
 from wscacicneo.model.user import User
 from wscacicneo.model.user import UserBase
+from wscacicneo.model.base_reports import ReportsBase
+from wscacicneo.model.config_reports import ConfReports
+from wscacicneo.model.coleta_manual import ColetaManualBase
+from wscacicneo.model.reports import Reports
+from wscacicneo.model.atividade import Atividade
+from wscacicneo.model.atividade import AtividadeBase
 from wscacicneo import config
 
 class Utils:
@@ -30,7 +36,7 @@ class Utils:
     def format_name(data):
         return ''.join(x for x in unicodedata.normalize('NFKD', data) if \
         unicodedata.category(x)[0] == 'L').lower()
-        
+
     # Retorna um hex de um objeto hash, com uma senha encryptada
     def hash_password(password):
         hash_object = hashlib.md5(password.encode("utf-8"))
@@ -51,7 +57,7 @@ class Utils:
             itens = ['itens']
         )
         return user_obj
-        
+
     def retorna_usuario_autenticado(email=None,matricula=None):
         if ( (email is None) and (matricula is None) ):
             return None
@@ -87,16 +93,51 @@ class Utils:
             base_list.append(value["metadata"]["name"])
         return base_list
 
-    def return_base_by_name(name_base):
+    def return_base_by_name(base_name):
         # RETORNA BASE ESPECÍFICA
-        base_doc = requests.get(config.REST_URL+'/'+name_base+'/doc')
+        base_doc = requests.get(config.REST_URL+'/'+base_name+'/doc')
         base_dict = base_doc.json()
         return base_dict
 
     def is_base_coleta(base_obj):
         try:
-            x = base_obj["results"][0]["matricula"]
+            x = base_obj["results"][0]["win32_bios"]
             print(x)
             return True
         except:
             return False
+
+    def create_report(self, nm_base):
+        """
+        Inseri Relatorio completo na base de relatorios
+        """
+        base_reports = ReportsBase(nm_base)
+        reports_conf = ConfReports(nm_base)
+        coleta_base = ColetaManualBase(nm_base)
+        report = Reports(nm_base)
+        itens = {
+            "win32_processor": "win32_processor_manufacturer",
+            "win32_bios": "win32_bios_manufacturer",
+            "operatingsystem" : "operatingsystem_caption"
+        }
+        try:
+            for elm in itens.keys():
+                 attr = elm
+                 child = itens[elm]
+                 data = report.count_attribute(attr, child)
+                 for element in data:
+                    data_json = {attr : { attr+'_item' : element, attr+'_amount': str(data[element])}}
+                    document = json.dumps(data_json)
+                    reports_conf.create_coleta(document)
+            return 1
+        except:
+            return 0
+
+    def create_atividade_obj():
+        atividade_obj = Atividade(
+            tipo='Inserção',
+            usuario='José',
+            descricao='breve descrição',
+            data='22/03/2014'
+        )
+        return atividade_obj
