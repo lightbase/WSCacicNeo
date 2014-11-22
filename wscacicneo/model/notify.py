@@ -171,7 +171,7 @@ class Notify(notify_base.metaclass):
         """
         if value is None:
             value = datetime.datetime.now().strftime("%d/%m/%Y")
-        else:
+        elif isinstance(value, datetime.datetime):
             value = value.strftime("%d/%m/%Y")
 
         notify_base.metaclass.data_coleta.__set__(self, value)

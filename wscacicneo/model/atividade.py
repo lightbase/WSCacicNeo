@@ -192,8 +192,8 @@ class Atividade(atividade_base.metaclass):
         :param value:
         """
         if value is None:
-            value = datetime.datetime.strftime("%d/%m/%Y")
-        else:
+            value = datetime.datetime.now().strftime("%d/%m/%Y")
+        elif isinstance(value, datetime.datetime):
             value = value.strftime("%d/%m/%Y")
 
         atividade_base.metaclass.data.__set__(self, value)

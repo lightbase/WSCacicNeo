@@ -111,7 +111,11 @@ class Reports():
         for elm in results:
             if child:
                 parent = getattr(elm, attr)
-                attribute = getattr(parent, child)
+                # Verifica valores nulos
+                try:
+                    attribute = getattr(parent, child)
+                except AttributeError:
+                    continue
             else:
                 attribute = getattr(elm, attr)
 
