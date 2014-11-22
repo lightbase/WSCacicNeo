@@ -3,6 +3,7 @@
 __author__ = 'adley'
 
 import logging
+import datetime
 from requests.exceptions import HTTPError
 from wscacicneo import config
 from liblightbase.lbbase.struct import Base, BaseMetadata
@@ -15,6 +16,7 @@ from liblightbase.lbutils import conv
 from liblightbase.lbsearch.search import Search, OrderBy
 
 log = logging.getLogger()
+
 
 class NotifyBase():
     """
@@ -153,6 +155,26 @@ class Notify(notify_base.metaclass):
     def __init__(self, **args):
         super(Notify, self).__init__(**args)
         self.documentrest = notify_base.documentrest
+
+    @property
+    def data_coleta(self):
+        """
+        Getter da data
+        """
+        return notify_base.metaclass.data_coleta.__get__(self)
+
+    @data_coleta.setter
+    def data_coleta(self, value):
+        """
+        Ajusta o valor da data se for nulo
+        :param value:
+        """
+        if value is None:
+            value = datetime.datetime.now().strftime("%d/%m/%Y")
+        else:
+            value = value.strftime("%d/%m/%Y")
+
+        notify_base.metaclass.data_coleta.__set__(self, value)
 
     def notify_to_dict(self):
         """

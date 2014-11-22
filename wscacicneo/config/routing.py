@@ -190,6 +190,10 @@ def make_routes(cfg):
     cfg.add_view(api.Api, attr='orgao_create', route_name='orgao_create',
                  permission='user')
 
+    cfg.add_route('orgao_remove', 'api/{orgao}', request_method='DELETE')
+    cfg.add_view(api.Api, attr='orgao_remove', route_name='orgao_remove',
+                 permission='user')
+
     cfg.add_route('orgao_upload', 'api/{orgao}/upload', request_method='POST')
     cfg.add_view(api.Api, attr='orgao_upload', route_name='orgao_upload',
                  permission='user')

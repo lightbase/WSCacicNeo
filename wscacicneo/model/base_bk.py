@@ -16,20 +16,22 @@ from liblightbase.lbsearch.search import Search, OrderBy
 
 log = logging.getLogger()
 
+
 class BaseBackup():
     """
     Classe para a base de usuários
     """
-    def __init__(self, rest_url=None):
+    def __init__(self, orgao, rest_url=None):
         """
         Método construtor
         """
-        print(rest_url)
+        #print(rest_url)
+        self.orgao = orgao
         if rest_url is None:
             self.rest_url = config.REST_URL
         else:
             self.rest_url = rest_url
-        self.baserest = BaseREST(rest_url=self.rest_url, response_object=True)
+        self.baserest = BaseREST(rest_url=self.rest_url, response_object=False)
         self.documentrest = DocumentREST(rest_url=self.rest_url,
                 base=self.lbbase, response_object=False)
 
@@ -75,12 +77,12 @@ class BaseBackup():
             name='Win32_Processor_NumberOfLogicalProcessors',
             description='Win32_Processor_NumberOfLogicalProcessors',
             alias='Win32_Processor_NumberOfLogicalProcessors',
-            datatype='Text',
-            indices=['Textual'],
+            datatype='Integer',
+            indices=[],
             multivalued=False,
             required=False
         ))
-        
+
         Win32_Processor_Caption = Field(**dict(
             name='Win32_Processor_Caption',
             description='Win32_Processor_Caption',
@@ -90,6 +92,27 @@ class BaseBackup():
             multivalued=False,
             required=False
         ))
+
+        Win32_Processor_MaxClockSpeed = Field(**dict(
+            name='Win32_Processor_MaxClockSpeed',
+            description='Win32_Processor_MaxClockSpeed',
+            alias='Win32_Processor_MaxClockSpeed',
+            datatype='Integer',
+            indices=[],
+            multivalued=False,
+            required=False
+        ))
+
+        Win32_Processor_Family = Field(**dict(
+            name='Win32_Processor_Family',
+            description='Win32_Processor_Family',
+            alias='Win32_Processor_Family',
+            datatype='Integer',
+            indices=[],
+            multivalued=False,
+            required=False
+        ))
+
 
         """
         LB Sistema Operacional
@@ -149,6 +172,62 @@ class BaseBackup():
         ))
 
         """
+        LB Physical Memory
+        """
+        Win32_PhysicalMemory_MemoryType = Field(**dict(
+            name='Win32_PhysicalMemory_MemoryType',
+            description='Win32_PhysicalMemory_MemoryType',
+            alias='Win32_PhysicalMemory_MemoryType',
+            datatype='Integer',
+            indices=[],
+            multivalued=False,
+            required=False
+        ))
+
+        Win32_PhysicalMemory_Capacity = Field(**dict(
+            name='Win32_PhysicalMemory_Capacity',
+            description='Win32_PhysicalMemory_Capacity',
+            alias='Win32_PhysicalMemory_Capacity',
+            datatype='Integer',
+            indices=[],
+            multivalued=False,
+            required=False
+        ))
+
+        """
+        LB Disk
+        """
+        Win32_LogicalDisk_Caption = Field(**dict(
+            name='Win32_LogicalDisk_Caption',
+            description='Win32_LogicalDisk_Caption',
+            alias='Win32_LogicalDisk_Caption',
+            datatype='Text',
+            indices=['Textual'],
+            multivalued=False,
+            required=False
+        ))
+
+        Win32_LogicalDisk_MediaType = Field(**dict(
+            name='Win32_LogicalDisk_MediaType',
+            description='Win32_LogicalDisk_MediaType',
+            alias='Win32_LogicalDisk_MediaType',
+            datatype='Text',
+            indices=['Textual'],
+            multivalued=False,
+            required=False
+        ))
+
+        Win32_LogicalDisk_Size = Field(**dict(
+            name='Win32_LogicalDisk_Size',
+            description='Win32_LogicalDisk_Size',
+            alias='Win32_LogicalDisk_Size',
+            datatype='Integer',
+            indices=[],
+            multivalued=False,
+            required=False
+        ))
+
+        """
         GROUP Sistema Operacional
         """
         OperatingSystem_content = Content()
@@ -186,7 +265,7 @@ class BaseBackup():
             content = Win32_BIOS_content
         )
 
-    
+
         """
         GROUP Processador
         """
@@ -194,6 +273,8 @@ class BaseBackup():
         Win32_Processor_content.append(Win32_Processor_Manufacturer)
         Win32_Processor_content.append(Win32_Processor_NumberOfLogicalProcessors)
         Win32_Processor_content.append(Win32_Processor_Caption)
+        Win32_Processor_content.append(Win32_Processor_MaxClockSpeed)
+        Win32_Processor_content.append(Win32_Processor_Family)
 
         Win32_Processor_metadata = GroupMetadata(
             name='Win32_Processor',
@@ -207,8 +288,47 @@ class BaseBackup():
             content = Win32_Processor_content
         )
 
+        """
+        GROUP Physical Memory
+        """
+        Win32_PhysicalMemory_content = Content()
+        Win32_PhysicalMemory_content.append(Win32_PhysicalMemory_Capacity)
+        Win32_PhysicalMemory_content.append(Win32_PhysicalMemory_MemoryType)
+
+        Win32_PhysicalMemory_metadata = GroupMetadata(
+            name='Win32_PhysicalMemory',
+            alias='Win32_PhysicalMemory',
+            description='Win32_PhysicalMemory',
+            multivalued=False
+        )
+
+        Win32_PhysicalMemory = Group(
+            metadata=Win32_PhysicalMemory_metadata,
+            content=Win32_PhysicalMemory_content
+        )
+
+        """
+        GROUP Logical Disk
+        """
+        Win32_LogicalDisk_content = Content()
+        Win32_LogicalDisk_content.append(Win32_LogicalDisk_Caption)
+        Win32_LogicalDisk_content.append(Win32_LogicalDisk_MediaType)
+        Win32_LogicalDisk_content.append(Win32_LogicalDisk_Size)
+
+        Win32_LogicalDisk_metadata = GroupMetadata(
+            name='Win32_LogicalDisk',
+            alias='Win32_LogicalDisk',
+            description='Win32_LogicalDisk',
+            multivalued=False
+        )
+
+        Win32_LogicalDisk = Group(
+            metadata=Win32_LogicalDisk_metadata,
+            content=Win32_LogicalDisk_content
+        )
+
         base_metadata = BaseMetadata(
-            name = 'orgaos_bk',
+            name='orgaos_bk',
         )
 
         content_list = Content()
@@ -217,6 +337,8 @@ class BaseBackup():
         content_list.append(Win32_Processor)
         content_list.append(OperatingSystem)
         content_list.append(Win32_BIOS)
+        content_list.append(Win32_PhysicalMemory)
+        content_list.append(Win32_LogicalDisk)
         content_list.append(SoftwareList)
 
         lbbase = Base(
@@ -237,11 +359,11 @@ class BaseBackup():
         """
         Cria base no LB
         """
-        response = self.baserest.create(self.lbbase)
-        if response.status_code == 200:
-            return self.lbbase
-        else:
-            return None
+        try:
+            response = self.baserest.create(self.lbbase)
+            return True
+        except HTTPError:
+            raise IOError('Error inserting base in LB')
 
     def remove_base(self):
         """
@@ -249,10 +371,10 @@ class BaseBackup():
         :param lbbase: LBBase object instance
         :return: True or Error if base was not excluded
         """
-        response = self.baserest.delete(self.lbbase)
-        if response.status_code == 200:
+        try:
+            response = self.baserest.delete(self.lbbase)
             return True
-        else:
+        except HTTPError:
             raise IOError('Error excluding base from LB')
 
     def is_created(self):
@@ -262,5 +384,5 @@ class BaseBackup():
         try:
             response = self.baserest.get(self.lbbase.metadata.name)
             return True
-        except:
+        except HTTPError:
             return False

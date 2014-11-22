@@ -146,8 +146,6 @@ class Atividade(atividade_base.metaclass):
     Objeto que contém a ativudade
     """
     def __init__(self, **args):
-        super(Atividade, self).__init__(**args)
-        self.documentrest = atividade_base.documentrest
         self.tipos_validos = [
             "atividade",
             "relatorio",
@@ -156,6 +154,8 @@ class Atividade(atividade_base.metaclass):
             "delete",
             "put"
         ]
+        super(Atividade, self).__init__(**args)
+        self.documentrest = atividade_base.documentrest
 
     @property
     def tipo(self):
@@ -192,7 +192,9 @@ class Atividade(atividade_base.metaclass):
         :param value:
         """
         if value is None:
-            value = datetime.datetime.now()
+            value = datetime.datetime.strftime("%d/%m/%Y")
+        else:
+            value = value.strftime("%d/%m/%Y")
 
         atividade_base.metaclass.data.__set__(self, value)
 
