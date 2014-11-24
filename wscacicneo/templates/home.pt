@@ -23,8 +23,7 @@
 				</div>
 				<!-- Fim Administrador -->
 			<!-- Gestor -->
-				<div tal:condition="usuario_autenticado.results[0].permissao =='Administrador' ">
-
+				<div tal:condition="usuario_autenticado.results[0].permissao =='Gestor' ">
 
 				</div>
 				<!-- Fim Gestor -->

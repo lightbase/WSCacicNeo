@@ -23,7 +23,9 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
+
                 <hr/>
+
                 <div class="user">
                     <div class="user-pic">
                         <a href="#"><i class="fa fa-file fa-4x"></i></a>
@@ -36,7 +38,9 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
+
                 <hr/>
+
                 <div class="user">
                     <div class="user-pic">
                         <a href="#"><i class="fa fa-cogs fa-4x"></i></a>
@@ -48,10 +52,13 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
+
             </div>
             <div class="widget-foot"></div>
         </div>
     </div>
 </div>
+
+<metal:macro use-macro="load: generic_activity.pt"></metal:macro>
 
 <metal:macro use-macro="load: generic_report.pt"></metal:macro>
