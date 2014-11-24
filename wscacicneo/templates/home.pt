@@ -15,6 +15,11 @@
 					<h3 style="text-align:center;"><span class="fa fa-file-text fa-2x"></span><a href="${request.route_url('root')}relatorios/configuracao"> Veja os relatórios disponíveis. </a></h3>
 				</p>
 			</div>
+		<br/>
+		<hr/>
+		<div>
+			<metal:macro use-macro="load: generic_report.pt"></metal:macro>
+		</div>
 			<!-- Fim Não Autenticado -->
 			<div tal:condition="request.authenticated_userid" style="text-align: center;">
 				<!-- Administrador -->
@@ -24,7 +29,7 @@
 				<!-- Fim Administrador -->
 			<!-- Gestor -->
 				<div tal:condition="usuario_autenticado.results[0].permissao =='Gestor' ">
-
+						<metal:macro use-macro="load: home_gestor.pt">
 				</div>
 				<!-- Fim Gestor -->
 			</div>
