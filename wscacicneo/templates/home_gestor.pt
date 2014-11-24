@@ -10,41 +10,42 @@
         </div>
         <div class="widget-content">
             <div class="padd">
-
                 <div class="user">
                     <div class="user-pic">
-                        <a href="#"><i class="fa fa-users fa-4x"></i></a>
+                        <a href="#"><i class="fa fa fa-comment fa-4x"></i></a>
                     </div>
 
                     <div class="user-details">
-                        <h3>Usuarios</h3>
-                        <a href="${ request.route_url('listuser') }" class="btn btn-primary btn-xs"> Listar Usuários</a>
-                        <a href="${ request.route_url('user') }" class="btn btn-primary btn-xs"> Cadastrar Usuário</a>
+                        <h3>Notificações</h3>
+                        <a href="${ request.route_url('list_notify') }" class="btn btn-primary btn-xs"> Listar
+                            Notificações</a>
+                        <a href="${ request.route_url('notify') }" class="btn btn-primary btn-xs"> Cadastrar
+                            Notificações</a>
                     </div>
                     <div class="clearfix"></div>
                 </div>
                 <hr/>
                 <div class="user">
                     <div class="user-pic">
-                        <a href="#"><i class="fa fa-file fa-4x"></i></a>
+                        <a href="#"><i class="fa fa-tasks fa-4x"></i></a>
                     </div>
 
                     <div class="user-details">
-                        <h3>Orgão</h3>
-                        <a href="${ request.route_url('listorgao') }" class="btn btn-primary btn-xs"> Listar Órgãos</a>
-                        <a href="${ request.route_url('orgao') }" class="btn btn-primary btn-xs"> Cadastrar Órgão</a>
+                        <h3>Coleta</h3>
+                        <a href="${ request.route_url('cadastro_coleta') }" class="btn btn-primary btn-xs"> Coleta
+                            Manual</a>
                     </div>
                     <div class="clearfix"></div>
                 </div>
                 <hr/>
                 <div class="user">
                     <div class="user-pic">
-                        <a href="#"><i class="fa fa-cogs fa-4x"></i></a>
+                        <a href="#"><i class="fa fa fa-file-text fa-4x"></i></a>
                     </div>
 
                     <div class="user-details">
-                        <h3>Configuração do Sistema</h3>
-                        <a href="#" class="btn btn-primary btn-xs"> Alterar Configurações</a>
+                        <h3>Relatórios</h3>
+                        <a href="${ request.route_url('conf_report') }" class="btn btn-primary btn-xs"> Relatórios</a>
                     </div>
                     <div class="clearfix"></div>
                 </div>
