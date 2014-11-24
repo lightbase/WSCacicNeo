@@ -69,6 +69,26 @@
 							</div>
 							<!-- Logo ends -->
 						</div>
+                        <div class="col-md-4">
+                           <!-- Buttons -->
+                           <ul class="nav nav-pills">
+                              <li class="dropdown dropdown-big">
+                                 <a class="dropdown-toggle" href="${request.route_url('list_notify')}?type=1">
+                                 <i class="fa fa-comments"></i> Chats <span class="label label-info">6</span> 
+                                 </a>
+                              </li>
+                              <li class="dropdown dropdown-big">
+                                 <a class="dropdown-toggle" href="${request.route_url('list_notify')}?type=2" >
+                                 <i class="fa fa-envelope"></i> Inbox <span class="label label-primary">6</span> 
+                                 </a>
+                              </li>
+                              <li class="dropdown dropdown-big">
+                                 <a class="dropdown-toggle" href="${request.route_url('list_notify')}?type=3">
+                                 <i class="fa fa-user"></i> Users <span class="label label-success">6</span> 
+                                 </a>
+                              </li>
+                           </ul>
+                        </div>
 						<!-- Button section -->
 					</div>
 				</div>
@@ -152,6 +172,19 @@
 					      window.location.href = "${request.route_url('list_notify')}";
 					    }
 					}
+
+                    $(document).ready(function(){
+                        $.ajax({
+                            type:"GET",
+					        url: "${request.route_url('notify_count')}",
+                            success: function(data, textStatus, jqXHR){
+                                console.log(data, textStatus, jqXHR)
+                            },
+                            error: function(jqXHR, textStatus, errorThrown){
+                                console.log(jqXHR, textStatus, errorThrown)
+                            }
+                        }); 
+                    });
 				</script>
 				<metal:content define-slot="javascript"/>
 			</metal:content>
