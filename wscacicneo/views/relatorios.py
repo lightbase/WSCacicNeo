@@ -14,6 +14,7 @@ from wscacicneo.model import config_reports
 from wscacicneo.model.reports import Reports
 from wscacicneo.search.orgao import SearchOrgao
 from liblightbase.lbutils import conv
+from liblightbase.lbsearch.search import NullDocument
 from random import randint
 
 log = logging.getLogger()
@@ -62,6 +63,8 @@ class Relatorios(object):
             results = get_base.results
             data = dict()
             for elm in results:
+                if isinstance(elm, NullDocument):
+                    continue
                 parent = getattr(elm, attr)
                 item = getattr(parent, attr+'_item')
                 amount = getattr(parent, attr+'_amount')
