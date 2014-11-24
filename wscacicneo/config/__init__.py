@@ -13,8 +13,8 @@ def setup(settings):
 
     global REST_URL
     global BULK_URL
-    global TMP_DIR
+    #global TMP_DIR
 
     REST_URL = settings['rest_url']
     BULK_URL = settings['bulk_url']
-    TMP_DIR = settings['tmp_dir']
+    #TMP_DIR = settings['tmp_dir']
