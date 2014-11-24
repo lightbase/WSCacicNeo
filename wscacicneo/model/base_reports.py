@@ -98,6 +98,46 @@ class ReportsBase():
             required=True
         ))
 
+        Win32_LogicalDisk_item = Field(**dict(
+            name='Win32_LogicalDisk_item',
+            description='Item Coletado',
+            alias='Item',
+            datatype='Text',
+            indices=['Textual', 'Unico'],
+            multivalued=False,
+            required=True
+        ))
+
+        Win32_LogicalDisk_amount = Field(**dict(
+            name='Win32_LogicalDisk_amount',
+            alias='amount',
+            description='amount',
+            datatype='Text',
+            indices=['Textual'],
+            multivalued=False,
+            required=True
+        ))
+
+        Win32_PhysicalMemory_item = Field(**dict(
+            name='Win32_PhysicalMemory_item',
+            description='Item Coletado',
+            alias='Item',
+            datatype='Text',
+            indices=['Textual', 'Unico'],
+            multivalued=False,
+            required=True
+        ))
+
+        Win32_PhysicalMemory_amount = Field(**dict(
+            name='Win32_PhysicalMemory_amount',
+            alias='amount',
+            description='amount',
+            datatype='Text',
+            indices=['Textual'],
+            multivalued=False,
+            required=True
+        ))
+
         """
         GROUP Sistema Operacional
         """
@@ -155,6 +195,43 @@ class ReportsBase():
             content = Win32_Processor_content
         )
 
+        """
+        GROUP LogicalDisk
+        """
+        Win32_LogicalDisk_content = Content()
+        Win32_LogicalDisk_content.append(Win32_LogicalDisk_item)
+        Win32_LogicalDisk_content.append(Win32_LogicalDisk_amount)
+
+        Win32_LogicalDisk_metadata = GroupMetadata(
+            name='Win32_LogicalDisk',
+            alias='Win32_LogicalDisk',
+            description='Win32_LogicalDisk',
+            multivalued = False
+        )
+
+        Win32_LogicalDisk = Group(
+            metadata = Win32_LogicalDisk_metadata,
+            content = Win32_LogicalDisk_content
+        )
+
+        """
+        GROUP PhysicalMemory
+        """
+        Win32_PhysicalMemory_content = Content()
+        Win32_PhysicalMemory_content.append(Win32_PhysicalMemory_item)
+        Win32_PhysicalMemory_content.append(Win32_PhysicalMemory_amount)
+
+        Win32_PhysicalMemory_metadata = GroupMetadata(
+            name='Win32_PhysicalMemory',
+            alias='Win32_PhysicalMemory',
+            description='Win32_PhysicalMemory',
+            multivalued = False
+        )
+
+        Win32_PhysicalMemory = Group(
+            metadata = Win32_PhysicalMemory_metadata,
+            content =  Win32_PhysicalMemory_content
+        )
 
         base_metadata = BaseMetadata(
             name = self.nm_base + "_bk",
@@ -164,6 +241,8 @@ class ReportsBase():
         content_list.append(OperatingSystem)
         content_list.append(Win32_BIOS)
         content_list.append(Win32_Processor)
+        content_list.append(Win32_PhysicalMemory)
+        content_list.append(Win32_LogicalDisk)
 
         lbbase = Base(
             metadata=base_metadata,

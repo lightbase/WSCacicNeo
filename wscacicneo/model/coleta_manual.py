@@ -255,7 +255,6 @@ class ColetaManualBase(object):
             content = Win32_BIOS_content
         )
 
-    
         """
         GROUP Processador
         """

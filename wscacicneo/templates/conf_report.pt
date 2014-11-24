@@ -43,9 +43,8 @@
                 orgao = $('#orgao').val()
                 attr = $('#coleta').val()
                 if(attr == 'hd'){
-                    alert('Não disponivel no momento')
-
-                    return True
+                    attr = 'win32_logicaldisk'
+                    item = 'win32_logicaldisk_caption'
                 }
                 else if(attr == 'bios'){
                     attr = 'win32_bios'
@@ -56,9 +55,8 @@
                     item = 'operatingsystem_caption'
                 }
                 else if(attr == 'memoria'){
-                    alert('não disponivel no momento')
-
-                    return True
+                    attr = 'win32_physicalmemory' 
+                    item = 'win32_physicalmemory_memorytype' 
                 }
                 else if(attr == 'processador'){
                     attr = 'win32_processor'
