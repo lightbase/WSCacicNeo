@@ -11,6 +11,7 @@ from wscacicneo.model.user import User
 from wscacicneo.utils.utils import Utils
 from wscacicneo.model import base_reports
 from wscacicneo.model import config_reports
+from wscacicneo.model import descriptions
 from wscacicneo.model.reports import Reports
 from wscacicneo.search.orgao import SearchOrgao
 from liblightbase.lbutils import conv
@@ -51,6 +52,13 @@ class Relatorios(object):
         reports_config = config_reports.ConfReports(nm_orgao)
         if(report_base.is_created() == False):
             create_base = report_base.create_base()
+
+            # Carrega base de descrições de campos
+            desc_base = descriptions.DescriptionsBase()
+            if not desc_base.is_created():
+                desc_base.create_base()
+            desc_base.load_static()
+
             insert_reports = Utils().create_report(nm_orgao)
             print(insert_reports)
             data = Reports(nm_orgao).count_attribute(attr, child)
