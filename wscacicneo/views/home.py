@@ -132,7 +132,7 @@ class Home(object):
 
         # RETORNA BASE DE ATIVIDADES
         atividade_obj = Utils.create_atividade_obj()
-        limit_registros = 10
+        limit_registros = 5
         doc_atividade = atividade_obj.search_list_atividades(limit_registros)
         # END RETORNA BASE DE ATIVIDADES
 
