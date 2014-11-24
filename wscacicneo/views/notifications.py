@@ -30,7 +30,15 @@ class Notifications(object):
             coment = 'sadasd',
             status = 'sadasd'
         )
-        reg = notify_obj.search_list_notify()
+        type_map = {
+            '1': 'Erro na Coleta',
+            '2': 'Coleta Desatualizada',
+            '3': 'Outros'}
+        if self.request.params.get('type'):
+            notify_type = type_map[self.request.params['type']]
+        else:
+            notify_type = None
+        reg = notify_obj.search_list_notify(notify_type)
         doc = reg.results
         usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
         return {
@@ -39,7 +47,19 @@ class Notifications(object):
         }
 
     def count_notify(self):
-        return Response('efdfdfdfdfdfdfdfdlklkkklklklklk')
+        notify_obj = Notify(
+            orgao = 'deasdsd',
+            data_coleta = 'saudhasd',
+            notify = 'sadsad',
+            coment = 'sadasd',
+            status = 'sadasd'
+        )
+        response = {
+            'type-1': notify_obj.get_count('Erro na Coleta'),
+            'type-2': notify_obj.get_count('Coleta Desatualizada'),
+            'type-3': notify_obj.get_count('Outros')}
+        response = json.dumps(response)
+        return Response(response)
 
     #@view_config(route_name='delete_notify', permission="gest")
     def delete_notify(self):

@@ -192,6 +192,13 @@ class Notify(notify_base.metaclass):
 
         return conv.document2json(notify_base.lbbase, self)
 
+    def get_count(self, notify_type):
+        search = Search(
+            select=[],
+            literal="document->>'notify' = '"+notify_type+"'"
+        )
+        return self.documentrest.get_collection(search_obj=search).result_count
+
     def create_notify(self):
         """
         Insert document on base
@@ -220,13 +227,15 @@ class Notify(notify_base.metaclass):
 
         return results
 
-    def search_list_notify(self):
+    def search_list_notify(self, notify):
         """
         Retorna todos os docs da base
         """
         search = Search(
             limit=None
         )
+        if notify is not None:
+            search.literal = "document->>'notify' = '"+notify+"'"
         results = self.documentrest.get_collection(search)
 
         return results
