@@ -19,77 +19,15 @@
 			<div tal:condition="request.authenticated_userid" style="text-align: center;">
 				<!-- Administrador -->
 				<div tal:condition="usuario_autenticado.results[0].permissao =='Administrador' ">
-
-
-					<div class="col-md-6">
-
-						<!-- User widget -->
-						<div class="widget">
-							<div class="widget-head">
-								<div class="pull-left">Administração</div>
-								<div class="widget-icons pull-right">
-									<a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a> 
-									<a href="#" class="wclose"><i class="fa fa-times"></i></a>
-								</div>  
-								<div class="clearfix"></div>
-							</div>
-							<div class="widget-content">
-								<div class="padd">
-
-									<div class="user">
-										<div class="user-pic">
-											<a href="#"><i class="fa fa-users fa-4x"></i></a>
-										</div>
-
-										<div class="user-details">
-											<h3>Usuarios</h3>
-											<a href="${ request.route_url('listuser') }" class="btn btn-primary btn-xs"> Listar Usuários</a>
-											<a href="${ request.route_url('user') }" class="btn btn-primary btn-xs"> Cadastrar Usuário</a>
-										</div>
-										<div class="clearfix"></div>
-									</div>
-
-									<hr/>
-
-									<div class="user">
-										<div class="user-pic">
-											<a href="#"><i class="fa fa-file fa-4x"></i></a>
-										</div>
-
-										<div class="user-details">
-											<h3>Orgão</h3>
-											<a href="${ request.route_url('listorgao') }" class="btn btn-primary btn-xs"> Listar Órgãos</a>
-											<a href="${ request.route_url('orgao') }" class="btn btn-primary btn-xs"> Cadastrar Órgão</a>
-										</div>
-										<div class="clearfix"></div>
-									</div>
-
-									<hr/>
-
-									<div class="user">
-										<div class="user-pic">
-											<a href="#"><i class="fa fa-cogs fa-4x"></i></a>
-										</div>
-
-										<div class="user-details">
-											<h3>Configuração do Sistema</h3>
-											<a href="#" class="btn btn-primary btn-xs"> Alterar Configurações</a>
-										</div>
-										<div class="clearfix"></div>
-									</div>
-
-								</div>
-								<div class="widget-foot"></div>
-							</div>
-						</div>  
-					</div>
-
-					<metal:macro use-macro="load: generic_activity.pt">
-
-					<metal:macro use-macro="load: generic_report.pt">
-
-					<!-- Fim Administrador -->
+						<metal:macro use-macro="load: home_administrador.pt">
 				</div>
+				<!-- Fim Administrador -->
+			<!-- Gestor -->
+				<div tal:condition="usuario_autenticado.results[0].permissao =='Administrador' ">
+
+
+				</div>
+				<!-- Fim Gestor -->
 			</div>
 
 			</metal:content>
