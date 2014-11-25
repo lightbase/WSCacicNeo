@@ -109,23 +109,27 @@ def make_routes(cfg):
                  permission="admin")
 
     cfg.add_route('notify', 'notificacoes/cadastro')
-    cfg.add_view(users.Users, attr='notify', route_name='notify',
+    cfg.add_view(notifications.Notifications, attr='notify', route_name='notify',
                  renderer='templates/notify_coleta.pt', permission="gest")
 
     cfg.add_route('post_notify', 'post_notify')
-    cfg.add_view(users.Users, attr='post_notify', route_name='post_notify',
+    cfg.add_view(notifications.Notifications, attr='post_notify', route_name='post_notify',
                  permission="gest")
 
     cfg.add_route('delete_notify', 'delete_notify/{orgao}')
-    cfg.add_view(users.Users, attr='delete_notify', route_name='delete_notify',
+    cfg.add_view(notifications.Notifications, attr='delete_notify', route_name='delete_notify',
                  permission='gest')
 
     cfg.add_route('edit_notify', 'edit_notify/{orgao}')
-    cfg.add_view(users.Users, attr='edit_notify', route_name='edit_notify',
+    cfg.add_view(notifications.Notifications, attr='edit_notify', route_name='edit_notify',
                  permission="gest")
 
     cfg.add_route('list_notify', 'notificacoes/lista')
-    cfg.add_view(users.Users, attr='list_notify', route_name='list_notify',
+    cfg.add_view(notifications.Notifications, attr='list_notify', route_name='list_notify',
+                 permission="gest", renderer='templates/list_notify.pt')
+
+    cfg.add_route('notify_count', 'notificacoes/contagem')
+    cfg.add_view(notifications.Notifications, attr='count_notify', route_name='notify_count',
                  permission="gest")
 
     cfg.add_route('edit_profile_user', 'usuario/perfil/{matricula}')

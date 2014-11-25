@@ -69,6 +69,26 @@
 							</div>
 							<!-- Logo ends -->
 						</div>
+                        <div class="col-md-4">
+                           <!-- Buttons -->
+                           <ul class="nav nav-pills">
+                              <li class="dropdown dropdown-big">
+                                 <a class="dropdown-toggle" href="${request.route_url('list_notify')}?type=1">
+                                 <i class="fa fa-comments"></i> Chats <span id="notify-1" class="label label-info"></span> 
+                                 </a>
+                              </li>
+                              <li class="dropdown dropdown-big">
+                                 <a class="dropdown-toggle" href="${request.route_url('list_notify')}?type=2" >
+                                 <i class="fa fa-envelope"></i> Inbox <span id="notify-2" class="label label-primary"></span> 
+                                 </a>
+                              </li>
+                              <li class="dropdown dropdown-big">
+                                 <a class="dropdown-toggle" href="${request.route_url('list_notify')}?type=3">
+                                 <i class="fa fa-user"></i> Users <span id="notify-3" class="label label-success"></span> 
+                                 </a>
+                              </li>
+                           </ul>
+                        </div>
 						<!-- Button section -->
 					</div>
 				</div>
@@ -152,6 +172,24 @@
 					      window.location.href = "${request.route_url('list_notify')}";
 					    }
 					}
+
+                    $(document).ready(function(){
+                        $.ajax({
+                            type:"GET",
+                            async: true,
+					        url: "${request.route_url('notify_count')}",
+                            success: function(data, textStatus, jqXHR){
+                                console.log(data, textStatus, jqXHR)
+                                data = JSON.parse(data)
+                                $('#notify-1').html(data['type-1']);
+                                $('#notify-2').html(data['type-2']);
+                                $('#notify-3').html(data['type-3']);
+                            },
+                            error: function(jqXHR, textStatus, errorThrown){
+                                console.log(jqXHR, textStatus, errorThrown)
+                            }
+                        }); 
+                    });
 				</script>
 				<metal:content define-slot="javascript"/>
 			</metal:content>
