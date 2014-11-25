@@ -67,6 +67,11 @@ class Relatorios(object):
                     'usuario_autenticado':usuario_autenticado
                     }
         else:
+            # Carrega base de descrições de campos
+            desc_base = descriptions.DescriptionsBase()
+            if not desc_base.is_created():
+                desc_base.create_base()
+            desc_base.load_static()
             get_base = reports_config.get_attribute(attr)
             results = get_base.results
             data = dict()
@@ -86,3 +91,56 @@ class Relatorios(object):
     # @view_config(route_name='report_home', permission="user")
     # def report_home(self):
     #     bases = requests.get("http://127.0.0.1/lbgenerator/")
+
+    def report_software(self):
+        """
+        Rota para os relatórios de software
+        """
+        orgao_nm = self.request.matchdict['nm_orgao']
+        attr = 'softwarelist'
+        child = None
+        nm_orgao = Utils.format_name(orgao_nm)
+        report_base = base_reports.ReportsBase(nm_orgao)
+        reports_config = config_reports.ConfReports(nm_orgao)
+        if report_base.is_created():
+            # Carrega base de descrições de campos
+            desc_base = descriptions.DescriptionsBase()
+            if not desc_base.is_created():
+                desc_base.create_base()
+            desc_base.load_static()
+            get_base = reports_config.get_attribute(attr)
+            results = get_base.results
+            data = dict()
+            for elm in results:
+                if isinstance(elm, NullDocument):
+                    continue
+                parent = getattr(elm, attr)
+                item = getattr(parent, attr+'_item')
+                amount = getattr(parent, attr+'_amount')
+                data[item] = amount
+            usuario_autenticado = Utils.retorna_usuario_autenticado(
+                email=self.request.authenticated_userid
+            )
+            return {
+                'data': data,
+                'usuario_autenticado': usuario_autenticado
+            }
+        else:
+            create_base = report_base.create_base()
+
+            # Carrega base de descrições de campos
+            desc_base = descriptions.DescriptionsBase()
+            if not desc_base.is_created():
+                desc_base.create_base()
+            desc_base.load_static()
+
+            insert_reports = Utils().create_report(nm_orgao)
+            print(insert_reports)
+            data = Reports(nm_orgao).count_attribute(attr, child)
+            usuario_autenticado = Utils.retorna_usuario_autenticado(
+                email=self.request.authenticated_userid
+            )
+            return {
+                'data': data,
+                'usuario_autenticado':usuario_autenticado
+            }

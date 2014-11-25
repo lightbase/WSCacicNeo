@@ -138,6 +138,26 @@ class ReportsBase():
             required=True
         ))
 
+        software_item = Field(**dict(
+            name='SoftwareList_item',
+            description='Software Coletado',
+            alias='SoftwareList_item',
+            datatype='Text',
+            indices=['Textual', 'Unico'],
+            multivalued=False,
+            required=True
+        ))
+
+        software_amount = Field(**dict(
+            name='SoftwareList_amount',
+            alias='SoftwareList_amount',
+            description='Software Amount',
+            datatype='Text',
+            indices=['Textual'],
+            multivalued=False,
+            required=True
+        ))
+
         """
         GROUP Sistema Operacional
         """
@@ -233,6 +253,25 @@ class ReportsBase():
             content =  Win32_PhysicalMemory_content
         )
 
+        """
+        GROUP Software
+        """
+        software_content = Content()
+        software_content.append(software_item)
+        software_content.append(software_amount)
+
+        software_metadata = GroupMetadata(
+            name='SoftwareList',
+            alias='SoftwareList',
+            description='Lista de softwares',
+            multivalued=False
+        )
+
+        software = Group(
+            metadata=software_metadata,
+            content=software_content
+        )
+
         base_metadata = BaseMetadata(
             name = self.nm_base + "_bk",
         )
@@ -243,6 +282,7 @@ class ReportsBase():
         content_list.append(Win32_Processor)
         content_list.append(Win32_PhysicalMemory)
         content_list.append(Win32_LogicalDisk)
+        content_list.append(software)
 
         lbbase = Base(
             metadata=base_metadata,

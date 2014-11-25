@@ -185,6 +185,10 @@ def make_routes(cfg):
     cfg.add_view(graficos.Graficos, attr='graficos', route_name='graficos',
                  renderer='templates/graficos/graficos.pt')
 
+    cfg.add_route('report_software', 'relatorio/software/{nm_orgao}')
+    cfg.add_view(relatorios.Relatorios, attr='report_software', route_name='report_software',
+                 renderer='templates/report.pt', permission="user")
+
     # Autenticação
     cfg.add_route('login', 'login')
     cfg.add_view(security.Security, attr='login', route_name='login',

@@ -316,7 +316,6 @@ class ColetaManualBase(object):
             content=Win32_LogicalDisk_content
         )
 
-
         base_metadata = BaseMetadata(
             name=self.nm_base,
         )

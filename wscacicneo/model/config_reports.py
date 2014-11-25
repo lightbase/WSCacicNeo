@@ -50,7 +50,7 @@ class ConfReports():
         :return:
         """
 
-        return conv.document2dict(coleta_base.lbbase, self)
+        return conv.document2dict(self.base, self)
 
     def coleta_to_json(self, document):
         """

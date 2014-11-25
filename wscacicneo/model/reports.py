@@ -30,7 +30,6 @@ class Reports():
         self.base = self.coleta_manual_base.lbbase
         self.documentrest = DocumentREST(self.rest_url, self.base, response_object)
 
-
     def get_base_orgao(self):
         """
         Retorna todos os documentos da base
@@ -50,7 +49,7 @@ class Reports():
         :return:
         """
 
-        return conv.document2dict(coleta_base.lbbase, self)
+        return conv.document2dict(self.base, self)
 
     def coleta_to_json(self, document):
         """
@@ -106,6 +105,7 @@ class Reports():
         """
         attr_dict = self.get_attribute(attr)
         results = attr_dict.results
+        #log.debug(results)
 
         saida = dict()
         for elm in results:
@@ -119,7 +119,13 @@ class Reports():
             else:
                 attribute = getattr(elm, attr)
 
-            if saida.get(attribute):
+            if attr == 'softwarelist':
+                for software in attribute:
+                    if saida.get(software) is None:
+                        saida[software] = 1
+                    else:
+                        saida[software] += 1
+            elif saida.get(attribute):
                 saida[attribute] = saida.get(attribute) + 1
             else:
                 saida[attribute] = 1
