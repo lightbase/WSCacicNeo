@@ -14,7 +14,10 @@ from wscacicneo.model import reports as model_reports
 from wscacicneo.model import atividade as model_atividade
 from wscacicneo.utils.utils import Utils
 from wscacicneo import config
-
+from pyramid.security import (
+    remember,
+    forget,
+    )
 
 class Home(object):
     """
@@ -100,34 +103,27 @@ class Home(object):
             atividade_base.is_created() is False
         ):
             return HTTPFound(location=self.request.route_url("home_config_initial"))
-        user_obj = Utils.create_user_obj()
-        search = user_obj.search_list_users()
-        result_count = search.result_count
-        if(result_count == 0):
+        if not Utils.check_has_orgao():
+            return HTTPFound(location=self.request.route_url("orgao_initial"))
+        if not Utils.check_has_user():
             return HTTPFound(location=self.request.route_url("init_config_user"))
         # END CONFIGURAÇÃO INICIAL
 
         # RETORNA BASE DE RELATÓRIOS
-        try:
-            is_base_right = False
-            base_list = Utils.return_all_bases_list()
-            num_bases = len(base_list) - 1
-            num_already_chosen = []
-            while not is_base_right:
-                chosen_base = base_list[randint(0, num_bases)]
-                if chosen_base in num_already_chosen:
-                    pass
-                else:
-                    base_obj = Utils.return_base_by_name(chosen_base)
-                    is_coleta = Utils.is_base_coleta(base_obj)
-                    if(is_coleta):
-                        right_base = base_obj
-                        is_base_right = True
-            win32_bios = "win32_bios"
-            win32_bios_manufacturer = "win32_bios_manufacturer"
-            data = model_reports.Reports(chosen_base).count_attribute(win32_bios, win32_bios_manufacturer)
-        except:
-            data = None
+        base_list = Utils.return_all_bases_list()
+        right_base = None
+        for base in base_list:
+            base_obj = Utils.return_base_by_name(base)
+            is_coleta = Utils.is_base_coleta(base_obj)
+            print(base)
+            if is_coleta and "_bk" not in base:
+                right_base = base
+                print(right_base)
+                break
+
+        win32_bios = "win32_bios"
+        win32_bios_manufacturer = "win32_bios_manufacturer"
+        data = model_reports.Reports(right_base).count_attribute(win32_bios, win32_bios_manufacturer)
         # END RETORNA BASE RELATÓRIOS
 
         # RETORNA BASE DE ATIVIDADES

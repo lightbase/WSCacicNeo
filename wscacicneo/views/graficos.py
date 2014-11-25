@@ -1,0 +1,48 @@
+__author__ = 'adley'
+
+import requests
+import json
+import random
+from wscacicneo.utils.utils import Utils
+from pyramid.httpexceptions import HTTPFound
+from wscacicneo.model import config_reports
+from liblightbase.lbsearch.search import NullDocument
+
+
+class Graficos():
+    def __init__(self, request):
+        """
+        Método construtor
+        :param request: Requisição
+        """
+        self.request = request
+
+    def graficos(self):
+        attr = self.request.matchdict['attr']
+        orgao_nm = self.request.matchdict['nm_orgao']
+        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
+        nm_orgao = Utils.format_name(orgao_nm)
+        reports_config = config_reports.ConfReports(nm_orgao)
+        get_base = reports_config.get_attribute(attr)
+        results = get_base.results
+        data = []
+        color_list = ["#8B0000", "#191970", "#2F4F4F", "#006400", "#808000",
+                      "#696969", "#B8860B", "#FF8C00", "#2E8B57", "#228B22"]
+        chosen_color = 0
+        print(results)
+        for elm in results:
+            if isinstance(elm, NullDocument):
+                continue
+            parent = getattr(elm, attr)
+            item = getattr(parent, attr + '_item')
+            amount = getattr(parent, attr + '_amount')
+            data.append({"label": item, "value": int(amount), "color": color_list[chosen_color]})
+            chosen_color += 1
+            if chosen_color > len(color_list):
+                chosen_color = 0
+        random_color = color_list[random.randint(0, 9)]
+        print(random_color)
+        return {"data": data,
+                "usuario_autenticado": usuario_autenticado,
+                "random_color": random_color
+        }

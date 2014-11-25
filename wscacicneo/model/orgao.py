@@ -296,6 +296,13 @@ class Orgao(orgao_base.metaclass):
 
         return results
 
+    def get_distinct_orgaos(self, attr):
+        search = Search(
+            limit=None,
+            distinct=attr
+        )
+        return self.documentrest.get_collection(search)
+
     def search_list_orgaos(self):
         """
         Retorna todos os docs da base

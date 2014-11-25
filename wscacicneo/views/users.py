@@ -103,7 +103,10 @@ class Users(object):
     #@view_config(route_name='user', renderer='../templates/user.pt', permission='admin')
     def user(self):
         usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
-        return {'usuario_autenticado':usuario_autenticado}
+        orgao_obj = Utils.create_orgao_obj()
+        distinct_orgaos = orgao_obj.get_distinct_orgaos('nome')
+        return {'usuario_autenticado':usuario_autenticado,
+                'orgaos': distinct_orgaos.results}
 
     #@view_config(route_name='post_user', permission="admin")
     def post_user(self):
@@ -424,12 +427,9 @@ class Users(object):
         edit = user_obj.edit_user(id, doc)
         return Response(edit)
 
-    #@view_config(route_name='init_config_user', renderer='../templates/init_config_user.pt')
+    #@view_config (route_name='init_config_user', renderer='../templates/init_config_user.pt')
     def init_config_user(self):
-        user_obj = Utils.create_user_obj()
-        search = user_obj.search_list_users()
-        result_count = search.result_count
-        if(result_count > 0):
+        if Utils.check_has_user():
             return HTTPFound(location = self.request.route_url('login'))
         usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
         return {'usuario_autenticado':usuario_autenticado}

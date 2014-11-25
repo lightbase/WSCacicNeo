@@ -37,7 +37,9 @@
                 <div class="form-group">
                   <label class="col-lg-2 control-label">* Orgão:</label>
                   <div class="col-lg-5">
-                    <input type="text" id="orgao" class="form-control" placeholder="Orgão">
+                    <select id="orgao" class="form-control">
+                      <option tal:repeat="orgao orgaos">${orgao.nome}</option>
+                    </select>
                   </div>
                 </div>
                 <div class="form-group">
