@@ -110,20 +110,20 @@ class Home(object):
         # END CONFIGURAÇÃO INICIAL
 
         # RETORNA BASE DE RELATÓRIOS
-        try:
-            base_list = Utils.return_all_bases_list()
-            right_base = None
-            for base in base_list:
-                base_obj = Utils.return_base_by_name(base)
-                is_coleta = Utils.is_base_coleta(base_obj)
-                if is_coleta:
-                    right_base = base
-                    break
-            win32_bios = "win32_bios"
-            win32_bios_manufacturer = "win32_bios_manufacturer"
-            data = model_reports.Reports(right_base).count_attribute(win32_bios, win32_bios_manufacturer)
-        except:
-            data = None
+        base_list = Utils.return_all_bases_list()
+        right_base = None
+        for base in base_list:
+            base_obj = Utils.return_base_by_name(base)
+            is_coleta = Utils.is_base_coleta(base_obj)
+            print(base)
+            if is_coleta and "_bk" not in base:
+                right_base = base
+                print(right_base)
+                break
+
+        win32_bios = "win32_bios"
+        win32_bios_manufacturer = "win32_bios_manufacturer"
+        data = model_reports.Reports(right_base).count_attribute(win32_bios, win32_bios_manufacturer)
         # END RETORNA BASE RELATÓRIOS
 
         # RETORNA BASE DE ATIVIDADES

@@ -427,7 +427,7 @@ class Users(object):
         edit = user_obj.edit_user(id, doc)
         return Response(edit)
 
-    #@view_config(route_name='init_config_user', renderer='../templates/init_config_user.pt')
+    #@view_config (route_name='init_config_user', renderer='../templates/init_config_user.pt')
     def init_config_user(self):
         if Utils.check_has_user():
             return HTTPFound(location = self.request.route_url('login'))

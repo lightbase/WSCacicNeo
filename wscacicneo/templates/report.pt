@@ -12,7 +12,7 @@
                             <div class="pull-left">Relatório</div>
                             <div class="widget-icons pull-right">
                                 <a href="#" id="print" title="Imprimir Tabela"><i class="fa fa-print"></i></a>
-                                <a href="#" id="grafico" title="Gerar Gráfico"><i class="fa fa-bar-chart-o"></i></a>
+                                <a href="${request.route_url('root')}graficos/}${request.matchdict['nm_orgao']}/${request.matchdict['attr']}" id="grafico" title="Gerar Gráfico"><i class="fa fa-bar-chart-o"></i></a>
                             </div>
                             <div class="clearfix"></div>
                         </div>

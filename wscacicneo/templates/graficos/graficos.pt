@@ -1,32 +1,47 @@
 <metal:main use-macro="load: ../master.pt">
     <metal:content fill-slot="dash">
-        Gráfico
+        Gráficos
     </metal:content>
     <metal:macro fill-slot="conteudo">
-        <div class="canvas-holder" align="center">
-            <canvas id="canvas" height="400" width="500"></canvas>
+        <div class="canvas-holder pull-left">
+            <canvas id="barChart" height="400" width="400"></canvas>
+        </div>
+        <div class="canvas-holder pull-left">
+            <canvas id="pieChart" height="300" width="300"></canvas>
         </div>
     </metal:macro>
     <metal:macro fill-slot="javascript">
+
         <script type="text/javascript">
-            var json = ${data}
+            var optionsPie = {
+                animation: true
+            };
+            //Get the context of the canvas element for PieChart
+            var c = $('#pieChart');
+            var ct = c.get(0).getContext('2d');
+            var ctx = document.getElementById("pieChart").getContext("2d");
+            /*************************************************************************/
+            var data = ${data}
             var chartjsData = [];
             var labels_list = [];
-            for (var i = 0; i < json.length; i++) {
-                labels_list.push(json[i].item_name)
-                chartjsData.push(json[i].quantidade);
+            for (var i = 0; i < data.length; i++) {
+                labels_list.push(data[i].label)
+                chartjsData.push(data[i].value);
             }
             var barChartData = {
                 labels: labels_list, datasets: [
                     {
-                        fillColor: "rgba(0,70,0,0.5)",
+                        fillColor: "${random_color}",
                         strokeColor: "rgba(220,220,220,1)",
                         data: chartjsData
 
                     }
                 ]
             };
-            var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Bar(barChartData);
+
+            /**********************************************************************/
+            var myLine = new Chart(document.getElementById("barChart").getContext("2d")).Bar(barChartData);
+            myNewChart = new Chart(ct).Pie(data, optionsPie);
         </script>
 
     </metal:macro>
