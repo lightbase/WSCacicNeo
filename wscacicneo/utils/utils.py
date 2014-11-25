@@ -121,7 +121,7 @@ class Utils:
             "operatingsystem": "operatingsystem_caption",
             "win32_logicaldisk": "win32_logicaldisk_caption",
             "win32_physicalmemory": "win32_physicalmemory_memorytype",
-            "software": None
+            "softwarelist": None
         }
         #try:
         for elm in itens.keys():
@@ -141,7 +141,8 @@ class Utils:
         #except:
             #return 0
 
-    def create_atividade_obj(self):
+    @staticmethod
+    def create_atividade_obj():
         atividade_obj = Atividade(
             tipo='Inserção',
             usuario='José',
