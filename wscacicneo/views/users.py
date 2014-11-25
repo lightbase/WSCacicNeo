@@ -426,10 +426,7 @@ class Users(object):
 
     #@view_config(route_name='init_config_user', renderer='../templates/init_config_user.pt')
     def init_config_user(self):
-        user_obj = Utils.create_user_obj()
-        search = user_obj.search_list_users()
-        result_count = search.result_count
-        if(result_count > 0):
+        if Utils.check_has_user():
             return HTTPFound(location = self.request.route_url('login'))
         usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
         return {'usuario_autenticado':usuario_autenticado}

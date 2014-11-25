@@ -80,7 +80,8 @@ class Utils:
             email='admin@planemaneto.gov.br',
             telefone='(61) 2025-4117',
             url='http://api.brlight.net/api',
-            apikey='123'
+            api_key='123',
+            gestor='gestor'
         )
         return orgao_obj
 
@@ -143,3 +144,15 @@ class Utils:
             data='22/03/2014'
         )
         return atividade_obj
+
+    def check_has_user():
+        user_obj = Utils.create_user_obj()
+        search = user_obj.search_list_users()
+        result_count = search.result_count
+        return result_count > 0
+
+    def check_has_orgao():
+        orgao_obj = Utils.create_orgao_obj()
+        search = orgao_obj.search_list_orgaos()
+        result_count = search.result_count
+        return result_count > 0

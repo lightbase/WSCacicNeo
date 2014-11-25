@@ -40,6 +40,11 @@ def make_routes(cfg):
     cfg.add_view(notifications.Notifications, attr='notifications', route_name='notifications')
 
     # Orgãos
+    cfg.add_route('orgao_initial', 'orgao_inicial')
+    cfg.add_view(orgaos.Orgaos, attr='post_orgao_initial', route_name='orgao_initial', request_method='POST')
+    cfg.add_view(orgaos.Orgaos, attr='get_orgao_initial', route_name='orgao_initial',
+                 renderer='templates/orgao_initial.pt', request_method='GET')
+
     cfg.add_route('orgao', 'orgao/cadastro')
     cfg.add_view(orgaos.Orgaos, attr='orgao', route_name='orgao',
                  renderer='templates/orgao.pt', permission="admin")
