@@ -35,8 +35,8 @@
                                                                 <td>${coleta.status}</td>
                                                                 <td>${coleta.coment}</td>
                                                                 <td>
-                                                                    <a href="${request.route_url('root')}edit_notify/${coleta.orgao}" class="btn btn-xs btn-success"><i class="fa fa-check"></i></a>
-                                                                    <a href="${request.route_url('root')}delete_notify/${coleta.orgao}" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a>
+                                                                    <a href="${request.route_url('root')}edit_notify/${coleta._metadata.id_doc}" class="btn btn-xs btn-success"><i class="fa fa-check"></i></a>
+                                                                    <a href="${request.route_url('root')}delete_notify/${coleta._metadata.id_doc}" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
