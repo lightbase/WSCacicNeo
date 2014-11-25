@@ -36,7 +36,8 @@
     <!-- Widgets stylesheet -->
     <link href="${request.route_url('root')}static/macadmin/css/widgets.css" rel="stylesheet">
     <link rel="shortcut icon" href="${request.route_url('root')}static/macadmin/img/favicon/favicon.png">   
-     <!-- Slot para o CSS -->
+    <link rel="shortcut icon" href="${request.route_url('root')}static/js/jqueryui-editable/css/jqueryui-editable.css">   
+    <!-- Slot para o CSS -->
     <metal:content define-slot="css" />
     <script src="${request.route_url('root')}static/macadmin/js/respond.min.js"></script>
   </head>
@@ -47,9 +48,9 @@
     <!-- Slot para o Conteúdo -->
     <metal:content define-slot="conteudo" />
 
-   
+
     <!-- JS -->
-    
+
     <script src="${request.route_url('root')}static/macadmin/js/jquery.js"></script> 
     <!-- jQuery -->
     <script src="${request.route_url('root')}static/macadmin/js/bootstrap.min.js"></script> <!-- Bootstrap -->
@@ -83,6 +84,7 @@
     <script src="${request.route_url('root')}static/macadmin/js/custom.js"></script> <!-- Custom codes -->
     <script src="${request.route_url('root')}static/macadmin/js/charts.js"></script> <!-- Charts & Graphs -->
     <script src="${request.route_url('root')}static/Chart.js/Chart.js"></script>
+    <script src="${request.route_url('root')}static/js/jqueryui-editable/js/jqueryui-editable.js"></script>
     <!--Jquery Validate -->
     <!-- <script src="${request.route_url('root')}static/js/jquery.validate.min.js"></script>  -->
 

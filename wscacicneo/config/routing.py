@@ -175,6 +175,10 @@ def make_routes(cfg):
     cfg.add_view(relatorios.Relatorios, attr='report_itens', route_name='report_itens',
                  renderer='templates/report.pt', permission="user")
 
+    cfg.add_route('put_reports', 'put_reports')
+    cfg.add_view(relatorios.Relatorios, attr='put_reports', route_name='put_reports',
+                  permission="user")
+
     # Autenticação
     cfg.add_route('login', 'login')
     cfg.add_view(security.Security, attr='login', route_name='login',

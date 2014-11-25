@@ -73,6 +73,7 @@ class ConfReports():
         Altera dados de coleta
         """
         coleta = self.documentrest.update(id,document)
+
         return coleta
 
     def delete_coleta(self,id, document):
@@ -112,10 +113,6 @@ class ConfReports():
         # A resposta nao pode ser object aqui
         self.documentrest.response_object = False
 
-        # FIXME: Adicionar lista de atributos obrigatórios nos campos que vao retornar na busca
-        # Referência: http://dev.lightbase.cc/projects/liblightbase/repository/revisions/master/entry/liblightbase/lbbase/content.py#L34
-
-        # A busca deve obrigatoriamente retornar todos os atributos obrigatórios
         search = Search(
             limit=None,
             select=[attr]
@@ -123,3 +120,17 @@ class ConfReports():
         get = self.documentrest.get_collection(search_obj=search)
 
         return get
+ 
+    def search_item(self, group ,item, valor):
+        """
+        Busca registro completo do órgao pelo nome
+        :return: obj collection com os dados da base
+        """
+        data = ['']
+        search = Search(
+            literal="document->'"+group+"'->>'"+item+"' = '"+valor+"'"
+        )
+        results = self.documentrest.get_collection(search_obj=search)
+
+        return results
+

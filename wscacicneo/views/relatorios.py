@@ -6,6 +6,7 @@ import json
 import re
 import logging
 from pyramid.view import view_config
+from pyramid.response import Response
 from wscacicneo.model.orgao import Orgao
 from wscacicneo.model.user import User
 from wscacicneo.utils.utils import Utils
@@ -83,6 +84,18 @@ class Relatorios(object):
                     'usuario_autenticado':usuario_autenticado
                     }
 
-    # @view_config(route_name='report_home', permission="user")
-    # def report_home(self):
-    #     bases = requests.get("http://127.0.0.1/lbgenerator/")
+    def put_reports(self):
+        data = self.request.params
+        item = data['item']
+        attr = data['attr']
+        nm_orgao = data['nm_base']
+        value = data['value']
+        data_dic = {attr : {attr+'_item': item, attr+'_amount': value}}
+        valor = attr+'_item'
+        reports_config = config_reports.ConfReports(nm_orgao)
+        search = reports_config.search_item(attr, valor, item)
+        print(search)
+        data_id = search.results[0]._metadata.id_doc
+        document = json.dumps(data_dic)
+        put_doc = reports_config.update_coleta(data_id, document)
+        return Response(put_doc)

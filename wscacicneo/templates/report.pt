@@ -9,7 +9,7 @@
                 <div class="col-md-12">
                     <div class="widget" id="tabela_relatorio">
                         <div class="widget-head">
-                            <div class="pull-left">Relatório</div>
+                            <div class="pull-left">Relatório ${request.matchdict['attr']}</div>
                             <div class="widget-icons pull-right">
                                 <a href="#" id="print" title="Imprimir Tabela"><i class="fa fa-print"></i></a>
                                 <a href="#" id="grafico" title="Gerar Gráfico"><i class="fa fa-bar-chart-o"></i></a>
@@ -30,7 +30,24 @@
                                             <tbody>
                                                 <tr class="active" tal:repeat="k data.keys()">
                                                     <td>${k}</td>
-                                                    <td tal:content="data[k]"></td>
+                                                    <td data-type="text"  href="#myModal" data-toggle="modal"><a href="#myModal" data-type="text">${data[k]}</a></td>
+                                                    <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                                        <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                        <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                        <h4 class="modal-title">Modal title</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                        <input type="text" id="${k}" class="form-control" placeholder="Valor">
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                        <button type="button" data-id="${k}" class="btn btn-primary">Salvar</button>
+                                                        </div>
+                                                        </div>
+                                                        </div>
+                                                    </div>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -55,42 +72,30 @@
             $("#print").click(function() {
                 $("#tabela_relatorio").print();
             });
-        });
-        $(document).ready(function(){
-            window.onload = function(){
-                var ctx = document.getElementById("GraficoLine").getContext("2d");
-                var data = {
-                    labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
-                    datasets: [
-                        {
-                            label: "Dados primários",
-                            fillColor: "rgba(220,220,220,0.2)",
-                            strokeColor: "rgba(220,220,220,1)",
-                            pointColor: "rgba(220,220,220,1)",
-                            pointStrokeColor: "#fff",
-                            pointHighlightFill: "#fff",
-                            pointHighlightStroke: "rgba(220,220,220,1)",
-                            data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
-                        },
-                        {
-                            label: "Dados secundários",
-                            fillColor: "rgba(151,187,205,0.2)",
-                            strokeColor: "rgba(151,187,205,1)",
-                            pointColor: "rgba(151,187,205,1)",
-                            pointStrokeColor: "#fff",
-                            pointHighlightFill: "#fff",
-                            pointHighlightStroke: "rgba(151,187,205,1)",
-                            data: [28, 48, 40, 19, 86, 27, 90, 200, 87, 20, 50, 20]
-                        }
-                    ]   
-                };
-                var LineChart = new Chart(ctx).Line(data, options);
-                var options = {
-                    responsive:true
-                };
+            $('button').click(function(){
+               a = $(this).attr('data-id')
+               b = $(this).html()
+               if(b == 'Salvar'){
+                    value = $('#'+a).val()
+                    attr = "${request.matchdict['attr']}"
+                    base = "${request.matchdict['nm_orgao']}"
+                    data = {
+                        'nm_base' : base,
+                        'attr': attr,
+                        'value' : value,
+                        'item' : a
+                    }
+            $.ajax({
+                    type: "PUT",
+                    url: "${request.route_url('root')}put_reports",
+                    data: data, 
+                    success: function(){location.reload();   },
+                    error: function(){ alert('Erro ao realizar o cadastro. Todos os campos são obrigatórios') }
+                }); 
 
-            };
+               }
+            });
         });
-    </script>
+        </script>
 </metal:content>
 </metal:main>
