@@ -80,7 +80,8 @@ class Utils:
             email='admin@planemaneto.gov.br',
             telefone='(61) 2025-4117',
             url='http://api.brlight.net/api',
-            apikey='123'
+            api_key='123',
+            gestor='gestor'
         )
         return orgao_obj
 
@@ -117,23 +118,30 @@ class Utils:
         itens = {
             "win32_processor": "win32_processor_manufacturer",
             "win32_bios": "win32_bios_manufacturer",
-            "operatingsystem" : "operatingsystem_caption",
+            "operatingsystem": "operatingsystem_caption",
             "win32_logicaldisk": "win32_logicaldisk_caption",
             "win32_physicalmemory": "win32_physicalmemory_memorytype",
+            "softwarelist": None
         }
         #try:
         for elm in itens.keys():
-             attr = elm
-             child = itens[elm]
-             data = report.count_attribute(attr, child)
-             for element in data:
-                data_json = {attr : { attr+'_item' : str(element), attr+'_amount': str(data[element])}}
+            attr = elm
+            child = itens[elm]
+            data = report.count_attribute(attr, child)
+            for element in data:
+                data_json = {
+                    attr: {
+                        attr+'_item': str(element),
+                        attr+'_amount': str(data[element])
+                    }
+                }
                 document = json.dumps(data_json)
                 reports_conf.create_coleta(document)
         return 1
         #except:
             #return 0
 
+    @staticmethod
     def create_atividade_obj():
         atividade_obj = Atividade(
             tipo='Inserção',
@@ -142,3 +150,15 @@ class Utils:
             data='22/03/2014'
         )
         return atividade_obj
+
+    def check_has_user():
+        user_obj = Utils.create_user_obj()
+        search = user_obj.search_list_users()
+        result_count = search.result_count
+        return result_count > 0
+
+    def check_has_orgao():
+        orgao_obj = Utils.create_orgao_obj()
+        search = orgao_obj.search_list_orgaos()
+        result_count = search.result_count
+        return result_count > 0

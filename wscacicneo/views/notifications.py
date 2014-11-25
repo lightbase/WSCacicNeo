@@ -38,9 +38,11 @@ class Notifications(object):
             notify_type = type_map[self.request.params['type']]
         else:
             notify_type = None
-        reg = notify_obj.search_list_notify(notify_type)
+        usuario_autenticado = Utils.retorna_usuario_autenticado(
+            email=self.request.authenticated_userid)
+        reg = notify_obj.search_list_notify(notify_type,
+            usuario_autenticado.results[0])
         doc = reg.results
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
         return {
             'doc': doc,
             'usuario_autenticado':usuario_autenticado
@@ -54,16 +56,18 @@ class Notifications(object):
             coment = 'sadasd',
             status = 'sadasd'
         )
+        user = Utils.retorna_usuario_autenticado(
+            email=self.request.authenticated_userid).results[0]
         response = {
-            'type-1': notify_obj.get_count('Erro na Coleta'),
-            'type-2': notify_obj.get_count('Coleta Desatualizada'),
-            'type-3': notify_obj.get_count('Outros')}
+            'type-1': notify_obj.get_count(user, 'Erro na Coleta'),
+            'type-2': notify_obj.get_count(user, 'Coleta Desatualizada'),
+            'type-3': notify_obj.get_count(user, 'Outros')}
         response = json.dumps(response)
         return Response(response)
 
     #@view_config(route_name='delete_notify', permission="gest")
     def delete_notify(self):
-        orgao = self.request.matchdict['orgao']
+        id = self.request.matchdict['orgao']
         notify_obj = Notify(
             orgao = 'deasdsd',
             data_coleta = 'saudhasd',
@@ -71,14 +75,12 @@ class Notifications(object):
             coment = 'sadasd',
             status = 'sadasd'
         )
-        reg = notify_obj.search_notify(orgao)
-        doc = reg.results[0]._metadata.id_doc
-        delete = notify_obj.delete_notify(doc)
+        delete = notify_obj.delete_notify(id)
         return HTTPFound(location = self.request.route_url('list_notify'))
 
     #@view_config(route_name='edit_notify', permission="gest")
     def edit_notify(self):
-        orgao = self.request.matchdict['orgao']
+        id = self.request.matchdict['orgao']
         notify_obj = Notify(
             orgao = 'deasdsd',
             data_coleta = 'saudhasd',
@@ -86,17 +88,7 @@ class Notifications(object):
             coment = 'sadasd',
             status = 'sadasd'
         )
-        reg = notify_obj.search_notify(orgao)
-        id = reg.results[0]._metadata.id_doc
-        document = {
-            'orgao' : reg.results[0].orgao,
-            'data_coleta' : reg.results[0].data_coleta,
-            'notify' : reg.results[0].notify,
-            'coment' : reg.results[0].coment,
-            'status' : 'Vizualizado'
-        }
-        doc = json.dumps(document)
-        edit = notify_obj.edit_notify(id, doc)
+        edit = notify_obj.edit_notify_attr(id, ['status'], 'Visualizado')
         return HTTPFound(location = self.request.route_url('list_notify'))
 
 

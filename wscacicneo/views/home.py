@@ -103,10 +103,9 @@ class Home(object):
             atividade_base.is_created() is False
         ):
             return HTTPFound(location=self.request.route_url("home_config_initial"))
-        user_obj = Utils.create_user_obj()
-        search = user_obj.search_list_users()
-        result_count = search.result_count
-        if(result_count == 0):
+        if not Utils.check_has_orgao():
+            return HTTPFound(location=self.request.route_url("orgao_initial"))
+        if not Utils.check_has_user():
             return HTTPFound(location=self.request.route_url("init_config_user"))
         # END CONFIGURAÇÃO INICIAL
 

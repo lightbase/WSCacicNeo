@@ -192,11 +192,13 @@ class Notify(notify_base.metaclass):
 
         return conv.document2json(notify_base.lbbase, self)
 
-    def get_count(self, notify_type):
+    def get_count(self, user, notify_type):
         search = Search(
             select=[],
             literal="document->>'notify' = '"+notify_type+"'"
         )
+        if user.permissao == 'Gestor':
+            search.literal += " AND document->>'orgao' = '"+user.orgao+"'"
         return self.documentrest.get_collection(search_obj=search).result_count
 
     def create_notify(self):
@@ -227,24 +229,30 @@ class Notify(notify_base.metaclass):
 
         return results
 
-    def search_list_notify(self, notify):
+    def search_list_notify(self, notify, user):
         """
         Retorna todos os docs da base
         """
         search = Search(
             limit=None
         )
+        if user.permissao == 'Gestor':
+            search.literal = "document->>'orgao' = '"+user.orgao+"'"
+        else:
+            search.literal = "1=1"
+
         if notify is not None:
-            search.literal = "document->>'notify' = '"+notify+"'"
+            search.literal += "AND document->>'notify' = '"+notify+"'"
+
         results = self.documentrest.get_collection(search)
 
         return results
 
-    def edit_notify(self, id, doc):
+    def edit_notify_attr(self, id, attr, value):
         """
         altera um doc ou path do doc
         """
-        results = self.documentrest.update(id, doc)
+        results = self.documentrest.update_path(id, attr, value)
 
         return results
 

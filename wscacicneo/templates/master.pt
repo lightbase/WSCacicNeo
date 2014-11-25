@@ -74,17 +74,17 @@
                            <ul class="nav nav-pills">
                               <li class="dropdown dropdown-big">
                                  <a class="dropdown-toggle" href="${request.route_url('list_notify')}?type=1">
-                                 <i class="fa fa-comments"></i> Chats <span id="notify-1" class="label label-info"></span> 
+                                 <i class="fa fa-times"></i> Erros <span id="notify-1" class="label label-danger"></span> 
                                  </a>
                               </li>
                               <li class="dropdown dropdown-big">
                                  <a class="dropdown-toggle" href="${request.route_url('list_notify')}?type=2" >
-                                 <i class="fa fa-envelope"></i> Inbox <span id="notify-2" class="label label-primary"></span> 
+                                 <i class="fa fa-refresh"></i> Desatualizados <span id="notify-2" class="label label-warning"></span> 
                                  </a>
                               </li>
                               <li class="dropdown dropdown-big">
                                  <a class="dropdown-toggle" href="${request.route_url('list_notify')}?type=3">
-                                 <i class="fa fa-user"></i> Users <span id="notify-3" class="label label-success"></span> 
+                                 <i class="fa fa-warning"></i> Outros <span id="notify-3" class="label label-default"></span> 
                                  </a>
                               </li>
                            </ul>

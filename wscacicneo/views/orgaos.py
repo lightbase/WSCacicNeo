@@ -46,6 +46,16 @@ class Orgaos(object):
                 'usuario_autenticado':usuario_autenticado
                 }
 
+    def get_orgao_initial(self):
+        if Utils.check_has_orgao(): # se tiver orgao
+            return HTTPFound(location = self.request.route_url('login'))
+        return {'api_key': uuid.uuid4()}
+
+    def post_orgao_initial(self):
+        if Utils.check_has_orgao(): # se tiver orgao
+            return HTTPFound(location = self.request.route_url('login'))
+        return self.post_orgao()
+
     def config_orgao(self):
         sigla = self.request.matchdict['sigla']
 
