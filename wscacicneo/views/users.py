@@ -424,7 +424,7 @@ class Users(object):
         edit = user_obj.edit_user(id, doc)
         return Response(edit)
 
-    #@view_config(route_name='init_config_user', renderer='../templates/init_config_user.pt')
+    #@view_config (route_name='init_config_user', renderer='../templates/init_config_user.pt')
     def init_config_user(self):
         user_obj = Utils.create_user_obj()
         search = user_obj.search_list_users()

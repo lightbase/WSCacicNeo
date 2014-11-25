@@ -27,7 +27,7 @@ class Utils:
     # Retorna verdadeiro para um email passado no qual contenha um e-mail institucional
     # no caso, quando o e-mail tiver gov.br
     def verifica_email_institucional(email):
-        if("gov.br" in email):
+        if "gov.br" in email:
             return True
         else:
             return False
@@ -101,8 +101,7 @@ class Utils:
 
     def is_base_coleta(base_obj):
         try:
-            x = base_obj["results"][0]["win32_bios"]
-            print(x)
+            search_in_doc = base_obj["results"][0]["win32_bios"]
             return True
         except:
             return False
