@@ -14,7 +14,10 @@ from wscacicneo.model import reports as model_reports
 from wscacicneo.model import atividade as model_atividade
 from wscacicneo.utils.utils import Utils
 from wscacicneo import config
-
+from pyramid.security import (
+    remember,
+    forget,
+    )
 
 class Home(object):
     """
@@ -109,23 +112,17 @@ class Home(object):
 
         # RETORNA BASE DE RELATÓRIOS
         try:
-            is_base_right = False
             base_list = Utils.return_all_bases_list()
-            num_bases = len(base_list) - 1
-            num_already_chosen = []
-            while not is_base_right:
-                chosen_base = base_list[randint(0, num_bases)]
-                if chosen_base in num_already_chosen:
-                    pass
-                else:
-                    base_obj = Utils.return_base_by_name(chosen_base)
-                    is_coleta = Utils.is_base_coleta(base_obj)
-                    if(is_coleta):
-                        right_base = base_obj
-                        is_base_right = True
+            right_base = None
+            for base in base_list:
+                base_obj = Utils.return_base_by_name(base)
+                is_coleta = Utils.is_base_coleta(base_obj)
+                if is_coleta:
+                    right_base = base
+                    break
             win32_bios = "win32_bios"
             win32_bios_manufacturer = "win32_bios_manufacturer"
-            data = model_reports.Reports(chosen_base).count_attribute(win32_bios, win32_bios_manufacturer)
+            data = model_reports.Reports(right_base).count_attribute(win32_bios, win32_bios_manufacturer)
         except:
             data = None
         # END RETORNA BASE RELATÓRIOS

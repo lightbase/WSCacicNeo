@@ -1,0 +1,33 @@
+<metal:main use-macro="load: ../master.pt">
+    <metal:content fill-slot="dash">
+        Gráfico
+    </metal:content>
+    <metal:macro fill-slot="conteudo">
+        <div class="canvas-holder" align="center">
+            <canvas id="canvas" height="400" width="500"></canvas>
+        </div>
+    </metal:macro>
+    <metal:macro fill-slot="javascript">
+        <script type="text/javascript">
+            var json = ${data}
+            var chartjsData = [];
+            var labels_list = [];
+            for (var i = 0; i < json.length; i++) {
+                labels_list.push(json[i].item_name)
+                chartjsData.push(json[i].quantidade);
+            }
+            var barChartData = {
+                labels: labels_list, datasets: [
+                    {
+                        fillColor: "rgba(0,70,0,0.5)",
+                        strokeColor: "rgba(220,220,220,1)",
+                        data: chartjsData
+
+                    }
+                ]
+            };
+            var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Bar(barChartData);
+        </script>
+
+    </metal:macro>
+</metal:main>

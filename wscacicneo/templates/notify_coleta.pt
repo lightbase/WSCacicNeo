@@ -29,7 +29,8 @@
                       <div class="col-lg-2">
                         <select id="notify" class="form-control">
                           <option>Erro na Coleta</option>
-                          <option>Coleta Dezatualizada</option>
+                          <option>Coleta Desatualizada</option>
+                          <option>Outros</option>
                         </select>
                       </div>
                     </div>
