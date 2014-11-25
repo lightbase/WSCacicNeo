@@ -316,6 +316,46 @@ class ColetaManualBase(object):
             content=Win32_LogicalDisk_content
         )
 
+        """
+        GROUP Software
+        """
+
+        software_item = Field(**dict(
+            name='software_item',
+            description='Nome do software',
+            alias='software_item',
+            datatype='Text',
+            indices=['Textual'],
+            multivalued=False,
+            required=False
+        ))
+
+        software_amount = Field(**dict(
+            name='software_amount',
+            description='Total de softwares',
+            alias='software_amount',
+            datatype='Integer',
+            indices=['Ordenado'],
+            multivalued=False,
+            required=False
+        ))
+
+
+        software_content = Content()
+        software_content.append(software_item)
+        software_content.append(software_amount)
+
+        software_metadata = GroupMetadata(
+            name='software',
+            alias='software',
+            description='Softwares disponíveis',
+            multivalued=False
+        )
+
+        software = Group(
+            content=software_content,
+            metadata=software_metadata
+        )
 
         base_metadata = BaseMetadata(
             name=self.nm_base,
@@ -329,6 +369,7 @@ class ColetaManualBase(object):
         content_list.append(Win32_PhysicalMemory)
         content_list.append(Win32_LogicalDisk)
         content_list.append(SoftwareList)
+        content_list.append(software)
 
         lbbase = Base(
             metadata=base_metadata,

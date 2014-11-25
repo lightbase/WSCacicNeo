@@ -67,6 +67,11 @@ class Relatorios(object):
                     'usuario_autenticado':usuario_autenticado
                     }
         else:
+            # Carrega base de descrições de campos
+            desc_base = descriptions.DescriptionsBase()
+            if not desc_base.is_created():
+                desc_base.create_base()
+            desc_base.load_static()
             get_base = reports_config.get_attribute(attr)
             results = get_base.results
             data = dict()
@@ -86,3 +91,10 @@ class Relatorios(object):
     # @view_config(route_name='report_home', permission="user")
     # def report_home(self):
     #     bases = requests.get("http://127.0.0.1/lbgenerator/")
+
+    def report_software(self):
+        """
+        Rota para os relatórios de software
+        """
+        orgao_nm = self.request.matchdict['nm_orgao']
+        nm_orgao = Utils.format_name(orgao_nm)

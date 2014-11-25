@@ -30,7 +30,6 @@ class Reports():
         self.base = self.coleta_manual_base.lbbase
         self.documentrest = DocumentREST(self.rest_url, self.base, response_object)
 
-
     def get_base_orgao(self):
         """
         Retorna todos os documentos da base
@@ -50,7 +49,7 @@ class Reports():
         :return:
         """
 
-        return conv.document2dict(coleta_base.lbbase, self)
+        return conv.document2dict(self.base, self)
 
     def coleta_to_json(self, document):
         """

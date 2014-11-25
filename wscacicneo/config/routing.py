@@ -152,7 +152,7 @@ def make_routes(cfg):
     cfg.add_view(users.Users, attr='init_config_user', route_name='init_config_user',
                  renderer='templates/init_config_user.pt')
 
-    # Base de Rerpot por Orgãos
+    # Base de Report por Orgãos
     cfg.add_route('create_orgao', 'create/coleta/{nm_orgao}')
     cfg.add_view(coleta.Coleta, attr='create_orgao', route_name='create_orgao',
                  permission="gest")
@@ -174,6 +174,10 @@ def make_routes(cfg):
     cfg.add_route('report_itens', 'relatorio/{nm_orgao}/{attr}/{child}')
     cfg.add_view(relatorios.Relatorios, attr='report_itens', route_name='report_itens',
                  renderer='templates/report.pt', permission="user")
+
+    cfg.add_route('report_software', 'relatorio/software/{nm_orgao}')
+    cfg.add_view(relatorios.Relatorios, attr='report_software', route_name='report_software',
+                 renderer='templates/report_software.pt', permission="user")
 
     # Autenticação
     cfg.add_route('login', 'login')

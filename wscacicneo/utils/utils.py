@@ -118,24 +118,30 @@ class Utils:
         itens = {
             "win32_processor": "win32_processor_manufacturer",
             "win32_bios": "win32_bios_manufacturer",
-            "operatingsystem" : "operatingsystem_caption",
+            "operatingsystem": "operatingsystem_caption",
             "win32_logicaldisk": "win32_logicaldisk_caption",
             "win32_physicalmemory": "win32_physicalmemory_memorytype",
+            "software": None
         }
         #try:
         for elm in itens.keys():
-             attr = elm
-             child = itens[elm]
-             data = report.count_attribute(attr, child)
-             for element in data:
-                data_json = {attr : { attr+'_item' : str(element), attr+'_amount': str(data[element])}}
+            attr = elm
+            child = itens[elm]
+            data = report.count_attribute(attr, child)
+            for element in data:
+                data_json = {
+                    attr: {
+                        attr+'_item': str(element),
+                        attr+'_amount': str(data[element])
+                    }
+                }
                 document = json.dumps(data_json)
                 reports_conf.create_coleta(document)
         return 1
         #except:
             #return 0
 
-    def create_atividade_obj():
+    def create_atividade_obj(self):
         atividade_obj = Atividade(
             tipo='Inserção',
             usuario='José',
