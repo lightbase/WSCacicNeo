@@ -143,7 +143,8 @@ class Orgaos(object):
             endereco = 'asdsad',
             email = 'asdsad',
             telefone = 'sadasd',
-            url = 'sadasd'
+            url = 'sadasd',
+            api_key=doc.get('api_key')
         )
         search = orgao_obj.search_orgao(sigla)
         id = search.results[0]._metadata.id_doc

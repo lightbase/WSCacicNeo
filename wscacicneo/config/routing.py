@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'eduardo'
 
-from ..views import home, notifications, orgaos, users, relatorios, coleta, security, api
+from ..views import home, notifications, orgaos, users, relatorios, coleta, security, api, graficos
 
 
 def make_routes(cfg):
@@ -174,6 +174,11 @@ def make_routes(cfg):
     cfg.add_route('report_itens', 'relatorio/{nm_orgao}/{attr}/{child}')
     cfg.add_view(relatorios.Relatorios, attr='report_itens', route_name='report_itens',
                  renderer='templates/report.pt', permission="user")
+
+    # Gráficos
+    cfg.add_route('graficos', 'graficos/{nm_orgao}/{attr}')
+    cfg.add_view(graficos.Graficos, attr='graficos', route_name='graficos',
+                 renderer='templates/graficos/graficos.pt')
 
     # Autenticação
     cfg.add_route('login', 'login')
