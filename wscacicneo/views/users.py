@@ -103,7 +103,10 @@ class Users(object):
     #@view_config(route_name='user', renderer='../templates/user.pt', permission='admin')
     def user(self):
         usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
-        return {'usuario_autenticado':usuario_autenticado}
+        orgao_obj = Utils.create_orgao_obj()
+        distinct_orgaos = orgao_obj.get_distinct_orgaos('nome')
+        return {'usuario_autenticado':usuario_autenticado,
+                'orgaos': distinct_orgaos.results}
 
     #@view_config(route_name='post_user', permission="admin")
     def post_user(self):
