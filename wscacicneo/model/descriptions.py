@@ -216,3 +216,62 @@ class DescriptionsBase(object):
         self.remove_base()
         self.create_base()
         self.documentrest.create(document_json)
+
+desc = DescriptionsBase()
+
+
+class Desc(desc.metaclass):
+    """
+    Classe genérica de órgãos
+    """
+    def __init__(self, **args):
+        super(Desc, self).__init__(**args)
+        self.documentrest = desc.documentrest
+
+    @property
+    def coleta(self):
+        """
+        Tempo de coleta
+        :return: Retorna o valor gravado ou o mínimo de 3 horas
+        """
+        col = desc.metaclass.coleta.__get__(self)
+        if col is None:
+            return 3
+        else:
+            return col
+
+    @coleta.setter
+    def coleta(self, value):
+        """
+        Setter
+        """
+        value = int(value)
+        desc.metaclass.coleta.__set__(self, value)
+
+    def desc_to_dict(self):
+        """
+        Convert status object to Python dict
+        :return:
+        """
+
+        return conv.document2dict(desc.lbbase, self)
+
+    def desc_to_json(self):
+        """
+        Convert object to json
+        :return:
+        """
+
+        return conv.document2json(desc.lbbase, self)
+
+    def search_desc(self, attr):
+       """
+       Executa uma Busca na Base
+       """
+       search = Search(
+           select = [attr]
+       )
+       results = self.documentrest.get_collection(search_obj=search)
+
+       return results
+
