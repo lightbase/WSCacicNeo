@@ -13,10 +13,17 @@
                             <div class="widget-icons pull-right">
                                 <a href="#" id="print" title="Imprimir Tabela"><i class="fa fa-print"></i></a>
                                 <a href="${request.route_url('root')}graficos/}${request.matchdict['nm_orgao']}/${request.matchdict['attr']}" id="grafico" title="Gerar Gráfico"><i class="fa fa-bar-chart-o"></i></a>
+                                <a href="#" id="plus-home" title="Adicionar na Home"><i class="fa fa-plus-circle"></i></a>
                             </div>
                             <div class="clearfix"></div>
                         </div>
                         <div class="widget-content">
+                            <div id="error-message" class="alert alert-warning" style="display:none">
+                                Operação realizada com erro!
+                            </div>
+                            <div id="success-message" class="alert alert-success"  style="display:none">
+                                Operação realizada com sucesso!
+                            </div>
                             <div class="padd">
                                 <div class="page-tables">
                                     <div class="table-responsive ">
@@ -95,6 +102,25 @@
 
                }
             });
+
+
+            $('#plus-home').click(function(){
+                var data = {
+                    report_name: "${report_name}"
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "${request.route_url('add_user_home_report')}",
+                    data: data, 
+                    success: function(){        
+                        $('#success-message').show();
+                    },
+                    error: function(){
+                        $('#error-message').show();
+                    }
+                }); 
+            });
+
         });
         </script>
 </metal:content>
