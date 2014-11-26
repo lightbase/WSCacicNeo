@@ -144,7 +144,7 @@ class Utils:
     @staticmethod
     def create_atividade_obj():
         atividade_obj = Atividade(
-            tipo='Inserção',
+            tipo='atividade',
             usuario='José',
             descricao='breve descrição',
             data='22/03/2014'

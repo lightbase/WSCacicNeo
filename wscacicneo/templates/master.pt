@@ -69,7 +69,7 @@
 							</div>
 							<!-- Logo ends -->
 						</div>
-                        <div class="col-md-4">
+                        <div tal:condition="request.authenticated_userid" class="col-md-4">
                            <!-- Buttons -->
                            <ul class="nav nav-pills">
                               <li class="dropdown dropdown-big">
@@ -173,6 +173,7 @@
 					    }
 					}
 
+                <script tal:condition="request.authenticated_userid">
                     $(document).ready(function(){
                         $.ajax({
                             type:"GET",
