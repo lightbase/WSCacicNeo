@@ -3,45 +3,84 @@
         Gráficos
     </metal:content>
     <metal:macro fill-slot="conteudo">
-        <div class="canvas-holder pull-left">
-            <canvas id="barChart" height="400" width="400"></canvas>
-        </div>
-        <div class="canvas-holder pull-left">
-            <canvas id="pieChart" height="300" width="300"></canvas>
+        <div class="widget-content">
+            <div class="padd">
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div id="pie-chart"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <div id="pie-chart2"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <div id="pie-chart3"></div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </metal:macro>
     <metal:macro fill-slot="javascript">
 
         <script type="text/javascript">
-            var optionsPie = {
-                animation: true
-            };
-            //Get the context of the canvas element for PieChart
-            var c = $('#pieChart');
-            var ct = c.get(0).getContext('2d');
-            var ctx = document.getElementById("pieChart").getContext("2d");
-            /*************************************************************************/
-            var data = ${data}
-            var chartjsData = [];
-            var labels_list = [];
-            for (var i = 0; i < data.length; i++) {
-                labels_list.push(data[i].label)
-                chartjsData.push(data[i].value);
-            }
-            var barChartData = {
-                labels: labels_list, datasets: [
-                    {
-                        fillColor: "${random_color}",
-                        strokeColor: "rgba(220,220,220,1)",
-                        data: chartjsData
 
-                    }
-                ]
-            };
+            /* Pie chart starts */
 
-            /**********************************************************************/
-            var myLine = new Chart(document.getElementById("barChart").getContext("2d")).Bar(barChartData);
-            myNewChart = new Chart(ct).Pie(data, optionsPie);
+            $(function () {
+
+                var data = ${data};
+
+                $.plot($("#pie-chart"), data,
+                        {
+                            series: {
+                                pie: {
+                                    show: true,
+                                    radius: 1,
+                                    label: {
+                                        show: true,
+                                        radius: 3 / 4,
+                                        formatter: function (label, series) {
+                                            return '<div style="font-size:8pt;text-align:center;padding:2px;color:white;">' + label + '<br/>' + Math.round(series.percent) + '%</div>';
+                                        },
+                                        background: {opacity: 0},
+                                    }
+                                }
+                            },
+                            grid: {hoverable: true},
+                            legend: {
+                                show: false
+                            }
+                        });
+
+                $.plot($("#pie-chart2"), data,
+                        {
+                            series: {
+                                pie: {
+                                    show: true
+                                }
+                            },
+                            grid: {hoverable: true}
+                        });
+
+
+                $.plot($("#pie-chart3"), data,
+                        {
+                            series: {
+                                pie: {
+                                    show: true
+                                }
+                            },
+                            grid: {hoverable: true},
+                            legend: {
+                                show: false
+                            }
+                        });
+
+                /* Pie chart ends */
+
+            });
+
         </script>
 
     </metal:macro>

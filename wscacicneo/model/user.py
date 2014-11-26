@@ -137,6 +137,15 @@ class UserBase():
                     multivalued=True,
                     required=False
         ))
+        home = Field(**dict(
+                    name='home',
+                    alias='home',
+                    description='Home do Usuário',
+                    datatype='Text',
+                    indices=['Textual'],
+                    multivalued=True,
+                    required=False
+        ))
         itens = Field(**dict(
                     name='itens',
                     alias='itens',
@@ -162,6 +171,7 @@ class UserBase():
         content_list.append(permissao)
         content_list.append(senha)
         content_list.append(favoritos)
+        content_list.append(home)
         content_list.append(itens)
 
         lbbase = Base(
@@ -342,3 +352,17 @@ class User(user_base.metaclass):
         results = self.documentrest.get_collection(search_obj=search)
 
         return results
+
+    def add_home_report(self, report_name, userid):
+        print(333333333333333333333333333333333333)
+        print(report_name)
+        print(userid)
+        search = Search(
+            literal="document->>'email' = '"+userid+"'"
+        )
+        results = self.documentrest.get_collection(search_obj=search)
+
+
+
+
+
