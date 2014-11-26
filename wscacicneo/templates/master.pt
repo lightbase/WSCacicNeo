@@ -172,6 +172,7 @@
 					      window.location.href = "${request.route_url('list_notify')}";
 					    }
 					}
+				</script>
 
                 <script tal:condition="request.authenticated_userid">
                     $(document).ready(function(){

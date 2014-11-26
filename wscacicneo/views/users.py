@@ -104,7 +104,7 @@ class Users(object):
     def user(self):
         usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
         orgao_obj = Utils.create_orgao_obj()
-        distinct_orgaos = orgao_obj.get_distinct_orgaos('nome')
+        distinct_orgaos = orgao_obj.get_distinct_orgaos("document->>'nome'")
         return {'usuario_autenticado':usuario_autenticado,
                 'orgaos': distinct_orgaos.results}
 
