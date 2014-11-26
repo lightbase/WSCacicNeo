@@ -65,7 +65,8 @@ class Relatorios(object):
             data = Reports(nm_orgao).count_attribute(attr, child)
             usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
             return {'data': data,
-                    'usuario_autenticado':usuario_autenticado
+                    'usuario_autenticado':usuario_autenticado,
+                    'report_name': attr
                     }
         else:
             # Carrega base de descrições de campos
@@ -86,7 +87,8 @@ class Relatorios(object):
             usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
             return {
                     'data': data,
-                    'usuario_autenticado':usuario_autenticado
+                    'usuario_autenticado':usuario_autenticado,
+                    'report_name': attr
                     }
 
     def put_reports(self):

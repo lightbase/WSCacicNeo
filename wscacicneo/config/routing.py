@@ -82,6 +82,10 @@ def make_routes(cfg):
     cfg.add_view(users.Users, attr='user', route_name='user',
                  renderer='templates/user.pt', permission='admin')
 
+    cfg.add_route('add_user_home_report', 'add_user_home_report')
+    cfg.add_view(users.Users, attr='add_user_home_report', route_name='add_user_home_report',
+                 permission="user", request_method='POST')
+
     cfg.add_route('post_user', 'post_user')
     cfg.add_view(users.Users, attr='post_user', route_name='post_user',
                  permission="admin")

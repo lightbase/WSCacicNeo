@@ -14,6 +14,7 @@ from liblightbase.lbbase.content import Content
 from liblightbase.lbrest.base import BaseREST
 from liblightbase.lbrest.document import DocumentREST
 from liblightbase.lbutils import conv
+from liblightbase.lbutils.codecs import json2object
 from liblightbase.lbsearch.search import Search, OrderBy
 
 log = logging.getLogger()
@@ -194,8 +195,8 @@ class DescriptionsBase(object):
             # Carrega valor do JSON para cada um ds grupos
             filename = self.data_dir + group + ".json"
             log.debug("Caminho completo do arquivo para carga: %s", filename)
-            fd = open(filename, 'r')
-            value = json.load(fd)
+            with open(filename, 'r', encoding='utf-8') as fd:
+                value = json.loads(fd.read())
             #log.debug(value)
             for elm in value:
                 #log.debug("111111111111111111111111111111")
