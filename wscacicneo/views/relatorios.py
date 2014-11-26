@@ -148,7 +148,6 @@ class Relatorios(object):
             desc_base.load_static()
 
             insert_reports = Utils().create_report(nm_orgao)
-            print(insert_reports)
             data = Reports(nm_orgao).count_attribute(attr, child)
             usuario_autenticado = Utils.retorna_usuario_autenticado(
                 email=self.request.authenticated_userid

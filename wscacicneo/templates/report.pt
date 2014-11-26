@@ -30,8 +30,8 @@
                                             <tbody>
                                                 <tr class="active" tal:repeat="k data.keys()">
                                                     <td>${k}</td>
-                                                    <td data-type="text"  href="#myModal" data-toggle="modal"><a href="#myModal" data-type="text">${data[k]}</a></td>
-                                                    <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                                    <td data-type="text"  href="#${k}a" data-toggle="modal"><a href="#myModal" data-type="text">${data[k]}</a></td>
+                                                    <div id="${k}a" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                                                         <div class="modal-dialog">
                                                         <div class="modal-content">
                                                         <div class="modal-header">
@@ -90,7 +90,7 @@
                     url: "${request.route_url('root')}put_reports",
                     data: data, 
                     success: function(){location.reload();   },
-                    error: function(){ alert('Erro ao realizar o cadastro. Todos os campos são obrigatórios') }
+                    error: function(){ alert('error')}
                 }); 
 
                }

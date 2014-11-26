@@ -128,8 +128,10 @@ class ConfReports():
         """
         data = ['']
         search = Search(
+            limit= 1,
             literal="document->'"+group+"'->>'"+item+"' = '"+valor+"'"
         )
+        print(search._asdict())
         results = self.documentrest.get_collection(search_obj=search)
 
         return results
