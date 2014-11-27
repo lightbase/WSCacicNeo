@@ -1,4 +1,4 @@
-  <div class="sidebar" tal:condition="usuario_autenticado == None " >
+<div class="sidebar" tal:condition="usuario_autenticado == None " >
     <div class="sidebar-dropdown"><a href="#">Navegação</a></div>
       <ul id="nav">
             <li><a href="${request.route_url('root')}home">
@@ -14,7 +14,7 @@
                 </i> Login</a>
             </li>
       </ul>
-  </div>
+</div>
 
 <div tal:condition="usuario_autenticado != None">
 

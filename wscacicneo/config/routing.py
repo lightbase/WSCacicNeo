@@ -218,7 +218,7 @@ def make_routes(cfg):
                  permission="user")
 
     # REST API
-    cfg.add_route('orgao_config', 'api/orgaos/{orgao}', request_method='GET')
+    cfg.add_route('orgao_config', 'api/orgaos/{orgao}{path:.*}', request_method='GET')
     cfg.add_view(api.Api, attr='orgao_config', route_name='orgao_config',
                  permission='user')
 
@@ -235,11 +235,14 @@ def make_routes(cfg):
                  permission='user')
 
     # Rotas públicas
-    cfg.add_route('orgao_coleta', 'api/{orgao}', request_method='GET')
-    cfg.add_view(api.Api, attr='orgao_coleta', route_name='orgao_coleta')
+    cfg.add_route('api_doc', 'api/doc{path:.*}', request_method='GET')
+    cfg.add_view(api.Api, attr='api_doc', route_name='api_doc')
 
-    cfg.add_route('orgao_relatorio', 'api/{orgao}/relatorios', request_method='GET')
+    cfg.add_route('orgao_relatorio', 'api/relatorios/{orgao}{path:.*}', request_method='GET')
     cfg.add_view(api.Api, attr='orgao_relatorio', route_name='orgao_relatorio')
+
+    cfg.add_route('orgao_coleta', 'api/{orgao}{path:.*}', request_method='GET')
+    cfg.add_view(api.Api, attr='orgao_coleta', route_name='orgao_coleta')
 
     cfg.add_route('json2csv', 'json2csv', request_method='GET')
     cfg.add_view(json2csv, route_name='json2csv')

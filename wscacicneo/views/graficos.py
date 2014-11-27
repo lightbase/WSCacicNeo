@@ -37,7 +37,7 @@ class Graficos():
             amount = getattr(parent, attr + '_amount')
             data.append({"label": item, "data": int(amount), "color": color_list[chosen_color]})
             chosen_color += 1
-            if chosen_color > len(color_list):
+            if chosen_color >= len(color_list):
                 chosen_color = 0
         return {"data": data,
                 "usuario_autenticado": usuario_autenticado,

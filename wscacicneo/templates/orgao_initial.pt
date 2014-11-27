@@ -1,6 +1,6 @@
 <metal:main use-macro="load: config_initial_master.pt">
   <metal:content fill-slot="dash">
-      Cadastrar Orgão      
+      Cadastrar Orgão
     </metal:content>
 	<metal:content fill-slot="conteudo">
     <div class="alert alert-warning">
@@ -113,10 +113,10 @@
                 $.ajax({
                     type: "POST",
                     url: "${request.route_url('root')}orgao_inicial",
-                    data: data, 
+                    data: data,
                     success: function(){alert("Cadastro realizado com sucesso"), window.location.href = "${request.route_url('home')}";   },
                     error: function(){ alert('Erro ao realizar o cadastro. Todos os campos são obrigatórios') }
-                }); 
+                });
             });
         </script>
     </metal:content>
