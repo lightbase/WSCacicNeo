@@ -10,7 +10,7 @@
                 <div class="form-group">
                   <label class="col-lg-2 control-label">Nome do Órgão</label>
                   <div class="col-lg-5">
-                    <input type="text" name='pretty_name' readonly id="pretty_name" class="form-control" value="${nome}" placeholder="Nome do Órgão">
+                    <input type="text" name='pretty_name' id="pretty_name" class="form-control" value="${pretty_name}" placeholder="Nome do Órgão">
                   </div>
                 </div>
                 <div class="form-group">
@@ -53,6 +53,13 @@
                   </div>
                 </div>
                 <div class="form-group">
+                  <label class="col-lg-2 control-label">Sigla:</label>
+                  <div class="col-lg-2">
+                    <input type="text" name='sigla' id="sigla" class="form-control" value="${sigla}" placeholder="Sigla" readonly>
+                  </div>
+                  <span><i class="fa fa-info"></i> <b>IMPORTANTE</b>: Esse e o nome do orgao que deve ser informado ao WSCBot</span>
+                </div>
+                <div class="form-group">
                   <div class="col-lg-offset-2 col-lg-6">
                     <button type="button" id="enviar" class="btn btn-sm" style="margin-left: 315px;" >Enviar</button>
                     <input style="display:none;" id="id" value="${request.matchdict['sigla']}">
@@ -60,7 +67,6 @@
                   </div>
                 </div>
                 <input type="hidden" id="telefone" value="${telefone}">
-                <input type="hidden" id="sigla" value="${sigla}">
                 <input type="hidden" id="cargo" value="${cargo}">
                 <input type="hidden" id="gestor" value="${gestor}">
                 <input type="hidden" id="end" value="${endereco}">
@@ -115,8 +121,8 @@
                     type: "PUT",
                     url: "${request.route_url('root')}put_orgao",
                     data: data, 
-                    success: function(){alert("Aleteração realizado com sucesso"), window.location.href = "${request.route_url('listorgao')}";   },
-                    error: function(){ alert('Erro ao alterar o orgão. Todos os campos são obrigatórios') },
+                    success: function(){alert("Alteração realizado com sucesso"), window.location.href = "${request.route_url('listorgao')}";   },
+                    error: function(){ alert('Erro ao alterar o orgão. Todos os campos são obrigatórios') }
                 }); 
             });
         </script>

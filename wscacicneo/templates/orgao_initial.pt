@@ -36,9 +36,10 @@
                 </div>
                 <div class="form-group">
                   <label class="col-lg-2 control-label">Sigla *:</label>
-                  <div class="col-lg-5">
+                  <div class="col-lg-2">
                     <input type="text" id="sigla" class="form-control" placeholder="Sigla">
                   </div>
+                  <span><i class="fa fa-info"></i> <b>IMPORTANTE</b>: Esse e o nome do orgao que deve ser informado ao WSCBot</span>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Endereço *:</label>

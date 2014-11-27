@@ -29,7 +29,7 @@
                                                         </thead>
                                                         <tbody>
                                                             <tr tal:repeat="doc orgao_doc">
-                                                                <td>${doc.nome}</td>
+                                                                <td>${doc.pretty_name}</td>
                                                                 <td>${doc.sigla}</td>
                                                                 <td>${doc.endereco}</td>
                                                                 <td>${doc.email}</td>
