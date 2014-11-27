@@ -13,7 +13,9 @@ from wscacicneo.model import notify as model_notify
 from wscacicneo.model import reports as model_reports
 from wscacicneo.model import atividade as model_atividade
 from wscacicneo.utils.utils import Utils
+from wscacicneo.model import config_reports
 from wscacicneo import config
+from liblightbase.lbsearch.search import NullDocument
 from pyramid.security import (
     remember,
     forget,
@@ -132,8 +134,34 @@ class Home(object):
         doc_atividade = atividade_obj.search_list_atividades(limit_registros)
         # END RETORNA BASE DE ATIVIDADES
 
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
+
+        usuario_autenticado = Utils.retorna_usuario_autenticado(
+            email=self.request.authenticated_userid)
+
+        # Relatórios personalizados
+        report_data = [ ]
+        if usuario_autenticado and hasattr(usuario_autenticado.results[0], 'home'):
+            for home_report_attr in set(usuario_autenticado.results[0].home):
+                report_data.append(
+                    (home_report_attr, self.get_user_report_data_by_attr(
+                    usuario_autenticado.results[0], home_report_attr))
+                )
+
         return {'usuario_autenticado': usuario_autenticado,
                 'base_doc': data,
-                'doc_atividade': doc_atividade.results
+                'doc_atividade': doc_atividade.results,
+                'report_data': report_data,
         }
+
+    def get_user_report_data_by_attr(self, user, attr):
+        reports_config = config_reports.ConfReports(user.orgao)
+        results = reports_config.get_attribute(attr).results
+        report_data = dict()
+        for elm in results:
+            if isinstance(elm, NullDocument):
+                continue
+            parent = getattr(elm, attr)
+            item = getattr(parent, attr + '_item')
+            amount = getattr(parent, attr + '_amount')
+            report_data[item] = amount
+        return report_data

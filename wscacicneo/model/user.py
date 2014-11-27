@@ -354,13 +354,19 @@ class User(user_base.metaclass):
         return results
 
     def add_home_report(self, report_name, userid):
-        print(333333333333333333333333333333333333)
-        print(report_name)
-        print(userid)
         search = Search(
             literal="document->>'email' = '"+userid+"'"
         )
-        results = self.documentrest.get_collection(search_obj=search)
+        path_list=[
+            {
+              "path": "home",
+              "mode": "insert",
+              "fn": None,
+              "args": [report_name]
+            }
+        ]
+        results = self.documentrest.update_collection(
+            search_obj=search, path_list=path_list)
 
 
 
