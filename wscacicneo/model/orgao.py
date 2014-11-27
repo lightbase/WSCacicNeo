@@ -48,6 +48,16 @@ class OrgaoBase(object):
             required=True
         ))
 
+        pretty_name = Field(**dict(
+            name='pretty_name',
+            description='Nome do órgão',
+            alias='pretty_name',
+            datatype='Text',
+            indices=['Textual'],
+            multivalued=False,
+            required=True
+        ))
+
         sigla = Field(**dict(
             name='sigla',
             alias='sigla',
@@ -164,6 +174,7 @@ class OrgaoBase(object):
 
         content_list = Content()
         content_list.append(nome)
+        content_list.append(pretty_name)
         content_list.append(sigla)
         content_list.append(gestor)
         content_list.append(cargo)

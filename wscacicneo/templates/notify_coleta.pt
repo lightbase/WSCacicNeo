@@ -11,10 +11,10 @@
                 <form class="form-horizontal" style="margin-top: 20px;" role="form">
                     <div class="form-group">
                         <label class="col-lg-2 control-label">* Órgão:</label>
-                        <div class="col-lg-2">
+                        <div class="col-lg-4">
                             <select  id="orgao" class="form-control">
                                 <option></option>
-                                <option tal:repeat="doc orgao_doc">${doc.nome}</option>
+                                <option tal:repeat="doc orgao_doc" value="${doc.nome}">${doc.pretty_name}</option>
                             </select>
                         </div>
                     </div>

@@ -10,7 +10,7 @@
                 <div class="form-group">
                   <label class="col-lg-2 control-label">Nome do Órgão</label>
                   <div class="col-lg-5">
-                    <input type="text" name='nome' readonly id="nome" class="form-control" value="${nome}" placeholder="Nome do Órgão">
+                    <input type="text" name='pretty_name' readonly id="pretty_name" class="form-control" value="${nome}" placeholder="Nome do Órgão">
                   </div>
                 </div>
                 <div class="form-group">
@@ -72,7 +72,7 @@
 	<metal:content fill-slot="javascript">
         <script type="text/javascript">
            $('#limpar').click(function(){
-                    $('#nome').val('')
+                    $('#pretty_name').val('')
                     $('#email').val('')
                     $('#telefone').val('')
                     $('#gestor').val('')
@@ -84,7 +84,7 @@
                     $('#api_key').val('')
            });
            $('#enviar').click(function(){
-                var nome = $('#nome').val()
+                var pretty_name = $('#pretty_name').val()
                     email = $('#email').val()
                     telefone = $('#telefone').val()
                     gestor = $('#gestor').val()
@@ -99,7 +99,7 @@
     
                 var data = {
                     'id': id,
-                    'nome': nome,
+                    'pretty_name': pretty_name,
                     'email': email,
                     'telefone': telefone,
                     'gestor': gestor,

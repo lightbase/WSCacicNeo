@@ -38,7 +38,7 @@
                   <label class="col-lg-2 control-label">* Orgão:</label>
                   <div class="col-lg-5">
                     <select id="orgao" class="form-control">
-                      <option tal:repeat="orgao orgaos">${orgao.nome}</option>
+                      <option tal:repeat="orgao orgaos" value="${orgao.nome}">${orgao.pretty_name}</option>
                     </select>
                   </div>
                 </div>

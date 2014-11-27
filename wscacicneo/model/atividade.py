@@ -232,8 +232,10 @@ class Atividade(atividade_base.metaclass):
         """
         Retorna todos os docs da base
         """
+        orderby = OrderBy(desc=['data'])
         search = Search(
-            limit=limit_docs
+            limit=limit_docs,
+            order_by=orderby
         )
         results = self.documentrest.get_collection(search)
 

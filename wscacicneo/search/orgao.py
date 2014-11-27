@@ -55,6 +55,7 @@ class SearchOrgao(object):
                 doc = r_json['results'][0]
                 orgao_obj = orgao.Orgao(
                     nome=doc.get('nome'),
+                    pretty_name=doc.get('pretty_name'),
                     gestor=doc.get('gestor'),
                     cargo=doc.get('cargo'),
                     coleta=doc.get('coleta'),
@@ -108,6 +109,7 @@ class SearchOrgao(object):
                 doc = result
                 orgao_obj = orgao.Orgao(
                     nome=doc.get('nome'),
+                    pretty_name=doc.get('pretty_name'),
                     gestor=doc.get('gestor'),
                     cargo=doc.get('cargo'),
                     coleta=doc.get('coleta'),

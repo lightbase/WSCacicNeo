@@ -10,7 +10,7 @@
                 <div class="form-group">
                   <label class="col-lg-2 control-label">Nome do Órgão</label>
                   <div class="col-lg-5">
-                    <input type="text" name='nome' id="nome" class="form-control" value="${nome}" placeholder="Nome do Órgão">
+                    <input type="text" name='pretty_name' id="pretty_name" class="form-control" value="${pretty_name}" placeholder="Nome do Órgão">
                   </div>
                 </div>
                 <div class="form-group">
@@ -107,7 +107,7 @@
 	<metal:content fill-slot="javascript">
         <script type="text/javascript">
            $('#limpar').click(function(){
-                    $('#nome').val('')
+                    $('#pretty_name').val('')
                     $('#email').val('')
                     $('#telefone').val('')
                     $('#gestor').val('')
@@ -117,7 +117,7 @@
                     $('#end').val('')
            });
            $('#enviar').click(function(){
-                var nome = $('#nome').val()
+                var pretty_name = $('#pretty_name').val()
                     email = $('#email').val()
                     telefone = $('#telefone').val()
                     gestor = $('#gestor').val()
@@ -132,7 +132,7 @@
     
                 var data = {
                     'id': id,
-                    'nome': nome,
+                    'pretty_name': pretty_name,
                     'email': email,
                     'telefone': telefone,
                     'gestor': gestor,
@@ -149,7 +149,7 @@
                     url: "${request.route_url('root')}put_orgao",
                     data: data, 
                     success: function(){alert("Aleteração realizado com sucesso"), window.location.href = "${request.route_url('listorgao')}";   },
-                    error: function(){ alert('Erro ao alterar o orgão. Todos os campos são obrigatórios') },
+                    error: function(){ alert('Erro ao alterar o orgão. Todos os campos são obrigatórios') }
                 }); 
             });
         </script>

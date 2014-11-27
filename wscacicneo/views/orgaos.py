@@ -31,16 +31,17 @@ class Orgaos(object):
 
     def listorgao(self):
         orgao_obj = Orgao(
-            nome = 'sahuds',
-            cargo = 'cargo',
-            gestor = 'gestor',
-            coleta = '4',
-            sigla = 'MPOG',
-            endereco = 'Esplanada bloco C',
-            email = 'admin@planemaneto.gov.br',
-            telefone = '(61) 2025-4117',
-            url = 'http://api.brlight.net/api',
-            api_key = '12242142141'
+            nome='sahuds',
+            pretty_name='dg dçskg sdgk ds',
+            cargo='cargo',
+            gestor='gestor',
+            coleta='4',
+            sigla='MPOG',
+            endereco='Esplanada bloco C',
+            email='admin@planemaneto.gov.br',
+            telefone='(61) 2025-4117',
+            url='http://api.brlight.net/api',
+            api_key='12242142141'
         )
         search = orgao_obj.search_list_orgaos()
         usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
@@ -98,8 +99,10 @@ class Orgaos(object):
         rest_url = config.REST_URL
         orgaobase = model_orgao.OrgaoBase().lbbase
         doc = self.request.params
+        nome_base = Utils.format_name(doc.get('sigla'))
         orgao_obj = Orgao(
-            nome=doc.get('nome'),
+            nome=nome_base,
+            pretty_name=doc.get('pretty_name'),
             cargo=doc.get('cargo'),
             gestor=doc.get('gestor'),
             coleta=int(doc.get('coleta')),
@@ -111,11 +114,16 @@ class Orgaos(object):
             habilitar_bot=ast.literal_eval(doc.get('habilitar_bot')),
             api_key=doc.get('api_key')
         )
-        usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.authenticated_userid)
+        try:
+            usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.authenticated_userid)
+            user = usuario_autenticado.results[0].nome
+        except IndexError:
+            user = 'Sistema'
+
         at = atividade.Atividade(
-            tipo='Cadastro',
-            usuario=usuario_autenticado.results[0].nome,
-            descricao='Cadastrou o órgão '+ doc['nome'],
+            tipo='insert',
+            usuario=user,
+            descricao='Cadastrou o órgão ' + nome_base,
             data=datetime.datetime.now()
         )
         at.create_atividade()
@@ -128,12 +136,14 @@ class Orgaos(object):
         """
         doc = self.request.params
         sigla = doc['id']
+        nome_base = Utils.format_name(doc.get('sigla'))
         orgao_obj = Orgao(
-            nome=doc.get('nome'),
+            nome=nome_base,
+            pretty_name=doc.get('pretty_name'),
             gestor=doc.get('gestor'),
             cargo=doc.get('cargo'),
             coleta=int(doc.get('coleta')),
-            sigla=doc.get('sigla'),
+            sigla=nome_base,
             endereco=doc.get('end'),
             email=doc.get('email'),
             telefone=doc.get('telefone'),
@@ -145,7 +155,7 @@ class Orgaos(object):
         at = atividade.Atividade(
             tipo='put',
             usuario=usuario_autenticado.results[0].nome,
-            descricao='Alterou o órgão '+ doc['nome'],
+            descricao='Alterou o órgão ' + nome_base,
             data=datetime.datetime.now()
         )
         at.create_atividade()
@@ -164,6 +174,7 @@ class Orgaos(object):
         sigla = self.request.matchdict['sigla']
         orgao_obj = Orgao(
             nome = 'asdasd',
+            pretty_name='slfkslfkdlsgk',
             gestor= 'gestor',
             cargo = 'asdasdasd',
             coleta = '3',
@@ -178,7 +189,7 @@ class Orgaos(object):
         at = atividade.Atividade(
             tipo='delete',
             usuario=usuario_autenticado.results[0].nome,
-            descricao='Deletou o órgão '+ sigla,
+            descricao='Removeu o órgão '+ sigla,
             data=datetime.datetime.now()
         )
         at.create_atividade()

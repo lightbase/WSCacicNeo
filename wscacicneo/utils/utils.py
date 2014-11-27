@@ -47,6 +47,7 @@ class Utils:
     def create_user_obj():
         user_obj = User(
             nome = 'usuario',
+            pretty_name='wfçdfdsçv',
             matricula = '000000',
             email = 'usuario@gov.br',
             orgao = 'mpog',
@@ -75,6 +76,7 @@ class Utils:
     def create_orgao_obj():
         orgao_obj = Orgao(
             nome='Orgao',
+            pretty_name='wfçdfdsçv',
             cargo='Cargo',
             coleta=60,
             sigla='MPOG',

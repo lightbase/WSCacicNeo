@@ -107,8 +107,10 @@ class Users(object):
         usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
         orgao_obj = Utils.create_orgao_obj()
         distinct_orgaos = orgao_obj.get_distinct_orgaos("document->>'nome'")
-        return {'usuario_autenticado':usuario_autenticado,
-                'orgaos': distinct_orgaos.results}
+        return {
+            'usuario_autenticado':usuario_autenticado,
+            'orgaos': distinct_orgaos.results
+        }
 
     #@view_config(route_name='post_user', permission="admin")
     def post_user(self):
@@ -186,6 +188,14 @@ class Users(object):
                     itens = itens
                 )
                 id_doc = user_obj.create_user()
+
+                at = atividade.Atividade(
+                    tipo='insert',
+                    usuario='Sistema',
+                    descricao='Cadastrou o usuário '+ doc['nome'],
+                    data=datetime.datetime.now()
+                )
+                at.create_atividade()
 
                 return Response(str(id_doc))
             else:
@@ -340,7 +350,6 @@ class Users(object):
         else:
             return HTTPFound(location = self.request.route_url('listuser'))
 
-
     #@view_config(route_name='edit_profile_user', renderer='../templates/editarperfil.pt', permission="gest")
     def edit_profile_user(self):
         matricula = self.request.matchdict['matricula']
@@ -460,7 +469,12 @@ class Users(object):
         if Utils.check_has_user():
             return HTTPFound(location = self.request.route_url('login'))
         usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
-        return {'usuario_autenticado':usuario_autenticado}
+        orgao_obj = Utils.create_orgao_obj()
+        distinct_orgaos = orgao_obj.get_distinct_orgaos("document->>'nome'")
+        return {
+            'usuario_autenticado': usuario_autenticado,
+            'orgaos': distinct_orgaos.results
+        }
 
     def add_user_home_report(self):
         user_obj = Utils.create_user_obj()
