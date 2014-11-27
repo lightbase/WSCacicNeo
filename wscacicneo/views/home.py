@@ -155,6 +155,8 @@ class Home(object):
         }
 
     def get_user_report_data_by_attr(self, user, attr):
+        if attr == 'software':
+            attr = 'softwarelist'
         reports_config = config_reports.ConfReports(user.orgao)
         results = reports_config.get_attribute(attr).results
         report_data = dict()
