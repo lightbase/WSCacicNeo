@@ -158,3 +158,27 @@ class Relatorios(object):
                 'data': data,
                 'usuario_autenticado':usuario_autenticado
             }
+
+    def post_reports(self):
+        """
+        Insere dados na base de relatorios
+        """
+        data = self.request.params
+        attr = data['attr']
+        orgao = data['base']
+        item = data['item']
+        value = data['value']
+        nm_orgao = Utils.format_name(orgao)
+        dumps = {attr : {attr+'_item': str(item), attr+'_amount': str(value)}}
+        document = json.dumps(dumps)
+        reports_config = config_reports.ConfReports(nm_orgao)
+        response = reports_config.create_coleta(document)
+
+        return Response(str(response))
+
+    def delete_reports(self):
+        nm_base = self.request.params['base']
+        base = base_reports.ReportsBase(nm_base)
+        results = base.remove_base()
+
+        return Response(str(results))

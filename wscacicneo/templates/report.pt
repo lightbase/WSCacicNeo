@@ -1,6 +1,6 @@
 <metal:main use-macro="load: master.pt">
     <metal:content fill-slot="dash">
-      Relatórios      
+      Relatórios
   </metal:content>
   <metal:content fill-slot="conteudo">
     <div class="matter">
@@ -11,6 +11,8 @@
                         <div class="widget-head">
                             <div class="pull-left">Relatório ${request.matchdict['attr']}</div>
                             <div class="widget-icons pull-right">
+                                <a href="#" id="delete" title="Atualizar Relatorio"><i class="fa fa-refresh"></i></a>
+                                <a href="#" id="add" href="#modal" data-toggle="modal" title="Adicionar novo item no relatorio"><i href="#modal" data-toggle="modal" class="fa fa-plus-square"></i></a>
                                 <a href="#" id="print" title="Imprimir Tabela"><i class="fa fa-print"></i></a>
                                 <a href="${request.route_url('root')}graficos/${request.matchdict['nm_orgao']}/${request.matchdict['attr']}" id="grafico" title="Gerar Gráfico"><i class="fa fa-bar-chart-o"></i></a>
                                 <a href="#" id="plus-home" title="Adicionar na Home"><i class="fa fa-plus-circle"></i></a>
@@ -64,6 +66,34 @@
                             </div>
                         </div>
                     </div>
+                    <div id="modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <h4 class="modal-title">Modal title</h4>
+                                </div>
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-group" style="margin-top: 20px;">
+                                        <label class="col-lg-2 control-label">Item:</label>
+                                        <div class="col-lg-5">
+                                            <input type="text" id="item" class="form-control" placeholder="item">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Quantidade:</label>
+                                        <div class="col-lg-5">
+                                            <input type="text" id="quant"  class="form-control" placeholder="quantidade">
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Fechar</button>
+                                    <button type="button" id="enviar" class="btn btn-primary">Enviar</button>
+                                </div>
+                             </div>
+                          </div>
+                       </div>
                 </div>
             </div>
                 <div class="box-chart">
@@ -102,8 +132,6 @@
 
                }
             });
-
-
             $('#plus-home').click(function(){
                 var data = {
                     report_name: "${report_name}"
@@ -121,7 +149,32 @@
                 }); 
             });
 
+            $('#enviar').click(function(){
+                data = {
+                    'item' : $('#item').val(),
+                    'value' : $('#quant').val(),
+                    'attr' : "${request.matchdict['attr']}",
+                    'base' : "${request.matchdict['nm_orgao']}",
+                }
+                $.ajax({
+                    type: "PUT",
+                    url: "${request.route_url('root')}post_reports",
+                    data: data, 
+                    success: function(){location.reload();   },
+                    error: function(){ alert('error')}
+                }); 
+            });
         });
+        $('#delete').click(function(){
+                base = {'base': "${request.matchdict['nm_orgao']}"}
+                $.ajax({
+                    type: "POST",
+                    url: "${request.route_url('root')}delete_reports",
+                    data : base,
+                    success: function(){window.location.href = "${request.route_url('conf_report')}";},
+                    error: function(){ alert('error')}
+                }); 
+            });
         </script>
 </metal:content>
 </metal:main>
