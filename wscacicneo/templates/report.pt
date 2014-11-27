@@ -33,7 +33,7 @@
                             <div class="padd">
                                 <div class="page-tables">
                                     <div class="table-responsive ">
-                                        <table class="table table-condensed table-bordered table-hover no-margin">
+                                        <table class="table table-condensed table-bordered table-hover no-margin" id="data-table">
                                             <thead>
                                                 <tr class="info">
                                                     <th>Item</th>
