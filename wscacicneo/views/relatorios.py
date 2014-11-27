@@ -61,13 +61,9 @@ class Relatorios(object):
             desc_base.load_static()
 
             insert_reports = Utils().create_report(nm_orgao)
-            print(insert_reports)
+            #print(insert_reports)
             data = Reports(nm_orgao).count_attribute(attr, child)
-            usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
-            return {'data': data,
-                    'usuario_autenticado':usuario_autenticado,
-                    'report_name': attr
-                    }
+
         else:
             # Carrega base de descrições de campos
             desc_base = descriptions.DescriptionsBase()
@@ -84,12 +80,13 @@ class Relatorios(object):
                 item = getattr(parent, attr+'_item')
                 amount = getattr(parent, attr+'_amount')
                 data[item] = amount
-            usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
-            return {
-                    'data': data,
-                    'usuario_autenticado':usuario_autenticado,
-                    'report_name': attr
-                    }
+
+        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
+        return {
+            'data': data,
+            'usuario_autenticado': usuario_autenticado,
+            'report_name': attr
+        }
 
     def put_reports(self):
         data = self.request.params
@@ -157,7 +154,7 @@ class Relatorios(object):
             )
             return {
                 'data': data,
-                'usuario_autenticado':usuario_autenticado,
+                'usuario_autenticado': usuario_autenticado,
                 'report_name': 'software'
             }
 

@@ -8,13 +8,7 @@
 
                 <div class="row">
                     <div class="col-md-4">
-                        <div id="pie-chart"></div>
-                    </div>
-                    <div class="col-md-4">
                         <div id="pie-chart2"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div id="pie-chart3"></div>
                     </div>
                 </div>
 
@@ -31,7 +25,7 @@
 
                 var data = ${data};
 
-                $.plot($("#pie-chart"), data,
+                /*$.plot($("#pie-chart"), data,
                         {
                             series: {
                                 pie: {
@@ -52,6 +46,7 @@
                                 show: false
                             }
                         });
+                */
 
                 $.plot($("#pie-chart2"), data,
                         {
@@ -63,7 +58,7 @@
                             grid: {hoverable: true}
                         });
 
-
+                /*
                 $.plot($("#pie-chart3"), data,
                         {
                             series: {
@@ -76,6 +71,7 @@
                                 show: false
                             }
                         });
+                 */
 
                 /* Pie chart ends */
 
