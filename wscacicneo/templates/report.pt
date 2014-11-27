@@ -1,21 +1,16 @@
 <metal:main use-macro="load: master.pt">
-    <metal:content fill-slot="dash">
-      Relatórios      
-  </metal:content>
-  <metal:content fill-slot="conteudo">
-    <div class="matter">
-        <div class="container">
+   <metal:content fill-slot="dash">
+      Relatórios
+   </metal:content>
+   <metal:content fill-slot="conteudo">
+      <div class="matter">
+         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                 <div class="widget" id="tabela_relatorio">
                     <div class="widget-head">
                         <div class="pull-left">Relatório ${request.matchdict['attr']}</div>
-                    <div class="widget" id="tabela_relatorio">
-                        <div class="widget-head">
-                            <div class="pull-left">Relatório ${report_name}</div>
                             <div class="widget-icons pull-right">
-                                <a href="#" id="delete" title="Atualizar Relatorio"><i class="fa fa-refresh"></i></a>
-                                <a href="#" id="add" href="#modal" data-toggle="modal" title="Adicionar novo item no relatorio"><i href="#modal" data-toggle="modal" class="fa fa-plus-square"></i></a>
                                 <a href="#" id="print" title="Imprimir Tabela"><i class="fa fa-print"></i></a>
                                 <a href="${request.route_url('root')}graficos/${request.matchdict['nm_orgao']}/${request.matchdict['attr']}" id="grafico" title="Gerar Gráfico"><i class="fa fa-bar-chart-o"></i></a>
                                 <a tal:condition="request.authenticated_userid" href="#" id="plus-home" title="Adicionar na Home"><i class="fa fa-plus-circle"></i></a>
@@ -23,50 +18,81 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="widget-content">
-                            <div id="error-message" class="alert alert-warning" style="display:none">
-                                Operação realizada com erro!
+                            <div id="success-message" class="alert alert-success"  style="display:none">
+                                Operação realizada com sucesso!
                             </div>
                             <div id="success-message" class="alert alert-success"  style="display:none">
                                 Operação realizada com sucesso!
                             </div>
                             <div class="padd">
-                                <div class="page-tables">
-                                    <div class="table-responsive ">
-                                        <table class="table table-condensed table-bordered table-hover no-margin">
-                                            <thead>
-                                                <tr class="info">
-                                                    <th>Item</th>
-                                                    <th>Quantidade</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr class="active" tal:repeat="k data.keys()">
-                                                    <td>${k}</td>
-                                                    <td data-type="text"  href="#${k}a" data-toggle="modal"><a href="#myModal" data-type="text">${data[k]}</a></td>
-                                                    <div id="${k}a" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                                                        <div class="modal-dialog">
+                            <div class="page-tables">
+                                <div class="table-responsive ">
+                                    <table class="table table-condensed table-bordered table-hover no-margin">
+                                        <thead>
+                                            <tr class="info">
+                                                <th>Item</th>
+                                                <th>Quantidade</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="active" tal:repeat="k data.keys()">
+                                                <td>${k}</td>
+                                                <td data-type="text"  href="#${k}a" data-toggle="modal"><a href="#myModal" data-type="text">${data[k]}</a></td>
+                                                <div id="${k}a" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                                    <div class="modal-dialog">
                                                         <div class="modal-content">
                                                         <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                        <h4 class="modal-title">Modal title</h4>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                            <h4 class="modal-title">Modal title</h4>
                                                         </div>
                                                         <div class="modal-body">
                                                             <input type="text" id="${k}" class="form-control" placeholder="Valor">
                                                         </div>
                                                         <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
-                                                        <button type="button" data-id="${k}" class="btn btn-primary">Salvar</button>
-                                                        </div>
-                                                        </div>
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                            <button type="button" data-id="${k}" class="btn btn-primary">Salvar</button>
                                                         </div>
                                                     </div>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <div class="clearfix"></div>
-                                    </div>
+                                                </div>
+                                            </div>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                 <div class="clearfix"></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div id="modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <h4 class="modal-title">Modal title</h4>
                                 </div>
-                            </div>
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-group" style="margin-top: 20px;">
+                                        <label class="col-lg-2 control-label">Item:</label>
+                                        <div class="col-lg-5">
+                                            <input type="text" id="item" class="form-control" placeholder="item">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Quantidade:</label>
+                                        <div class="col-lg-5">
+                                            <input type="text" id="quant"  class="form-control" placeholder="quantidade">
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Fechar</button>
+                                    <button type="button" id="enviar" class="btn btn-primary">Enviar</button>
+                                </div>
+                             </div>
+                          </div>
+                       </div>
                         </div>
                     </div>
 
@@ -125,7 +151,7 @@
                 data = {
                     'item' : $('#item').val(),
                     'value' : $('#quant').val(),
-                    'attr' : "${request.matchdict['attr']}",
+                    'attr' : "${report_name}",
                     'base' : "${request.matchdict['nm_orgao']}",
                 }
                 $.ajax({
@@ -147,6 +173,10 @@
                     error: function(){ alert('error')}
                 }); 
             });
+        $('#error').click(function(){
+            window.location.href = "${request.route_url('notify')}";
+        });
         </script>
 </metal:content>
+
 </metal:main>
