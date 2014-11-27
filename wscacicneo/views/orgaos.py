@@ -3,12 +3,14 @@
 __author__ = 'eduardo'
 import requests
 import json
+import datetime
 from pyramid.response import Response
 from pyramid.httpexceptions import HTTPFound, HTTPNotFound
 from pyramid.view import view_config, forbidden_view_config
 from wscacicneo.model import orgao as model_orgao
 from wscacicneo.utils.utils import Utils
 from wscacicneo.model.orgao import Orgao
+from ..model import atividade
 from liblightbase.lbutils import conv
 from .. import config
 from .. import search
@@ -109,6 +111,14 @@ class Orgaos(object):
             habilitar_bot=ast.literal_eval(doc.get('habilitar_bot')),
             api_key=doc.get('api_key')
         )
+        usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.authenticated_userid)
+        at = atividade.Atividade(
+            tipo='Cadastro',
+            usuario=usuario_autenticado.results[0].nome,
+            descricao='Cadastrou o órgão '+ doc['nome'],
+            data=datetime.datetime.now()
+        )
+        at.create_atividade()
         id_doc = orgao_obj.create_orgao()
         return Response(str(id_doc))
 
@@ -131,6 +141,14 @@ class Orgaos(object):
             habilitar_bot=ast.literal_eval(doc.get('habilitar_bot')),
             api_key=doc.get('api_key')
         )
+        usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.authenticated_userid)
+        at = atividade.Atividade(
+            tipo='put',
+            usuario=usuario_autenticado.results[0].nome,
+            descricao='Alterou o órgão '+ doc['nome'],
+            data=datetime.datetime.now()
+        )
+        at.create_atividade()
         orgao = orgao_obj.orgao_to_dict()
         search = orgao_obj.search_orgao(sigla)
         id = search.results[0]._metadata.id_doc
@@ -154,8 +172,16 @@ class Orgaos(object):
             email = 'asdsad',
             telefone = 'sadasd',
             url = 'sadasd',
-            api_key=doc.get('api_key')
+            api_key='sadasd'
         )
+        usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.authenticated_userid)
+        at = atividade.Atividade(
+            tipo='delete',
+            usuario=usuario_autenticado.results[0].nome,
+            descricao='Deletou o órgão '+ sigla,
+            data=datetime.datetime.now()
+        )
+        at.create_atividade()
         search = orgao_obj.search_orgao(sigla)
         id = search.results[0]._metadata.id_doc
         delete = orgao_obj.delete_orgao(id)
