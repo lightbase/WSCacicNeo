@@ -53,6 +53,14 @@
                                         threshold: 0.01,
                                         color: '#CCC',
                                         label: 'Outros'
+                                    },
+                                    label: {
+                                        show: true,
+                                        radius: 3 / 4,
+                                        formatter: function (label, series) {
+                                            return '<div style="font-size:12pt;text-align:left;padding:1px;color:black;">'+ Math.round(series.percent) + '%</div>';
+                                        },
+                                        background: {opacity: 0}
                                     }
                                 }
                             },
