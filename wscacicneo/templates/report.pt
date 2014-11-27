@@ -1,127 +1,127 @@
 <metal:main use-macro="load: master.pt">
-    <metal:content fill-slot="dash">
+   <metal:content fill-slot="dash">
       Relatórios      
-  </metal:content>
-  <metal:content fill-slot="conteudo">
-    <div class="matter">
-        <div class="container">
+   </metal:content>
+   <metal:content fill-slot="conteudo">
+      <div class="matter">
+         <div class="container">
             <div class="row">
-                <div class="col-md-12">
-                    <div class="widget" id="tabela_relatorio">
-                        <div class="widget-head">
-                            <div class="pull-left">Relatório ${request.matchdict['attr']}</div>
-                            <div class="widget-icons pull-right">
-                                <a href="#" id="print" title="Imprimir Tabela"><i class="fa fa-print"></i></a>
-                                <a href="${request.route_url('root')}graficos/}${request.matchdict['nm_orgao']}/${request.matchdict['attr']}" id="grafico" title="Gerar Gráfico"><i class="fa fa-bar-chart-o"></i></a>
-                                <a href="#" id="plus-home" title="Adicionar na Home"><i class="fa fa-plus-circle"></i></a>
-                            </div>
-                            <div class="clearfix"></div>
+               <div class="col-md-12">
+                  <div class="widget" id="tabela_relatorio">
+                     <div class="widget-head">
+                        <div class="pull-left">Relatório ${request.matchdict['attr']}</div>
+                        <div class="widget-icons pull-right">
+                           <a href="#" id="print" title="Imprimir Tabela"><i class="fa fa-print"></i></a>
+                           <a href="${request.route_url('root')}graficos/}${request.matchdict['nm_orgao']}/${request.matchdict['attr']}" id="grafico" title="Gerar Gráfico"><i class="fa fa-bar-chart-o"></i></a>
+                           <a tal:condition="request.authenticated_userid" href="#" id="plus-home" title="Adicionar na Home"><i class="fa fa-plus-circle"></i></a>
                         </div>
-                        <div class="widget-content">
-                            <div id="error-message" class="alert alert-warning" style="display:none">
-                                Operação realizada com erro!
-                            </div>
-                            <div id="success-message" class="alert alert-success"  style="display:none">
-                                Operação realizada com sucesso!
-                            </div>
-                            <div class="padd">
-                                <div class="page-tables">
-                                    <div class="table-responsive ">
-                                        <table class="table table-condensed table-bordered table-hover no-margin">
-                                            <thead>
-                                                <tr class="info">
-                                                    <th>Item</th>
-                                                    <th>Quantidade</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr class="active" tal:repeat="k data.keys()">
-                                                    <td>${k}</td>
-                                                    <td data-type="text"  href="#${k}a" data-toggle="modal"><a href="#myModal" data-type="text">${data[k]}</a></td>
-                                                    <div id="${k}a" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                                                        <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                        <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                        <h4 class="modal-title">Modal title</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                        <input type="text" id="${k}" class="form-control" placeholder="Valor">
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
-                                                        <button type="button" data-id="${k}" class="btn btn-primary">Salvar</button>
-                                                        </div>
-                                                        </div>
-                                                        </div>
-                                                    </div>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="clearfix"></div>
+                     </div>
+                     <div class="widget-content">
+                        <div id="error-message" class="alert alert-warning" style="display:none">
+                           Operação realizada com erro!
                         </div>
-                    </div>
-                </div>
+                        <div id="success-message" class="alert alert-success"  style="display:none">
+                           Operação realizada com sucesso!
+                        </div>
+                        <div class="padd">
+                           <div class="page-tables">
+                              <div class="table-responsive ">
+                                 <table class="table table-condensed table-bordered table-hover no-margin">
+                                    <thead>
+                                       <tr class="info">
+                                          <th>Item</th>
+                                          <th>Quantidade</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr class="active" tal:repeat="k data.keys()">
+                                          <td>${k}</td>
+                                          <td data-type="text"  href="#${k}a" data-toggle="modal"><a href="#myModal" data-type="text">${data[k]}</a></td>
+                                          <div id="${k}a" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                             <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                   <div class="modal-header">
+                                                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                      <h4 class="modal-title">Modal title</h4>
+                                                   </div>
+                                                   <div class="modal-body">
+                                                      <input type="text" id="${k}" class="form-control" placeholder="Valor">
+                                                   </div>
+                                                   <div class="modal-footer">
+                                                      <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                      <button type="button" data-id="${k}" class="btn btn-primary">Salvar</button>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                                 <div class="clearfix"></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
             </div>
-                <div class="box-chart">
-                    <canvas id="GraficoLine" style="width:100%;"></canvas>
-                </div>
-        </div>
-   </div>
-</metal:content>
-<metal:content fill-slot="javascript">
-    <script type="text/javascript" src="${request.route_url('root')}static/jquery.print.js"></script>
-    <script type="text/javascript">
-        $(function() {
-            $("#print").click(function() {
-                $("#tabela_relatorio").print();
-            });
-            $('button').click(function(){
-               a = $(this).attr('data-id')
-               b = $(this).html()
-               if(b == 'Salvar'){
-                    value = $('#'+a).val()
-                    attr = "${request.matchdict['attr']}"
-                    base = "${request.matchdict['nm_orgao']}"
-                    data = {
-                        'nm_base' : base,
-                        'attr': attr,
-                        'value' : value,
-                        'item' : a
-                    }
-            $.ajax({
-                    type: "PUT",
-                    url: "${request.route_url('root')}put_reports",
-                    data: data, 
-                    success: function(){location.reload();   },
-                    error: function(){ alert('error')}
-                }); 
-
-               }
-            });
-
-
-            $('#plus-home').click(function(){
-                var data = {
-                    report_name: "${report_name}"
-                };
-                $.ajax({
-                    type: "POST",
-                    url: "${request.route_url('add_user_home_report')}",
-                    data: data, 
-                    success: function(){        
-                        $('#success-message').show();
-                    },
-                    error: function(){
-                        $('#error-message').show();
-                    }
-                }); 
-            });
-
-        });
-        </script>
-</metal:content>
+            <div class="box-chart">
+               <canvas id="GraficoLine" style="width:100%;"></canvas>
+            </div>
+         </div>
+      </div>
+   </metal:content>
+   <metal:content fill-slot="javascript">
+      <script type="text/javascript" src="${request.route_url('root')}static/jquery.print.js"></script>
+      <script type="text/javascript">
+         $(function() {
+             $("#print").click(function() {
+                 $("#tabela_relatorio").print();
+             });
+             $('button').click(function(){
+                a = $(this).attr('data-id')
+                b = $(this).html()
+                if(b == 'Salvar'){
+                     value = $('#'+a).val()
+                     attr = "${request.matchdict['attr']}"
+                     base = "${request.matchdict['nm_orgao']}"
+                     data = {
+                         'nm_base' : base,
+                         'attr': attr,
+                         'value' : value,
+                         'item' : a
+                     }
+             $.ajax({
+                     type: "PUT",
+                     url: "${request.route_url('root')}put_reports",
+                     data: data, 
+                     success: function(){location.reload();   },
+                     error: function(){ alert('error')}
+                 }); 
+         
+                }
+             });
+         
+         
+             $('#plus-home').click(function(){
+                 var data = {
+                     report_name: "${report_name}"
+                 };
+                 $.ajax({
+                     type: "POST",
+                     url: "${request.route_url('add_user_home_report')}",
+                     data: data, 
+                     success: function(){        
+                         $('#success-message').show();
+                     },
+                     error: function(){
+                         $('#error-message').show();
+                     }
+                 }); 
+             });
+         
+         });
+      </script>
+   </metal:content>
 </metal:main>

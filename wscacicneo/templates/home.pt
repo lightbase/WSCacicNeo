@@ -39,6 +39,8 @@
             </div>
             <!-- Fim Gestor -->
         </div>
-
+        <div>
+            <metal:macro use-macro="load: report_personalizado.pt">
+        </div>
     </metal:content>
 </metal:main>
