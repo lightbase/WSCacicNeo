@@ -193,7 +193,7 @@ class Users(object):
                     tipo='insert',
                     usuario='Sistema',
                     descricao='Cadastrou o usuário '+ doc['nome'],
-                    data=datetime.datetime.now()
+                    data=datetime.datetime. now()
                 )
                 at.create_atividade()
 
