@@ -138,7 +138,8 @@ class Relatorios(object):
             )
             return {
                 'data': data,
-                'usuario_autenticado': usuario_autenticado
+                'usuario_autenticado': usuario_autenticado,
+                'report_name': 'software'
             }
         else:
             create_base = report_base.create_base()
@@ -156,5 +157,6 @@ class Relatorios(object):
             )
             return {
                 'data': data,
-                'usuario_autenticado':usuario_autenticado
+                'usuario_autenticado':usuario_autenticado,
+                'report_name': 'software'
             }
