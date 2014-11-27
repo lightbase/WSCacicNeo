@@ -240,3 +240,15 @@ class Atividade(atividade_base.metaclass):
         results = self.documentrest.get_collection(search)
 
         return results
+
+    def search_list_bot(self):
+        """
+        Busca registro completo do órgao pelo nome
+        :return: obj collection com os dados da base
+        """
+        search = Search(
+            literal="document->>'usuario' like '%WSCBot%'"
+        )
+        results = self.documentrest.get_collection(search_obj=search)
+
+        return results
