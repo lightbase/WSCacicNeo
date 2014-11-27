@@ -46,3 +46,16 @@ class Atividades(object):
                 'usuario_autenticado': usuario_autenticado,
                }
 
+    def list_atividades_bot(self):
+        """
+        Lista as ultimas 100 atividades
+        """
+        limit_docs = 100
+        atividade_obj = Utils.create_atividade_obj()
+        results = atividade_obj.search_list_bot()
+        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
+
+        return {'data': results.results,
+                'usuario_autenticado': usuario_autenticado,
+               }
+

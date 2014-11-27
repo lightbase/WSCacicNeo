@@ -252,3 +252,8 @@ def make_routes(cfg):
     cfg.add_view(atividades.Atividades, attr='list_atividades', route_name='list_atividades',
                  permission="admin", renderer='templates/list_atividades.pt')
 
+    cfg.add_route('list_atividades_bot', 'atividades/lista/bot')
+    cfg.add_view(atividades.Atividades, attr='list_atividades_bot', route_name='list_atividades_bot',
+                 permission="admin", renderer='templates/list_atividades_bot.pt')
+
+
