@@ -5,7 +5,7 @@
   <metal:content fill-slot="conteudo">
     <div class="matter">
         <div class="container">
-            <div tal:condition="usuario_autenticado.results[0].orgao == request.matchdict['nm_orgao'] or usuario_autenticado.results[0].orgao == 'Administrador'">
+            <div tal:condition="usuario_autenticado.results[0].orgao == request.matchdict['nm_orgao'] or usuario_autenticado.results[0].permissao == 'Administrador'">
                 <a type="button" href="#modal" data-toggle="modal" class="btn btn-sm btn-primary"><i class="fa fa-plus-square"></i> Adicionar valor</a>
                 <button type="button" id="error" class="btn btn-sm btn-warning"><i class="fa fa-exclamation-triangle"></i> Questionar coleta</button>
                 <button type="button" id="delete" class="btn btn-sm btn-success"><i class="fa fa-refresh"></i> Atualizar Relatório</button>
