@@ -239,17 +239,6 @@ class Atividade(atividade_base.metaclass):
 
         return results
 
-    def search_list_atividades(self):
-        """
-        Retorna todos os docs da base
-        """
-        search = Search(
-            limit=limit_docs
-        )
-        results = self.documentrest.get_collection(search)
-
-        return results
-
     def search_list_bot(self):
         """
         Busca registro completo do órgao pelo nome
