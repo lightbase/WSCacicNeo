@@ -14,6 +14,8 @@ from wscacicneo.model.coleta_manual import ColetaManualBase
 from wscacicneo.model.reports import Reports
 from wscacicneo.model.atividade import Atividade
 from wscacicneo.model.atividade import AtividadeBase
+from wscacicneo.model.descriptions import DescriptionsBase
+from wscacicneo.model.descriptions import Desc
 from wscacicneo import config
 
 class Utils:
@@ -106,6 +108,18 @@ class Utils:
             return True
         except:
             return False
+
+    def descriptions(self, item):
+        """
+        Adiciona descrição para os campos.
+        """
+        desc = Desc()
+        search = desc.search_desc(item)
+        saida = dict()
+        for elm in search.keys():
+            saida[elm] = search[elm]
+
+        return saida
 
     def create_report(self, nm_base):
         """

@@ -120,13 +120,12 @@ class ConfReports():
         get = self.documentrest.get_collection(search_obj=search)
 
         return get
- 
+
     def search_item(self, group ,item, valor):
         """
         Busca registro completo do órgao pelo nome
         :return: obj collection com os dados da base
         """
-        data = ['']
         search = Search(
             limit= 1,
             literal="document->'"+group+"'->>'"+item+"' = '"+valor+"'"

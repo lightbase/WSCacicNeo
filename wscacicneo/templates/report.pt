@@ -7,13 +7,18 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
+                <div class="widget" id="tabela_relatorio">
+                    <div class="widget-head">
+                        <div class="pull-left">Relatório ${request.matchdict['attr']}</div>
                     <div class="widget" id="tabela_relatorio">
                         <div class="widget-head">
                             <div class="pull-left">Relatório ${report_name}</div>
                             <div class="widget-icons pull-right">
+                                <a href="#" id="delete" title="Atualizar Relatorio"><i class="fa fa-refresh"></i></a>
+                                <a href="#" id="add" href="#modal" data-toggle="modal" title="Adicionar novo item no relatorio"><i href="#modal" data-toggle="modal" class="fa fa-plus-square"></i></a>
                                 <a href="#" id="print" title="Imprimir Tabela"><i class="fa fa-print"></i></a>
-                                <a href="${request.route_url('root')}graficos/${request.matchdict['nm_orgao']}/${report_name}" id="grafico" title="Gerar Gráfico"><i class="fa fa-bar-chart-o"></i></a>
-                                <a href="#" id="plus-home" title="Adicionar na Home"><i class="fa fa-plus-circle"></i></a>
+                                <a href="${request.route_url('root')}graficos/${request.matchdict['nm_orgao']}/${request.matchdict['attr']}" id="grafico" title="Gerar Gráfico"><i class="fa fa-bar-chart-o"></i></a>
+                                <a tal:condition="request.authenticated_userid" href="#" id="plus-home" title="Adicionar na Home"><i class="fa fa-plus-circle"></i></a>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -37,9 +42,7 @@
                                             <tbody>
                                                 <tr class="active" tal:repeat="k data.keys()">
                                                     <td>${k}</td>
-                                                    <td data-type="text"  href="#${k}a" data-toggle="modal">
-                                                        <a href="#myModal" data-type="text">${data[k]}</a>
-                                                    </td>
+                                                    <td data-type="text"  href="#${k}a" data-toggle="modal"><a href="#myModal" data-type="text">${data[k]}</a></td>
                                                     <div id="${k}a" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                                                         <div class="modal-dialog">
                                                         <div class="modal-content">
@@ -48,7 +51,7 @@
                                                         <h4 class="modal-title">Modal title</h4>
                                                         </div>
                                                         <div class="modal-body">
-                                                        <input type="text" id="${k}" class="form-control" placeholder="Valor">
+                                                            <input type="text" id="${k}" class="form-control" placeholder="Valor">
                                                         </div>
                                                         <div class="modal-footer">
                                                         <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
@@ -66,15 +69,12 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-                <div class="box-chart">
-                    <canvas id="GraficoLine" style="width:100%;"></canvas>
-                </div>
-        </div>
-   </div>
-</metal:content>
-<metal:content fill-slot="javascript">
+
+            <div class="box-chart">
+               <canvas id="GraficoLine" style="width:100%;"></canvas>
+         </div>
+   </metal:content>
+    <metal:content fill-slot="javascript">
     <script type="text/javascript" src="${request.route_url('root')}static/jquery.print.js"></script>
     <script type="text/javascript">
         $(function() {
@@ -104,8 +104,6 @@
 
                }
             });
-
-
             $('#plus-home').click(function(){
                 var data = {
                     report_name: "${report_name}"
@@ -123,7 +121,32 @@
                 }); 
             });
 
+            $('#enviar').click(function(){
+                data = {
+                    'item' : $('#item').val(),
+                    'value' : $('#quant').val(),
+                    'attr' : "${request.matchdict['attr']}",
+                    'base' : "${request.matchdict['nm_orgao']}",
+                }
+                $.ajax({
+                    type: "PUT",
+                    url: "${request.route_url('root')}post_reports",
+                    data: data, 
+                    success: function(){location.reload();   },
+                    error: function(){ alert('error')}
+                }); 
+            });
         });
+        $('#delete').click(function(){
+                base = {'base': "${request.matchdict['nm_orgao']}"}
+                $.ajax({
+                    type: "POST",
+                    url: "${request.route_url('root')}delete_reports",
+                    data : base,
+                    success: function(){window.location.href = "${request.route_url('conf_report')}";},
+                    error: function(){ alert('error')}
+                }); 
+            });
         </script>
 </metal:content>
 </metal:main>
