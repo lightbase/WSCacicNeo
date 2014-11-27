@@ -209,6 +209,8 @@ class Users(object):
         user_obj = Utils.create_user_obj()
         search = user_obj.search_user(matricula)
         email = search.results[0].email
+        orgao_obj = Utils.create_orgao_obj()
+        distinct_orgaos = orgao_obj.get_distinct_orgaos("document->>'nome'")
         usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
         return {
             'nome' : search.results[0].nome,
@@ -223,6 +225,7 @@ class Users(object):
             'itens' : search.results[0].itens,
             'favoritos' : search.results[0].favoritos,
             'usuario_autenticado':usuario_autenticado,
+            'orgaos': distinct_orgaos.results
         }
 
     #@view_config(route_name='put_user', permission="admin")
