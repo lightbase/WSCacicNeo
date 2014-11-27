@@ -29,6 +29,10 @@
             <i class="fa fa-file-text">
               </i> Relatórios</a>
           </li>
+         <li><a href="${request.route_url('root')}atividades/lista">
+          <i class="fa fa-sort-amount-asc">
+            </i> Atividades</a>
+        </li>
           <li><a href="${request.route_url('root')}coleta/cadastro">
             <i class="fa fa-tasks">
               </i> Cadastrar Coleta</a>

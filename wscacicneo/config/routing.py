@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'eduardo'
 
-from ..views import home, notifications, orgaos, users, relatorios, coleta, security, api, graficos
+from ..views import home, notifications, orgaos, users, relatorios, coleta, security, api, graficos, atividades
 from ..utils.csvhandler import json2csv
 
 
@@ -244,5 +244,11 @@ def make_routes(cfg):
     cfg.add_route('orgao_coleta', 'api/{orgao}{path:.*}', request_method='GET')
     cfg.add_view(api.Api, attr='orgao_coleta', route_name='orgao_coleta')
 
-    cfg.add_route('json2csv', 'json2csv', request_method='GET')
+    cfg.add_route('json2csv', 'json2csv', request_method='POST')
     cfg.add_view(json2csv, route_name='json2csv')
+
+    #atividades
+    cfg.add_route('list_atividades', 'atividades/lista')
+    cfg.add_view(atividades.Atividades, attr='list_atividades', route_name='list_atividades',
+                 permission="admin", renderer='templates/list_atividades.pt')
+
