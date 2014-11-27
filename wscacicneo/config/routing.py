@@ -3,6 +3,7 @@
 __author__ = 'eduardo'
 
 from ..views import home, notifications, orgaos, users, relatorios, coleta, security, api, graficos
+from ..utils.csvhandler import json2csv
 
 
 def make_routes(cfg):
@@ -239,3 +240,6 @@ def make_routes(cfg):
 
     cfg.add_route('orgao_relatorio', 'api/{orgao}/relatorios', request_method='GET')
     cfg.add_view(api.Api, attr='orgao_relatorio', route_name='orgao_relatorio')
+
+    cfg.add_route('json2csv', 'json2csv', request_method='GET')
+    cfg.add_view(json2csv, route_name='json2csv')
