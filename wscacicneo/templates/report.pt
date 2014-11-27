@@ -14,11 +14,12 @@
                 <div class="col-md-12">
                 <div class="widget" id="tabela_relatorio">
                         <div class="widget-head">
-                            <div class="pull-left">Relatório ${report_name}</div>
+                            <div id="report-name" class="pull-left">Relatório ${report_name}</div>
                             <div class="widget-icons pull-right">
                                 <a href="#" id="print" title="Imprimir Tabela"><i class="fa fa-print"></i></a>
                                 <a href="${request.route_url('root')}graficos/${request.matchdict['nm_orgao']}/${report_name}" id="grafico" title="Gerar Gráfico"><i class="fa fa-bar-chart-o"></i></a>
                                 <a tal:condition="request.authenticated_userid" href="#" id="plus-home" title="Adicionar na Home"><i class="fa fa-plus-circle"></i></a>
+                                <a href="#" id="download-report" title="Baixar Relatório"><i class="fa fa-download"></i></a>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -181,6 +182,37 @@
             });
         $('#error').click(function(){
             window.location.href = "${request.route_url('notify')}";
+        });
+        $('#download-report').click(function(){
+            var columns = $('thead').children('tr').children('th');
+            var col_names = [];
+            columns.each(function(i, th_elm){
+                col_names.push(th_elm.innerText);
+            })
+
+            var rows = $('tbody').children('tr');
+            var json_data = [ ];
+            var cell;
+            var row_data; 
+
+            rows.each(function(i, row){
+                row_data = {}; 
+                $(col_names).each(function(j, col_name){
+                    cell = $(row).children('td')[j];
+                    row_data[col_name] = $(cell).text();
+                });
+                json_data.push(row_data);
+            });
+
+            var url = "${request.route_url('json2csv')}"
+            var report_name = $('#report-name').text() + '.csv';
+            var form = $('<form action="' + url + '" method="post">' +
+              '<input type="text" name="json_data" value="' + 
+                JSON.stringify(json_data).replace(/"/g, '&quot;') + '" />' +
+              '<input type="text" name="filename" value="' + report_name + '" />' +
+              '</form>');
+            $('body').append(form);
+            form.submit();
         });
         </script>
 </metal:content>
