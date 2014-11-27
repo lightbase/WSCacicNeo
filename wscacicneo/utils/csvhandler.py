@@ -18,7 +18,7 @@ def json2csv(request):
 
     csvfile = open(file_path, 'w')
 
-    spamwriter = csv.writer(csvfile, delimiter=',',
+    spamwriter = csv.writer(csvfile, delimiter=';',
         quotechar='|', quoting=csv.QUOTE_MINIMAL)
 
     spamwriter.writerow(columns)

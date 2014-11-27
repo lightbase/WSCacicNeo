@@ -3,21 +3,17 @@
         Gráficos
     </metal:content>
     <metal:macro fill-slot="conteudo">
-        <div class="widget-content">
-            <div class="padd">
-
-                <div class="row">
-                    <div class="col-md-4">
-                        <div id="pie-chart2"></div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+        <div style="font-size: 20px;" align="center"><a href="#" id="print" title="Imprimir Tabela"><i class="fa fa-print"></i>Imprimir</a></div>
+        <br/>
+        <div id="graficoPie" style="width: 100%;height: 400px; font-size: 20px"></div>
     </metal:macro>
     <metal:macro fill-slot="javascript">
-
+        <script type="text/javascript" src="${request.route_url('root')}static/jquery.print.js"></script>
         <script type="text/javascript">
+
+            $("#print").click(function() {
+                $("#graficoPie").print();
+            });
 
             /* Pie chart starts */
 
@@ -48,11 +44,16 @@
                         });
                 */
 
-                $.plot($("#pie-chart2"), data,
+                $.plot($("#graficoPie"), data,
                         {
                             series: {
                                 pie: {
-                                    show: true
+                                    show: true,
+                                    combine: {
+                                        threshold: 0.01,
+                                        color: '#CCC',
+                                        label: 'Outros'
+                                    }
                                 }
                             },
                             grid: {hoverable: true}
