@@ -3,6 +3,7 @@
 __author__ = 'eduardo'
 
 import json
+import datetime
 from pyramid.view import view_config
 from wscacicneo.utils.utils import Utils
 from wscacicneo.model.notify import Notify
@@ -10,6 +11,7 @@ from pyramid.httpexceptions import HTTPFound
 from wscacicneo.model.orgao import Orgao
 from pyramid.response import Response
 from wscacicneo.model.user import User
+from ..model import atividade
 from wscacicneo.model import user as model_usuario
 from wscacicneo.search.orgao import SearchOrgao
 from pyramid.security import (
@@ -138,6 +140,14 @@ class Users(object):
                 favoritos = favoritos,
                 itens = itens
             )
+            usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.authenticated_userid)
+            at = atividade.Atividade(
+                tipo='insert',
+                usuario=usuario_autenticado.results[0].nome,
+                descricao='Cadastrou o  Usuario '+ doc['nome'],
+                data=datetime.datetime.now()
+            )
+            at.create_atividade()
             id_doc = user_obj.create_user()
 
             return Response(str(id_doc))
@@ -271,6 +281,15 @@ class Users(object):
             }
         id = search.results[0]._metadata.id_doc
         email_is_institucional = Utils.verifica_email_institucional(email_user)
+        usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.authenticated_userid)
+        at = atividade.Atividade(
+            tipo='put',
+            usuario=usuario_autenticado.results[0].nome,
+            descricao='Editou o  usuario '+ params['nome'],
+            data=datetime.datetime.now()
+        )
+        at.create_atividade()
+
         if(email_is_institucional):
             doc = json.dumps(user)
             edit = user_obj.edit_user(id, doc)
@@ -305,6 +324,15 @@ class Users(object):
         user_obj = Utils.create_user_obj()
         search = user_obj.search_user(matricula)
         email = search.results[0].email
+        nome = search.results[0].nome
+        usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.authenticated_userid)
+        at = atividade.Atividade(
+            tipo='delete',
+            usuario=usuario_autenticado.results[0].nome,
+            descricao='Deletou o usuario '+ nome,
+            data=datetime.datetime.now()
+        )
+        at.create_atividade()
         if(usuario_autenticado.results[0].email !=  email):
             id = search.results[0]._metadata.id_doc
             delete = user_obj.delete_user(id)

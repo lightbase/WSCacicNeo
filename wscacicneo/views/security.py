@@ -2,8 +2,10 @@
 # -*- coding: utf-8 -*-
 __author__ = 'eduardo'
 
+import datetime
 from pyramid.view import view_config, forbidden_view_config
 from pyramid.response import Response
+from ..model import atividade
 from pyramid.httpexceptions import HTTPFound, HTTPNotFound
 from wscacicneo.utils.utils import Utils
 from wscacicneo.model.user import User
@@ -54,6 +56,13 @@ class Security(object):
                 try:
                     usuario = user_obj.search_user_by_email(email)
                     if usuario.results[0].senha == senha_hash:
+                        at = atividade.Atividade(
+                            tipo='atividade',
+                            usuario=usuario.results[0].nome,
+                            descricao='Entrou no sistema',
+                            data=datetime.datetime.now()
+                        )
+                        at.create_atividade()
                         response = Response()
                         headers = remember(self.request, email)
                         response = HTTPFound(location = came_from,
@@ -80,5 +89,5 @@ class Security(object):
         headers = forget(self.request)
         response = Response()
         response = HTTPFound(location = self.request.route_url('login'),
-                         headers = headers)
+                         headers = headers) 
         return response

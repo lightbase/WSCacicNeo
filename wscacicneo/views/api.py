@@ -70,26 +70,14 @@ class Api(object):
         :return:
         """
         orgao = self.request.matchdict['orgao']
-
-        # Verifica se o órgão existe antes
-        search_obj = search.orgao.SearchOrgao(
-            param=orgao
-        )
-        orgao_obj = search_obj.search_by_name()
-        if orgao_obj is None:
-            raise HTTPNotFound
-
         # Traz dados do órgão
-        url = config.REST_URL + '/' + orgao + self.request.matchdict['path']
-        resp = requests.get(
-            url=url,
-            params=self.request.params
-        )
+        url = config.REST_URL + '/' + orgao + "/doc"
+        resp = requests.get(url)
 
         # Cria objeto de resposta
         response = Response(content_type='application/json')
         response.status = resp.status_code
-        response.text = json.dumps(resp.json())
+        response.text = json.dumps(resp.text)
 
         return response
 
@@ -101,26 +89,14 @@ class Api(object):
         :return:
         """
         orgao = self.request.matchdict['orgao']
-
-        # Verifica se o órgão existe antes
-        search_obj = search.orgao.SearchOrgao(
-            param=orgao
-        )
-        orgao_obj = search_obj.search_by_name()
-        if orgao_obj is None:
-            raise HTTPNotFound
-
         # Traz dados do órgão
-        url = config.REST_URL + "/" + orgao + "_bk" + self.request.matchdict['path']
-        resp = requests.get(
-            url=url,
-            params=self.request.params
-        )
+        url = config.REST_URL + orgao + "_bk/doc"
+        resp = requests.get(url)
 
         # Cria objeto de resposta
         response = Response(content_type='application/json')
         response.status = resp.status_code
-        response.text = json.dumps(resp.json())
+        response.text = resp.text
 
         return response
 
@@ -384,22 +360,3 @@ class Api(object):
             raise HTTPForbidden
 
         return orgao_obj
-
-    def api_doc(self):
-        """
-        Rota que redireciona para o LightBase Docs
-        :param request: Requisiçao original
-        :return: Retorno do LBGenerator
-        """
-        url = config.REST_URL + "/api-docs" + self.request.matchdict['path']
-        resp = requests.get(
-            url=url,
-            params=self.request.params
-        )
-
-        # Cria objeto de resposta
-        response = Response(content_type='application/json')
-        response.status = resp.status_code
-        response.text = json.dumps(resp.json())
-
-        return response
