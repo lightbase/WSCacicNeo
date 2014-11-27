@@ -111,7 +111,7 @@ class Home(object):
             return HTTPFound(location=self.request.route_url("init_config_user"))
         # END CONFIGURAÇÃO INICIAL
 
-        # RETORNA BASE DE RELATÓRIOS
+        """# RETORNA BASE DE RELATÓRIOS
         base_list = Utils.return_all_bases_list()
         right_base = None
         for base in base_list:
@@ -126,7 +126,8 @@ class Home(object):
         win32_bios = "win32_bios"
         win32_bios_manufacturer = "win32_bios_manufacturer"
         data = model_reports.Reports(right_base).count_attribute(win32_bios, win32_bios_manufacturer)
-        # END RETORNA BASE RELATÓRIOS
+        # END RETORNA BASE RELATÓRIOS"""
+        data = None
 
         # RETORNA BASE DE ATIVIDADES
         atividade_obj = Utils.create_atividade_obj()
