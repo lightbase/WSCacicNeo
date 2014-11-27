@@ -116,7 +116,10 @@ class Orgaos(object):
         )
         try:
             usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.authenticated_userid)
-            user = usuario_autenticado.results[0].nome
+            if usuario_autenticado is None:
+                user = 'Sistema'
+            else:
+                user = usuario_autenticado.results[0].nome
         except IndexError:
             user = 'Sistema'
 
