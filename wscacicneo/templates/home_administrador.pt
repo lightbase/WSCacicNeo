@@ -43,12 +43,12 @@
 
                 <div class="user">
                     <div class="user-pic">
-                        <a href="#"><i class="fa fa-cogs fa-4x"></i></a>
+                        <a href="#"><i class="fa fa-sort-amount-asc fa-4x"></i></a>
                     </div>
 
                     <div class="user-details">
-                        <h3>Configuração do Sistema</h3>
-                        <a href="#" class="btn btn-primary btn-xs"> Alterar Configurações</a>
+                        <h3>Atividades</h3>
+                        <a href="${ request.route_url('list_atividades') }" class="btn btn-primary btn-xs"> Lista de Atividades</a>
                     </div>
                     <div class="clearfix"></div>
                 </div>
