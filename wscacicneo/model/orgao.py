@@ -133,7 +133,7 @@ class OrgaoBase(object):
             alias='url',
             description='Url da base de dados',
             datatype='Text',
-            indices=['Textual', 'Unico'],
+            indices=['Textual'],
             multivalued=False,
             required=False
         ))

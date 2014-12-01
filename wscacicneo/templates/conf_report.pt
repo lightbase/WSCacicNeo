@@ -10,7 +10,7 @@
                 <div class="form-group">
                   <label class="col-lg-2 control-label">Órgão</label>
                   <div class="col-lg-2">
-                    <select  id="orgao" class="form-control">
+                    <select style="width: 450px"  id="orgao" class="form-control">
                       <option></option>
                       <option tal:repeat="doc orgao_doc" value="${doc.nome}">${doc.pretty_name}</option>
                     </select>
@@ -19,7 +19,7 @@
                 <div class="form-group">
                   <label class="col-lg-2 control-label">Item</label>
                   <div class="col-lg-2">
-                    <select id="coleta" class="form-control">
+                    <select style="width: 450px" id="coleta" class="form-control">
                       <option></option>
                       <option value="processador">Processador</option>
                       <option value="hd">HD</option>

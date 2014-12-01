@@ -174,7 +174,7 @@
 					}
 				</script>
 
-                <script tal:condition="request.authenticated_userid">
+                <script type="text/javascript" tal:condition="request.authenticated_userid">
                     $(document).ready(function(){
                         $.ajax({
                             type:"GET",
