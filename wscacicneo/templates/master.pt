@@ -13,7 +13,7 @@
 	<metal:content fill-slot="conteudo">
 		<div class="navbar navbar-fixed-top bs-docs-nav" role="banner">
 
-			<div class="conjtainer">
+			<div class="container">
 				<!-- Menu button for smallar screens -->
 				<div class="navbar-header">
 					<button class="navbar-toggle btn-navbar" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
