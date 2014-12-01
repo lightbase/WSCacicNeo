@@ -7,6 +7,7 @@
             <br />
             <!-- Form starts.  -->
              <form action="${url}" class="form-horizontal" method="post">
+                <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}">
                 <input type="hidden" name="came_from" value="${came_from}"/>
                  <div class="alert alert-danger" id="errorLogin" style="display: ${is_visible};">
                     <span tal:replace="message"/>
@@ -28,6 +29,7 @@
                     <input type="submit" name="form.submitted" id="submit" class="btn btn-sm" value="Acessar"/>
                   </div>
             </form>
+        </div>
   </metal:content>
 </metal:main>
     
