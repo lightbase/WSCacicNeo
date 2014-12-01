@@ -13,7 +13,7 @@
 	<metal:content fill-slot="conteudo">
 		<div class="navbar navbar-fixed-top bs-docs-nav" role="banner">
 
-			<div class="container">
+			<div>
 				<!-- Menu button for smallar screens -->
 				<div class="navbar-header">
 					<button class="navbar-toggle btn-navbar" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
@@ -181,7 +181,6 @@
                             async: true,
 					        url: "${request.route_url('notify_count')}",
                             success: function(data, textStatus, jqXHR){
-                                console.log(data, textStatus, jqXHR)
                                 data = JSON.parse(data)
                                 $('#notify-1').html(data['type-1']);
                                 $('#notify-2').html(data['type-2']);

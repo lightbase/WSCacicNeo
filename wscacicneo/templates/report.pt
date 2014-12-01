@@ -16,7 +16,12 @@
                 <div class="col-md-12">
                 <div class="widget" id="tabela_relatorio">
                         <div class="widget-head">
-                            <div id="report-name" class="pull-left">Relatório ${report_name}</div>
+                            <div id="report-name" tal:condition="report_name == 'win32_processor'" class="pull-left">Relatório de Processadores</div>
+                            <div id="report-name" tal:condition="report_name == 'win32_logicaldisk'" class="pull-left">Relatório de HD</div>
+                            <div id="report-name" tal:condition="report_name == 'win32_bios'" class="pull-left">Relatório da BIOS</div>
+                            <div id="report-name" tal:condition="report_name == 'win32_physicalmemory'" class="pull-left">Relatório de Memória</div>
+                            <div id="report-name" tal:condition="report_name == 'operatingsystem'" class="pull-left">Relatório de Sistemas Operacionais</div>
+                            <div id="report-name" tal:condition="report_name == 'software'" class="pull-left">Relatório de Softwares (Suítes de Escritório)</div>
                             <div class="widget-icons pull-right">
                                 <a href="#" id="print" title="Imprimir Tabela"><i class="fa fa-print"></i></a>
                                 <a href="${request.route_url('root')}graficos/${request.matchdict['nm_orgao']}/${report_name}" id="grafico" title="Gerar Gráfico"><i class="fa fa-bar-chart-o"></i></a>
@@ -51,14 +56,14 @@
                                                         <div class="modal-content">
                                                         <div class="modal-header">
                                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                        <h4 class="modal-title">Modal title</h4>
+                                                        <h4 class="modal-title">Alterar quantidade de "${k}"</h4>
                                                         </div>
                                                         <div class="modal-body">
                                                             <input type="text" id="${k}" class="form-control" placeholder="Valor">
                                                         </div>
                                                         <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
-                                                        <button type="button" data-id="${k}" class="btn btn-primary">Salvar</button>
+                                                        <button type="button" data-id="${k}" class="btn btn-primary">Confirmar</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Fechar</button>
                                                         </div>
                                                         </div>
                                                         </div>
@@ -77,7 +82,7 @@
                             <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title">Modal title</h4>
+                                <h4 class="modal-title">Adicionar Item</h4>
                             </div>
                             <form class="form-horizontal" role="form">
                                 <div class="form-group" style="margin-top: 20px;">
@@ -94,8 +99,8 @@
                                 </div>
                             </form>
                             <div class="modal-footer">
+                                <button type="button" id="enviar" class="btn btn-primary">Confirmar</button>
                                 <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Fechar</button>
-                                <button type="button" id="enviar" class="btn btn-primary">Enviar</button>
                             </div>
                         </div>
                     </div>
