@@ -6,7 +6,7 @@
         <div class="padd">
             <br />
             <!-- Form starts.  -->
-             <form class="form-horizontal" role="form">
+             <form class="form-horizontal col-lg-8" role="form">
                 <div class="form-group">
                   <label class="col-lg-2 control-label">Órgão</label>
                   <div class="col-lg-2">
@@ -30,16 +30,20 @@
                     </select>
                   </div>
                 </div>
-                <div class="form-group">
-                  <div class="col-lg-offset-2 col-lg-6">
-                    <button type="button" id="enviar" class="btn btn-sm" style="margin-left: 105px;" >Enviar</button>
-                  </div>
+                <div style="margin-left: 28%;">
+                    <div class="float-right">
+                        <button type="button" id="enviar" class="btn btn-sm btn-primary" style="margin-left: 105px;">Enviar</button>
+                        <p id="loading" style="display: none;"><img src="${request.route_url('root')}static/imgs/ajax-loader-circle.gif" />  Aguarde...</p>
+                    </div>
                 </div>
-              </form>
+             </form>
         </div>
 	</metal:content>
 	<metal:content fill-slot="javascript">
         <script type="text/javascript">
+            $(document).ready(function(){
+
+            });
            $('#enviar').click(function(){
                 orgao = $('#orgao').val()
                 attr = $('#coleta').val()
@@ -64,14 +68,44 @@
                     item = 'win32_processor_manufacturer'
                 }
                 else if(attr == 'software'){
-                    window.location = "${request.route_url('root')}relatorio/software/"+orgao+""
+                    $.ajax({
+                    type: "GET",
+                    beforeSend: function()
+                        {
+                            $('#loading').show();
+                            $('#enviar').hide();
+                        },
+                    complete: function()
+                        {
+                            $('#loading').hide();
+                            $('#enviar').show();
+                        },
+                    success:  window.location = "${request.route_url('root')}relatorio/software/"+orgao+"",
+                    error: function(){ alert('Erro ao gerar os relatórios'); },
+                });
                 }
                 else{
-                    alert('Selecione o Item da coleta')
-                    
-                    return True
+                    noty({text: 'Erro: Selecione um órgão e um item.',layout:'topRight',type:'warning',timeout:3000});
+                    return True;
                 }
-                window.location = "${request.route_url('root')}relatorio/"+orgao+"/"+attr+"/"+item+""
+
+                $.ajax({
+                    type: "GET",
+                    beforeSend: function()
+                        {
+                            $('#loading').show();
+                            $('#enviar').hide();
+                        },
+                    complete: function()
+                        {
+                            $('#loading').hide();
+                            $('#enviar').show();
+                        },
+                    global:false,
+                    success:  window.location = "${request.route_url('root')}relatorio/"+orgao+"/"+attr+"/"+item+"",
+                    error: function(){ $('#loading').hide(); noty({text: 'Erro ao gerar o relatório',layout:'topRight',type:'error',timeout:3000}); }
+                });
+
            });
         </script>
     </metal:content>
