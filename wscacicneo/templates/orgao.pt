@@ -91,9 +91,10 @@
                      <a href="#chaveApiModal" title="Ajuda" class="btn" data-toggle="modal"><span class="fa fa-question"></span></a>
                 </div>
                 <div class="form-group">
-                  <div class="col-lg-offset-2 col-lg-6">
+                  <div class="col-lg-offset-2 col-lg-5">
                     <button type="button" id="enviar" class="btn btn-sm" style="margin-left: 315px;" >Enviar</button>
-                    <button type="button" id="voltar" class="btn btn-sm">Voltar</button>
+                      <button type="button" id="voltar" class="btn btn-sm">Voltar</button>
+                      <span id="loading" class="pull-right" style="display: none;"><img src="${request.route_url('root')}static/imgs/ajax-loader-circle.gif" />  Aguarde...</span>
                   </div>
                 </div>
               </form>
@@ -125,9 +126,21 @@
                 $.ajax({
                     type: "POST",
                     url: "${request.route_url('root')}post_orgao",
-                    data: data, 
+                    data: data,
+                    beforeSend: function()
+                        {
+                            $('#loading').show();
+                            $('#enviar').hide();
+                            $('#voltar').hide();
+                        },
+                    complete: function()
+                        {
+                            $('#loading').hide();
+                            $('#enviar').show();
+                            $('#voltar').show();
+                        },
                     success: function(){alert("Cadastro realizado com sucesso"), window.location.href = "${request.route_url('listorgao')}";   },
-                    error: function(){ alert('Erro ao realizar o cadastro. Todos os campos são obrigatórios') }
+                    error: function(){ noty({text: 'Erro: Todos campos com (*) devem ser preenchidos.',layout:'topRight',type:'error',timeout:3000}); }
                 }); 
             });
         </script>

@@ -1,28 +1,67 @@
-<metal:main use-macro="load: master.pt">
-	<metal:content fill-slot="conteudo">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <!-- Title and other stuffs -->
+    <title>Error - MacAdmin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+
+    <!-- Stylesheets -->
+    <link href="${request.route_url('root')}static/macadmin/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="${request.route_url('root')}static/macadmin/css/font-awesome.min.css">
+    <link href="${request.route_url('root')}static/macadmin/css/style.css" rel="stylesheet">
+
+    <script src="${request.route_url('root')}static/macadmin/js/respond.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="${request.route_url('root')}static/macadmin/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="img/favicon/favicon.png">
+</head>
+
+<body>
+
+<!-- Form area -->
+<div class="error-page">
     <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <!-- Widget starts -->
-              <div class="widget">
-                <!-- Widget head -->
-                <div class="widget-head">
-                  <i class="fa fa-question-circle"></i> Error 
+
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Widget starts -->
+                <div class="widget">
+                    <!-- Widget head -->
+                    <div class="widget-head">
+                        <i class="fa fa-question-circle"></i> Error
+                    </div>
+
+                    <div class="widget-content">
+                        <div class="padd error">
+                            <h1>Página não encontrada!!</h1>
+                            <p>A página solicitada não existe ou não foi encontrada. </p>
+                            <br/>
+                            <div>
+                                <a class="btn btn-primary" href="${request.route_url('home')}" type="button">Início</a>
+                            </div>
+
+                        </div>
+                        <div class="widget-foot">
+                            <!-- Footer goes here -->
+                        </div>
+                    </div>
                 </div>
-                <div class="padd error">
-                    <h1>Erro 404</h1>
-                    <p>A página solicitada não foi encontrada ou não existe. </p>
-                    <br>
-                   <br>
-                   <div class="horizontal-links">
-                    <a href="${request.route_url('root')}home">Início</a></div>
-                  <div class="widget-foot">
-                    <!-- Footer goes here -->
-                  </div>
-                </div>  
-              </div>  
+            </div>
         </div>
-      </div>
     </div>
-  	</metal:content>
-</metal:main>
+</div>
+
+
+<!-- JS -->
+<script src="${request.route_url('root')}static/macadmin/js/jquery.js"></script>
+<script src="${request.route_url('root')}static/macadmin/js/bootstrap.min.js"></script>
+</body>
+</html>

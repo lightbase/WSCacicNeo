@@ -162,7 +162,7 @@
 					    else if(fav == 'Cadastro de Usuário'){
 					      window.location.href = "${request.route_url('user')}";
 					    }
-					    else if(fav == 'Lista de Usuários'){
+					    else if(fav == 'Lista de Usuários' || fav == 'Lista de Usuarios'){
 					      window.location.href = "${request.route_url('listuser')}";
 					    }
 					    else if(fav == 'Questionar Coletas'){

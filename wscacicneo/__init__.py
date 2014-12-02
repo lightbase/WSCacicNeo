@@ -14,8 +14,9 @@ def main(global_config, **settings):
     """
     config.setup(settings)
     from wscacicneo.security import groupfinder
+
     authn_policy = AuthTktAuthenticationPolicy(
-        'sosecret',
+        '51f32a7f9359b94b085e145a6951cfe9',
         callback=groupfinder,
         hashalg='sha512',
         include_ip=True,
@@ -29,10 +30,24 @@ def main(global_config, **settings):
 
     # Session configuration
     cfg.include('pyramid_beaker')
-    my_session_factory = SignedCookieSessionFactory(settings['session.secret'])
+    my_session_factory = SignedCookieSessionFactory(settings['session.secret'],
+                                                    cookie_name='session',
+                                                    timeout=14400,
+                                                    hashalg='sha512',
+                                                    reissue_time=0,
+                                                    max_age=None,
+                                                    path='/',
+                                                    domain=None,
+                                                    secure=False,
+                                                    httponly=False,
+                                                    set_on_exception=True,
+                                                    salt='pyramid.session.',
+                                                    serializer=None
+                                                    )
     cfg.set_session_factory(my_session_factory)
 
     from wscacicneo.config import routing
+
     routing.make_routes(cfg)
     cfg.scan()
 
