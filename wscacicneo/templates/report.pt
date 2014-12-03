@@ -17,7 +17,7 @@
                 <div class="widget" id="tabela_relatorio">
                         <div class="widget-head">
                             <div id="report-name" tal:condition="report_name == 'win32_processor'" class="pull-left">Relatório de Processadores</div>
-                            <div id="report-name" tal:condition="report_name == 'win32_logicaldisk'" class="pull-left">Relatório de HD</div>
+                            <div id="report-name" tal:condition="report_name == 'win32_diskdrive'" class="pull-left">Relatório de HD</div>
                             <div id="report-name" tal:condition="report_name == 'win32_bios'" class="pull-left">Relatório da BIOS</div>
                             <div id="report-name" tal:condition="report_name == 'win32_physicalmemory'" class="pull-left">Relatório de Memória</div>
                             <div id="report-name" tal:condition="report_name == 'operatingsystem'" class="pull-left">Relatório de Sistemas Operacionais</div>

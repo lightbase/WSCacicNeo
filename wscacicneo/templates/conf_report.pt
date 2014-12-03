@@ -48,8 +48,8 @@
                 orgao = $('#orgao').val()
                 attr = $('#coleta').val()
                 if(attr == 'hd'){
-                    attr = 'win32_logicaldisk'
-                    item = 'win32_logicaldisk_caption'
+                    attr = 'win32_diskdrive'
+                    item = 'win32_diskdrive_caption'
                 }
                 else if(attr == 'bios'){
                     attr = 'win32_bios'

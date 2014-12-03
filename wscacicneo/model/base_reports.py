@@ -98,8 +98,8 @@ class ReportsBase():
             required=True
         ))
 
-        Win32_LogicalDisk_item = Field(**dict(
-            name='Win32_LogicalDisk_item',
+        Win32_DiskDrive_item = Field(**dict(
+            name='Win32_DiskDrive_item',
             description='Item Coletado',
             alias='Item',
             datatype='Text',
@@ -108,8 +108,8 @@ class ReportsBase():
             required=True
         ))
 
-        Win32_LogicalDisk_amount = Field(**dict(
-            name='Win32_LogicalDisk_amount',
+        Win32_DiskDrive_amount = Field(**dict(
+            name='Win32_DiskDrive_amount',
             alias='amount',
             description='amount',
             datatype='Text',
@@ -216,22 +216,22 @@ class ReportsBase():
         )
 
         """
-        GROUP LogicalDisk
+        GROUP DiskDrive
         """
-        Win32_LogicalDisk_content = Content()
-        Win32_LogicalDisk_content.append(Win32_LogicalDisk_item)
-        Win32_LogicalDisk_content.append(Win32_LogicalDisk_amount)
+        Win32_DiskDrive_content = Content()
+        Win32_DiskDrive_content.append(Win32_DiskDrive_item)
+        Win32_DiskDrive_content.append(Win32_DiskDrive_amount)
 
-        Win32_LogicalDisk_metadata = GroupMetadata(
-            name='Win32_LogicalDisk',
-            alias='Win32_LogicalDisk',
-            description='Win32_LogicalDisk',
+        Win32_DiskDrive_metadata = GroupMetadata(
+            name='Win32_DiskDrive',
+            alias='Win32_DiskDrive',
+            description='Win32_DiskDrive',
             multivalued = False
         )
 
-        Win32_LogicalDisk = Group(
-            metadata = Win32_LogicalDisk_metadata,
-            content = Win32_LogicalDisk_content
+        Win32_DiskDrive = Group(
+            metadata = Win32_DiskDrive_metadata,
+            content = Win32_DiskDrive_content
         )
 
         """
@@ -281,7 +281,7 @@ class ReportsBase():
         content_list.append(Win32_BIOS)
         content_list.append(Win32_Processor)
         content_list.append(Win32_PhysicalMemory)
-        content_list.append(Win32_LogicalDisk)
+        content_list.append(Win32_DiskDrive)
         content_list.append(software)
 
         lbbase = Base(
