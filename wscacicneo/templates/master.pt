@@ -13,7 +13,7 @@
 	<metal:content fill-slot="conteudo">
 		<div class="navbar navbar-fixed-top bs-docs-nav" role="banner">
 
-			<div class="conjtainer">
+			<div>
 				<!-- Menu button for smallar screens -->
 				<div class="navbar-header">
 					<button class="navbar-toggle btn-navbar" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
@@ -162,7 +162,7 @@
 					    else if(fav == 'Cadastro de Usuário'){
 					      window.location.href = "${request.route_url('user')}";
 					    }
-					    else if(fav == 'Lista de Usuários'){
+					    else if(fav == 'Lista de Usuários' || fav == 'Lista de Usuarios'){
 					      window.location.href = "${request.route_url('listuser')}";
 					    }
 					    else if(fav == 'Questionar Coletas'){
@@ -174,14 +174,13 @@
 					}
 				</script>
 
-                <script tal:condition="request.authenticated_userid">
+                <script type="text/javascript" tal:condition="request.authenticated_userid">
                     $(document).ready(function(){
                         $.ajax({
                             type:"GET",
                             async: true,
 					        url: "${request.route_url('notify_count')}",
                             success: function(data, textStatus, jqXHR){
-                                console.log(data, textStatus, jqXHR)
                                 data = JSON.parse(data)
                                 $('#notify-1').html(data['type-1']);
                                 $('#notify-2').html(data['type-2']);

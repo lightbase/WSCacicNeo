@@ -12,7 +12,8 @@ from wscacicneo.model.user import User
 from pyramid.security import (
     remember,
     forget,
-    )
+)
+from pyramid.session import check_csrf_token
 
 
 class Security(object):
@@ -30,6 +31,9 @@ class Security(object):
     #@view_config(route_name='login', renderer='../templates/login.pt')
     #@forbidden_view_config(renderer='../templates/login.pt')
     def login(self):
+        """
+        Login do sistema
+        """
         user_obj = Utils.create_user_obj()
         search = user_obj.search_list_users()
         result_count = search.result_count
@@ -50,6 +54,9 @@ class Security(object):
             is_visible = 'none'
             usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
             if 'form.submitted' in self.request.params:
+                # Valida CSRF do formulário de login
+                check_csrf_token(self.request)
+
                 email = self.request.params['email']
                 senha = self.request.params['senha']
                 senha_hash = Utils.hash_password(senha)
@@ -64,9 +71,22 @@ class Security(object):
                         )
                         at.create_atividade()
                         response = Response()
-                        headers = remember(self.request, email)
-                        response = HTTPFound(location = came_from,
-                                         headers = headers)
+                        headers = remember(
+                            self.request,
+                            email
+                        )
+
+                        # Cria sessão para o usuário
+                        session = self.request.session
+                        print(dir(session))
+                        session['userid'] = email
+                        #session.save()
+
+                        # Retorna resposta
+                        response = HTTPFound(
+                            location=came_from,
+                            headers=headers
+                        )
                         return response
                     message = 'E-mail ou senha incorretos'
                 except:
@@ -87,6 +107,11 @@ class Security(object):
     #@view_config(route_name='logout', permission="user")
     def logout(self):
         headers = forget(self.request)
+
+        # Remove sessão do usuário
+        session = self.request.session
+        session.invalidate()
+
         response = Response()
         response = HTTPFound(location = self.request.route_url('login'),
                          headers = headers) 

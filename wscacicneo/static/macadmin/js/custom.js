@@ -323,13 +323,29 @@ $(document).ready(function() {
 
 $(function() {
     $('#datetimepicker1').datetimepicker({
-      pickTime: false
+        pickTime: false,
+        dateFormat: 'dd/mm/yy',
+        dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+        dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
+        dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
+        monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+        monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+        nextText: 'Próximo',
+        prevText: 'Anterior'
     });
 });
 
 $(function() {
     $('#datetimepicker2').datetimepicker({
-      pickDate: false
+        pickDate: true,
+        dateFormat: 'dd/mm/yy',
+        dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+        dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
+        dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
+        monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+        monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+        nextText: 'Próximo',
+        prevText: 'Anterior'
     });
 });
 
@@ -371,6 +387,24 @@ $('.scroll-chat').slimscroll({
 
 $(document).ready(function() {
 	$('#data-table').dataTable({
-	   "sPaginationType": "full_numbers"
+	   "sPaginationType": "full_numbers",
+        "bJQueryUI": true,
+        "oLanguage": {
+            "sProcessing": "Processando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "Não foram encontrados resultados",
+            "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando de 0 até 0 de 0 registros",
+            "sInfoFiltered": "",
+            "sInfoPostFix": "",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "oPaginate": {
+                "sFirst": "Primeiro",
+                "sPrevious": "Anterior",
+                "sNext": "Seguinte",
+                "sLast": "Último"
+            }
+        }
 	});
 });

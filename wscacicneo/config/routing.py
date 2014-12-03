@@ -4,14 +4,14 @@ __author__ = 'eduardo'
 
 from ..views import home, notifications, orgaos, users, relatorios, coleta, security, api, graficos, atividades
 from ..utils.csvhandler import json2csv
-
+from pyramid.httpexceptions import HTTPNotFound
 
 def make_routes(cfg):
     """
     Cria rotas do Super Gerente
     """
+    cfg.add_notfound_view(renderer='templates/error.pt')
     cfg.add_static_view('static', 'static', cache_max_age=3600)
-
     # Rotas de Configuração
     cfg.add_route('master', 'master')
     cfg.add_view(home.Home, attr='master', route_name='master',

@@ -11,6 +11,22 @@ pyramid.default_locale_name = en
 rest_url = http://localhost/api
 bulk_url = http://localhost/api/lbbulk
 
+# Beaker cache
+cache.regions = default_term, second, short_term, long_term
+cache.type = memory
+cache.second.expire = 1
+cache.short_term.expire = 60
+cache.default_term.expire = 300
+cache.long_term.expire = 3600
+
+# Beaker sessions
+#session.type = file
+#session.data_dir = %(here)s/data/sessions/data
+#session.lock_dir = %(here)s/data/sessions/lock
+session.type = memory
+session.key = akhet_demo
+session.secret = d40f5f31439044c3e74c05a0c6c34d18efc1370e
+
 [server:main]
 use = egg:waitress#main
 host = 0.0.0.0

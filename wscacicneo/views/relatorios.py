@@ -98,7 +98,7 @@ class Relatorios(object):
         valor = attr+'_item'
         reports_config = config_reports.ConfReports(nm_orgao)
         search = reports_config.search_item(attr, valor, item)
-        print(search)
+        #print(search)
         data_id = search.results[0]._metadata.id_doc
         document = json.dumps(data_dic)
         put_doc = reports_config.update_coleta(data_id, document)

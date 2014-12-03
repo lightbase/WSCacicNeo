@@ -178,8 +178,8 @@ class BaseBackup():
             name='Win32_PhysicalMemory_MemoryType',
             description='Win32_PhysicalMemory_MemoryType',
             alias='Win32_PhysicalMemory_MemoryType',
-            datatype='Integer',
-            indices=[],
+            datatype='Text',
+            indices=['Textual'],
             multivalued=False,
             required=False
         ))
@@ -197,30 +197,30 @@ class BaseBackup():
         """
         LB Disk
         """
-        Win32_LogicalDisk_Caption = Field(**dict(
-            name='Win32_LogicalDisk_Caption',
-            description='Win32_LogicalDisk_Caption',
-            alias='Win32_LogicalDisk_Caption',
+        Win32_DiskDrive_Caption = Field(**dict(
+            name='Win32_DiskDrive_Caption',
+            description='Win32_DiskDrive_Caption',
+            alias='Win32_DiskDrive_Caption',
             datatype='Text',
             indices=['Textual'],
             multivalued=False,
             required=False
         ))
 
-        Win32_LogicalDisk_MediaType = Field(**dict(
-            name='Win32_LogicalDisk_MediaType',
-            description='Win32_LogicalDisk_MediaType',
-            alias='Win32_LogicalDisk_MediaType',
+        Win32_DiskDrive_Model = Field(**dict(
+            name='Win32_DiskDrive_Model',
+            description='Win32_DiskDrive_Model',
+            alias='Win32_DiskDrive_Model',
             datatype='Text',
             indices=['Textual'],
             multivalued=False,
             required=False
         ))
 
-        Win32_LogicalDisk_Size = Field(**dict(
-            name='Win32_LogicalDisk_Size',
-            description='Win32_LogicalDisk_Size',
-            alias='Win32_LogicalDisk_Size',
+        Win32_DiskDrive_Size = Field(**dict(
+            name='Win32_DiskDrive_Size',
+            description='Win32_DiskDrive_Size',
+            alias='Win32_DiskDrive_Size',
             datatype='Integer',
             indices=[],
             multivalued=False,
@@ -310,21 +310,21 @@ class BaseBackup():
         """
         GROUP Logical Disk
         """
-        Win32_LogicalDisk_content = Content()
-        Win32_LogicalDisk_content.append(Win32_LogicalDisk_Caption)
-        Win32_LogicalDisk_content.append(Win32_LogicalDisk_MediaType)
-        Win32_LogicalDisk_content.append(Win32_LogicalDisk_Size)
+        Win32_DiskDrive_content = Content()
+        Win32_DiskDrive_content.append(Win32_DiskDrive_Caption)
+        Win32_DiskDrive_content.append(Win32_DiskDrive_Model)
+        Win32_DiskDrive_content.append(Win32_DiskDrive_Size)
 
-        Win32_LogicalDisk_metadata = GroupMetadata(
-            name='Win32_LogicalDisk',
-            alias='Win32_LogicalDisk',
-            description='Win32_LogicalDisk',
+        Win32_DiskDrive_metadata = GroupMetadata(
+            name='Win32_DiskDrive',
+            alias='Win32_DiskDrive',
+            description='Win32_DiskDrive',
             multivalued=False
         )
 
-        Win32_LogicalDisk = Group(
-            metadata=Win32_LogicalDisk_metadata,
-            content=Win32_LogicalDisk_content
+        Win32_DiskDrive = Group(
+            metadata=Win32_DiskDrive_metadata,
+            content=Win32_DiskDrive_content
         )
 
         base_metadata = BaseMetadata(
@@ -338,7 +338,7 @@ class BaseBackup():
         content_list.append(OperatingSystem)
         content_list.append(Win32_BIOS)
         content_list.append(Win32_PhysicalMemory)
-        content_list.append(Win32_LogicalDisk)
+        content_list.append(Win32_DiskDrive)
         content_list.append(SoftwareList)
 
         lbbase = Base(

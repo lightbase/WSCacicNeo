@@ -135,7 +135,7 @@ class Utils:
             "win32_processor": "win32_processor_manufacturer",
             "win32_bios": "win32_bios_manufacturer",
             "operatingsystem": "operatingsystem_caption",
-            "win32_logicaldisk": "win32_logicaldisk_caption",
+            "win32_diskdrive": "win32_diskdrive_caption",
             "win32_physicalmemory": "win32_physicalmemory_memorytype",
             "softwarelist": None
         }
