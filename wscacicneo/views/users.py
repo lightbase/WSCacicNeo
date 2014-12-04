@@ -309,6 +309,9 @@ class Users(object):
             if(edit_yourself == False):
                 return Response(edit)
             else:
+                # Remove sessão do usuário
+                session = self.request.session
+                session.invalidate()
                 headers = forget(self.request)
                 response = Response()
                 response = HTTPFound(location = self.request.route_url('login'),

@@ -102,7 +102,7 @@
                       type: "PUT",
                       url: "${request.route_url('root')}put_profile_user",
                       data: data, 
-                      success: function(){ alert('Alteração realizada com sucesso'), location.reload(); },
+                      success: function(){ alert('Alteração realizada com sucesso'), window.location.href = "${request.route_url('home')}"; },
                       error: function(){ alert('Erro ao Alterar do usuário. Todos os campos são obrigatórios') },
                   });
             });

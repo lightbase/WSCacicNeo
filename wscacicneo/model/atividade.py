@@ -82,11 +82,22 @@ class AtividadeBase(object):
             required=True
         ))
 
+        data_hora = Field(**dict(
+            name='data_hora',
+            description='Data e Hora de execução da tarefa',
+            alias='data_hora',
+            datatype='DateTime',
+            indices=['Ordenado'],
+            multivalued=False,
+            required=False
+        ))
+
         content_list = Content()
         content_list.append(tipo)
         content_list.append(usuario)
         content_list.append(descricao)
         content_list.append(data)
+        content_list.append(data_hora)
 
         base_metadata = BaseMetadata(
             name='atividade'

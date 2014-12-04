@@ -114,10 +114,10 @@
                 console.log(data);
                 $.ajax({
                     type: "POST",
-                    url: "${request.route_url('root')}orgao_inicial",
+                    url: "${request.route_url('orgao_inicial')}",
                     data: data,
-                    success: function(){alert("Cadastro realizado com sucesso"), window.location.href = "${request.route_url('home')}";   },
-                    error: function(){ alert('Erro ao realizar o cadastro. Todos os campos são obrigatórios') }
+                    success: function(){ noty({text: 'Cadastro realizado com sucesso.',layout:'topRight',type:'success',timeout:3000}), window.location.href = "${request.route_url('home')}";   },
+                    error: function(){ noty({text: 'Erro: Todos campos com (*) devem ser preenchidos.',layout:'topRight',type:'error',timeout:3000}); }
                 });
             });
         </script>

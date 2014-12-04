@@ -101,7 +101,10 @@
     <div class="form-group">
       <div class="col-lg-offset-2 col-lg-6">
         <button type="button" id="enviar" class="btn btn-sm" style="margin-left: 315px;" >Enviar</button>
-        <button type="button" id="limpar" class="btn btn-sm">Limpar</button>
+          <button type="button" id="voltar" class="btn btn-sm">Voltar</button>
+        <span id="loading" style="display: none; margin-left: 315px;">
+            <img src="${request.route_url('root')}static/imgs/ajax-loader-circle.gif" />  Aguarde...
+        </span>
       </div>
 
 
@@ -129,17 +132,10 @@
           })
       });
 
-       $('#limpar').click(function(){
-                $('#data_coleta').val('')
-                $('#softwarelist').val('')
-                $('#win32_processor_manufacturer').val('')
-                $('#win32_processor_numberoflogicalprocessors').val('')
-                $('#win32_processor_caption').val('')
-                $('#operatingsystem_version').val('')
-                $('#operatingsystem_installdate').val('')
-                $('#operatingsystem_caption').val('')
-                $('#win32_bios_manufacturer').val('')
-       });
+       $('#voltar').click(function(){
+                var oldURL = document.referrer;
+                window.location.href = oldURL;
+        });
        $('#enviar').click(function(){
                 var softwarelist = [];
                 for (i = 1; i <= x; i++) { 
@@ -161,11 +157,23 @@
                 json = JSON.stringify(data)
                 $.ajax({
                     type: "POST",
-                    url: "${request.route_url('root')}post_coleta_manual",
-                    data: {'documento': json}, 
-                    success: function(){ alert('sucesso'), window.location.href = "${request.route_url('home')}"; },
-                    error: function(){ alert('erro') },
-                }); 
+                    url: "${request.route_url('post_coleta_manual')}",
+                    data: {'documento': json},
+                    beforeSend: function()
+                        {
+                            $('#loading').show();
+                            $('#enviar').hide();
+                            $('#voltar').hide();
+                        },
+                    complete: function()
+                        {
+                            $('#loading').hide();
+                            $('#enviar').show();
+                            $('#voltar').show();
+                        },
+                    success: function(){ noty({text: 'Cadastro realizado com sucesso.',layout:'topRight',type:'success',timeout:3000}), window.location.href = "${request.route_url('home')}"; },
+                    error: function(){ noty({text: 'Erro: Todos campos com (*) devem ser preenchidos.',layout:'topRight',type:'error',timeout:3000}); }
+                });
             });
     </script>
   </metal:content>

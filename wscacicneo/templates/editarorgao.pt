@@ -60,12 +60,14 @@
                       <option value="72">3 dias</option>
                     </select>
                   </div>
+                    <a href="#tempoColetaModal" title="Ajuda" class="btn" data-toggle="modal"><span class="fa fa-question"></span></a>
                 </div>
                 <div class="form-group">
                   <label class="col-lg-2 control-label">URL para comunicação *:</label>
                   <div class="col-lg-5">
                     <input type="text" name='url' id="url" class="form-control" value="${url}" placeholder="URL para comunicação">
                   </div>
+                    <a href="#urlComunicacaoModal" title="Ajuda" class="btn" data-toggle="modal"><span class="fa fa-question"></span></a>
                 </div>
                 <div class="form-group">
                   <label class="col-lg-2 control-label">Habilitar Bot *:</label>
@@ -75,22 +77,28 @@
                       <option value="False">Não</option>
                     </select>
                   </div>
+                    <a href="#habilitaBotModal" title="Ajuda" class="btn" data-toggle="modal"><span class="fa fa-question"></span></a>
                 </div>
                 <div class="form-group">
                   <label class="col-lg-2 control-label">Chave de API:</label>
                   <div class="col-lg-5">
                     <input type="text" id="api_key" class="form-control" placeholder="Chave de API" value="${api_key}" disabled="disabled">
                   </div>
+                    <a href="#chaveApiModal" title="Ajuda" class="btn" data-toggle="modal"><span class="fa fa-question"></span></a>
                 </div>
                 <div class="form-group">
                   <div class="col-lg-offset-2 col-lg-6">
                     <button type="button" id="enviar" class="btn btn-sm" style="margin-left: 315px;" >Enviar</button>
                     <input style="display:none;" id="id" value="${request.matchdict['sigla']}">
                     <button type="button" id="voltar" class="btn btn-sm">Voltar</button>
+                      <span id="loading" style="display: none; margin-left: 315px;">
+                          <img src="${request.route_url('root')}static/imgs/ajax-loader-circle.gif" />  Aguarde...
+                      </span>
                   </div>
                 </div>
               </form>
           </div>
+        <metal:macro use-macro="load: modals.pt"></metal:macro>
 	</metal:content>
 	<metal:content fill-slot="javascript">
         <script type="text/javascript">
@@ -128,10 +136,22 @@
                 }
                 $.ajax({
                     type: "PUT",
-                    url: "${request.route_url('root')}put_orgao",
-                    data: data, 
-                    success: function(){alert("Aleteração realizado com sucesso"), window.location.href = "${request.route_url('listorgao')}";   },
-                    error: function(){ alert('Erro ao alterar o orgão. Todos os campos são obrigatórios') }
+                    url: "${request.route_url('put_orgao')}",
+                    data: data,
+                    beforeSend: function()
+                        {
+                            $('#loading').show();
+                            $('#enviar').hide();
+                            $('#voltar').hide();
+                        },
+                    complete: function()
+                        {
+                            $('#loading').hide();
+                            $('#enviar').show();
+                            $('#voltar').show();
+                        },
+                    success: function(){noty({text: 'Aleteração realizado com sucesso.',layout:'topRight',type:'success',timeout:3000}), window.location.href = "${request.route_url('listorgao')}";   },
+                    error: function(){ noty({text: 'Erro: Todos campos com (*) são obrigatórios.',layout:'topRight',type:'success',timeout:3000}) }
                 }); 
             });
         </script>

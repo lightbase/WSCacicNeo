@@ -19,10 +19,13 @@
                     </div>
                 </div>
                 <div class="form-group">
-                  <div class="col-lg-offset-2 col-lg-6">
-                    <button type="button" id="enviar" class="btn btn-sm" style="margin-left: 315px;" >Enviar</button>
-                    <input style="display:none;" id="url" value="${request.matchdict['matricula']}">
-                    <button type="button" id="limpar" class="btn btn-sm">Limpar</button>
+                  <div class="col-lg-offset-2 col-lg-8">
+                      <span id="loading" style="display: none; margin-left: 315px;">
+                          <img src="${request.route_url('root')}static/imgs/ajax-loader-circle.gif" />  Aguarde...
+                      </span>
+                      <button type="button" id="enviar" class="btn btn-sm" style="margin-left: 315px;" >Enviar</button>
+                      <input style="display:none;" id="url" value="${request.matchdict['matricula']}">
+                      <button type="button" id="voltar" class="btn btn-sm">Voltar</button>
                   </div>
                 </div>
               </form>
@@ -30,9 +33,10 @@
   </metal:content>
   <metal:content fill-slot="javascript">
         <script type="text/javascript">
-           $('#limpar').click(function(){
-                    $('#senha').val('')
-           });
+           $('#voltar').click(function(){
+                var oldURL = document.referrer;
+                window.location.href = oldURL;
+            });
            $('#enviar').click(function(){
                 var nome = '${nome}'
                     matricula = '${matricula}'
@@ -65,10 +69,22 @@
                 }else{
                   $.ajax({
                       type: "PUT",
-                      url: "${request.route_url('root')}put_password_user",
-                      data: data, 
-                      success: function(){ alert('Alteração realizada com sucesso'), window.location.href = "${request.route_url('home')}"; },
-                      error: function(){ alert('Erro ao Alterar do usuário. Todos os campos são obrigatórios') },
+                      url: "${request.route_url('put_password_user')}",
+                      data: data,
+                      beforeSend: function()
+                        {
+                            $('#loading').show();
+                            $('#enviar').hide();
+                            $('#voltar').hide();
+                        },
+                      complete: function()
+                        {
+                            $('#loading').hide();
+                            $('#enviar').show();
+                            $('#voltar').show();
+                        },
+                      success: function(){ noty({text: 'Senha alterada com sucesso.',layout:'topRight',type:'success',timeout:3000}), window.location.href = "${request.route_url('home')}"; },
+                      error: function(){ noty({text: 'Erro ao alterar sua senha.',layout:'topRight',type:'error',timeout:3000}); }
                   });
                 }
             });

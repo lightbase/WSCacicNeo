@@ -33,7 +33,7 @@
                 <div style="margin-left: 28%;">
                     <div class="float-right">
                         <button type="button" id="enviar" class="btn btn-sm btn-primary" style="margin-left: 105px;">Enviar</button>
-                        <p id="loading" style="display: none;"><img src="${request.route_url('root')}static/imgs/ajax-loader-circle.gif" />  Aguarde...</p>
+                        <p id="loading" style="display: none;margin-left: 105px;"><img src="${request.route_url('root')}static/imgs/ajax-loader-circle.gif" />  Aguarde...</p>
                     </div>
                 </div>
              </form>

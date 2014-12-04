@@ -49,7 +49,7 @@
                 <h4 class="modal-title">Habilitar Bot - Ajuda</h4>
             </div>
             <div class="modal-body">
-                <p>O campo "Habilitar Bot" define se o WSCBot irá coletar automaticamente, ou não.</p>
+                <p>O campo "Habilitar Bot" define se o Super-Gerente irá coletar automaticamente, ou não.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Fechar

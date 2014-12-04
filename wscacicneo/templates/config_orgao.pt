@@ -61,9 +61,12 @@
                 </div>
                 <div class="form-group">
                   <div class="col-lg-offset-2 col-lg-6">
-                    <button type="button" id="enviar" class="btn btn-sm" style="margin-left: 315px;" >Enviar</button>
-                    <input style="display:none;" id="id" value="${request.matchdict['sigla']}">
-                    <button type="button" id="limpar" class="btn btn-sm">Limpar</button>
+                      <button type="button" id="enviar" class="btn btn-sm" style="margin-left: 315px;" >Enviar</button>
+                      <button type="button" id="voltar" class="btn btn-sm">Voltar</button>
+                      <span id="loading" style="display: none; margin-left: 315px;">
+                          <img src="${request.route_url('root')}static/imgs/ajax-loader-circle.gif" />  Aguarde...
+                      </span>
+                      <input style="display:none;" id="id" value="${request.matchdict['sigla']}">
                   </div>
                 </div>
                 <input type="hidden" id="telefone" value="${telefone}">
@@ -77,18 +80,10 @@
 	</metal:content>
 	<metal:content fill-slot="javascript">
         <script type="text/javascript">
-           $('#limpar').click(function(){
-                    $('#pretty_name').val('')
-                    $('#email').val('')
-                    $('#telefone').val('')
-                    $('#gestor').val('')
-                    $('#sigla').val('')
-                    $('#coleta').val('')
-                    $('#end').val('')
-                    $('#url').val('')
-                    $('#habilitar_bot').val('')
-                    $('#api_key').val('')
-           });
+           $('#voltar').click(function(){
+                var oldURL = document.referrer;
+                window.location.href = oldURL;
+            });
            $('#enviar').click(function(){
                 var pretty_name = $('#pretty_name').val()
                     email = $('#email').val()
@@ -119,11 +114,23 @@
                 }
                 $.ajax({
                     type: "PUT",
-                    url: "${request.route_url('root')}put_orgao",
-                    data: data, 
-                    success: function(){alert("Alteração realizado com sucesso"), window.location.href = "${request.route_url('listorgao')}";   },
-                    error: function(){ alert('Erro ao alterar o orgão. Todos os campos são obrigatórios') }
-                }); 
+                    url: "${request.route_url('put_orgao')}",
+                    data: data,
+                    beforeSend: function()
+                        {
+                            $('#loading').show();
+                            $('#enviar').hide();
+                            $('#voltar').hide();
+                        },
+                    complete: function()
+                        {
+                            $('#loading').hide();
+                            $('#enviar').show();
+                            $('#voltar').show();
+                        },
+                    success: function(){ noty({text: 'Alteração realizado com sucesso.',layout:'topRight',type:'success',timeout:3000}), window.location.href = "${request.route_url('listorgao')}"; },
+                    error: function(){ noty({text: 'Erro ao alterar o orgão. Todos os campos são obrigatórios.',layout:'topRight',type:'error',timeout:3000}); }
+                });
             });
         </script>
     </metal:content>
