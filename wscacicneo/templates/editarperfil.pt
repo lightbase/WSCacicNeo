@@ -32,9 +32,15 @@
                     </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-lg-2 control-label">Orgão</label>
+                  <label class="col-lg-2 control-label">* Orgão:</label>
                   <div class="col-lg-5">
-                    <input type="text" id="orgao" value="${orgao}" class="form-control" placeholder="Orgão">
+                    <select id="orgao" class="form-control">
+                        <tal tal:repeat="doc orgaos">
+                             <option  tal:condition="orgao == doc.nome"
+                                      value="${doc.nome}">${doc.pretty_name}</option>
+                        </tal>
+                        <option tal:repeat="doc orgaos" value="${doc.nome}">${doc.pretty_name}</option>
+                    </select>
                   </div>
                 </div>
                 <div class="form-group">

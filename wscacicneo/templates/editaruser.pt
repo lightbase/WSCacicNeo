@@ -35,6 +35,10 @@
                   <label class="col-lg-2 control-label">Orgão:</label>
                   <div class="col-lg-5">
                     <select id="orgao" class="form-control">
+                        <tal tal:repeat="doc orgaos">
+                             <option  tal:condition="orgao == doc.nome"
+                                      value="${doc.nome}">${doc.pretty_name}</option>
+                        </tal>
                       <option tal:repeat="orgao orgaos" value="${orgao.nome}">${orgao.pretty_name}</option>
                     </select>
                   </div>
