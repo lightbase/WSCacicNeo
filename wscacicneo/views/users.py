@@ -305,8 +305,8 @@ class Users(object):
                 session.invalidate()
                 headers = forget(self.request)
                 response = Response()
-                response = HTTPFound(location = self.request.route_url('login'),
-                                 headers = headers)
+                response = HTTPFound(location=self.request.route_url('login'),
+                                     headers=headers)
                 return response
         else:
             return {"emailerrado":"E-mail não institucional"}
@@ -354,6 +354,8 @@ class Users(object):
         search = user_obj.search_user(matricula)
         email = search.results[0].email
         usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
+        orgao_obj = Utils.create_orgao_obj()
+        distinct_orgaos = orgao_obj.get_distinct_orgaos("document->>'nome'")
         if (usuario_autenticado.results[0].email ==  email):
             return {
                 'nome' : search.results[0].nome,
@@ -367,7 +369,8 @@ class Users(object):
                 'senha' : search.results[0].senha,
                 'itens' : search.results[0].itens,
                 'favoritos' : search.results[0].favoritos,
-                'usuario_autenticado':usuario_autenticado,
+                'usuario_autenticado': usuario_autenticado,
+                'orgaos': distinct_orgaos.results
             }
         else:
             return HTTPFound(location = self.request.route_url('home'))
