@@ -14,6 +14,7 @@ from wscacicneo.model.user import User
 from ..model import atividade
 from wscacicneo.model import user as model_usuario
 from wscacicneo.search.orgao import SearchOrgao
+from wscacicneo.search.user import SearchUser
 from pyramid.security import (
     remember,
     forget,
@@ -69,17 +70,7 @@ class Users(object):
         """
         documento = json.loads(self.request.params['documento'])
         matricula = documento['matricula']
-        user_obj = User(
-            nome = documento['nome'],
-            matricula = documento['matricula'],
-            email = documento['email'],
-            orgao = documento['orgao'],
-            telefone = documento['telefone'],
-            cargo = documento['cargo'],
-            setor = documento['setor'],
-            permissao = documento['permissao'],
-            senha = documento['senha']
-        )
+        user_obj = SearchUser(matricula).search_by_name()
         user = {
             'nome' : documento['nome'],
             'matricula' : documento['matricula'],
