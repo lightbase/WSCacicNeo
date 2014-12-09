@@ -20,7 +20,10 @@ def groupfinder(userid, request):
     userid = request.session['userid']
 
     # Primeiro tenta busca pela chave de API
-    user_obj = Utils.create_user_obj()
-    usuario = user_obj.search_user_by_email(userid)
-    permissao = usuario.results[0].permissao
-    return [permissao]
+    try:
+        user_obj = Utils.create_user_obj()
+        usuario = user_obj.search_user_by_email(userid)
+        permissao = usuario.results[0].permissao
+        return [permissao]
+    except:
+        return None

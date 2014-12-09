@@ -161,6 +161,7 @@ class Orgaos(object):
         """
         Deleta doc apartir do id
         """
+        session = self.request.session
         doc = self.request.params
         sigla = self.request.matchdict['sigla']
         orgao_obj = Orgao(
@@ -187,7 +188,12 @@ class Orgaos(object):
         search = orgao_obj.search_orgao(sigla)
         id = search.results[0]._metadata.id_doc
         delete = orgao_obj.delete_orgao(id)
-        return HTTPFound(location = self.request.route_url('listorgao'))
+
+        if(delete):
+            session.flash('Sucesso ao apagar o órgão '+search.results[0].nome, queue="success")
+        else:
+            session.flash('Ocorreu um erro ao apagar o órgão '+search.results[0].nome, queue="error")
+        return HTTPFound(location=self.request.route_url('listorgao'))
 
     # Views de Orgão
     def orgao(self):

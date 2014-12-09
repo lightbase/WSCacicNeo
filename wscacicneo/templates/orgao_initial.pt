@@ -114,7 +114,7 @@
                 console.log(data);
                 $.ajax({
                     type: "POST",
-                    url: "${request.route_url('orgao_inicial')}",
+                    url: "${request.route_url('orgao_initial')}",
                     data: data,
                     success: function(){ noty({text: 'Cadastro realizado com sucesso.',layout:'topRight',type:'success',timeout:3000}), window.location.href = "${request.route_url('home')}";   },
                     error: function(){ noty({text: 'Erro: Todos campos com (*) devem ser preenchidos.',layout:'topRight',type:'error',timeout:3000}); }
