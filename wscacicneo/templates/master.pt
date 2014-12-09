@@ -90,6 +90,31 @@
                            </ul>
                         </div>
 						<!-- Button section -->
+                        <div class="header-data">
+
+                        <!-- Members data -->
+                            <div style="margin-left: 120px;" class="hdata">
+                                <div class="mcol-left">
+                                    <i class="fa fa-user bblue"></i> 
+                                </div>
+                                <div class="mcol-right">
+                                    <p><a id="users"></a> <em>Usuários</em></p>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <!-- revenue data -->
+                            <div class="hdata">
+                                <div class="mcol-left">
+                                    <i class="fa fa-home bred"></i> 
+                                </div>
+                                <div class="mcol-right">
+                                <p><a id="orgaos"></a><em>Órgãos</em></p>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                     </div>
+
 					</div>
 				</div>
 			</header>
@@ -190,6 +215,20 @@
                                 console.log(jqXHR, textStatus, errorThrown)
                             }
                         }); 
+                        $.ajax({
+                            type:"GET",
+                            async: true,
+					        url: "${request.route_url('notify_orgaos_users')}",
+                            success: function(data, textStatus, jqXHR){
+                                data = JSON.parse(data)
+                                $('#orgaos').html(data['count_orgao']);
+                                $('#users').html(data['count_user']);
+                            },
+                            error: function(jqXHR, textStatus, errorThrown){
+                                console.log(jqXHR, textStatus, errorThrown)
+                            }
+                        }); 
+
                     });
 				</script>
 				<metal:content define-slot="javascript"/>

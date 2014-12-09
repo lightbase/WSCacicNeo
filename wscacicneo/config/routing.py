@@ -142,6 +142,10 @@ def make_routes(cfg):
     cfg.add_view(notifications.Notifications, attr='count_notify', route_name='notify_count',
                  permission="gest")
 
+    cfg.add_route('notify_orgaos_users', 'notificacoes/orgaos_users')
+    cfg.add_view(notifications.Notifications, attr='notify_orgaos_users', route_name='notify_orgaos_users',
+                 permission="gest")
+
     cfg.add_route('edit_profile_user', 'usuario/perfil/{matricula}')
     cfg.add_view(users.Users, attr='edit_profile_user', route_name='edit_profile_user',
                  renderer='templates/editarperfil.pt', permission="gest")

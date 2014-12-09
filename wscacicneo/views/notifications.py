@@ -8,6 +8,10 @@ from wscacicneo.utils.utils import Utils
 from wscacicneo.model.notify import Notify
 from pyramid.httpexceptions import HTTPFound
 from wscacicneo.search.orgao import SearchOrgao
+from wscacicneo.utils.utils import Utils
+from wscacicneo.model.orgao import Orgao
+from wscacicneo.model.user import User
+
 
 class Notifications(object):
     """
@@ -114,3 +118,19 @@ class Notifications(object):
         )
         results = notify_obj.create_notify()
         return Response(str(results))
+
+    def notify_orgaos_users(self):
+        """
+        Retorna o numero de órgãos e usuarios do sistema
+        """
+        orgao_obj = Utils.create_orgao_obj()
+        user_obj = Utils.create_user_obj()
+        result_user = user_obj.search_list_users()
+        result_orgao = orgao_obj.search_list_orgaos()
+        data = {
+            'count_orgao' : result_orgao.result_count,
+            'count_user' : result_user.result_count
+            }
+        results = json.dumps(data)
+        return Response(results)
+

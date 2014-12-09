@@ -30,19 +30,7 @@ class Orgaos(object):
         self.request = request
 
     def listorgao(self):
-        orgao_obj = Orgao(
-            nome='sahuds',
-            pretty_name='dg dçskg sdgk ds',
-            cargo='cargo',
-            gestor='gestor',
-            coleta='4',
-            sigla='MPOG',
-            endereco='Esplanada bloco C',
-            email='admin@planemaneto.gov.br',
-            telefone='(61) 2025-4117',
-            url='http://api.brlight.net/api',
-            api_key='12242142141'
-        )
+        orgao_obj = Utils.create_orgao_obj()
         search = orgao_obj.search_list_orgaos()
         usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
         return {'orgao_doc': search.results,
