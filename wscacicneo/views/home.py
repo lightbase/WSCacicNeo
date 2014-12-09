@@ -147,7 +147,7 @@ class Home(object):
                     (home_report_attr, self.get_user_report_data_by_attr(
                     usuario_autenticado.results[0], home_report_attr))
                 )
-
+        session = self.request.session
         return {'usuario_autenticado': usuario_autenticado,
                 'base_doc': data,
                 'doc_atividade': doc_atividade.results,

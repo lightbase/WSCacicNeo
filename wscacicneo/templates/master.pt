@@ -7,7 +7,7 @@
 		<metal:content define-slot="css"/>
 	</metal:content>
 
-	
+
 
 	<!-- Conteúdo da Página -->
 	<metal:content fill-slot="conteudo">
@@ -23,15 +23,15 @@
 					<a href="index.html" class="navbar-brand hidden-lg">Super-Gerente</a>
 				</div>
 				<!--  Navigation starts -->
-				<nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">         
+				<nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
 					<!-- Links -->
 						<ul class="nav navbar-nav pull-right" tal:condition="request.authenticated_userid">
 							<metal:macro use-macro="load: menu_fav.pt">
-							<li class="dropdown pull-right">            
+							<li class="dropdown pull-right">
 								<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-									<i class="fa fa-user"></i> 
+									<i class="fa fa-user"></i>
 										${usuario_autenticado.results[0].nome}
-									<b class="caret"></b>              
+									<b class="caret"></b>
 								</a>
 								<!-- Dropdown menu -->
 								<ul class="dropdown-menu">
@@ -46,10 +46,10 @@
 
 					<!-- Links -->
 						<ul class="nav navbar-nav pull-right">
-							<li class=" pull-right">            
+							<li class=" pull-right">
 								<a tal:condition="not request.authenticated_userid" href="${request.route_url('root')}login">
-									<i class="fa fa-user"></i> 
-											Login 
+									<i class="fa fa-user"></i>
+											Login
 								</a>
 							</li>
 						</ul>
@@ -74,17 +74,17 @@
                            <ul class="nav nav-pills">
                               <li class="dropdown dropdown-big">
                                  <a class="dropdown-toggle" href="${request.route_url('list_notify')}?type=1">
-                                 <i class="fa fa-times"></i> Erros <span id="notify-1" class="label label-danger"></span> 
+                                 <i class="fa fa-times"></i> Erros <span id="notify-1" class="label label-danger"></span>
                                  </a>
                               </li>
                               <li class="dropdown dropdown-big">
                                  <a class="dropdown-toggle" href="${request.route_url('list_notify')}?type=2" >
-                                 <i class="fa fa-refresh"></i> Desatualizados <span id="notify-2" class="label label-warning"></span> 
+                                 <i class="fa fa-refresh"></i> Desatualizados <span id="notify-2" class="label label-warning"></span>
                                  </a>
                               </li>
                               <li class="dropdown dropdown-big">
                                  <a class="dropdown-toggle" href="${request.route_url('list_notify')}?type=3">
-                                 <i class="fa fa-warning"></i> Outros <span id="notify-3" class="label label-default"></span> 
+                                 <i class="fa fa-warning"></i> Outros <span id="notify-3" class="label label-default"></span>
                                  </a>
                               </li>
                            </ul>
@@ -105,7 +105,7 @@
 
 					<!--- Sidebar navigation -->
 					<!-- If the main navigation has sub navigation, then add the class "has_sub" to "li" of main navigation. -->
-					
+
 					<!-- Sidebar ends -->
 
 					<!-- Main bar -->
@@ -127,8 +127,16 @@
 						<!-- Page heading ends -->
 
 						<!-- Define Slot do Conteúdo -->
-						<div class="metter">
-							<metal:content define-slot="conteudo" />
+							<div id="alert_success" class="alert alert-danger"
+								  style="width: 100%; text-align: center;" tal:condition="request.session.peek_flash('error')" tal:repeat="msg request.session.pop_flash('error')" tal:content="msg">
+                                <button type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
+							</div>
+							<div id="alert_error" class="alert alert-success"
+                                  style="width: 100%; text-align: center;" tal:condition="request.session.peek_flash('success')" tal:repeat="msg request.session.pop_flash('success')" tal:content="msg">
+                                <button type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
+							</div>
+                        <div class="metter">
+                            <metal:content define-slot="conteudo" />
 						</div>
 					</div>
 				</div>
@@ -189,7 +197,7 @@
                             error: function(jqXHR, textStatus, errorThrown){
                                 console.log(jqXHR, textStatus, errorThrown)
                             }
-                        }); 
+                        });
                     });
 				</script>
 				<metal:content define-slot="javascript"/>
