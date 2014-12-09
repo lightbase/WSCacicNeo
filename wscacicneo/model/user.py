@@ -325,6 +325,15 @@ class User(user_base.metaclass):
 
         return results
 
+    def get_user_id(self, id_user):
+        """
+        Retorna um documento apartir do id
+        """
+
+        results = self.documentrest.get(id_user)
+
+        return results
+
     def delete_user(self, id):
         """
         Deleta o Órgao apartir do ID
