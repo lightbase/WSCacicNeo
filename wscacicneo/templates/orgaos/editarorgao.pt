@@ -1,4 +1,4 @@
-<metal:main use-macro="load: master.pt">
+<metal:main use-macro="load: ../basic/master.pt">
   <metal:content fill-slot="dash">
       Editar Orgão      
   </metal:content>
@@ -98,7 +98,7 @@
                 </div>
               </form>
           </div>
-        <metal:macro use-macro="load: modals.pt"></metal:macro>
+        <metal:macro use-macro="load: ../includes/modals.pt"></metal:macro>
 	</metal:content>
 	<metal:content fill-slot="javascript">
         <script type="text/javascript">

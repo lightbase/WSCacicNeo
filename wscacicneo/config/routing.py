@@ -10,16 +10,16 @@ def make_routes(cfg):
     """
     Cria rotas do Super Gerente
     """
-    cfg.add_notfound_view(renderer='templates/error.pt')
+    cfg.add_notfound_view(renderer='templates/basic/error.pt')
     cfg.add_static_view('static', 'static', cache_max_age=3600)
     # Rotas de Configuração
     cfg.add_route('master', 'master')
     cfg.add_view(home.Home, attr='master', route_name='master',
-                 renderer='templates/blankmaster.pt')
+                 renderer='templates/basic/blankmaster.pt')
 
     cfg.add_route('blankmaster', 'blankmaster')
     cfg.add_view(home.Home, attr='blankmaster', route_name='blankmaster',
-                 renderer='templates/master.pt')
+                 renderer='templates/basic/master.pt')
 
     cfg.add_route('root', '/')
     cfg.add_view(home.Home, attr='root', route_name='root')
@@ -29,12 +29,12 @@ def make_routes(cfg):
 
     cfg.add_route('home_config_initial', 'home/config')
     cfg.add_view(home.Home, attr='home_config_initial', route_name='home_config_initial',
-                 renderer='templates/home_config_initial.pt')
+                 renderer='templates/basic/home_config_initial.pt')
 
     # Rotas Básicas
     cfg.add_route('home', 'home')
     cfg.add_view(home.Home, attr='home', route_name='home',
-                 renderer='templates/home.pt')
+                 renderer='templates/basic/home.pt')
 
     # Notificações
     cfg.add_route('notifications', 'notifications')
@@ -44,15 +44,15 @@ def make_routes(cfg):
     cfg.add_route('orgao_initial', 'orgao_inicial')
     cfg.add_view(orgaos.Orgaos, attr='post_orgao_initial', route_name='orgao_initial', request_method='POST')
     cfg.add_view(orgaos.Orgaos, attr='get_orgao_initial', route_name='orgao_initial',
-                 renderer='templates/orgao_initial.pt', request_method='GET')
+                 renderer='templates/orgaos/orgao_initial.pt', request_method='GET')
 
     cfg.add_route('orgao', 'orgao/cadastro')
     cfg.add_view(orgaos.Orgaos, attr='orgao', route_name='orgao',
-                 renderer='templates/orgao.pt', permission="admin")
+                 renderer='templates/orgaos/orgao.pt', permission="admin")
 
     cfg.add_route('post_orgao', 'post_orgao')
     cfg.add_view(orgaos.Orgaos, attr='post_orgao', route_name='post_orgao',
-                 renderer='templates/config_orgao.pt', permission="admin")
+                 renderer='templates/orgaos/config_orgao.pt', permission="admin")
 
     cfg.add_route('put_orgao', 'put_orgao')
     cfg.add_view(orgaos.Orgaos, attr='put_orgao', route_name='put_orgao',
@@ -60,11 +60,11 @@ def make_routes(cfg):
 
     cfg.add_route('editorgao', 'orgao/editar/{sigla}')
     cfg.add_view(orgaos.Orgaos, attr='editorgao', route_name='editorgao',
-                 renderer='templates/editarorgao.pt', permission="admin")
+                 renderer='templates/orgaos/editarorgao.pt', permission="admin")
 
     cfg.add_route('listorgao', 'orgao/lista')
     cfg.add_view(orgaos.Orgaos, attr='listorgao', route_name='listorgao',
-                 renderer='templates/list_orgao.pt', permission="admin")
+                 renderer='templates/orgaos/list_orgao.pt', permission="admin")
 
     cfg.add_route('delete_orgao', 'orgao/delete/{sigla}')
     cfg.add_view(orgaos.Orgaos, attr='delete_orgao', route_name='delete_orgao',
@@ -76,12 +76,12 @@ def make_routes(cfg):
 
     cfg.add_route('config_orgao', 'orgao/configuracoes/{sigla}')
     cfg.add_view(orgaos.Orgaos, attr='config_orgao', route_name='config_orgao',
-                 renderer='templates/config_orgao.pt', permission="admin")
+                 renderer='templates/orgaos/config_orgao.pt', permission="admin")
 
     # Users
     cfg.add_route('user', 'usuario/cadastro')
     cfg.add_view(users.Users, attr='user', route_name='user',
-                 renderer='templates/user.pt', permission='admin')
+                 renderer='templates/users/user.pt', permission='admin')
 
     cfg.add_route('add_user_home_report', 'add_user_home_report')
     cfg.add_view(users.Users, attr='add_user_home_report', route_name='add_user_home_report',
@@ -100,11 +100,11 @@ def make_routes(cfg):
 
     cfg.add_route('edituser', 'usuario/editar/{matricula}')
     cfg.add_view(users.Users, attr='edituser', route_name='edituser',
-                 renderer='templates/editaruser.pt', permission='admin')
+                 renderer='templates/users/editaruser.pt', permission='admin')
 
     cfg.add_route('favoritos', 'usuario/favoritos/{matricula}')
     cfg.add_view(users.Users, attr='favoritos', route_name='favoritos',
-                 renderer='templates/favoritos.pt', permission="gest")
+                 renderer='templates/users/favoritos.pt', permission="gest")
 
     cfg.add_route('edit_favoritos', 'edit_favoritos')
     cfg.add_view(users.Users, attr='edit_favoritos', route_name='edit_favoritos',
@@ -112,7 +112,7 @@ def make_routes(cfg):
 
     cfg.add_route('listuser', 'usuario/lista')
     cfg.add_view(users.Users, attr='listuser', route_name='listuser',
-                 renderer='templates/list_user.pt', permission="admin")
+                 renderer='templates/users/list_user.pt', permission="admin")
 
     cfg.add_route('delete_user', 'usuario/delete/{matricula}')
     cfg.add_view(users.Users, attr='delete_user', route_name='delete_user',
@@ -120,7 +120,7 @@ def make_routes(cfg):
 
     cfg.add_route('notify', 'notificacoes/cadastro')
     cfg.add_view(notifications.Notifications, attr='notify', route_name='notify',
-                 renderer='templates/notify_coleta.pt', permission="gest")
+                 renderer='templates/notifications/notify_coleta.pt', permission="gest")
 
     cfg.add_route('post_notify', 'post_notify')
     cfg.add_view(notifications.Notifications, attr='post_notify', route_name='post_notify',
@@ -136,7 +136,7 @@ def make_routes(cfg):
 
     cfg.add_route('list_notify', 'notificacoes/lista')
     cfg.add_view(notifications.Notifications, attr='list_notify', route_name='list_notify',
-                 permission="gest", renderer='templates/list_notify.pt')
+                 permission="gest", renderer='templates/notifications/list_notify.pt')
 
     cfg.add_route('notify_count', 'notificacoes/contagem')
     cfg.add_view(notifications.Notifications, attr='count_notify', route_name='notify_count',
@@ -148,11 +148,11 @@ def make_routes(cfg):
 
     cfg.add_route('edit_profile_user', 'usuario/perfil/{matricula}')
     cfg.add_view(users.Users, attr='edit_profile_user', route_name='edit_profile_user',
-                 renderer='templates/editarperfil.pt', permission="gest")
+                 renderer='templates/users/editarperfil.pt', permission="gest")
 
     cfg.add_route('edit_password_user', 'usuario/perfil/senha/{matricula}')
     cfg.add_view(users.Users, attr='edit_password_user', route_name='edit_password_user',
-                 renderer='templates/alterar_senha.pt', permission="gest")
+                 renderer='templates/users/alterar_senha.pt', permission="gest")
 
     cfg.add_route('put_password_user', 'put_password_user')
     cfg.add_view(users.Users, attr='put_password_user', route_name='put_password_user',
@@ -164,7 +164,7 @@ def make_routes(cfg):
 
     cfg.add_route('init_config_user', 'configuracao_inicial/usuario')
     cfg.add_view(users.Users, attr='init_config_user', route_name='init_config_user',
-                 renderer='templates/init_config_user.pt')
+                 renderer='templates/basic/init_config_user.pt')
 
     # Base de Rerpot por Orgãos
     cfg.add_route('create_orgao', 'create/coleta/{nm_orgao}')
@@ -174,7 +174,7 @@ def make_routes(cfg):
     # Coleta Manual
     cfg.add_route('cadastro_coleta', 'coleta/cadastro')
     cfg.add_view(coleta.Coleta, attr='cadastro_coleta', route_name='cadastro_coleta',
-                 renderer='templates/cadastro_coleta.pt', permission="gest")
+                 renderer='templates/manual_collection/cadastro_coleta.pt', permission="gest")
 
     cfg.add_route('post_coleta_manual', 'post_coleta_manual')
     cfg.add_view(coleta.Coleta, attr='post_coleta_manual', route_name='post_coleta_manual',
@@ -183,7 +183,7 @@ def make_routes(cfg):
     # Relatórios
     cfg.add_route('conf_report', 'relatorios/configuracao')
     cfg.add_view(relatorios.Relatorios, attr='conf_report', route_name='conf_report',
-                 renderer='templates/conf_report.pt')
+                 renderer='templates/reports/conf_report.pt')
 
     cfg.add_route('delete_reports', 'delete_reports')
     cfg.add_view(relatorios.Relatorios, attr='delete_reports', route_name='delete_reports',
@@ -192,7 +192,7 @@ def make_routes(cfg):
 
     cfg.add_route('report_itens', 'relatorio/{nm_orgao}/{attr}/{child}')
     cfg.add_view(relatorios.Relatorios, attr='report_itens', route_name='report_itens',
-                 renderer='templates/report.pt', permission="user")
+                 renderer='templates/reports/report.pt', permission="user")
 
     cfg.add_route('put_reports', 'put_reports')
     cfg.add_view(relatorios.Relatorios, attr='put_reports', route_name='put_reports',
@@ -205,17 +205,17 @@ def make_routes(cfg):
     # Gráficos
     cfg.add_route('graficos', 'graficos/{nm_orgao}/{attr}')
     cfg.add_view(graficos.Graficos, attr='graficos', route_name='graficos',
-                 renderer='templates/graficos/graficos.pt')
+                 renderer='templates/graphics/graficos.pt')
 
     cfg.add_route('report_software', 'relatorio/software/{nm_orgao}')
     cfg.add_view(relatorios.Relatorios, attr='report_software', route_name='report_software',
-                 renderer='templates/report.pt', permission="user")
+                 renderer='templates/reports/report.pt', permission="user")
 
     # Autenticação
     cfg.add_route('login', 'login')
     cfg.add_view(security.Security, attr='login', route_name='login',
                  renderer='templates/login.pt')
-    cfg.add_forbidden_view(security.Security, renderer='templates/login.pt')
+    cfg.add_forbidden_view(security.Security, renderer='templates/basic/login.pt')
 
     cfg.add_route('logout', 'logout')
     cfg.add_view(security.Security, attr='logout', route_name='logout',
@@ -254,10 +254,10 @@ def make_routes(cfg):
     #atividades
     cfg.add_route('list_atividades', 'atividades/lista')
     cfg.add_view(atividades.Atividades, attr='list_atividades', route_name='list_atividades',
-                 permission="admin", renderer='templates/list_atividades.pt')
+                 permission="admin", renderer='templates/activities/list_atividades.pt')
 
     cfg.add_route('list_atividades_bot', 'atividades/lista/bot')
     cfg.add_view(atividades.Atividades, attr='list_atividades_bot', route_name='list_atividades_bot',
-                 permission="admin", renderer='templates/list_atividades_bot.pt')
+                 permission="admin", renderer='templates/activities/list_atividades_bot.pt')
 
 

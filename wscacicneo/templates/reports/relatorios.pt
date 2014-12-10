@@ -1,4 +1,4 @@
-<metal:main use-macro="load: master.pt">
+<metal:main use-macro="load: ../basic/master.pt">
  <!-- Insere JavaScript -->
  <!-- <script metal:fill-slot="javascript" type="text/javascript" src="static/teste-tabelag.js"></script> -->
  <script metal:fill-slot="javascript" type="text/javascript" src="static/relatorio.js"></script>

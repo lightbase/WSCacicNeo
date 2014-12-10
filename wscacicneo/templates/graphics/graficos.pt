@@ -1,4 +1,4 @@
-<metal:main use-macro="load: ../master.pt">
+<metal:main use-macro="load: ../basic/master.pt">
     <metal:content fill-slot="dash">
         Gráficos
     </metal:content>

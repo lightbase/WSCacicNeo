@@ -26,7 +26,7 @@
 				<nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
 					<!-- Links -->
 						<ul class="nav navbar-nav pull-right" tal:condition="request.authenticated_userid">
-							<metal:macro use-macro="load: menu_fav.pt">
+							<metal:macro use-macro="load: ../includes/menu_fav.pt">
 							<li class="dropdown pull-right">
 								<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 									<i class="fa fa-user"></i>
@@ -126,7 +126,7 @@
 			<div class="content">
 
 				<!-- Sidebar -->
-				<metal:macro use-macro="load: menu.pt">
+				<metal:macro use-macro="load: ../includes/menu.pt">
 
 					<!--- Sidebar navigation -->
 					<!-- If the main navigation has sub navigation, then add the class "has_sub" to "li" of main navigation. -->

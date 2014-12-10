@@ -24,23 +24,23 @@
             </h3>
             </p>
             <br/>
-            <metal:macro use-macro="load: generic_report.pt"></metal:macro>
+            <metal:macro use-macro="load: ../includes/generic_report.pt"></metal:macro>
         </div>
         <!-- Fim Não Autenticado -->
         <div tal:condition="request.authenticated_userid" style="text-align: center;">
             <!-- Administrador -->
             <div tal:condition="usuario_autenticado.results[0].permissao =='Administrador' ">
-                <metal:macro use-macro="load: home_administrador.pt">
+                <metal:macro use-macro="load: ../includes/home_administrador.pt">
             </div>
             <!-- Fim Administrador -->
             <!-- Gestor -->
             <div tal:condition="usuario_autenticado.results[0].permissao =='Gestor' ">
-                <metal:macro use-macro="load: home_gestor.pt">
+                <metal:macro use-macro="load: ../includes/home_gestor.pt">
             </div>
             <!-- Fim Gestor -->
         </div>
         <div>
-            <metal:macro use-macro="load: report_personalizado.pt">
+            <metal:macro use-macro="load: ../includes/report_personalizado.pt">
         </div>
     </metal:content>
 </metal:main>

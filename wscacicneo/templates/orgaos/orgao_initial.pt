@@ -1,15 +1,15 @@
-<metal:main use-macro="load: master.pt" xmlns="http://www.w3.org/1999/html">
+<metal:main use-macro="load: ../basic/config_initial_master.pt">
   <metal:content fill-slot="dash">
-      Cadastrar Orgão      
+      Cadastrar Orgão
     </metal:content>
 	<metal:content fill-slot="conteudo">
     <div class="alert alert-warning">
-           Os campos marcados com  *  são de preenchimento obrigatório.
+           Os campos marcados com  *  são de preenchimento obrigatório
     </div>
         <div class="padd">
             <br />
             <!-- Form starts.  -->
-            <form class="form-horizontal" role="form">
+             <form class="form-horizontal" role="form">
                 <div class="form-group">
                   <label class="col-lg-2 control-label">Nome do Órgão *:</label>
                   <div class="col-lg-5">
@@ -39,7 +39,7 @@
                   <div class="col-lg-2">
                     <input type="text" id="sigla" class="form-control" placeholder="Sigla">
                   </div>
-                  <span><i class="fa fa-info"></i> <b>IMPORTANTE</b>: Esse e o nome do órgao que deve ser informado ao WSCBot</span>
+                  <span><i class="fa fa-info"></i> <b>IMPORTANTE</b>: Esse e o nome do orgao que deve ser informado ao WSCBot</span>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Endereço *:</label>
@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-lg-2 control-label">Tempo da Coleta *:</label>
+                  <label class="col-lg-2 control-label">Tempo da Coleta</label>
                   <div class="col-lg-2">
                     <select id="coleta" class="form-control">
                       <option value="1">1 hora</option>
@@ -64,14 +64,12 @@
                       <option value="72">3 dias</option>
                     </select>
                   </div>
-                     <a href="#tempoColetaModal" title="Ajuda" class="btn" data-toggle="modal"><span class="fa fa-question"></span></a>
                 </div>
                 <div class="form-group">
                   <label class="col-lg-2 control-label">URL para comunicação *:</label>
                   <div class="col-lg-5">
                     <input type="text" name='url' id="url" class="form-control" value="${request.application_url}" placeholder="URL para comunicação">
                   </div>
-                    <a href="#urlComunicacaoModal" title="Ajuda" class="btn" data-toggle="modal"><span class="fa fa-question"></span></a>
                 </div>
                 <div class="form-group">
                   <label class="col-lg-2 control-label">Habilitar Bot *:</label>
@@ -81,37 +79,25 @@
                       <option value="False">Não</option>
                     </select>
                   </div>
-                    <a href="#habilitaBotModal" title="Ajuda" class="btn" data-toggle="modal"><span class="fa fa-question"></span></a>
                 </div>
                 <div class="form-group">
                   <label class="col-lg-2 control-label">Chave de API:</label>
                   <div class="col-lg-5">
                     <input type="text" id="api_key" class="form-control" placeholder="Chave de API" value="${api_key}" readonly>
                   </div>
-                     <a href="#chaveApiModal" title="Ajuda" class="btn" data-toggle="modal"><span class="fa fa-question"></span></a>
                 </div>
                 <div class="form-group">
-                  <div class="col-lg-offset-2 col-lg-5">
-                      <button type="button" id="enviar" class="btn btn-sm" style="margin-left: 315px;" >Enviar</button>
-                      <button type="button" id="voltar" class="btn btn-sm">Voltar</button>
-                      <span id="loading" style="display: none; margin-left: 315px;">
-                          <img src="${request.route_url('root')}static/imgs/ajax-loader-circle.gif" />  Aguarde...
-                      </span>
+                  <div class="col-lg-offset-2 col-lg-6">
+                    <button type="button" id="enviar" class="btn btn-sm" style="margin-left: 315px;" >Enviar</button>
+                    <button type="button" id="limpar" class="btn btn-sm">Limpar</button>
                   </div>
                 </div>
               </form>
           </div>
-
-    <metal:macro use-macro="load: modals.pt"></metal:macro>
-
 	</metal:content>
 	<metal:content fill-slot="javascript">
-        <script type="text/javascript">
-            $('#voltar').click(function(){
-                var oldURL = document.referrer;
-                window.location.href = oldURL;
-            });
-            $('#enviar').click(function(){
+        <script id="hayeye" type="text/javascript">
+           $('#enviar').click(function(){
                 var data = {
                     'pretty_name' : $('#pretty_name').val(),
                     'email' : $('#email').val(),
@@ -122,26 +108,15 @@
                     'end' : $('#end').val(),
                     'coleta' : $('#coleta').val(),
                     'habilitar_bot' : $('#habilitar_bot').val(),
-                    'url': $('#url').val(),
+                    'url' : $('#url').val(),
                     'api_key': $('#api_key').val()
                 }
+                console.log(data);
                 $.ajax({
                     type: "POST",
-                    url: "${request.route_url('post_orgao')}",
+                    url: "${request.route_url('orgao_initial')}",
                     data: data,
-                    beforeSend: function()
-                        {
-                            $('#loading').show();
-                            $('#enviar').hide();
-                            $('#voltar').hide();
-                        },
-                    complete: function()
-                        {
-                            $('#loading').hide();
-                            $('#enviar').show();
-                            $('#voltar').show();
-                        },
-                    success: function(){ window.location.href = "${request.route_url('listorgao')}";},
+                    success: function(){ noty({text: 'Cadastro realizado com sucesso.',layout:'topRight',type:'success',timeout:3000}), window.location.href = "${request.route_url('home')}";   },
                     error: function(){ noty({text: 'Erro: Todos campos com (*) devem ser preenchidos.',layout:'topRight',type:'error',timeout:3000}); }
                 });
             });
