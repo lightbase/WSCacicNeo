@@ -90,7 +90,7 @@
                            </ul>
                         </div>
 						<!-- Button section -->
-                        <div class="header-data">
+                        <div class="header-data" tal:condition="request.authenticated_userid">
 
                         <!-- Members data -->
                             <div style="margin-left: 120px;" class="hdata">
