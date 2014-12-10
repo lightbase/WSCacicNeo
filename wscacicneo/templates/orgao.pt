@@ -141,8 +141,8 @@
                             $('#enviar').show();
                             $('#voltar').show();
                         },
-                    success: function(){ "${request.session.flash('Cadastro realizado com sucesso', queue="success")}", window.location.href = "${request.route_url('listorgao')}"; },
-                    error: function(){ ${request.session.flash('Erros no cadastro', queue="error")} }
+                    success: function(){ window.location.href = "${request.route_url('listorgao')}";},
+                    error: function(){ noty({text: 'Erro: Todos campos com (*) devem ser preenchidos.',layout:'topRight',type:'error',timeout:3000}); }
                 });
             });
         </script>

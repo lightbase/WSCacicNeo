@@ -119,6 +119,8 @@ class Orgaos(object):
         )
         at.create_atividade()
         id_doc = orgao_obj.create_orgao()
+        session = self.request.session
+        session.flash('Cadastro realizado com sucesso', queue="success")
         return Response(str(id_doc))
 
     def put_orgao(self):
