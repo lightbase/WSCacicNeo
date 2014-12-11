@@ -84,7 +84,7 @@
                         url: "${request.route_url('root')}edit_favoritos",
                         data: {'documento': json}, 
                         success: function(){ location.reload(); },
-                        error: function(){ alert('Não foi desta vez Tente novamente mais tarde') },
+                        error: function(){ noty({text: 'Não foi possível concluir a operação.',layout:'topRight',type:'error',timeout:3000}); },
                });
             });
             $('#favoritos li').on('click', function(){
@@ -117,7 +117,7 @@
                         url: "${request.route_url('root')}edit_favoritos",
                         data: {'documento': json}, 
                         success: function(){ location.reload(); },
-                        error: function(){ alert('Não foi desta vez Tente novamente mais tarde') },
+                        error: function(){ noty({text: 'Erro: Não foi possível concluir a operação.',layout:'topRight',type:'error',timeout:3000}); },
                });
             });
 

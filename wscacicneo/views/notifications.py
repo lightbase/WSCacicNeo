@@ -80,6 +80,11 @@ class Notifications(object):
             status = 'sadasd'
         )
         delete = notify_obj.delete_notify(id)
+        session = self.request.session
+        if delete:
+            session.flash('Cadastro realizado com sucesso', queue="success")
+        else:
+            session.flash('Erro ao apagar a notificação', queue="error")
         return HTTPFound(location = self.request.route_url('list_notify'))
 
     #@view_config(route_name='edit_notify', permission="gest")
@@ -117,6 +122,8 @@ class Notifications(object):
             status = requests['status']
         )
         results = notify_obj.create_notify()
+        session = self.request.session
+        session.flash('Cadastro realizado com sucesso', queue="success")
         return Response(str(results))
 
     def notify_orgaos_users(self):

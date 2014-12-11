@@ -142,7 +142,8 @@ class Users(object):
             )
             at.create_atividade()
             id_doc = user_obj.create_user()
-
+            session = self.request.session
+            session.flash('Cadastro realizado com sucesso', queue="success")
             return Response(str(id_doc))
         else:
             return {"emailerrado":"emailerrado"}
@@ -187,7 +188,8 @@ class Users(object):
                     data=datetime.datetime. now()
                 )
                 at.create_atividade()
-
+                session = self.request.session
+                session.flash('Cadastro realizado com sucesso', queue="success")
                 return Response(str(id_doc))
             else:
                 return {"emailerrado":"emailerrado"}
@@ -294,22 +296,24 @@ class Users(object):
         )
         at.create_atividade()
 
+        session = self.request.session
         if(email_is_institucional):
             doc = json.dumps(user)
             edit = user_obj.edit_user(id, doc)
             if(edit_yourself == False):
                 return Response(edit)
+                session.flash('Alteração realizado com sucesso', queue="success")
             else:
                 # Remove sessão do usuário
-                session = self.request.session
                 session.invalidate()
                 headers = forget(self.request)
                 response = Response()
+                session.flash('Alteração realizado com sucesso. Você estará sendo desconectado. Reconecte-se.', queue="success")
                 response = HTTPFound(location=self.request.route_url('login'),
                                      headers=headers)
                 return response
         else:
-            return {"emailerrado":"E-mail não institucional"}
+            return {"emailerrado": "E-mail não institucional"}
 
     #@view_config(route_name='listuser', renderer='../templates/list_user.pt', permission="admin")
     def listuser(self):
@@ -317,7 +321,7 @@ class Users(object):
         search = user_obj.search_list_users()
         usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
         return {'user_doc': search.results,
-                'usuario_autenticado':usuario_autenticado
+                'usuario_autenticado': usuario_autenticado
                 }
 
     #@view_config(route_name='delete_user', permission="admin")
@@ -340,12 +344,18 @@ class Users(object):
             data=datetime.datetime.now()
         )
         at.create_atividade()
+        session = self.request.session
         if(usuario_autenticado.results[0].email !=  email):
             id = search.results[0]._metadata.id_doc
             delete = user_obj.delete_user(id)
-            return HTTPFound(location = self.request.route_url('listuser'))
+            if delete:
+                session.flash('Usuário apagado com sucesso', queue="success")
+            else:
+                session.flash('Erro ao apagar o usuário', queue="error")
+            return HTTPFound(location=self.request.route_url('listuser'))
         else:
-            return HTTPFound(location = self.request.route_url('listuser'))
+            session.flash('Você não pode apagar a si mesmo.', queue="error")
+            return HTTPFound(location=self.request.route_url('listuser'))
 
     #@view_config(route_name='edit_profile_user', renderer='../templates/editarperfil.pt', permission="gest")
     def edit_profile_user(self):
@@ -402,13 +412,17 @@ class Users(object):
         id = search.results[0]._metadata.id_doc
         doc = json.dumps(user)
         edit = user_obj.edit_user(id, doc)
+        session = self.request.session
         if(email_user_init != email_user_new):
+            session.invalidate()
             headers = forget(self.request)
             response = Response()
-            response = HTTPFound(location = self.request.route_url('login'),
-                             headers = headers)
+            response = HTTPFound(location=self.request.route_url('login'),
+                                 headers=headers)
+            session.flash('Alteração realizado com sucesso. Você está sendo desconectado. Reconecte-se.', queue="success")
             return response
         else:
+            session.flash('Alteração realizado com sucesso.', queue="success")
             return Response(edit)
 
     #@view_config(route_name='edit_password_user', renderer='../templates/alterar_senha.pt', permission="gest")
@@ -462,6 +476,8 @@ class Users(object):
         id = search.results[0]._metadata.id_doc
         doc = json.dumps(user)
         edit = user_obj.edit_user(id, doc)
+        session = self.request.session
+        session.flash('Alteração realizado com sucesso', queue="success")
         return Response(edit)
 
     #@view_config (route_name='init_config_user', renderer='../templates/init_config_user.pt')

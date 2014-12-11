@@ -82,5 +82,7 @@ class Coleta(object):
         }
         dumps = json.dumps(coleta_dict)
         id_doc = Reports(nm_base_formatted,response_object=False).create_coleta(dumps)
+        session = self.request.session
+        session.flash('Cadastro realizado com sucesso', queue="success")
         return Response(str(id_doc))
 

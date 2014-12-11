@@ -88,9 +88,9 @@
                 </div>
                 <div class="form-group">
                   <div class="col-lg-offset-2 col-lg-6">
-                    <button type="button" id="enviar" class="btn btn-sm" style="margin-left: 315px;" >Enviar</button>
+                    <button type="button" id="enviar" class="btn btn-sm btn-primary" style="margin-left: 315px;" >Enviar</button>
                     <input style="display:none;" id="id" value="${request.matchdict['sigla']}">
-                    <button type="button" id="voltar" class="btn btn-sm">Voltar</button>
+                    <button type="button" id="voltar" class="btn btn-sm btn-default">Voltar</button>
                       <span id="loading" style="display: none; margin-left: 315px;">
                           <img src="${request.route_url('root')}static/imgs/ajax-loader-circle.gif" />  Aguarde...
                       </span>
@@ -150,7 +150,7 @@
                             $('#enviar').show();
                             $('#voltar').show();
                         },
-                    success: function(){noty({text: 'Aleteração realizado com sucesso.',layout:'topRight',type:'success',timeout:3000}), window.location.href = "${request.route_url('listorgao')}";   },
+                    success: function(){ window.location.href = "${request.route_url('listorgao')}";   },
                     error: function(){ noty({text: 'Erro: Todos campos com (*) são obrigatórios.',layout:'topRight',type:'success',timeout:3000}) }
                 }); 
             });

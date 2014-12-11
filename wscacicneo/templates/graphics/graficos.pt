@@ -12,7 +12,8 @@
         <script type="text/javascript">
 
             $("#print").click(function() {
-                $("#graficoPie").print();
+                //$("#graficoPie").printPage();
+                window.print();
             });
 
             /* Pie chart starts */

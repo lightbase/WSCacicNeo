@@ -157,6 +157,8 @@ class Orgaos(object):
         id = search.results[0]._metadata.id_doc
         doc = json.dumps(orgao)
         edit = orgao_obj.edit_orgao(id, doc)
+        session = self.request.session
+        session.flash('Alteração realizado com sucesso', queue="success")
         return Response(edit)
 
     def delete_orgao(self):

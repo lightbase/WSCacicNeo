@@ -65,9 +65,9 @@
                 </div>
                 <div class="form-group">
                   <div class="col-lg-offset-2 col-lg-6">
-                    <button type="button" id="enviar" class="btn btn-sm" style="margin-left: 315px;" >Enviar</button>
+                    <button type="button" id="enviar" class="btn btn-sm btn-primary" style="margin-left: 315px;" >Enviar</button>
                     <input style="display:none;" id="url" value="${request.matchdict['matricula']}">
-                    <button type="button" id="limpar" class="btn btn-sm">Limpar</button>
+                    <button type="button" id="voltar" class="btn btn-sm btn-default">Voltar</button>
                   </div>
                 </div>
               </form>
@@ -75,13 +75,10 @@
   </metal:content>
   <metal:content fill-slot="javascript">
         <script type="text/javascript">
-           $('#limpar').click(function(){
-                    $('#nome').val('')
-                    $('#telefone').val('')
-                    $('#orgao').val('')
-                    $('#cargo').val('')
-                    $('#setor').val('')
-           });
+           $('#voltar').click(function(){
+                var oldURL = document.referrer;
+                window.location.href = oldURL;
+            });
            $('#enviar').click(function(){
                 var nome = $('#nome').val()
                     matricula = $('#matricula').val()
@@ -108,8 +105,8 @@
                       type: "PUT",
                       url: "${request.route_url('root')}put_profile_user",
                       data: data, 
-                      success: function(){ alert('Alteração realizada com sucesso'), window.location.href = "${request.route_url('home')}"; },
-                      error: function(){ alert('Erro ao Alterar do usuário. Todos os campos são obrigatórios') },
+                      success: function(){ window.location.href = "${request.route_url('home')}"; },
+                      error: function(){noty({text: 'Erro: Todos campos com (*) devem ser preenchidos.',layout:'topRight',type:'error',timeout:3000}); },
                   });
             });
         </script>

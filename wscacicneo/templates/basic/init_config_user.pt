@@ -73,8 +73,7 @@
                 </div>
                 <div class="form-group">
                   <div class="col-lg-offset-2 col-lg-6">
-                    <button type="button" id="enviar" class="btn btn-sm" style="margin-left: 315px;" >Enviar</button>
-                    <button type="button" id="limpar" class="btn btn-sm">Limpar</button>
+                    <button type="button" id="enviar" class="btn btn-sm btf-primary" style="margin-left: 315px;" >Enviar</button>
                   </div>
                 </div>
               </form>
@@ -82,18 +81,6 @@
 	</metal:content>
 	<metal:content fill-slot="javascript">
         <script type="text/javascript">
-           $('#limpar').click(function(){
-                    $('#nome').val('')
-                    $('#matricula').val('')
-                    $('#email').val('')
-                    $('#telefone').val('')
-                    $('#orgao').val('')
-                    $('#cargo').val('')
-                    $('#setor').val('')
-                    $('#permissao').val('Permissões')
-                    $('#senha').val('')
-                    $('#confirmarsenha').val('')
-           });
            $('#enviar').click(function(){
                 var data = {
                     'nome' : $('#nome').val(),
@@ -132,8 +119,8 @@
                         type: "POST",
                         url: "${request.route_url('root')}post_first_user",
                         data: data, 
-                        success: function(){ alert('Cadastro realizado com sucesso'), window.location.href = "${request.route_url('login')}"; },
-                        error: function(){ alert('Erro ao realizar o cadastro. Todos os campos são obrigatórios') },
+                        success: function(){ window.location.href = "${request.route_url('login')}"; },
+                        error: function(){ noty({text: 'Erro: Todos campos com (*) devem ser preenchidos.',layout:'topRight',type:'error',timeout:3000}); },
                     }); 
                 }
             });

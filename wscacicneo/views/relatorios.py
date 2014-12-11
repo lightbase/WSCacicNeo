@@ -102,6 +102,8 @@ class Relatorios(object):
         data_id = search.results[0]._metadata.id_doc
         document = json.dumps(data_dic)
         put_doc = reports_config.update_coleta(data_id, document)
+        session = self.request.session
+        session.flash('Alteração realizado com sucesso', queue="success")
         return Response(put_doc)
 
     def report_software(self):
@@ -172,12 +174,17 @@ class Relatorios(object):
         document = json.dumps(dumps)
         reports_config = config_reports.ConfReports(nm_orgao)
         response = reports_config.create_coleta(document)
-
+        session = self.request.session
+        session.flash('Cadastro realizado com sucesso', queue="success")
         return Response(str(response))
 
     def delete_reports(self):
         nm_base = self.request.params['base']
         base = base_reports.ReportsBase(nm_base)
         results = base.remove_base()
-
+        session = self.request.session
+        if results:
+            session.flash('Cadastro realizado com sucesso', queue="success")
+        else:
+            session.flash('Erro ao apagar relatório', queue="error")
         return Response(str(results))
