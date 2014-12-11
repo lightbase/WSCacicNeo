@@ -214,7 +214,7 @@ def make_routes(cfg):
     # Autenticação
     cfg.add_route('login', 'login')
     cfg.add_view(security.Security, attr='login', route_name='login',
-                 renderer='templates/login.pt')
+                 renderer='templates/basic/login.pt')
     cfg.add_forbidden_view(security.Security, renderer='templates/basic/login.pt')
 
     cfg.add_route('logout', 'logout')
