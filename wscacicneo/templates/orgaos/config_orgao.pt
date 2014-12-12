@@ -124,12 +124,14 @@
                         },
                     complete: function()
                         {
+
+                        },
+                    success: function(){ window.location.href = "${request.route_url('listorgao')}"; },
+                    error: function(){ noty({text: 'Erro ao alterar o orgão. Todos os campos são obrigatórios.',layout:'topRight',type:'error',timeout:3000});
                             $('#loading').hide();
                             $('#enviar').show();
                             $('#voltar').show();
-                        },
-                    success: function(){ window.location.href = "${request.route_url('listorgao')}"; },
-                    error: function(){ noty({text: 'Erro ao alterar o orgão. Todos os campos são obrigatórios.',layout:'topRight',type:'error',timeout:3000}); }
+                    }
                 });
             });
         </script>

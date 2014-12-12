@@ -79,6 +79,9 @@
                   <div class="col-lg-offset-2 col-lg-6">
                     <button type="button" id="enviar" class="btn btn-sm btn-primary" style="margin-left: 315px;" >Enviar</button>
                     <button type="button" id="voltar" class="btn btn-sm btn-default">Voltar</button>
+                    <span id="loading" style="display: none; margin-left: 315px;">
+                      <img src="${request.route_url('root')}static/imgs/ajax-loader-circle.gif" />  Aguarde...
+                    </span>
                   </div>
                 </div>
               </form>
@@ -127,9 +130,19 @@
                     $.ajax({
                         type: "POST",
                         url: "${request.route_url('root')}post_user",
-                        data: data, 
+                        data: data,
+                        beforeSend: function()
+                        {
+                            $('#loading').show();
+                            $('#enviar').hide();
+                            $('#voltar').hide();
+                        },
                         success: function(){ window.location.href = "${request.route_url('listuser')}"; },
-                        error: function(){ noty({text: 'Erro: Todos campos com (*) devem ser preenchidos.',layout:'topRight',type:'error',timeout:3000}); },
+                        error: function(){ noty({text: 'Erro: Todos campos com (*) devem ser preenchidos.',layout:'topRight',type:'error',timeout:3000});
+                            $('#loading').hide();
+                            $('#enviar').show();
+                            $('#voltar').show();
+                        }
                     }); 
                 }
             });

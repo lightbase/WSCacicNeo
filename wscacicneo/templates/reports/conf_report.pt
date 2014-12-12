@@ -36,10 +36,12 @@
                   </div>
                 </div>
                 <div style="margin-left: 28%;">
-                    <div class="float-right">
-                        <button type="button" id="enviar" class="btn btn-sm btn-primary" style="margin-left: 105px;">Enviar</button>
+                    <div class="float-right" style="margin-left: 135px;">
+                        <button type="button" id="enviar" class="btn btn-sm btn-primary">Enviar</button>
                         <button type="button" id="voltar" class="btn btn-sm btn-default">Voltar</button>
-                        <p id="loading" style="display: none;margin-left: 105px;"><img src="${request.route_url('root')}static/imgs/ajax-loader-circle.gif" />  Aguarde...</p>
+                        <span id="loading" style="display: none; margin-left: 135px;">
+                          <img src="${request.route_url('root')}static/imgs/ajax-loader-circle.gif" />  Aguarde...
+                      </span>
                     </div>
                 </div>
              </form>
@@ -81,14 +83,16 @@
                         {
                             $('#loading').show();
                             $('#enviar').hide();
+                            $('#voltar').hide();
                         },
                     complete: function()
                         {},
                     success:  window.location = "${request.route_url('root')}relatorio/software/"+orgao+"",
                     error: function(){
-                                alert('Erro ao gerar os relatórios');
+                                noty({text: 'Erro ao gerar relatório.',layout:'topRight',type:'error',timeout:3000});
                                 $('#loading').hide();
                                 $('#enviar').show();
+                                $('#voltar').show();
                             }
                 });
                 }
@@ -103,15 +107,18 @@
                         {
                             $('#loading').show();
                             $('#enviar').hide();
+                            $('#voltar').hide();
                         },
                     complete: function()
                         {
-                            $('#loading').hide();
-                            $('#enviar').show();
                         },
                     global:false,
                     success:  window.location = "${request.route_url('root')}relatorio/"+orgao+"/"+attr+"/"+item+"",
-                    error: function(){ noty({text: 'Erro: Todos campos com (*) devem ser preenchidos.',layout:'topRight',type:'error',timeout:3000}); }
+                    error: function(){ noty({text: 'Erro: Todos campos com (*) devem ser preenchidos.',layout:'topRight',type:'error',timeout:3000});
+                            $('#loading').hide();
+                            $('#enviar').show();
+                            $('#voltar').show();
+                    }
                 });
 
            });

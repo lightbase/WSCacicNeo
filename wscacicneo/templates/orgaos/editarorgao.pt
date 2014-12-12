@@ -146,12 +146,14 @@
                         },
                     complete: function()
                         {
+
+                        },
+                    success: function(){ window.location.href = "${request.route_url('listorgao')}";   },
+                    error: function(){ noty({text: 'Erro: Todos campos com (*) são obrigatórios.',layout:'topRight',type:'success',timeout:3000});
                             $('#loading').hide();
                             $('#enviar').show();
                             $('#voltar').show();
-                        },
-                    success: function(){ window.location.href = "${request.route_url('listorgao')}";   },
-                    error: function(){ noty({text: 'Erro: Todos campos com (*) são obrigatórios.',layout:'topRight',type:'success',timeout:3000}) }
+                    }
                 }); 
             });
         </script>
