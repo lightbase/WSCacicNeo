@@ -29,12 +29,12 @@
         <!-- Fim Não Autenticado -->
         <div tal:condition="request.authenticated_userid" style="text-align: center;">
             <!-- Administrador -->
-            <div tal:condition="usuario_autenticado.results[0].permissao =='Administrador' ">
+            <div tal:condition="usuario_autenticado.permissao =='Administrador' ">
                 <metal:macro use-macro="load: ../includes/home_administrador.pt">
             </div>
             <!-- Fim Administrador -->
             <!-- Gestor -->
-            <div tal:condition="usuario_autenticado.results[0].permissao =='Gestor' ">
+            <div tal:condition="usuario_autenticado.permissao =='Gestor' ">
                 <metal:macro use-macro="load: ../includes/home_gestor.pt">
             </div>
             <!-- Fim Gestor -->

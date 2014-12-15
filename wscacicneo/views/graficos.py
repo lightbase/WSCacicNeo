@@ -16,11 +16,15 @@ class Graficos():
         :param request: Requisição
         """
         self.request = request
+        if 'userid' in self.request.session:
+            self.usuario_autenticado = Utils.retorna_usuario_autenticado(
+                user_id=self.request.session['userid'])
+        else:
+            self.usuario_autenticado = None
 
     def graficos(self):
         attr = self.request.matchdict['attr']
         orgao_nm = self.request.matchdict['nm_orgao']
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
         nm_orgao = Utils.format_name(orgao_nm)
         reports_config = config_reports.ConfReports(nm_orgao)
         get_base = reports_config.get_attribute(attr)
@@ -40,5 +44,5 @@ class Graficos():
             if chosen_color >= len(color_list):
                 chosen_color = 0
         return {"data": data,
-                "usuario_autenticado": usuario_autenticado,
+                "usuario_autenticado": self.usuario_autenticado,
         }

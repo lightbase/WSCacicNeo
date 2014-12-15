@@ -37,8 +37,7 @@ class Coleta(object):
     def cadastro_coleta(self):
         search_obj = SearchOrgao()
         result = search_obj.list_by_name()
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
-        print(result)
+        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
 
         return {'orgao_doc': result,
                 'usuario_autenticado':usuario_autenticado

@@ -12,7 +12,7 @@
                   <div class="col-lg-2">
                     <select style="width: 450px"  id="orgao" class="form-control">
                         <tal tal:condition="request.authenticated_userid" tal:repeat="orgao orgao_doc">
-                            <option selected tal:condition="usuario_autenticado.results[0].orgao == orgao.nome" value="${orgao.nome}">${orgao.pretty_name}</option>
+                            <option selected tal:condition="usuario_autenticado.orgao == orgao.nome" value="${orgao.nome}">${orgao.pretty_name}</option>
                         </tal>
                         <tal tal:condition="not request.authenticated_userid">
                             <option></option>

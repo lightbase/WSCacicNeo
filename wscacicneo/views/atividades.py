@@ -40,7 +40,7 @@ class Atividades(object):
         limit_docs = 100
         atividade_obj = Utils.create_atividade_obj()
         results = atividade_obj.search_list_atividades(limit_docs)
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
+        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
 
         return {'data': results.results,
                 'usuario_autenticado': usuario_autenticado,
@@ -53,7 +53,7 @@ class Atividades(object):
         limit_docs = 100
         atividade_obj = Utils.create_atividade_obj()
         results = atividade_obj.search_list_bot()
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
+        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
 
         return {'data': results.results,
                 'usuario_autenticado': usuario_autenticado,

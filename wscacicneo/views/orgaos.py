@@ -32,7 +32,7 @@ class Orgaos(object):
     def listorgao(self):
         orgao_obj = Utils.create_orgao_obj()
         search = orgao_obj.search_list_orgaos()
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
+        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
         return {'orgao_doc': search.results,
                 'usuario_autenticado':usuario_autenticado
                 }
@@ -54,7 +54,7 @@ class Orgaos(object):
             param=sigla
         )
         orgao_obj = search_obj.search_by_name()
-        usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.authenticated_userid)
+        usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.session['userid'])
 
         saida = orgao_obj.orgao_to_dict()
         # Coloca algum valor na URL
@@ -71,7 +71,7 @@ class Orgaos(object):
             param=sigla
         )
         orgao_obj = search_obj.search_by_name()
-        usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.authenticated_userid)
+        usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.session['userid'])
 
         saida = orgao_obj.orgao_to_dict()
         if saida.get('url') is None:
@@ -103,11 +103,11 @@ class Orgaos(object):
             api_key=doc.get('api_key')
         )
         try:
-            usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.authenticated_userid)
+            usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.session['userid'])
             if usuario_autenticado is None:
                 user = 'Sistema'
             else:
-                user = usuario_autenticado.results[0].nome
+                user = usuario_autenticado.nome
         except IndexError:
             user = 'Sistema'
 
@@ -144,10 +144,10 @@ class Orgaos(object):
             habilitar_bot=ast.literal_eval(doc.get('habilitar_bot')),
             api_key=doc.get('api_key')
         )
-        usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.authenticated_userid)
+        usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.session['userid'])
         at = atividade.Atividade(
             tipo='put',
-            usuario=usuario_autenticado.results[0].nome,
+            usuario=usuario_autenticado.nome,
             descricao='Alterou o órgão ' + nome_base,
             data=datetime.datetime.now()
         )
@@ -181,10 +181,10 @@ class Orgaos(object):
             url = 'sadasd',
             api_key='sadasd'
         )
-        usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.authenticated_userid)
+        usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.session['userid'])
         at = atividade.Atividade(
             tipo='delete',
-            usuario=usuario_autenticado.results[0].nome,
+            usuario=usuario_autenticado.nome,
             descricao='Removeu o órgão '+ sigla,
             data=datetime.datetime.now()
         )
@@ -201,7 +201,7 @@ class Orgaos(object):
 
     # Views de Orgão
     def orgao(self):
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
+        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
         return {
             'usuario_autenticado': usuario_autenticado,
             'api_key': uuid.uuid4()

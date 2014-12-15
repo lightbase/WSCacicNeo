@@ -34,12 +34,17 @@ class Security(object):
         """
         Login do sistema
         """
+        if 'userid' in self.request.session:
+            usuario_autenticado = Utils.retorna_usuario_autenticado(
+                user_id=self.request.session['userid'])
+        else:
+            usuario_autenticado = None
         user_obj = Utils.create_user_obj()
         search = user_obj.search_list_users()
         result_count = search.result_count
         if(result_count == 0):
             return HTTPFound(location = self.request.route_url('init_config_user'))
-        elif(self.request.authenticated_userid):
+        elif(usuario_autenticado):
             return HTTPFound(location = self.request.route_url('home'))
         else:
             login_url = self.request.route_url('login')
@@ -52,7 +57,7 @@ class Security(object):
             email = ''
             senha = ''
             is_visible = 'none'
-            usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
+
             if 'form.submitted' in self.request.params:
                 # Valida CSRF do formulário de login
                 check_csrf_token(self.request)
@@ -71,6 +76,7 @@ class Security(object):
                         )
                         at.create_atividade()
                         response = Response()
+                        id_user = usuario.results[0]._metadata.id_doc
                         headers = remember(
                             self.request,
                             email
@@ -78,8 +84,8 @@ class Security(object):
 
                         # Cria sessão para o usuário
                         session = self.request.session
-                        print(dir(session))
-                        session['userid'] = email
+                        #print(dir(session))
+                        session['userid'] = id_user
                         #session.save()
 
                         # Retorna resposta
@@ -96,12 +102,12 @@ class Security(object):
                 is_visible = "block"
             return dict(
                 message = message,
-                url = self.request.application_url + '/login',
-                came_from = came_from,
-                email = email,
-                senha = senha,
-                is_visible = is_visible,
-                usuario_autenticado = usuario_autenticado,
+                url=self.request.application_url + '/login',
+                came_from=came_from,
+                email=email,
+                senha=senha,
+                is_visible=is_visible,
+                usuario_autenticado=usuario_autenticado,
                 )
 
     #@view_config(route_name='logout', permission="user")
@@ -113,6 +119,6 @@ class Security(object):
         session.invalidate()
 
         response = Response()
-        response = HTTPFound(location = self.request.route_url('login'),
-                         headers = headers) 
+        response = HTTPFound(location=self.request.route_url('login'),
+                         headers=headers)
         return response

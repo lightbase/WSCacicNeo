@@ -111,24 +111,7 @@ class Home(object):
             return HTTPFound(location=self.request.route_url("init_config_user"))
         # END CONFIGURAÇÃO INICIAL
 
-        """# RETORNA BASE DE RELATÓRIOS
-        base_list = Utils.return_all_bases_list()
-        right_base = None
-        for base in base_list:
-            base_obj = Utils.return_base_by_name(base)
-            is_coleta = Utils.is_base_coleta(base_obj)
-            print(base)
-            if is_coleta and "_bk" not in base:
-                right_base = base
-                print(right_base)
-                break
-
-        win32_bios = "win32_bios"
-        win32_bios_manufacturer = "win32_bios_manufacturer"
-        data = model_reports.Reports(right_base).count_attribute(win32_bios, win32_bios_manufacturer)
-        # END RETORNA BASE RELATÓRIOS"""
         data = None
-
         # RETORNA BASE DE ATIVIDADES
         atividade_obj = Utils.create_atividade_obj()
         limit_registros = 5
@@ -136,16 +119,18 @@ class Home(object):
         # END RETORNA BASE DE ATIVIDADES
 
 
-        usuario_autenticado = Utils.retorna_usuario_autenticado(
-            email=self.request.authenticated_userid)
-
+        if 'userid' in self.request.session:
+            usuario_autenticado = Utils.retorna_usuario_autenticado(
+                user_id=self.request.session['userid'])
+        else:
+            usuario_autenticado = None
         # Relatórios personalizados
-        report_data = [ ]
-        if usuario_autenticado and hasattr(usuario_autenticado.results[0], 'home'):
-            for home_report_attr in set(usuario_autenticado.results[0].home):
+        report_data = []
+        if usuario_autenticado and hasattr(usuario_autenticado, 'home'):
+            for home_report_attr in set(usuario_autenticado.home):
                 report_data.append(
                     (home_report_attr, self.get_user_report_data_by_attr(
-                    usuario_autenticado.results[0], home_report_attr))
+                    usuario_autenticado, home_report_attr))
                 )
         session = self.request.session
         return {'usuario_autenticado': usuario_autenticado,

@@ -61,12 +61,12 @@ class Utils:
         )
         return user_obj
 
-    def retorna_usuario_autenticado(email=None,matricula=None):
-        if ( (email is None) and (matricula is None) ):
+    def retorna_usuario_autenticado(user_id=None, matricula=None):
+        if user_id is None and matricula is None:
             return None
-        elif (matricula is None):
+        elif matricula is None:
             user_obj = Utils.create_user_obj()
-            usuario = user_obj.search_user_by_email(email)
+            usuario = user_obj.get_user_by_id(user_id)
             return usuario
         else:
             user_obj = Utils.create_user_obj()

@@ -17,13 +17,12 @@ def groupfinder(userid, request):
     :param request:
     :return:
     """
-    userid = request.session['userid']
-
-    # Primeiro tenta busca pela chave de API
     try:
+        # Primeiro tenta busca pela chave de API
+        userid = request.session['userid']
         user_obj = Utils.create_user_obj()
-        usuario = user_obj.search_user_by_email(userid)
-        permissao = usuario.results[0].permissao
+        usuario = user_obj.get_user_by_id(userid)
+        permissao = usuario.permissao
         return [permissao]
     except:
         return None

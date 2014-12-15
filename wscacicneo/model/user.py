@@ -325,9 +325,9 @@ class User(user_base.metaclass):
 
         return results
 
-    def get_user_id(self, id_user):
+    def get_user_by_id(self, id_user):
         """
-        Retorna um documento apartir do id
+        Retorna um documento a partir do id
         """
 
         results = self.documentrest.get(id_user)

@@ -32,15 +32,19 @@ class Relatorios(object):
         :param request: Requisição
         """
         self.request = request
+        if 'userid' in self.request.session:
+            self.usuario_autenticado = Utils.retorna_usuario_autenticado(
+                user_id=self.request.session['userid'])
+        else:
+            self.usuario_autenticado = None
 
     #@view_config(route_name='conf_report', renderer='../templates/conf_report.pt')
     def conf_report(self):
         search_obj = SearchOrgao()
         result = search_obj.list_by_name()
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
 
         return {'orgao_doc': result,
-                'usuario_autenticado':usuario_autenticado
+                'usuario_autenticado': self.usuario_autenticado
                 }
 
     #@view_config(route_name='report_itens', renderer='../templates/report.pt', permission="user")
@@ -81,10 +85,9 @@ class Relatorios(object):
                 amount = getattr(parent, attr+'_amount')
                 data[item] = amount
 
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
         return {
             'data': data,
-            'usuario_autenticado': usuario_autenticado,
+            'usuario_autenticado': self.usuario_autenticado,
             'report_name': attr
         }
 
@@ -132,12 +135,9 @@ class Relatorios(object):
                 item = getattr(parent, attr+'_item')
                 amount = getattr(parent, attr+'_amount')
                 data[item] = amount
-            usuario_autenticado = Utils.retorna_usuario_autenticado(
-                email=self.request.authenticated_userid
-            )
             return {
                 'data': data,
-                'usuario_autenticado': usuario_autenticado,
+                'usuario_autenticado': self.usuario_autenticado,
                 'report_name': 'software'
             }
         else:
@@ -151,12 +151,9 @@ class Relatorios(object):
 
             insert_reports = Utils().create_report(nm_orgao)
             data = Reports(nm_orgao).count_attribute(attr, child)
-            usuario_autenticado = Utils.retorna_usuario_autenticado(
-                email=self.request.authenticated_userid
-            )
             return {
                 'data': data,
-                'usuario_autenticado': usuario_autenticado,
+                'usuario_autenticado': self.usuario_autenticado,
                 'report_name': 'software'
             }
 

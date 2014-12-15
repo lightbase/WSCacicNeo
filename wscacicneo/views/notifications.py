@@ -43,9 +43,9 @@ class Notifications(object):
         else:
             notify_type = None
         usuario_autenticado = Utils.retorna_usuario_autenticado(
-            email=self.request.authenticated_userid)
+            user_id=self.request.session['userid'])
         reg = notify_obj.search_list_notify(notify_type,
-            usuario_autenticado.results[0])
+            usuario_autenticado)
         doc = reg.results
         return {
             'doc': doc,
@@ -61,7 +61,7 @@ class Notifications(object):
             status = 'sadasd'
         )
         user = Utils.retorna_usuario_autenticado(
-            email=self.request.authenticated_userid).results[0]
+            user_id=self.request.session['userid'])
         response = {
             'type-1': notify_obj.get_count(user, 'Erro na Coleta'),
             'type-2': notify_obj.get_count(user, 'Coleta Desatualizada'),
@@ -105,7 +105,7 @@ class Notifications(object):
     def notify(self):
         search_obj = SearchOrgao()
         result = search_obj.list_by_name()
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
+        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
 
         return {'orgao_doc': result,
                 'usuario_autenticado':usuario_autenticado

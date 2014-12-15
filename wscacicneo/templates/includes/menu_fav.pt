@@ -4,7 +4,7 @@
        Favoritos
     </a>
     <ul class="dropdown-menu pull-right" role="menu">
-      <li><a tal:repeat="fav usuario_autenticado.results[0].favoritos" onclick="getLinkFav('${fav}')" href="#">${fav}</a></li>
-            <li><a href="${request.route_url('root')}usuario/favoritos/${usuario_autenticado.results[0].matricula}">Alterar Favoritos</a></li>
+      <li><a tal:repeat="fav usuario_autenticado.favoritos" onclick="getLinkFav('${fav}')" href="#">${fav}</a></li>
+            <li><a href="${request.route_url('root')}usuario/favoritos/${usuario_autenticado.matricula}">Alterar Favoritos</a></li>
     </ul>
 </li>

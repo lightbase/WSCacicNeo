@@ -41,10 +41,10 @@ class Users(object):
         user_obj = Utils.create_user_obj()
         search = user_obj.search_user(matricula)
         email = search.results[0].email
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
-        if (usuario_autenticado.results[0].email ==  email):
+        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
+        if (usuario_autenticado.email ==  email):
             search = user_obj.search_user(matricula)
-            usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
+            usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
             favoritos = search.results[0].favoritos
             return {
                 'favoritos': search.results[0].favoritos,
@@ -88,14 +88,14 @@ class Users(object):
         id = search.results[0]._metadata.id_doc
         doc = json.dumps(user)
         edit = user_obj.edit_user(id, doc)
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
+        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
         return Response(edit)
 
     # Users
 
     #@view_config(route_name='user', renderer='../templates/user.pt', permission='admin')
     def user(self):
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
+        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
         orgao_obj = Utils.create_orgao_obj()
         distinct_orgaos = orgao_obj.get_distinct_orgaos("document->>'nome'")
         return {
@@ -133,10 +133,10 @@ class Users(object):
                 favoritos = favoritos,
                 itens = itens
             )
-            usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.authenticated_userid)
+            usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.session['userid'])
             at = atividade.Atividade(
                 tipo='insert',
-                usuario=usuario_autenticado.results[0].nome,
+                usuario=usuario_autenticado.nome,
                 descricao='Cadastrou o  Usuario '+ doc['nome'],
                 data=datetime.datetime.now()
             )
@@ -204,7 +204,7 @@ class Users(object):
         email = search.results[0].email
         orgao_obj = Utils.create_orgao_obj()
         distinct_orgaos = orgao_obj.get_distinct_orgaos("document->>'nome'")
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
+        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
         return {
             'nome' : search.results[0].nome,
             'matricula' : search.results[0].matricula,
@@ -233,8 +233,8 @@ class Users(object):
         search = user_obj.search_user(matricula)
         permissao_usuario_edit = search.results[0].permissao
         email_usuario_edit = search.results[0].email
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
-        usuario_autenticado_email = usuario_autenticado.results[0].email
+        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
+        usuario_autenticado_email = usuario_autenticado.email
         edit_yourself = False
         if(usuario_autenticado_email == email_usuario_edit):
             edit_yourself = True
@@ -287,10 +287,10 @@ class Users(object):
             }
         id = search.results[0]._metadata.id_doc
         email_is_institucional = Utils.verifica_email_institucional(email_user)
-        usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.authenticated_userid)
+        usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.session['userid'])
         at = atividade.Atividade(
             tipo='put',
-            usuario=usuario_autenticado.results[0].nome,
+            usuario=usuario_autenticado.nome,
             descricao='Editou o  usuario '+ params['nome'],
             data=datetime.datetime.now()
         )
@@ -319,7 +319,7 @@ class Users(object):
     def listuser(self):
         user_obj = Utils.create_user_obj()
         search = user_obj.search_list_users()
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
+        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
         return {'user_doc': search.results,
                 'usuario_autenticado': usuario_autenticado
                 }
@@ -329,23 +329,23 @@ class Users(object):
         """
         Deleta doc apartir do id
         """
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
+        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
         doc = self.request.params
         matricula = self.request.matchdict['matricula']
         user_obj = Utils.create_user_obj()
         search = user_obj.search_user(matricula)
         email = search.results[0].email
         nome = search.results[0].nome
-        usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.authenticated_userid)
+        usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.session['userid'])
         at = atividade.Atividade(
             tipo='delete',
-            usuario=usuario_autenticado.results[0].nome,
+            usuario=usuario_autenticado.nome,
             descricao='Deletou o usuario '+ nome,
             data=datetime.datetime.now()
         )
         at.create_atividade()
         session = self.request.session
-        if(usuario_autenticado.results[0].email !=  email):
+        if(usuario_autenticado.email !=  email):
             id = search.results[0]._metadata.id_doc
             delete = user_obj.delete_user(id)
             if delete:
@@ -363,10 +363,10 @@ class Users(object):
         user_obj = Utils.create_user_obj()
         search = user_obj.search_user(matricula)
         email = search.results[0].email
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
+        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
         orgao_obj = Utils.create_orgao_obj()
         distinct_orgaos = orgao_obj.get_distinct_orgaos("document->>'nome'")
-        if (usuario_autenticado.results[0].email ==  email):
+        if (usuario_autenticado.email ==  email):
             return {
                 'nome' : search.results[0].nome,
                 'matricula' : search.results[0].matricula,
@@ -431,8 +431,8 @@ class Users(object):
         user_obj = Utils.create_user_obj()
         search = user_obj.search_user(matricula)
         email = search.results[0].email
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
-        if (usuario_autenticado.results[0].email ==  email):
+        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
+        if (usuario_autenticado.email ==  email):
             return {
                 'nome' : search.results[0].nome,
                 'matricula' : search.results[0].matricula,
@@ -484,7 +484,7 @@ class Users(object):
     def init_config_user(self):
         if Utils.check_has_user():
             return HTTPFound(location = self.request.route_url('login'))
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
+        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
         orgao_obj = Utils.create_orgao_obj()
         distinct_orgaos = orgao_obj.get_distinct_orgaos("document->>'nome'")
         return {
@@ -495,5 +495,5 @@ class Users(object):
     def add_user_home_report(self):
         user_obj = Utils.create_user_obj()
         report_name = self.request.params['report_name']
-        user_obj.add_home_report(report_name, self.request.authenticated_userid)
+        user_obj.add_home_report(report_name, self.request.session['userid'])
         return Response('OK')
