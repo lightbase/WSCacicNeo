@@ -483,5 +483,5 @@ class Users(object):
     def add_user_home_report(self):
         user_obj = Utils.create_user_obj()
         report_name = self.request.params['report_name']
-        user_obj.add_home_report(report_name, self.request.session.get('userid'))
+        user_obj.add_home_report(report_name, self.usuario_autenticado.email)
         return Response('OK')
