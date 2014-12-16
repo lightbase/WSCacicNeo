@@ -62,6 +62,7 @@ class Utils:
         return user_obj
 
     def retorna_usuario_autenticado(user_id=None, matricula=None):
+        # Retorna o usuário atual autenticado no sistema
         if user_id is None and matricula is None:
             return None
         elif matricula is None:
