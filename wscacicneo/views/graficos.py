@@ -17,7 +17,7 @@ class Graficos():
         """
         self.request = request
         self.usuario_autenticado = Utils.retorna_usuario_autenticado(
-            user_id=self.request.session.get('userid'))
+            self.request.session.get('userid'))
 
     def graficos(self):
         attr = self.request.matchdict['attr']

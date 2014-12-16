@@ -24,7 +24,7 @@ class Notifications(object):
         """
         self.request = request
         self.usuario_autenticado = Utils.retorna_usuario_autenticado(
-            user_id=self.request.session.get('userid'))
+            self.request.session.get('userid'))
 
     # Lista de Notificação
     ##@view_config(route_name='list_notify', renderer='../templates/list_notify.pt', permission="gest")
@@ -61,9 +61,9 @@ class Notifications(object):
             status = 'sadasd'
         )
         response = {
-            'type-1': notify_obj.get_count(user, 'Erro na Coleta'),
-            'type-2': notify_obj.get_count(user, 'Coleta Desatualizada'),
-            'type-3': notify_obj.get_count(user, 'Outros')}
+            'type-1': notify_obj.get_count(self.usuario_autenticado, 'Erro na Coleta'),
+            'type-2': notify_obj.get_count(self.usuario_autenticado, 'Coleta Desatualizada'),
+            'type-3': notify_obj.get_count(self.usuario_autenticado, 'Outros')}
         response = json.dumps(response)
         return Response(response)
 
@@ -116,7 +116,7 @@ class Notifications(object):
             data_coleta=requests['data_coleta'],
             notify=requests['notify'],
             coment=requests['coment'],
-            status=requests['status']
+            status =requests['status']
         )
         results = notify_obj.create_notify()
         session = self.request.session
@@ -132,8 +132,8 @@ class Notifications(object):
         result_user = user_obj.search_list_users()
         result_orgao = orgao_obj.search_list_orgaos()
         data = {
-            'count_orgao': result_orgao.result_count,
-            'count_user': result_user.result_count
+            'count_orgao' : result_orgao.result_count,
+            'count_user' : result_user.result_count
             }
         results = json.dumps(data)
         return Response(results)

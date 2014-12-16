@@ -23,7 +23,7 @@ class Coleta(object):
         """
         self.request = request
         self.usuario_autenticado = Utils.retorna_usuario_autenticado(
-            user_id=self.request.session.get('userid'))
+            self.request.session.get('userid'))
 
     # Reports
     #@view_config(route_name='create_orgao', permission="gest")permission="gest"

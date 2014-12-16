@@ -34,7 +34,7 @@ class Users(object):
         """
         self.request = request
         self.usuario_autenticado = Utils.retorna_usuario_autenticado(
-            user_id=self.request.session.get('userid'))
+            self.request.session.get('userid'))
 
     # Views de Favoritos
     #@view_config(route_name='favoritos', renderer='../templates/favoritos.pt', permission="gest")

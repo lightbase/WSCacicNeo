@@ -27,7 +27,7 @@ class Security(object):
         """
         self.request = request
         self.usuario_autenticado = Utils.retorna_usuario_autenticado(
-            user_id=self.request.session.get('userid'))
+            self.request.session.get('userid'))
 
     # Autenticação
     #@view_config(route_name='login', renderer='../templates/login.pt')

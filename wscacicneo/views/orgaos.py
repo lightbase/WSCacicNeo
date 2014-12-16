@@ -29,7 +29,7 @@ class Orgaos(object):
         """
         self.request = request
         self.usuario_autenticado = Utils.retorna_usuario_autenticado(
-            user_id=self.request.session.get('userid'))
+            self.request.session.get('userid'))
 
     def listorgao(self):
         orgao_obj = Utils.create_orgao_obj()

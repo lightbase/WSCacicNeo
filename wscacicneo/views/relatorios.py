@@ -33,7 +33,7 @@ class Relatorios(object):
         """
         self.request = request
         self.usuario_autenticado = Utils.retorna_usuario_autenticado(
-            user_id=self.request.session.get('userid'))
+            self.request.session.get('userid'))
 
     #@view_config(route_name='conf_report', renderer='../templates/conf_report.pt')
     def conf_report(self):
