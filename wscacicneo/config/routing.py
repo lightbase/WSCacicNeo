@@ -102,6 +102,10 @@ def make_routes(cfg):
     cfg.add_view(users.Users, attr='edituser', route_name='edituser',
                  renderer='templates/users/editaruser.pt', permission='admin')
 
+    cfg.add_route('recover_passwd', 'usuario/recover/{hash}/{id}')
+    cfg.add_view(users.Users, attr='recover_passwd', route_name='recover_passwd',
+                 renderer='templates/users/recover_passwd.pt', permission='user')
+
     cfg.add_route('favoritos', 'usuario/favoritos/{matricula}')
     cfg.add_view(users.Users, attr='favoritos', route_name='favoritos',
                  renderer='templates/users/favoritos.pt', permission="gest")

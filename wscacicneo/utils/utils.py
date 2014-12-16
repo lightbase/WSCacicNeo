@@ -44,6 +44,11 @@ class Utils:
         hash_object = hashlib.sha512(password.encode("utf-8"))
         return hash_object.hexdigest()
 
+    def hash_name_by_user(nm_user):
+        hash_object = hashlib.sha512(nm_user.encode("utf-8"))
+        return hash_object.hexdigest()
+
+
     def create_user_obj():
         user_obj = User(
             nome = 'usuario',

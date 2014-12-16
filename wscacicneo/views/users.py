@@ -485,3 +485,19 @@ class Users(object):
         report_name = self.request.params['report_name']
         user_obj.add_home_report(report_name, self.usuario_autenticado.email)
         return Response('OK')
+
+
+    def recover_passwd(self):
+        """
+        Altera senha do usuario
+        """
+        id_user = self.request.matchdict['id']
+        hash_user = self.request.matchdict['hash']
+        user_obj = Utils.create_user_obj()
+        doc_user = user_obj.get_user_by_id(id_user)
+        hash_nm_user = Utils.hash_name_by_user(doc_user.nome)
+        if hash_user == hash_nm_user:
+            return {'id': id_user} 
+        else:
+            return HTTPFound(location=self.request.route_url('home'))
+        return { }
