@@ -28,13 +28,14 @@ class Orgaos(object):
         :param request: Requisição
         """
         self.request = request
+        self.usuario_autenticado = Utils.retorna_usuario_autenticado(
+            user_id=self.request.session.get('userid'))
 
     def listorgao(self):
         orgao_obj = Utils.create_orgao_obj()
         search = orgao_obj.search_list_orgaos()
-        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
         return {'orgao_doc': search.results,
-                'usuario_autenticado':usuario_autenticado
+                'usuario_autenticado': self.usuario_autenticado
                 }
 
     def get_orgao_initial(self):
@@ -54,14 +55,13 @@ class Orgaos(object):
             param=sigla
         )
         orgao_obj = search_obj.search_by_name()
-        usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.session['userid'])
 
         saida = orgao_obj.orgao_to_dict()
         # Coloca algum valor na URL
         if saida.get('url') is None:
             saida['url'] = self.request.application_url
 
-        saida['usuario_autenticado'] = usuario_autenticado
+        saida['usuario_autenticado'] = self.usuario_autenticado
 
         return saida
 
@@ -71,12 +71,11 @@ class Orgaos(object):
             param=sigla
         )
         orgao_obj = search_obj.search_by_name()
-        usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.session['userid'])
 
         saida = orgao_obj.orgao_to_dict()
         if saida.get('url') is None:
             saida['url'] = self.request.application_url
-        saida['usuario_autenticado'] = usuario_autenticado
+        saida['usuario_autenticado'] = self.usuario_autenticado
 
         return saida
 
@@ -103,11 +102,10 @@ class Orgaos(object):
             api_key=doc.get('api_key')
         )
         try:
-            usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.session['userid'])
-            if usuario_autenticado is None:
+            if self.usuario_autenticado is None:
                 user = 'Sistema'
             else:
-                user = usuario_autenticado.nome
+                user = self.usuario_autenticado.nome
         except IndexError:
             user = 'Sistema'
 
@@ -120,7 +118,7 @@ class Orgaos(object):
         at.create_atividade()
         id_doc = orgao_obj.create_orgao()
         session = self.request.session
-        session.flash('Cadastro realizado com sucesso', queue="success")
+        session.flash('Orgão cadastrado com sucesso', queue="success")
         return Response(str(id_doc))
 
     def put_orgao(self):
@@ -144,10 +142,9 @@ class Orgaos(object):
             habilitar_bot=ast.literal_eval(doc.get('habilitar_bot')),
             api_key=doc.get('api_key')
         )
-        usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.session['userid'])
         at = atividade.Atividade(
             tipo='put',
-            usuario=usuario_autenticado.nome,
+            usuario=self.usuario_autenticado.nome,
             descricao='Alterou o órgão ' + nome_base,
             data=datetime.datetime.now()
         )
@@ -181,10 +178,9 @@ class Orgaos(object):
             url = 'sadasd',
             api_key='sadasd'
         )
-        usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.session['userid'])
         at = atividade.Atividade(
             tipo='delete',
-            usuario=usuario_autenticado.nome,
+            usuario=self.usuario_autenticado.nome,
             descricao='Removeu o órgão '+ sigla,
             data=datetime.datetime.now()
         )
@@ -201,8 +197,7 @@ class Orgaos(object):
 
     # Views de Orgão
     def orgao(self):
-        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
         return {
-            'usuario_autenticado': usuario_autenticado,
+            'usuario_autenticado': self.usuario_autenticado,
             'api_key': uuid.uuid4()
         }

@@ -22,6 +22,8 @@ class Coleta(object):
         :param request: Requisição
         """
         self.request = request
+        self.usuario_autenticado = Utils.retorna_usuario_autenticado(
+            user_id=self.request.session.get('userid'))
 
     # Reports
     #@view_config(route_name='create_orgao', permission="gest")permission="gest"
@@ -37,10 +39,9 @@ class Coleta(object):
     def cadastro_coleta(self):
         search_obj = SearchOrgao()
         result = search_obj.list_by_name()
-        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
 
         return {'orgao_doc': result,
-                'usuario_autenticado':usuario_autenticado
+                'usuario_autenticado': self.usuario_autenticado
                 }
 
 

@@ -23,6 +23,8 @@ class Notifications(object):
         :param request: Requisição
         """
         self.request = request
+        self.usuario_autenticado = Utils.retorna_usuario_autenticado(
+            user_id=self.request.session.get('userid'))
 
     # Lista de Notificação
     ##@view_config(route_name='list_notify', renderer='../templates/list_notify.pt', permission="gest")
@@ -42,14 +44,12 @@ class Notifications(object):
             notify_type = type_map[self.request.params['type']]
         else:
             notify_type = None
-        usuario_autenticado = Utils.retorna_usuario_autenticado(
-            user_id=self.request.session['userid'])
         reg = notify_obj.search_list_notify(notify_type,
-            usuario_autenticado)
+                                            self.usuario_autenticado)
         doc = reg.results
         return {
             'doc': doc,
-            'usuario_autenticado':usuario_autenticado
+            'usuario_autenticado': self.usuario_autenticado
         }
 
     def count_notify(self):
@@ -60,8 +60,6 @@ class Notifications(object):
             coment = 'sadasd',
             status = 'sadasd'
         )
-        user = Utils.retorna_usuario_autenticado(
-            user_id=self.request.session['userid'])
         response = {
             'type-1': notify_obj.get_count(user, 'Erro na Coleta'),
             'type-2': notify_obj.get_count(user, 'Coleta Desatualizada'),
@@ -105,21 +103,20 @@ class Notifications(object):
     def notify(self):
         search_obj = SearchOrgao()
         result = search_obj.list_by_name()
-        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
 
         return {'orgao_doc': result,
-                'usuario_autenticado':usuario_autenticado
+                'usuario_autenticado': self.usuario_autenticado
                 }
 
     #@view_config(route_name='post_notify', permission="gest")
     def post_notify(self):
         requests = self.request.params
         notify_obj = Notify(
-            orgao = requests['orgao'],
-            data_coleta = requests['data_coleta'],
-            notify = requests['notify'],
-            coment = requests['coment'],
-            status = requests['status']
+            orgao=requests['orgao'],
+            data_coleta=requests['data_coleta'],
+            notify=requests['notify'],
+            coment=requests['coment'],
+            status=requests['status']
         )
         results = notify_obj.create_notify()
         session = self.request.session
@@ -135,8 +132,8 @@ class Notifications(object):
         result_user = user_obj.search_list_users()
         result_orgao = orgao_obj.search_list_orgaos()
         data = {
-            'count_orgao' : result_orgao.result_count,
-            'count_user' : result_user.result_count
+            'count_orgao': result_orgao.result_count,
+            'count_user': result_user.result_count
             }
         results = json.dumps(data)
         return Response(results)

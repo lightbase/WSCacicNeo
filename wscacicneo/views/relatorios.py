@@ -32,11 +32,8 @@ class Relatorios(object):
         :param request: Requisição
         """
         self.request = request
-        if 'userid' in self.request.session:
-            self.usuario_autenticado = Utils.retorna_usuario_autenticado(
-                user_id=self.request.session['userid'])
-        else:
-            self.usuario_autenticado = None
+        self.usuario_autenticado = Utils.retorna_usuario_autenticado(
+            user_id=self.request.session.get('userid'))
 
     #@view_config(route_name='conf_report', renderer='../templates/conf_report.pt')
     def conf_report(self):

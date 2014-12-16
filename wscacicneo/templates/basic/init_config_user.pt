@@ -73,7 +73,7 @@
                 </div>
                 <div class="form-group">
                   <div class="col-lg-offset-2 col-lg-6">
-                    <button type="button" id="enviar" class="btn btn-sm btf-primary" style="margin-left: 315px;" >Enviar</button>
+                    <button type="button" id="enviar" class="btn btn-sm btn-primary" style="margin-left: 315px;" >Enviar</button>
                   </div>
                 </div>
               </form>

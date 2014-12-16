@@ -33,6 +33,8 @@ class Users(object):
         :param request: Requisição
         """
         self.request = request
+        self.usuario_autenticado = Utils.retorna_usuario_autenticado(
+            user_id=self.request.session.get('userid'))
 
     # Views de Favoritos
     #@view_config(route_name='favoritos', renderer='../templates/favoritos.pt', permission="gest")
@@ -41,10 +43,8 @@ class Users(object):
         user_obj = Utils.create_user_obj()
         search = user_obj.search_user(matricula)
         email = search.results[0].email
-        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
-        if (usuario_autenticado.email ==  email):
+        if (self.usuario_autenticado.email ==  email):
             search = user_obj.search_user(matricula)
-            usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
             favoritos = search.results[0].favoritos
             return {
                 'favoritos': search.results[0].favoritos,
@@ -58,10 +58,10 @@ class Users(object):
                 'setor' : search.results[0].setor,
                 'permissao' : search.results[0].permissao,
                 'senha' : search.results[0].senha,
-                'usuario_autenticado':usuario_autenticado
+                'usuario_autenticado': self.usuario_autenticado
             }
         else:
-            return HTTPFound(location = self.request.route_url('home'))
+            return HTTPFound(location=self.request.route_url('home'))
 
     #@view_config(route_name='edit_favoritos', permission="gest")
     def edit_favoritos(self):
@@ -72,15 +72,15 @@ class Users(object):
         matricula = documento['matricula']
         user_obj = SearchUser(matricula).search_by_name()
         user = {
-            'nome' : documento['nome'],
-            'matricula' : documento['matricula'],
-            'email' : documento['email'],
-            'orgao' : documento['orgao'],
-            'telefone' : documento['telefone'],
-            'cargo' : documento['cargo'],
-            'setor' : documento['setor'],
-            'permissao' : documento['permissao'],
-            'senha' : documento['senha'],
+            'nome': documento['nome'],
+            'matricula': documento['matricula'],
+            'email': documento['email'],
+            'orgao': documento['orgao'],
+            'telefone': documento['telefone'],
+            'cargo': documento['cargo'],
+            'setor': documento['setor'],
+            'permissao': documento['permissao'],
+            'senha': documento['senha'],
             'itens': documento['itens'],
             'favoritos': documento['favoritos']
         }
@@ -88,18 +88,16 @@ class Users(object):
         id = search.results[0]._metadata.id_doc
         doc = json.dumps(user)
         edit = user_obj.edit_user(id, doc)
-        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
         return Response(edit)
 
     # Users
 
     #@view_config(route_name='user', renderer='../templates/user.pt', permission='admin')
     def user(self):
-        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
         orgao_obj = Utils.create_orgao_obj()
         distinct_orgaos = orgao_obj.get_distinct_orgaos("document->>'nome'")
         return {
-            'usuario_autenticado':usuario_autenticado,
+            'usuario_autenticado': self.usuario_autenticado,
             'orgaos': distinct_orgaos.results
         }
 
@@ -133,10 +131,9 @@ class Users(object):
                 favoritos = favoritos,
                 itens = itens
             )
-            usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.session['userid'])
             at = atividade.Atividade(
                 tipo='insert',
-                usuario=usuario_autenticado.nome,
+                usuario=self.usuario_autenticado.nome,
                 descricao='Cadastrou o  Usuario '+ doc['nome'],
                 data=datetime.datetime.now()
             )
@@ -189,10 +186,10 @@ class Users(object):
                 )
                 at.create_atividade()
                 session = self.request.session
-                session.flash('Cadastro realizado com sucesso', queue="success")
+                session.flash('Usuário cadastrado com sucesso', queue="success")
                 return Response(str(id_doc))
             else:
-                return {"emailerrado":"emailerrado"}
+                return {"emailerrado": "emailerrado"}
         else:
             return HTTPFound(location = self.request.route_url('home'))
 
@@ -204,20 +201,19 @@ class Users(object):
         email = search.results[0].email
         orgao_obj = Utils.create_orgao_obj()
         distinct_orgaos = orgao_obj.get_distinct_orgaos("document->>'nome'")
-        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
         return {
-            'nome' : search.results[0].nome,
-            'matricula' : search.results[0].matricula,
-            'email' : search.results[0].email,
-            'orgao' : search.results[0].orgao,
-            'telefone' : search.results[0].telefone,
-            'cargo' : search.results[0].cargo,
-            'setor' : search.results[0].setor,
-            'permissao' : search.results[0].permissao,
-            'senha' : search.results[0].senha,
-            'itens' : search.results[0].itens,
-            'favoritos' : search.results[0].favoritos,
-            'usuario_autenticado':usuario_autenticado,
+            'nome': search.results[0].nome,
+            'matricula': search.results[0].matricula,
+            'email': search.results[0].email,
+            'orgao': search.results[0].orgao,
+            'telefone': search.results[0].telefone,
+            'cargo': search.results[0].cargo,
+            'setor': search.results[0].setor,
+            'permissao': search.results[0].permissao,
+            'senha': search.results[0].senha,
+            'itens': search.results[0].itens,
+            'favoritos': search.results[0].favoritos,
+            'usuario_autenticado': self.usuario_autenticado,
             'orgaos': distinct_orgaos.results
         }
 
@@ -233,74 +229,72 @@ class Users(object):
         search = user_obj.search_user(matricula)
         permissao_usuario_edit = search.results[0].permissao
         email_usuario_edit = search.results[0].email
-        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
-        usuario_autenticado_email = usuario_autenticado.email
+        usuario_autenticado_email = self.usuario_autenticado.email
         edit_yourself = False
-        if(usuario_autenticado_email == email_usuario_edit):
+        if usuario_autenticado_email == email_usuario_edit:
             edit_yourself = True
             email_user = usuario_autenticado_email
-        if(params['permissao'] == "Administrador" and params['permissao'] != permissao_usuario_edit):
+        if params['permissao'] == "Administrador" and params['permissao'] != permissao_usuario_edit:
             itens = [params['lista_orgao'], params['cadastro_orgao'], params['lista_user'], params['cadastro_user'], params['notify']]
             favoritos = [params['favoritos']]
             user = {
-                'nome' : params['nome'],
-                'matricula' : params['matricula'],
-                'email' : params['email'],
-                'orgao' : params['orgao'],
-                'telefone' : params['telefone'],
-                'cargo' : params['cargo'],
-                'setor' : params['setor'],
-                'permissao' : params['permissao'],
-                'senha' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].senha,
-                'favoritos' : favoritos,
-                'itens' : itens
+                'nome': params['nome'],
+                'matricula': params['matricula'],
+                'email': params['email'],
+                'orgao': params['orgao'],
+                'telefone': params['telefone'],
+                'cargo': params['cargo'],
+                'setor': params['setor'],
+                'permissao': params['permissao'],
+                'senha': Utils.retorna_usuario_autenticado(matricula=matricula).results[0].senha,
+                'favoritos': favoritos,
+                'itens': itens
             }
-        elif(params['permissao'] == "Gestor" and params['permissao'] != permissao_usuario_edit):
+        elif params['permissao'] == "Gestor" and params['permissao'] != permissao_usuario_edit:
             itens = [params['notify']]
             favoritos = [params['favoritos']]
             user = {
-                'nome' : params['nome'],
-                'matricula' : params['matricula'],
-                'email' : params['email'],
-                'orgao' : params['orgao'],
-                'telefone' : params['telefone'],
-                'cargo' : params['cargo'],
-                'setor' : params['setor'],
-                'permissao' : params['permissao'],
-                'senha' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].senha,
-                'favoritos' : favoritos,
-                'itens' : itens
+                'nome': params['nome'],
+                'matricula': params['matricula'],
+                'email': params['email'],
+                'orgao': params['orgao'],
+                'telefone': params['telefone'],
+                'cargo': params['cargo'],
+                'setor': params['setor'],
+                'permissao': params['permissao'],
+                'senha': Utils.retorna_usuario_autenticado(matricula=matricula).results[0].senha,
+                'favoritos': favoritos,
+                'itens': itens
             }
         else:
             user = {
-                'nome' : params['nome'],
-                'matricula' : params['matricula'],
-                'email' : params['email'],
-                'orgao' : params['orgao'],
-                'telefone' : params['telefone'],
-                'cargo' : params['cargo'],
-                'setor' : params['setor'],
-                'permissao' : params['permissao'],
-                'senha' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].senha,
-                'favoritos' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].favoritos,
-                'itens' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].itens
+                'nome': params['nome'],
+                'matricula': params['matricula'],
+                'email': params['email'],
+                'orgao': params['orgao'],
+                'telefone': params['telefone'],
+                'cargo': params['cargo'],
+                'setor': params['setor'],
+                'permissao': params['permissao'],
+                'senha': Utils.retorna_usuario_autenticado(matricula=matricula).results[0].senha,
+                'favoritos': Utils.retorna_usuario_autenticado(matricula=matricula).results[0].favoritos,
+                'itens': Utils.retorna_usuario_autenticado(matricula=matricula).results[0].itens
             }
         id = search.results[0]._metadata.id_doc
         email_is_institucional = Utils.verifica_email_institucional(email_user)
-        usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.session['userid'])
         at = atividade.Atividade(
             tipo='put',
-            usuario=usuario_autenticado.nome,
-            descricao='Editou o  usuario '+ params['nome'],
+            usuario=self.usuario_autenticado.nome,
+            descricao='Editou o  usuario '+params['nome'],
             data=datetime.datetime.now()
         )
         at.create_atividade()
 
         session = self.request.session
-        if(email_is_institucional):
+        if email_is_institucional:
             doc = json.dumps(user)
             edit = user_obj.edit_user(id, doc)
-            if(edit_yourself == False):
+            if edit_yourself == False:
                 return Response(edit)
                 session.flash('Alteração realizado com sucesso', queue="success")
             else:
@@ -319,9 +313,8 @@ class Users(object):
     def listuser(self):
         user_obj = Utils.create_user_obj()
         search = user_obj.search_list_users()
-        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
         return {'user_doc': search.results,
-                'usuario_autenticado': usuario_autenticado
+                'usuario_autenticado': self.usuario_autenticado
                 }
 
     #@view_config(route_name='delete_user', permission="admin")
@@ -329,23 +322,21 @@ class Users(object):
         """
         Deleta doc apartir do id
         """
-        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
         doc = self.request.params
         matricula = self.request.matchdict['matricula']
         user_obj = Utils.create_user_obj()
         search = user_obj.search_user(matricula)
         email = search.results[0].email
         nome = search.results[0].nome
-        usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.session['userid'])
         at = atividade.Atividade(
             tipo='delete',
-            usuario=usuario_autenticado.nome,
-            descricao='Deletou o usuario '+ nome,
+            usuario=self.usuario_autenticado.nome,
+            descricao='Deletou o usuario '+nome,
             data=datetime.datetime.now()
         )
         at.create_atividade()
         session = self.request.session
-        if(usuario_autenticado.email !=  email):
+        if self.usuario_autenticado.email != email:
             id = search.results[0]._metadata.id_doc
             delete = user_obj.delete_user(id)
             if delete:
@@ -363,23 +354,22 @@ class Users(object):
         user_obj = Utils.create_user_obj()
         search = user_obj.search_user(matricula)
         email = search.results[0].email
-        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
         orgao_obj = Utils.create_orgao_obj()
         distinct_orgaos = orgao_obj.get_distinct_orgaos("document->>'nome'")
-        if (usuario_autenticado.email ==  email):
+        if self.usuario_autenticado.email == email:
             return {
-                'nome' : search.results[0].nome,
-                'matricula' : search.results[0].matricula,
-                'email' : search.results[0].email,
-                'orgao' : search.results[0].orgao,
-                'telefone' : search.results[0].telefone,
-                'cargo' : search.results[0].cargo,
-                'setor' : search.results[0].setor,
-                'permissao' : search.results[0].permissao,
-                'senha' : search.results[0].senha,
-                'itens' : search.results[0].itens,
-                'favoritos' : search.results[0].favoritos,
-                'usuario_autenticado': usuario_autenticado,
+                'nome': search.results[0].nome,
+                'matricula': search.results[0].matricula,
+                'email': search.results[0].email,
+                'orgao': search.results[0].orgao,
+                'telefone': search.results[0].telefone,
+                'cargo': search.results[0].cargo,
+                'setor': search.results[0].setor,
+                'permissao': search.results[0].permissao,
+                'senha': search.results[0].senha,
+                'itens': search.results[0].itens,
+                'favoritos': search.results[0].favoritos,
+                'usuario_autenticado': self.usuario_autenticado,
                 'orgaos': distinct_orgaos.results
             }
         else:
@@ -396,29 +386,29 @@ class Users(object):
         user_obj = Utils.create_user_obj()
         email_user_init = Utils.retorna_usuario_autenticado(matricula=matricula).results[0].email
         user = {
-            'nome' : params['nome'],
-            'orgao' : params['orgao'],
-            'telefone' : params['telefone'],
-            'cargo' : params['cargo'],
-            'setor' : params['setor'],
-            'email' : params['email'],
-            'matricula' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].matricula,
-            'permissao' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].permissao,
-            'senha' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].senha,
-            'favoritos' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].favoritos,
-            'itens' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].itens
+            'nome': params['nome'],
+            'orgao': params['orgao'],
+            'telefone': params['telefone'],
+            'cargo': params['cargo'],
+            'setor': params['setor'],
+            'email': params['email'],
+            'matricula': Utils.retorna_usuario_autenticado(matricula=matricula).results[0].matricula,
+            'permissao': Utils.retorna_usuario_autenticado(matricula=matricula).results[0].permissao,
+            'senha': Utils.retorna_usuario_autenticado(matricula=matricula).results[0].senha,
+            'favoritos': Utils.retorna_usuario_autenticado(matricula=matricula).results[0].favoritos,
+            'itens': Utils.retorna_usuario_autenticado(matricula=matricula).results[0].itens
         }
         search = user_obj.search_user(matricula)
         id = search.results[0]._metadata.id_doc
         doc = json.dumps(user)
         edit = user_obj.edit_user(id, doc)
         session = self.request.session
-        if(email_user_init != email_user_new):
+        if email_user_init != email_user_new:
             session.invalidate()
             headers = forget(self.request)
             response = Response()
-            response = HTTPFound(location=self.request.route_url('login'),
-                                 headers=headers)
+            response = HTTPFound(location=self.request.route_url('login'))
+                                 #,headers=headers)
             session.flash('Alteração realizado com sucesso. Você está sendo desconectado. Reconecte-se.', queue="success")
             return response
         else:
@@ -431,24 +421,23 @@ class Users(object):
         user_obj = Utils.create_user_obj()
         search = user_obj.search_user(matricula)
         email = search.results[0].email
-        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
-        if (usuario_autenticado.email ==  email):
+        if self.usuario_autenticado.email ==  email:
             return {
-                'nome' : search.results[0].nome,
-                'matricula' : search.results[0].matricula,
-                'email' : search.results[0].email,
-                'orgao' : search.results[0].orgao,
-                'telefone' : search.results[0].telefone,
-                'cargo' : search.results[0].cargo,
-                'setor' : search.results[0].setor,
-                'permissao' : search.results[0].permissao,
-                'senha' : search.results[0].senha,
-                'itens' : search.results[0].itens,
-                'favoritos' : search.results[0].favoritos,
-                'usuario_autenticado':usuario_autenticado,
+                'nome': search.results[0].nome,
+                'matricula': search.results[0].matricula,
+                'email': search.results[0].email,
+                'orgao': search.results[0].orgao,
+                'telefone': search.results[0].telefone,
+                'cargo': search.results[0].cargo,
+                'setor': search.results[0].setor,
+                'permissao': search.results[0].permissao,
+                'senha': search.results[0].senha,
+                'itens': search.results[0].itens,
+                'favoritos': search.results[0].favoritos,
+                'usuario_autenticado': self.usuario_autenticado,
             }
         else:
-            return HTTPFound(location = self.request.route_url('home'))
+            return HTTPFound(location=self.request.route_url('home'))
 
     #@view_config(route_name='put_password_user', permission="gest")
     def put_password_user(self):
@@ -460,17 +449,17 @@ class Users(object):
         email_user = params['email']
         user_obj = Utils.create_user_obj()
         user = {
-            'nome' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].nome,
-            'orgao' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].orgao,
-            'telefone' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].telefone,
-            'cargo' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].cargo,
-            'setor' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].setor,
-            'matricula' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].matricula,
-            'email' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].email,
-            'permissao' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].permissao,
-            'senha' : Utils.hash_password(params['senha']),
-            'favoritos' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].favoritos,
-            'itens' : Utils.retorna_usuario_autenticado(matricula=matricula).results[0].itens
+            'nome': Utils.retorna_usuario_autenticado(matricula=matricula).results[0].nome,
+            'orgao': Utils.retorna_usuario_autenticado(matricula=matricula).results[0].orgao,
+            'telefone': Utils.retorna_usuario_autenticado(matricula=matricula).results[0].telefone,
+            'cargo': Utils.retorna_usuario_autenticado(matricula=matricula).results[0].cargo,
+            'setor': Utils.retorna_usuario_autenticado(matricula=matricula).results[0].setor,
+            'matricula': Utils.retorna_usuario_autenticado(matricula=matricula).results[0].matricula,
+            'email': Utils.retorna_usuario_autenticado(matricula=matricula).results[0].email,
+            'permissao': Utils.retorna_usuario_autenticado(matricula=matricula).results[0].permissao,
+            'senha': Utils.hash_password(params['senha']),
+            'favoritos': Utils.retorna_usuario_autenticado(matricula=matricula).results[0].favoritos,
+            'itens': Utils.retorna_usuario_autenticado(matricula=matricula).results[0].itens
         }
         search = user_obj.search_user(matricula)
         id = search.results[0]._metadata.id_doc
@@ -484,16 +473,15 @@ class Users(object):
     def init_config_user(self):
         if Utils.check_has_user():
             return HTTPFound(location = self.request.route_url('login'))
-        usuario_autenticado = Utils.retorna_usuario_autenticado(user_id=self.request.session['userid'])
         orgao_obj = Utils.create_orgao_obj()
         distinct_orgaos = orgao_obj.get_distinct_orgaos("document->>'nome'")
         return {
-            'usuario_autenticado': usuario_autenticado,
+            'usuario_autenticado': self.usuario_autenticado,
             'orgaos': distinct_orgaos.results
         }
 
     def add_user_home_report(self):
         user_obj = Utils.create_user_obj()
         report_name = self.request.params['report_name']
-        user_obj.add_home_report(report_name, self.request.session['userid'])
+        user_obj.add_home_report(report_name, self.request.session.get('userid'))
         return Response('OK')

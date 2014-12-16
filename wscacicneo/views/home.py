@@ -31,6 +31,8 @@ class Home(object):
         :param request: Requisição
         """
         self.request = request
+        self.usuario_autenticado = Utils.retorna_usuario_autenticado(
+            user_id=self.request.session.get('userid'))
 
     # Views de configuração
     #@view_config(route_name='blankmaster', renderer='../../templates/blankmaster.pt')
@@ -118,22 +120,16 @@ class Home(object):
         doc_atividade = atividade_obj.search_list_atividades(limit_registros)
         # END RETORNA BASE DE ATIVIDADES
 
-
-        if 'userid' in self.request.session:
-            usuario_autenticado = Utils.retorna_usuario_autenticado(
-                user_id=self.request.session['userid'])
-        else:
-            usuario_autenticado = None
         # Relatórios personalizados
         report_data = []
-        if usuario_autenticado and hasattr(usuario_autenticado, 'home'):
-            for home_report_attr in set(usuario_autenticado.home):
+        if self.usuario_autenticado and hasattr(self.usuario_autenticado, 'home'):
+            for home_report_attr in set(self.usuario_autenticado.home):
                 report_data.append(
                     (home_report_attr, self.get_user_report_data_by_attr(
-                    usuario_autenticado, home_report_attr))
+                    self.usuario_autenticado, home_report_attr))
                 )
         session = self.request.session
-        return {'usuario_autenticado': usuario_autenticado,
+        return {'usuario_autenticado': self.usuario_autenticado,
                 'base_doc': data,
                 'doc_atividade': doc_atividade.results,
                 'report_data': report_data,

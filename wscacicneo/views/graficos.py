@@ -16,11 +16,8 @@ class Graficos():
         :param request: Requisição
         """
         self.request = request
-        if 'userid' in self.request.session:
-            self.usuario_autenticado = Utils.retorna_usuario_autenticado(
-                user_id=self.request.session['userid'])
-        else:
-            self.usuario_autenticado = None
+        self.usuario_autenticado = Utils.retorna_usuario_autenticado(
+            user_id=self.request.session.get('userid'))
 
     def graficos(self):
         attr = self.request.matchdict['attr']
