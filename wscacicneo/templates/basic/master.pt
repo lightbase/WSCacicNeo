@@ -25,7 +25,7 @@
 				<!--  Navigation starts -->
 				<nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
 					<!-- Links -->
-						<ul class="nav navbar-nav pull-right" tal:condition="request.authenticated_userid">
+						<ul class="nav navbar-nav pull-right" tal:condition="request.session.get('userid')">
 							<metal:macro use-macro="load: ../includes/menu_fav.pt">
 							<li class="dropdown pull-right">
 								<a data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -47,7 +47,7 @@
 					<!-- Links -->
 						<ul class="nav navbar-nav pull-right">
 							<li class=" pull-right">
-								<a tal:condition="not request.authenticated_userid" href="${request.route_url('root')}login">
+								<a tal:condition="not request.session.get('userid')" href="${request.route_url('root')}login">
 									<i class="fa fa-user"></i>
 											Login
 								</a>
@@ -69,7 +69,7 @@
 							</div>
 							<!-- Logo ends -->
 						</div>
-                        <div tal:condition="request.authenticated_userid" class="col-md-4">
+                        <div tal:condition="request.session.get('userid')" class="col-md-4">
                            <!-- Buttons -->
                            <ul class="nav nav-pills">
                               <li class="dropdown dropdown-big">
@@ -90,7 +90,7 @@
                            </ul>
                         </div>
 						<!-- Button section -->
-                        <div class="header-data" tal:condition="request.authenticated_userid">
+                        <div class="header-data" tal:condition="request.session.get('userid')">
 
                         <!-- Members data -->
                             <div style="margin-left: 120px;" class="hdata">
@@ -207,7 +207,7 @@
 					}
 				</script>
 
-                <script type="text/javascript" tal:condition="request.authenticated_userid">
+                <script type="text/javascript" tal:condition="request.session.get('userid')">
                     $(document).ready(function(){
                         $.ajax({
                             type:"GET",

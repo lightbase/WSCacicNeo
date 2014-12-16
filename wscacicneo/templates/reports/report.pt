@@ -5,7 +5,7 @@
   <metal:content fill-slot="conteudo">
     <div class="matter">
         <div class="container">
-            <div tal:condition="request.authenticated_userid">
+            <div tal:condition="request.session.get('userid')">
                 <div tal:condition="usuario_autenticado.orgao == request.matchdict['nm_orgao'] or usuario_autenticado.permissao == 'Administrador'">
                     <a type="button" href="#modal" data-toggle="modal" class="btn btn-sm btn-primary"><i class="fa fa-plus-square"></i> Adicionar valor</a>
                     <button type="button" id="error" class="btn btn-sm btn-warning"><i class="fa fa-exclamation-triangle"></i> Questionar coleta</button>
@@ -25,14 +25,14 @@
                             <div class="widget-icons pull-right">
                                 <a href="#" id="print" title="Imprimir Tabela"><i class="fa fa-print"></i></a>
                                 <a href="${request.route_url('root')}graficos/${request.matchdict['nm_orgao']}/${report_name}" id="grafico" title="Gerar Gráfico"><i class="fa fa-bar-chart-o"></i></a>
-                                <a tal:condition="request.authenticated_userid" href="#" id="plus-home" title="Adicionar na Home"><i class="fa fa-plus-circle"></i></a>
+                                <a tal:condition="request.session.get('userid')" href="#" id="plus-home" title="Adicionar na Home"><i class="fa fa-plus-circle"></i></a>
                                 <a href="#" id="download-report" title="Baixar Relatório"><i class="fa fa-download"></i></a>
                             </div>
                             <div class="clearfix"></div>
                         </div>
                         <div class="widget-content">
-                            <div id="error-message" class="alert alert-warning" style="display:none">
-                                Operação realizada com erro!
+                            <div id="error-message" class="alert alert-danger" style="display:none">
+                                Erro ao realizar a operação.
                             </div>
                             <div id="success-message" class="alert alert-success"  style="display:none">
                                 Operação realizada com sucesso!

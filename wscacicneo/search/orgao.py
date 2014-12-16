@@ -95,7 +95,7 @@ class SearchOrgao(object):
         response = requests.get(url, params=vars)
         log.debug(response.url)
         r_json = response.json()
-        print(r_json)
+        #print(r_json)
 
         saida = list()
         for i in range(0, r_json['result_count']):

@@ -41,7 +41,7 @@ class Utils:
 
     # Retorna um hex de um objeto hash, com uma senha encryptada
     def hash_password(password):
-        hash_object = hashlib.md5(password.encode("utf-8"))
+        hash_object = hashlib.sha512(password.encode("utf-8"))
         return hash_object.hexdigest()
 
     def create_user_obj():

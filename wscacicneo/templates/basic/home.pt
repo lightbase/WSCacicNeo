@@ -4,7 +4,7 @@
     </metal:content>
     <metal:content fill-slot="conteudo">
         <!-- Não Autenticado -->
-        <div tal:condition="not request.authenticated_userid">
+        <div tal:condition="not request.session.get('userid')">
             <p>
 
             <h2 align="center">Sistema Super-Gerente</h2></p>
@@ -27,7 +27,7 @@
             <metal:macro use-macro="load: ../includes/generic_report.pt"></metal:macro>
         </div>
         <!-- Fim Não Autenticado -->
-        <div tal:condition="request.authenticated_userid" style="text-align: center;">
+        <div tal:condition="request.session.get('userid')" style="text-align: center;">
             <!-- Administrador -->
             <div tal:condition="usuario_autenticado.permissao =='Administrador' ">
                 <metal:macro use-macro="load: ../includes/home_administrador.pt">

@@ -109,15 +109,15 @@ class Security(object):
 
     #@view_config(route_name='logout', permission="user")
     def logout(self):
-        #headers = forget(self.request)
+        headers = forget(self.request)
 
         # Remove sessão do usuário
         session = self.request.session
         session.invalidate()
 
-        #response = Response()
-        #response = HTTPFound(location=self.request.route_url('login'),
-        #                 headers=headers)
+        response = Response()
+        response = HTTPFound(location=self.request.route_url('login'),
+                         headers=headers)
         response = HTTPFound(location=self.request.route_url('login'))
         session.flash('Você se desconectou', queue="error")
         return response
