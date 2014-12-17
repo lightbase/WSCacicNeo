@@ -496,8 +496,7 @@ class Users(object):
         user_obj = Utils.create_user_obj()
         doc_user = user_obj.get_user_by_id(id_user)
         hash_nm_user = Utils.hash_name_by_user(doc_user.nome)
-        if hash_user == hash_nm_user:
+        if hash_user != hash_nm_user:
             return {'id': id_user} 
         else:
             return HTTPFound(location=self.request.route_url('home'))
-        return { }
