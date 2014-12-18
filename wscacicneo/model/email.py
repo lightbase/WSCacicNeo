@@ -102,8 +102,8 @@ class EmailBase(object):
             name='data_send',
             alias='data_send',
             description='Data de envio',
-            datatype='datetime',
-            indices=['Textual'],
+            datatype='DateTime',
+            indices=['Ordenado'],
             multivalued=False,
             required=True
         ))
@@ -122,7 +122,7 @@ class EmailBase(object):
             name='hidden_destination',
             alias='hd',
             description='hd',
-            datatype='text',
+            datatype='Text',
             indices=['Textual'],
             multivalued=False,
             required=False
