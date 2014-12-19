@@ -16,7 +16,7 @@ from .. import config
 from .. import search
 import uuid
 import ast
-
+from pyramid.session import check_csrf_token
 
 class Orgaos(object):
     """

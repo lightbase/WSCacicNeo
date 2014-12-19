@@ -1,6 +1,6 @@
 <metal:main use-macro="load: ../basic/master.pt">
     <metal:content fill-slot="dash">
-      Lista de Usuário      
+      Lista de Usuário
     </metal:content>
     <metal:content fill-slot="conteudo">
     <div class="matter">
@@ -50,9 +50,11 @@
                             </div>
                         </div>
                     </div>
-                </div>  
+                </div>
             </div>
         </div>
     </div>
+    <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}">
     </metal:content>
 </metal:main>
+

@@ -20,6 +20,7 @@ from pyramid.security import (
     remember,
     forget,
     )
+from pyramid.session import check_csrf_token
 
 class Home(object):
     """

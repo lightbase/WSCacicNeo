@@ -10,6 +10,7 @@ from pyramid.view import view_config
 from wscacicneo.model.orgao import Orgao
 from wscacicneo.model.reports import Reports
 from wscacicneo.search.orgao import SearchOrgao
+from pyramid.session import check_csrf_token
 
 
 class Coleta(object):

@@ -11,7 +11,7 @@ from wscacicneo.search.orgao import SearchOrgao
 from wscacicneo.utils.utils import Utils
 from wscacicneo.model.orgao import Orgao
 from wscacicneo.model.user import User
-
+from pyramid.session import check_csrf_token
 
 class Notifications(object):
     """

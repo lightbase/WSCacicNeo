@@ -20,6 +20,7 @@ from pyramid.security import (
     remember,
     forget,
     )
+from pyramid.session import check_csrf_token
 
 class Atividades(object):
     """
@@ -33,6 +34,7 @@ class Atividades(object):
         self.request = request
         self.usuario_autenticado = Utils.retorna_usuario_autenticado(
             self.request.session.get('userid'))
+
 
 
     def list_atividades(self):

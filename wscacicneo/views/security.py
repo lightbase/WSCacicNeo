@@ -58,7 +58,7 @@ class Security(object):
             if 'form.submitted' in self.request.params:
                 # Valida CSRF do formulário de login
                 check_csrf_token(self.request)
-
+                print(self.request)
                 email = self.request.params['email']
                 senha = self.request.params['senha']
                 senha_hash = Utils.hash_password(senha)
