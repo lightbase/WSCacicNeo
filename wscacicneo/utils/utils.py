@@ -1,7 +1,9 @@
 #!/usr/env python
 # -*- coding: utf-8 -*-
 import requests
+import random
 import json
+import datetime
 import unicodedata
 import hashlib
 from wscacicneo.model.orgao import Orgao
@@ -184,3 +186,24 @@ class Utils:
         search = orgao_obj.search_list_orgaos()
         result_count = search.result_count
         return result_count > 0
+
+
+    def check_valid_hash(self, data_hash, expire_day):
+        """
+        Valida o data do hash do usuario
+        """
+        date_today = datetime.datetime.now()
+        data_hash_now = date_today.day
+        valid_result = abs(data_hash_now - data_hash)
+        if valid_result >= expire_day:
+            return False
+        else:
+            return True
+
+    def random_hash(self, hash_size):
+        """
+        Criar um hash aleatoriamente
+        """
+        hash_random = random.getrandbits(hash_size)
+
+        return hash_random

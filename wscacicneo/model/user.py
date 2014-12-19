@@ -156,6 +156,42 @@ class UserBase():
                     required=False
         ))
 
+        url_hash = Field(**dict(
+                    name='url_hash',
+                    alias='url_hash',
+                    description='hash que sera usado para para criar a url',
+                    datatype='Text',
+                    indices=['Textual'],
+                    multivalued=True,
+                    required=False
+        ))
+
+        nm_user = Field(**dict(
+                    name='nm_user',
+                    alias='nm_user',
+                    description='Nome do usuario',
+                    datatype='Text',
+                    indices=['Textual'],
+                    multivalued=True,
+                    required=False
+        ))
+
+        HashUrl_content = Content()
+        HashUrl_content.append(nm_user)
+        HashUrl_content.append(url_hash)
+
+        HashUrl_metadata = GroupMetadata(
+            name='HashUrl',
+            alias='HashUrl',
+            description='HashUrl',
+            multivalued=False
+        )
+
+        HashUrl = Group(
+            metadata = HashUrl_metadata,
+            content = HashUrl_content
+        )
+
         base_metadata = BaseMetadata(
             name='users',
         )
@@ -173,6 +209,7 @@ class UserBase():
         content_list.append(favoritos)
         content_list.append(home)
         content_list.append(itens)
+        content_list.append(HashUrl)
 
         lbbase = Base(
             metadata=base_metadata,
