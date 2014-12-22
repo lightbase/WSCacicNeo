@@ -98,6 +98,11 @@ def make_routes(cfg):
     cfg.add_view(users.Users, attr='put_user', route_name='put_user',
                  permission='admin')
 
+    cfg.add_route('hash_recover_passwd', 'hash_recover_passwd')
+    cfg.add_view(users.Users, attr='hash_recover_passwd', route_name='hash_recover_passwd',
+                 permission='user')
+
+
     cfg.add_route('edituser', 'usuario/editar/{matricula}')
     cfg.add_view(users.Users, attr='edituser', route_name='edituser',
                  renderer='templates/users/editaruser.pt', permission='admin')

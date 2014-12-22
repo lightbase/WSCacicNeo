@@ -48,10 +48,9 @@
                                                            value="${senha}" placeholder="Senha">
                                                 </div>
                                             </div>
-                                            <div class="col-lg-9 col-lg-offset-3">
+                                            <div class="pull-right col-lg-offset-3">
                                                 <input type="submit" name="form.submitted" id="submit"
                                                        class="btn btn-sm btn-primary" value="Acessar"/>
-                                                <button type="reset" class="btn btn-default btn-sm">Limpar</button>
                                             </div>
                                             <br/>
                                         </form>
@@ -60,12 +59,43 @@
                                 </div>
 
                                 <div class="widget-foot">
-                                    <p> Não possui cadastro? Contate um administrador. </p>
+                                    <a href="#" id="recover">Esqueci minha senha.</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
     </metal:content>
+    <metal:content fill-slot="javascript">
+        <script type="text/javascript">
+            $('#recover').click(function(){
+                var data = {
+                    'email' : $('#email').val()
+                }
+            });
+            $.ajax({
+                    type: "POST",
+                    url: "${request.route_url('hash_recover_passwd')}",
+                    data: data,
+                    beforeSend: function()
+                        {
+                            $('#loading').show();
+                            $('#enviar').hide();
+                            $('#voltar').hide();
+                        },
+                    complete: function()
+                        {
+
+                        },
+                    success: function(){},
+                    error: function(){ noty({text: 'Erro: Todos campos com (*) devem ser preenchidos.',layout:'topRight',type:'error',timeout:3000});
+                            $('#loading').hide();
+                            $('#enviar').show();
+                            $('#voltar').show();
+                    }
+                });
+            });
+
+        </script>
+    </metal:content>
 </metal:main>
-    
