@@ -7,6 +7,7 @@ from wscacicneo.utils.utils import Utils
 from pyramid.httpexceptions import HTTPFound
 from wscacicneo.model import config_reports
 from liblightbase.lbsearch.search import NullDocument
+from pyramid.session import check_csrf_token
 
 
 class Graficos():

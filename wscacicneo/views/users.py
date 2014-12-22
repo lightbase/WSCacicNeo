@@ -19,6 +19,7 @@ from pyramid.security import (
     remember,
     forget,
     )
+from pyramid.session import check_csrf_token
 
 REST_URL = 'http://api.brlight.net/api'
 
@@ -35,6 +36,7 @@ class Users(object):
         self.request = request
         self.usuario_autenticado = Utils.retorna_usuario_autenticado(
             self.request.session.get('userid'))
+        print(self.request)
 
     # Views de Favoritos
     #@view_config(route_name='favoritos', renderer='../templates/favoritos.pt', permission="gest")
@@ -311,6 +313,8 @@ class Users(object):
 
     #@view_config(route_name='listuser', renderer='../templates/list_user.pt', permission="admin")
     def listuser(self):
+        # Valida CSRF do formulário de login
+        #check_csrf_token(self.request)
         user_obj = Utils.create_user_obj()
         search = user_obj.search_list_users()
         return {'user_doc': search.results,

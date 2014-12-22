@@ -12,6 +12,7 @@ from wscacicneo.model import orgao as model_orgao
 from wscacicneo.model import notify as model_notify
 from wscacicneo.model import reports as model_reports
 from wscacicneo.model import atividade as model_atividade
+from wscacicneo.model import email as model_email
 from wscacicneo.utils.utils import Utils
 from wscacicneo.model import config_reports
 from wscacicneo import config
@@ -20,6 +21,7 @@ from pyramid.security import (
     remember,
     forget,
     )
+from pyramid.session import check_csrf_token
 
 class Home(object):
     """
@@ -54,6 +56,7 @@ class Home(object):
         orgao_base = model_orgao.OrgaoBase()
         notify_base = model_notify.NotifyBase()
         atividade_base = model_atividade.AtividadeBase()
+        email_base = model_email.EmailBase()
         #print(orgao_base.rest_url)
         # Cria tudo que precisa para carregar.
         # Pelo fato do object ser response_object = False ele dá erro na hora da criação
@@ -71,6 +74,9 @@ class Home(object):
         elif atividade_base.is_created() is False:
             createAtividade = atividade_base.create_base()
             return HTTPFound(location=self.request.route_url("home_config_initial"))
+        elif email_base.is_created() is False:
+            createEmail = email_base.create_base()
+            return HTTPFound(location=self.request.route_url("home_config_initial"))
         else:
             return HTTPFound(location=self.request.route_url("home"))
 
@@ -80,6 +86,7 @@ class Home(object):
         orgao_base = model_orgao.OrgaoBase()
         notify_base = model_notify.NotifyBase()
         atividade_base = model_atividade.AtividadeBase()
+        email_base = model_email.EmailBase()
         if user_base.is_created() is False:
             base_criada = "Criar Base de Usuário"
             return {'base_criada':base_criada}
@@ -92,6 +99,9 @@ class Home(object):
         if atividade_base.is_created() is False:
             base_criada = "Criar Base de Atividades"
             return {'base_criada':base_criada}
+        if email_base.is_created() is False:
+            base_criada = "Criar Base de Emails"
+            return {'base_criada':base_criada}
         return HTTPFound(location=self.request.route_url("home"))
 
     #@view_config(route_name='home', renderer='../templates/home.pt')
@@ -101,10 +111,12 @@ class Home(object):
         orgao_base = model_orgao.OrgaoBase()
         notify_base = model_notify.NotifyBase()
         atividade_base = model_atividade.AtividadeBase()
+        email_base = model_email.EmailBase()
         if (user_base.is_created() is False or
             orgao_base.is_created() is False or
             notify_base.is_created() is False or
-            atividade_base.is_created() is False
+            atividade_base.is_created() is False or
+            email_base.is_created() is False
         ):
             return HTTPFound(location=self.request.route_url("home_config_initial"))
         if not Utils.check_has_orgao():

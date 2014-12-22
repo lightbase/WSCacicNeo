@@ -18,6 +18,7 @@ from wscacicneo.search.orgao import SearchOrgao
 from liblightbase.lbutils import conv
 from liblightbase.lbsearch.search import NullDocument
 from random import randint
+from pyramid.session import check_csrf_token
 
 log = logging.getLogger()
 
