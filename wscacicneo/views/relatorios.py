@@ -179,7 +179,7 @@ class Relatorios(object):
         results = base.remove_base()
         session = self.request.session
         if results:
-            session.flash('Cadastro realizado com sucesso', queue="success")
+            session.flash('Atualização do relatório realizado com sucesso', queue="success")
         else:
-            session.flash('Erro ao apagar relatório', queue="error")
+            session.flash('Erro ao atualizar o relatório', queue="error")
         return Response(str(results))

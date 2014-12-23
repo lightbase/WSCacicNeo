@@ -414,7 +414,20 @@ class User(user_base.metaclass):
         results = self.documentrest.update_collection(
             search_obj=search, path_list=path_list)
 
-
+    def edit_home_report(self, report_name, userid):
+        search = Search(
+            literal="document->>'email' = '"+userid+"'"
+        )
+        path_list=[
+            {
+              "path": "home",
+              "mode": "update",
+              "fn": None,
+              "args": [report_name]
+            }
+        ]
+        results = self.documentrest.update_collection(
+            search_obj=search, path_list=path_list)
 
 
 
