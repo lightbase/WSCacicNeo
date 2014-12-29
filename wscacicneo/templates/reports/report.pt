@@ -23,10 +23,11 @@
                             <div id="report-name" tal:condition="report_name == 'operatingsystem'" class="pull-left">Relatório de Sistemas Operacionais</div>
                             <div id="report-name" tal:condition="report_name == 'software'" class="pull-left">Relatório de Softwares (Suítes de Escritório)</div>
                             <div class="widget-icons pull-right">
-                                <a href="#" id="print" title="Imprimir Tabela"><i class="fa fa-print"></i></a>
-                                <a href="${request.route_url('root')}graficos/${request.matchdict['nm_orgao']}/${report_name}" id="grafico" title="Gerar Gráfico"><i class="fa fa-bar-chart-o"></i></a>
-                                <a tal:condition="request.session.get('userid')" href="#" id="plus-home" title="Adicionar na Home"><i class="fa fa-plus-circle"></i></a>
-                                <a href="#" id="download-report" title="Baixar Relatório"><i class="fa fa-download"></i></a>
+                                <a href="#" id="print" title="Imprimir tabela"><i class="fa fa-print"></i></a>
+                                <a href="${request.route_url('root')}graficos/${request.matchdict['nm_orgao']}/${report_name}" id="grafico" title="Gerar gráfico"><i class="fa fa-bar-chart-o"></i></a>
+                                <a tal:condition="request.session.get('userid') and usuario_autenticado.orgao == request.matchdict['nm_orgao']" href="#" id="plus-home" title="Adicionar no início"><i class="fa fa-plus-circle"></i></a>
+                                <a href="#" id="download-report" title="Baixar relatório"><i class="fa fa-download"></i></a>
+                                <a href="#help_buttons_report" title="Ajuda" data-toggle="modal"><i class="fa fa-question"></i></a>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -111,6 +112,31 @@
     <div class="box-chart">
         <canvas id="GraficoLine" style="width:100%;"></canvas>
     </div>
+    </div>
+
+  <!-- Modal Help Botões dos Reports -->
+    <div id="help_buttons_report" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">Ajuda - Botões</h4>
+                </div>
+                <div class="modal-body">
+                    <p><span class="fa fa-print"></span> - Imprime o relatório exibido.</p>
+                    <p><span class="fa fa-bar-chart-o"></span> - Gera o gráfico do relatório exibido.</p>
+                    <p tal:condition="request.session.get('userid') and usuario_autenticado.orgao == request.matchdict['nm_orgao']"><span class="fa fa-plus-circle"></span> - Adiciona o gráfico na página inicial.</p>
+                    <p><span class="fa fa-download"></span> - Baixa o CSV do relatório</p>
+                    <p style="font-style: italic; margin-left: 5%; color: #428BCA">Obs: O download pode demorar um pouco para iniciar.</p>
+                    <!--?<p style="font-style: italic; margin-left: 5%; color: #428BCA">Obs: Você só poderá adicionar a sua página inicial os gráficos pertencetes ao seu órgão.</p>-->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Fechar
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
   </metal:content>

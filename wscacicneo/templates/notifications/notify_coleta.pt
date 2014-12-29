@@ -13,8 +13,10 @@
                         <label class="col-lg-2 control-label">* Órgão:</label>
                         <div class="col-lg-4">
                             <select  id="orgao" class="form-control">
-                                <option></option>
-                                <option tal:repeat="doc orgao_doc" value="${doc.nome}">${doc.pretty_name}</option>
+                                <tal tal:repeat="doc orgao_doc">
+                                    <option selected tal:condition="usuario_autenticado.orgao == doc.nome" value="${doc.nome}">${doc.pretty_name}</option>
+                                    <option tal:condition="doc.nome != usuario_autenticado.orgao" value="${doc.nome}">${doc.pretty_name}</option>
+                                </tal>
                             </select>
                         </div>
                     </div>
@@ -88,6 +90,7 @@
                         },
                });
             });
+
         </script>
     </metal:content>
 </metal:main>

@@ -87,6 +87,10 @@ def make_routes(cfg):
     cfg.add_view(users.Users, attr='add_user_home_report', route_name='add_user_home_report',
                  permission="user", request_method='POST')
 
+    cfg.add_route('remove_custom_report', 'remover_relatorio/{nm_item}')
+    cfg.add_view(users.Users, attr='remove_custom_report', route_name='remove_custom_report',
+                 permission="user")
+
     cfg.add_route('post_user', 'post_user')
     cfg.add_view(users.Users, attr='post_user', route_name='post_user',
                  permission="admin")

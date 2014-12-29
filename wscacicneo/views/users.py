@@ -36,7 +36,6 @@ class Users(object):
         self.request = request
         self.usuario_autenticado = Utils.retorna_usuario_autenticado(
             self.request.session.get('userid'))
-        print(self.request)
 
     # Views de Favoritos
     #@view_config(route_name='favoritos', renderer='../templates/favoritos.pt', permission="gest")
@@ -490,6 +489,13 @@ class Users(object):
         user_obj.add_home_report(report_name, self.usuario_autenticado.email)
         return Response('OK')
 
+    def remove_custom_report(self):
+        report_name = self.request.matchdict['nm_item']
+        item_list = self.usuario_autenticado.home
+        item_list.remove(report_name)
+        user_obj = Utils.create_user_obj()
+        user_obj.edit_home_report(item_list, self.usuario_autenticado.email)
+        return HTTPFound(location=self.request.route_url("home"))
 
     def recover_passwd(self):
         """

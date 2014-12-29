@@ -11,13 +11,14 @@
                   <label class="col-lg-2 control-label">Órgão</label>
                   <div class="col-lg-2">
                     <select style="width: 450px"  id="orgao" class="form-control">
-                        <tal tal:condition="request.session.get('userid')" tal:repeat="orgao orgao_doc">
-                            <option selected tal:condition="usuario_autenticado.orgao == orgao.nome" value="${orgao.nome}">${orgao.pretty_name}</option>
+                        <tal tal:condition="request.session.get('userid')" tal:repeat="doc orgao_doc">
+                            <option selected tal:condition="usuario_autenticado.orgao == doc.nome" value="${doc.nome}">${doc.pretty_name}</option>
+                            <option tal:condition="doc.nome != usuario_autenticado.orgao" value="${doc.nome}">${doc.pretty_name}</option>
                         </tal>
                         <tal tal:condition="not request.session.get('userid')">
                             <option></option>
+                            <option tal:repeat="doc orgao_doc" value="${doc.nome}">${doc.pretty_name}</option>
                         </tal>
-                        <option tal:repeat="doc orgao_doc" value="${doc.nome}">${doc.pretty_name}</option>
                     </select>
                   </div>
                 </div>
