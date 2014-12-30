@@ -72,28 +72,13 @@
                 var data = {
                     'email' : $('#email').val()
                 }
-            });
-            $.ajax({
-                    type: "POST",
-                    url: "${request.route_url('hash_recover_passwd')}",
-                    data: data,
-                    beforeSend: function()
-                        {
-                            $('#loading').show();
-                            $('#enviar').hide();
-                            $('#voltar').hide();
-                        },
-                    complete: function()
-                        {
-
-                        },
-                    success: function(){},
-                    error: function(){ noty({text: 'Erro: Todos campos com (*) devem ser preenchidos.',layout:'topRight',type:'error',timeout:3000});
-                            $('#loading').hide();
-                            $('#enviar').show();
-                            $('#voltar').show();
-                    }
-                });
+                $.ajax({
+                        type: "POST",
+                        url: "${request.route_url('hash_recover_passwd')}",
+                        data: data,
+                        success: function(){alert('sucsses')},
+                        error: function(){alert('error')}
+                    });
             });
 
         </script>

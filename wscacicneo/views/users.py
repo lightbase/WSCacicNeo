@@ -515,5 +515,4 @@ class Users(object):
         """
         Insere um hash aleatorio na base de usuario
         """
-        a = 'sim'
         return Response(a)
