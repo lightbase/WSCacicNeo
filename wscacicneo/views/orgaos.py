@@ -165,19 +165,7 @@ class Orgaos(object):
         session = self.request.session
         doc = self.request.params
         sigla = self.request.matchdict['sigla']
-        orgao_obj = Orgao(
-            nome = 'asdasd',
-            pretty_name='slfkslfkdlsgk',
-            gestor= 'gestor',
-            cargo = 'asdasdasd',
-            coleta = '3',
-            sigla = 'asdasdas',
-            endereco = 'asdsad',
-            email = 'asdsad',
-            telefone = 'sadasd',
-            url = 'sadasd',
-            api_key='sadasd'
-        )
+        orgao_obj = Utils.create_orgao_obj()
         at = atividade.Atividade(
             tipo='delete',
             usuario=self.usuario_autenticado.nome,
