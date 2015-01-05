@@ -12,6 +12,7 @@ from wscacicneo.model import orgao as model_orgao
 from wscacicneo.model import notify as model_notify
 from wscacicneo.model import reports as model_reports
 from wscacicneo.model import atividade as model_atividade
+from wscacicneo.model import email as model_email
 from wscacicneo.utils.utils import Utils
 from wscacicneo.model import config_reports
 from wscacicneo import config
@@ -20,6 +21,7 @@ from pyramid.security import (
     remember,
     forget,
     )
+from pyramid.session import check_csrf_token
 
 class Home(object):
     """
@@ -31,6 +33,8 @@ class Home(object):
         :param request: Requisição
         """
         self.request = request
+        self.usuario_autenticado = Utils.retorna_usuario_autenticado(
+            self.request.session.get('userid'))
 
     # Views de configuração
     #@view_config(route_name='blankmaster', renderer='../../templates/blankmaster.pt')
@@ -52,6 +56,7 @@ class Home(object):
         orgao_base = model_orgao.OrgaoBase()
         notify_base = model_notify.NotifyBase()
         atividade_base = model_atividade.AtividadeBase()
+        email_base = model_email.EmailBase()
         #print(orgao_base.rest_url)
         # Cria tudo que precisa para carregar.
         # Pelo fato do object ser response_object = False ele dá erro na hora da criação
@@ -69,6 +74,9 @@ class Home(object):
         elif atividade_base.is_created() is False:
             createAtividade = atividade_base.create_base()
             return HTTPFound(location=self.request.route_url("home_config_initial"))
+        elif email_base.is_created() is False:
+            createEmail = email_base.create_base()
+            return HTTPFound(location=self.request.route_url("home_config_initial"))
         else:
             return HTTPFound(location=self.request.route_url("home"))
 
@@ -78,6 +86,7 @@ class Home(object):
         orgao_base = model_orgao.OrgaoBase()
         notify_base = model_notify.NotifyBase()
         atividade_base = model_atividade.AtividadeBase()
+        email_base = model_email.EmailBase()
         if user_base.is_created() is False:
             base_criada = "Criar Base de Usuário"
             return {'base_criada':base_criada}
@@ -90,6 +99,9 @@ class Home(object):
         if atividade_base.is_created() is False:
             base_criada = "Criar Base de Atividades"
             return {'base_criada':base_criada}
+        if email_base.is_created() is False:
+            base_criada = "Criar Base de Emails"
+            return {'base_criada':base_criada}
         return HTTPFound(location=self.request.route_url("home"))
 
     #@view_config(route_name='home', renderer='../templates/home.pt')
@@ -99,10 +111,12 @@ class Home(object):
         orgao_base = model_orgao.OrgaoBase()
         notify_base = model_notify.NotifyBase()
         atividade_base = model_atividade.AtividadeBase()
+        email_base = model_email.EmailBase()
         if (user_base.is_created() is False or
             orgao_base.is_created() is False or
             notify_base.is_created() is False or
-            atividade_base.is_created() is False
+            atividade_base.is_created() is False or
+            email_base.is_created() is False
         ):
             return HTTPFound(location=self.request.route_url("home_config_initial"))
         if not Utils.check_has_orgao():
@@ -111,44 +125,23 @@ class Home(object):
             return HTTPFound(location=self.request.route_url("init_config_user"))
         # END CONFIGURAÇÃO INICIAL
 
-        """# RETORNA BASE DE RELATÓRIOS
-        base_list = Utils.return_all_bases_list()
-        right_base = None
-        for base in base_list:
-            base_obj = Utils.return_base_by_name(base)
-            is_coleta = Utils.is_base_coleta(base_obj)
-            print(base)
-            if is_coleta and "_bk" not in base:
-                right_base = base
-                print(right_base)
-                break
-
-        win32_bios = "win32_bios"
-        win32_bios_manufacturer = "win32_bios_manufacturer"
-        data = model_reports.Reports(right_base).count_attribute(win32_bios, win32_bios_manufacturer)
-        # END RETORNA BASE RELATÓRIOS"""
         data = None
-
         # RETORNA BASE DE ATIVIDADES
         atividade_obj = Utils.create_atividade_obj()
         limit_registros = 5
         doc_atividade = atividade_obj.search_list_atividades(limit_registros)
         # END RETORNA BASE DE ATIVIDADES
 
-
-        usuario_autenticado = Utils.retorna_usuario_autenticado(
-            email=self.request.authenticated_userid)
-
         # Relatórios personalizados
-        report_data = [ ]
-        if usuario_autenticado and hasattr(usuario_autenticado.results[0], 'home'):
-            for home_report_attr in set(usuario_autenticado.results[0].home):
+        report_data = []
+        if self.usuario_autenticado and hasattr(self.usuario_autenticado, 'home'):
+            for home_report_attr in set(self.usuario_autenticado.home):
                 report_data.append(
                     (home_report_attr, self.get_user_report_data_by_attr(
-                    usuario_autenticado.results[0], home_report_attr))
+                    self.usuario_autenticado, home_report_attr))
                 )
-
-        return {'usuario_autenticado': usuario_autenticado,
+        session = self.request.session
+        return {'usuario_autenticado': self.usuario_autenticado,
                 'base_doc': data,
                 'doc_atividade': doc_atividade.results,
                 'report_data': report_data,

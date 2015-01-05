@@ -1,0 +1,244 @@
+<metal:main use-macro="load: blankmaster.pt">
+	<metal:content fill-slot="head">
+		<metal:content define-slot="head"/>
+	</metal:content>
+
+	<metal:content fill-slot="css">
+		<metal:content define-slot="css"/>
+	</metal:content>
+
+
+
+	<!-- Conteúdo da Página -->
+	<metal:content fill-slot="conteudo">
+		<div class="navbar navbar-fixed-top bs-docs-nav" role="banner">
+
+			<div>
+				<!-- Menu button for smallar screens -->
+				<div class="navbar-header">
+					<button class="navbar-toggle btn-navbar" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+						<span>Menu</span>
+					</button>
+					<!-- Site name for smallar screens -->
+					<a href="index.html" class="navbar-brand hidden-lg">Super-Gerente</a>
+				</div>
+				<!--  Navigation starts -->
+				<nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+					<!-- Links -->
+						<ul class="nav navbar-nav pull-right" tal:condition="request.session.get('userid')">
+							<metal:macro use-macro="load: ../includes/menu_fav.pt">
+							<li class="dropdown pull-right">
+								<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+									<i class="fa fa-user"></i>
+										${usuario_autenticado.nome}
+									<b class="caret"></b>
+								</a>
+								<!-- Dropdown menu -->
+								<ul class="dropdown-menu">
+									<li><a href="${request.route_url('root')}usuario/perfil/${usuario_autenticado.matricula}">
+										<i class="fa fa-user"></i> Alterar Perfil</a></li>
+									<li><a href="${request.route_url('root')}usuario/perfil/senha/${usuario_autenticado.matricula}">
+										<i class="fa fa-cogs"></i> Alterar Senha</a></li>
+									<li><a href="${request.route_url('root')}logout"><i class="fa fa-sign-out"></i> Logout</a></li>
+								</ul>
+							</li>
+						</ul>
+
+					<!-- Links -->
+						<ul class="nav navbar-nav pull-right">
+							<li class=" pull-right">
+								<a tal:condition="not request.session.get('userid')" href="${request.route_url('root')}login">
+									<i class="fa fa-user"></i>
+											Login
+								</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+			<!-- Header starts -->
+			<header>
+				<div class="container">
+					<div class="row">
+						<!-- Logo section -->
+						<div class="col-md-4">
+							<!-- Logo. -->
+							<div class="logo">
+								<h1><a href="${request.route_url('root')}home"><img src="${request.route_url('root')}static/caciclogo_transparent.png"> </a>
+								<a href="${request.route_url('root')}home">Super<span class="bold">Gerente</span></a></h1>
+							</div>
+							<!-- Logo ends -->
+						</div>
+                        <div tal:condition="request.session.get('userid')" class="col-md-4">
+                           <!-- Buttons -->
+                           <ul class="nav nav-pills">
+                              <li class="dropdown dropdown-big">
+                                 <a class="dropdown-toggle" href="${request.route_url('list_notify')}?type=1">
+                                 <i class="fa fa-times"></i> Erros <span id="notify-1" class="label label-danger"></span>
+                                 </a>
+                              </li>
+                              <li class="dropdown dropdown-big">
+                                 <a class="dropdown-toggle" href="${request.route_url('list_notify')}?type=2" >
+                                 <i class="fa fa-refresh"></i> Desatualizados <span id="notify-2" class="label label-warning"></span>
+                                 </a>
+                              </li>
+                              <li class="dropdown dropdown-big">
+                                 <a class="dropdown-toggle" href="${request.route_url('list_notify')}?type=3">
+                                 <i class="fa fa-warning"></i> Outros <span id="notify-3" class="label label-default"></span>
+                                 </a>
+                              </li>
+                           </ul>
+                        </div>
+						<!-- Button section -->
+                        <div class="header-data" tal:condition="request.session.get('userid')">
+
+                        <!-- Members data -->
+                            <div style="margin-left: 120px;" class="hdata">
+                                <div class="mcol-left">
+                                    <i class="fa fa-user bblue"></i> 
+                                </div>
+                                <div class="mcol-right">
+                                    <p><a id="users"></a> <em>Usuários</em></p>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <!-- revenue data -->
+                            <div class="hdata">
+                                <div class="mcol-left">
+                                    <i class="fa fa-home bred"></i> 
+                                </div>
+                                <div class="mcol-right">
+                                <p><a id="orgaos"></a><em>Órgãos</em></p>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                     </div>
+
+					</div>
+				</div>
+			</header>
+
+			<!-- Header ends -->
+
+			<!-- Main content starts -->
+
+			<div class="content">
+
+				<!-- Sidebar -->
+				<metal:macro use-macro="load: ../includes/menu.pt">
+
+					<!--- Sidebar navigation -->
+					<!-- If the main navigation has sub navigation, then add the class "has_sub" to "li" of main navigation. -->
+
+					<!-- Sidebar ends -->
+
+					<!-- Main bar -->
+					<div class="mainbar">
+
+						<!-- Page heading -->
+						<div class="page-head">
+							<h2 class="pull-left">
+							<i class="fa fa-home"></i>&nbsp;
+							</h2>
+							<h2 class="pull-left" id="dashlocation">
+								<metal:content define-slot="dash"/>
+							</h2>
+
+
+							<div class="clearfix"></div>
+
+						</div>
+						<!-- Page heading ends -->
+
+						<!-- Define Slot do Conteúdo -->
+							<div id="alert_success" class="alert alert-danger"
+								  style="width: 100%; text-align: center;" tal:condition="request.session.peek_flash('error')" tal:repeat="msg request.session.pop_flash('error')" tal:content="msg">
+                                <button type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
+							</div>
+							<div id="alert_error" class="alert alert-success"
+                                  style="width: 100%; text-align: center;" tal:condition="request.session.peek_flash('success')" tal:repeat="msg request.session.pop_flash('success')" tal:content="msg">
+                                <button type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
+							</div>
+                        <div class="metter">
+                            <metal:content define-slot="conteudo" />
+						</div>
+					</div>
+				</div>
+				<!-- Footer starts -->
+				<footer>
+					<div class="container">
+						<div class="row">
+							<div class="col-md-12">
+								<!-- Copyright info -->
+								<p class="copy">Copyright © 2014 | <a href="${request.route_url('home')}">Super-Gerente</a> </p>
+							</div>
+						</div>
+					</div>
+				</footer>
+				<!-- Footer ends -->
+
+			</metal:content>
+			<metal:content fill-slot="javascript">
+				<script type="text/javascript">
+					function getLinkFav(nomeFavorito) {
+						fav = nomeFavorito;
+						if (fav == 'Relatórios'){
+						  window.location.href = "${request.route_url('conf_report')}";
+						}
+						else if(fav == 'Lista de Órgãos'){
+					      window.location.href = "${request.route_url('listorgao')}";
+					    }
+					    else if(fav == 'Cadastro de Órgãos'){
+					      window.location.href = "${request.route_url('orgao')}";
+					    }
+					    else if(fav == 'Cadastro de Usuário' || fav == 'Cadastro de Usuario'){
+					      window.location.href = "${request.route_url('user')}";
+					    }
+					    else if(fav == 'Lista de Usuários' || fav == 'Lista de Usuarios'){
+					      window.location.href = "${request.route_url('listuser')}";
+					    }
+					    else if(fav == 'Questionar Coletas'){
+					      window.location.href = "${request.route_url('home')}";
+					    }
+					    else if(fav == 'Notificações'){
+					      window.location.href = "${request.route_url('list_notify')}";
+					    }
+					}
+				</script>
+
+                <script type="text/javascript" tal:condition="request.session.get('userid')">
+                    $(document).ready(function(){
+                        $.ajax({
+                            type:"GET",
+                            async: true,
+					        url: "${request.route_url('notify_count')}",
+                            success: function(data, textStatus, jqXHR){
+                                data = JSON.parse(data)
+                                $('#notify-1').html(data['type-1']);
+                                $('#notify-2').html(data['type-2']);
+                                $('#notify-3').html(data['type-3']);
+                            },
+                            error: function(jqXHR, textStatus, errorThrown){
+                                console.log(jqXHR, textStatus, errorThrown)
+                            }
+                        }); 
+                        $.ajax({
+                            type:"GET",
+                            async: true,
+					        url: "${request.route_url('notify_orgaos_users')}",
+                            success: function(data, textStatus, jqXHR){
+                                data = JSON.parse(data)
+                                $('#orgaos').html(data['count_orgao']);
+                                $('#users').html(data['count_user']);
+                            },
+                            error: function(jqXHR, textStatus, errorThrown){
+                                console.log(jqXHR, textStatus, errorThrown)
+                            }
+                        }); 
+
+                    });
+				</script>
+				<metal:content define-slot="javascript"/>
+			</metal:content>
+		</metal:main>

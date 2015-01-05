@@ -1,0 +1,62 @@
+<metal:main use-macro="load: ../basic/master.pt">
+    <metal:content fill-slot="dash">
+      Lista de Notificações      
+    </metal:content>
+	<metal:content fill-slot="conteudo">
+        <div class="matter">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="widget">
+                            <div class="widget-head">
+                                <div class="pull-left">Notificações</div>
+                                    <div class="clearfix"></div>
+                                    </div>
+                                    <div class="widget-content">
+                                        <div class="padd">
+                                            <div class="page-tables">
+                                                <div class="table-responsive">
+                                                    <table cellpadding="0" cellspacing="0" border="0" id="data-table" width="100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Órgão</th>
+                                                                <th>Data</th>
+                                                                <th>Tipo</th>
+                                                                <th>Status</th>
+                                                                <th>Comentario</th>
+                                                                <th>Opções</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr tal:repeat="coleta doc">
+                                                                <td>${coleta.orgao}</td>
+                                                                <td>${coleta.data_coleta}</td>
+                                                                <td>${coleta.notify}</td>
+                                                                <td>${coleta.status}</td>
+                                                                <td>${coleta.coment}</td>
+                                                                <td>
+                                                                    <a href="${request.route_url('root')}edit_notify/${coleta._metadata.id_doc}" class="btn btn-xs btn-success"><i class="fa fa-check"></i></a>
+                                                                    <a href="${request.route_url('root')}delete_notify/${coleta._metadata.id_doc}" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+
+                                                    </table>
+                                                    <div class="clearfix"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <div class="widget-foot">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </metal:content>
+	<metal:content fill-slot="javascript">
+        <script type="text/javascript">
+        </script>
+    </metal:content>
+</metal:main>

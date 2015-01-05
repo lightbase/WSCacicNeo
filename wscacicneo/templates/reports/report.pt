@@ -1,0 +1,252 @@
+<metal:main use-macro="load: ../basic/master.pt">
+    <metal:content fill-slot="dash">
+      Relatórios      
+  </metal:content>
+  <metal:content fill-slot="conteudo">
+    <div class="matter">
+        <div class="container">
+            <div tal:condition="request.session.get('userid')">
+                <div tal:condition="usuario_autenticado.orgao == request.matchdict['nm_orgao'] or usuario_autenticado.permissao == 'Administrador'">
+                    <a type="button" href="#modal" data-toggle="modal" class="btn btn-sm btn-primary"><i class="fa fa-plus-square"></i> Adicionar valor</a>
+                    <button type="button" id="error" class="btn btn-sm btn-warning"><i class="fa fa-exclamation-triangle"></i> Questionar coleta</button>
+                    <button type="button" id="delete" class="btn btn-sm btn-success"><i class="fa fa-refresh"></i> Atualizar Relatório</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                <div class="widget" id="tabela_relatorio">
+                        <div class="widget-head">
+                            <div id="report-name" tal:condition="report_name == 'win32_processor'" class="pull-left">Relatório de Processadores</div>
+                            <div id="report-name" tal:condition="report_name == 'win32_diskdrive'" class="pull-left">Relatório de HD</div>
+                            <div id="report-name" tal:condition="report_name == 'win32_bios'" class="pull-left">Relatório da BIOS</div>
+                            <div id="report-name" tal:condition="report_name == 'win32_physicalmemory'" class="pull-left">Relatório de Memória</div>
+                            <div id="report-name" tal:condition="report_name == 'operatingsystem'" class="pull-left">Relatório de Sistemas Operacionais</div>
+                            <div id="report-name" tal:condition="report_name == 'software'" class="pull-left">Relatório de Softwares (Suítes de Escritório)</div>
+                            <div class="widget-icons pull-right">
+                                <a href="#" id="print" title="Imprimir tabela"><i class="fa fa-print"></i></a>
+                                <a href="${request.route_url('root')}graficos/${request.matchdict['nm_orgao']}/${report_name}" id="grafico" title="Gerar gráfico"><i class="fa fa-bar-chart-o"></i></a>
+                                <a tal:condition="request.session.get('userid') and usuario_autenticado.orgao == request.matchdict['nm_orgao']" href="#" id="plus-home" title="Adicionar no início"><i class="fa fa-plus-circle"></i></a>
+                                <a href="#" id="download-report" title="Baixar relatório"><i class="fa fa-download"></i></a>
+                                <a href="#help_buttons_report" title="Ajuda" data-toggle="modal"><i class="fa fa-question"></i></a>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="widget-content">
+                            <div id="error-message" class="alert alert-danger" style="display:none">
+                                Erro ao realizar a operação.
+                            </div>
+                            <div id="success-message" class="alert alert-success"  style="display:none">
+                                Operação realizada com sucesso!
+                            </div>
+                            <div class="padd">
+                                <div class="page-tables">
+                                    <div class="table-responsive ">
+                                        <table class="table table-condensed table-bordered table-hover no-margin" id="data-table">
+                                            <thead>
+                                                <tr class="info">
+                                                    <th>Item</th>
+                                                    <th>Quantidade</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="active" tal:repeat="k data.keys()">
+                                                    <td>${k}</td>
+                                                    <td data-type="text"  href="#${k}a" data-toggle="modal"><a href="#myModal" data-type="text">${data[k]}</a></td>
+                                                    <div id="${k}a" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                                        <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                        <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                        <h4 class="modal-title">Alterar quantidade de "${k}"</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <input type="text" id="${k}" class="form-control" placeholder="Valor">
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                        <button type="button" data-id="${k}" class="btn btn-primary">Confirmar</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Fechar</button>
+                                                        </div>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title">Adicionar Item</h4>
+                            </div>
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group" style="margin-top: 20px;">
+                                    <label class="col-lg-2 control-label">Item:</label>
+                                    <div class="col-lg-5">
+                                        <input type="text" id="item" class="form-control" placeholder="item">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">Quantidade:</label>
+                                    <div class="col-lg-5">
+                                        <input type="text" id="quant" class="form-control" placeholder="quantidade">
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="modal-footer">
+                                <button type="button" id="enviar" class="btn btn-primary">Confirmar</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Fechar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box-chart">
+        <canvas id="GraficoLine" style="width:100%;"></canvas>
+    </div>
+    </div>
+
+  <!-- Modal Help Botões dos Reports -->
+    <div id="help_buttons_report" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">Ajuda - Botões</h4>
+                </div>
+                <div class="modal-body">
+                    <p><span class="fa fa-print"></span> - Imprime o relatório exibido.</p>
+                    <p><span class="fa fa-bar-chart-o"></span> - Gera o gráfico do relatório exibido.</p>
+                    <p tal:condition="request.session.get('userid') and usuario_autenticado.orgao == request.matchdict['nm_orgao']"><span class="fa fa-plus-circle"></span> - Adiciona o gráfico na página inicial.</p>
+                    <p><span class="fa fa-download"></span> - Baixa o CSV do relatório</p>
+                    <p style="font-style: italic; margin-left: 5%; color: #428BCA">Obs: O download pode demorar um pouco para iniciar.</p>
+                    <!--?<p style="font-style: italic; margin-left: 5%; color: #428BCA">Obs: Você só poderá adicionar a sua página inicial os gráficos pertencetes ao seu órgão.</p>-->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Fechar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  </metal:content>
+    <metal:content fill-slot="javascript">
+    <script type="text/javascript" src="${request.route_url('root')}static/jquery.print.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $("#print").click(function() {
+                $("#tabela_relatorio").print();
+            });
+            $('button').click(function(){
+               a = $(this).attr('data-id')
+               b = $(this).html()
+               if(b == 'Salvar'){
+                    value = $('#'+a).val()
+                    attr = "${report_name}"
+                    base = "${request.matchdict['nm_orgao']}"
+                    data = {
+                        'nm_base' : base,
+                        'attr': attr,
+                        'value' : value,
+                        'item' : a
+                    }
+            $.ajax({
+                    type: "PUT",
+                    url: "${request.route_url('root')}put_reports",
+                    data: data, 
+                    success: function(){location.reload();   },
+                    error: function(){ $('#error-message').show();}
+                }); 
+
+               }
+            });
+            $('#plus-home').click(function(){
+                var data = {
+                    report_name: "${report_name}"
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "${request.route_url('add_user_home_report')}",
+                    data: data, 
+                    success: function(){        
+                        $('#success-message').show();
+                    },
+                    error: function(){
+                        $('#error-message').show();
+                    }
+                }); 
+            });
+
+            $('#enviar').click(function(){
+                data = {
+                    'item' : $('#item').val(),
+                    'value' : $('#quant').val(),
+                    'attr' : "${report_name}",
+                    'base' : "${request.matchdict['nm_orgao']}",
+                }
+                $.ajax({
+                    type: "PUT",
+                    url: "${request.route_url('root')}post_reports",
+                    data: data, 
+                    success: function(){location.reload();   },
+                    error: function(){ $('#error-message').show();}
+                }); 
+            });
+        });
+        $('#delete').click(function(){
+                base = {'base': "${request.matchdict['nm_orgao']}"}
+                $.ajax({
+                    type: "POST",
+                    url: "${request.route_url('root')}delete_reports",
+                    data : base,
+                    success: function(){window.location.reload();},
+                    error: function(){ $('#error-message').show();}
+                }); 
+            });
+        $('#error').click(function(){
+            window.location.href = "${request.route_url('notify')}";
+        });
+        $('#download-report').click(function(){
+            var columns = $('thead').children('tr').children('th');
+            var col_names = [];
+            columns.each(function(i, th_elm){
+                col_names.push(th_elm.innerText);
+            })
+
+            var rows = $('tbody').children('tr');
+            var json_data = [ ];
+            var cell;
+            var row_data; 
+
+            rows.each(function(i, row){
+                row_data = {}; 
+                $(col_names).each(function(j, col_name){
+                    cell = $(row).children('td')[j];
+                    row_data[col_name] = $(cell).text();
+                });
+                json_data.push(row_data);
+            });
+
+            var url = "${request.route_url('json2csv')}"
+            var report_name = $('#report-name').text() + '.csv';
+            var form = $('<form action="' + url + '" method="post">' +
+              '<input type="text" name="json_data" value="' + 
+                JSON.stringify(json_data).replace(/"/g, '&quot;') + '" />' +
+              '<input type="text" name="filename" value="' + report_name + '" />' +
+              '</form>');
+            $('body').append(form);
+            form.submit();
+        });
+        </script>
+</metal:content>
+</metal:main>

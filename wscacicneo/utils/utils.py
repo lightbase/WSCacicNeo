@@ -1,7 +1,9 @@
 #!/usr/env python
 # -*- coding: utf-8 -*-
 import requests
+import random
 import json
+import datetime
 import unicodedata
 import hashlib
 from wscacicneo.model.orgao import Orgao
@@ -41,8 +43,13 @@ class Utils:
 
     # Retorna um hex de um objeto hash, com uma senha encryptada
     def hash_password(password):
-        hash_object = hashlib.md5(password.encode("utf-8"))
+        hash_object = hashlib.sha512(password.encode("utf-8"))
         return hash_object.hexdigest()
+
+    def hash_name_by_user(nm_user):
+        hash_object = hashlib.sha512(nm_user.encode("utf-8"))
+        return hash_object.hexdigest()
+
 
     def create_user_obj():
         user_obj = User(
@@ -61,12 +68,13 @@ class Utils:
         )
         return user_obj
 
-    def retorna_usuario_autenticado(email=None,matricula=None):
-        if ( (email is None) and (matricula is None) ):
+    def retorna_usuario_autenticado(user_id=None, matricula=None):
+        # Retorna o usuário atual autenticado no sistema
+        if user_id is None and matricula is None:
             return None
-        elif (matricula is None):
+        elif matricula is None:
             user_obj = Utils.create_user_obj()
-            usuario = user_obj.search_user_by_email(email)
+            usuario = user_obj.get_user_by_id(user_id)
             return usuario
         else:
             user_obj = Utils.create_user_obj()
@@ -178,3 +186,24 @@ class Utils:
         search = orgao_obj.search_list_orgaos()
         result_count = search.result_count
         return result_count > 0
+
+
+    def check_valid_hash(self, data_hash, expire_day):
+        """
+        Valida o data do hash do usuario
+        """
+        date_today = datetime.datetime.now()
+        data_hash_now = date_today.day
+        valid_result = abs(data_hash_now - data_hash)
+        if valid_result >= expire_day:
+            return False
+        else:
+            return True
+
+    def random_hash(self, hash_size):
+        """
+        Criar um hash aleatoriamente
+        """
+        hash_random = random.getrandbits(hash_size)
+
+        return hash_random

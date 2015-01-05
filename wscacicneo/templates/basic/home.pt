@@ -1,0 +1,46 @@
+<metal:main use-macro="load: master.pt">
+    <metal:content fill-slot="dash">
+        Início
+    </metal:content>
+    <metal:content fill-slot="conteudo">
+        <!-- Não Autenticado -->
+        <div tal:condition="not request.session.get('userid')">
+            <p>
+
+            <h2 align="center">Sistema Super-Gerente</h2></p>
+            <br>
+
+            <p>
+
+            <h3 style="text-align:center;"><span class="fa fa-user fa-2x"></span><a
+                    href="${request.route_url('root')}login"> Já é usuário? Autentique-se. </a></h3>
+            </p>
+            <br/>
+
+            <p>
+
+            <h3 style="text-align:center;"><span class="fa fa-file-text fa-2x"></span><a
+                    href="${request.route_url('root')}relatorios/configuracao"> Veja os relatórios disponíveis. </a>
+            </h3>
+            </p>
+            <br/>
+            <metal:macro use-macro="load: ../includes/generic_report.pt"></metal:macro>
+        </div>
+        <!-- Fim Não Autenticado -->
+        <div tal:condition="request.session.get('userid')" style="text-align: center;">
+            <!-- Administrador -->
+            <div tal:condition="usuario_autenticado.permissao =='Administrador' ">
+                <metal:macro use-macro="load: ../includes/home_administrador.pt">
+            </div>
+            <!-- Fim Administrador -->
+            <!-- Gestor -->
+            <div tal:condition="usuario_autenticado.permissao =='Gestor' ">
+                <metal:macro use-macro="load: ../includes/home_gestor.pt">
+            </div>
+            <!-- Fim Gestor -->
+        </div>
+        <div>
+            <metal:macro use-macro="load: ../includes/report_personalizado.pt">
+        </div>
+    </metal:content>
+</metal:main>

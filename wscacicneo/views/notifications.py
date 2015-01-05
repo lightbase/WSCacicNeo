@@ -8,6 +8,10 @@ from wscacicneo.utils.utils import Utils
 from wscacicneo.model.notify import Notify
 from pyramid.httpexceptions import HTTPFound
 from wscacicneo.search.orgao import SearchOrgao
+from wscacicneo.utils.utils import Utils
+from wscacicneo.model.orgao import Orgao
+from wscacicneo.model.user import User
+from pyramid.session import check_csrf_token
 
 class Notifications(object):
     """
@@ -19,6 +23,8 @@ class Notifications(object):
         :param request: Requisição
         """
         self.request = request
+        self.usuario_autenticado = Utils.retorna_usuario_autenticado(
+            self.request.session.get('userid'))
 
     # Lista de Notificação
     ##@view_config(route_name='list_notify', renderer='../templates/list_notify.pt', permission="gest")
@@ -38,14 +44,12 @@ class Notifications(object):
             notify_type = type_map[self.request.params['type']]
         else:
             notify_type = None
-        usuario_autenticado = Utils.retorna_usuario_autenticado(
-            email=self.request.authenticated_userid)
         reg = notify_obj.search_list_notify(notify_type,
-            usuario_autenticado.results[0])
+                                            self.usuario_autenticado)
         doc = reg.results
         return {
             'doc': doc,
-            'usuario_autenticado':usuario_autenticado
+            'usuario_autenticado': self.usuario_autenticado
         }
 
     def count_notify(self):
@@ -56,12 +60,10 @@ class Notifications(object):
             coment = 'sadasd',
             status = 'sadasd'
         )
-        user = Utils.retorna_usuario_autenticado(
-            email=self.request.authenticated_userid).results[0]
         response = {
-            'type-1': notify_obj.get_count(user, 'Erro na Coleta'),
-            'type-2': notify_obj.get_count(user, 'Coleta Desatualizada'),
-            'type-3': notify_obj.get_count(user, 'Outros')}
+            'type-1': notify_obj.get_count(self.usuario_autenticado, 'Erro na Coleta'),
+            'type-2': notify_obj.get_count(self.usuario_autenticado, 'Coleta Desatualizada'),
+            'type-3': notify_obj.get_count(self.usuario_autenticado, 'Outros')}
         response = json.dumps(response)
         return Response(response)
 
@@ -76,6 +78,11 @@ class Notifications(object):
             status = 'sadasd'
         )
         delete = notify_obj.delete_notify(id)
+        session = self.request.session
+        if delete:
+            session.flash('Cadastro realizado com sucesso', queue="success")
+        else:
+            session.flash('Erro ao apagar a notificação', queue="error")
         return HTTPFound(location = self.request.route_url('list_notify'))
 
     #@view_config(route_name='edit_notify', permission="gest")
@@ -96,21 +103,38 @@ class Notifications(object):
     def notify(self):
         search_obj = SearchOrgao()
         result = search_obj.list_by_name()
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
 
         return {'orgao_doc': result,
-                'usuario_autenticado':usuario_autenticado
+                'usuario_autenticado': self.usuario_autenticado
                 }
 
     #@view_config(route_name='post_notify', permission="gest")
     def post_notify(self):
         requests = self.request.params
         notify_obj = Notify(
-            orgao = requests['orgao'],
-            data_coleta = requests['data_coleta'],
-            notify = requests['notify'],
-            coment = requests['coment'],
-            status = requests['status']
+            orgao=requests['orgao'],
+            data_coleta=requests['data_coleta'],
+            notify=requests['notify'],
+            coment=requests['coment'],
+            status =requests['status']
         )
         results = notify_obj.create_notify()
+        session = self.request.session
+        session.flash('Cadastro realizado com sucesso', queue="success")
         return Response(str(results))
+
+    def notify_orgaos_users(self):
+        """
+        Retorna o numero de órgãos e usuarios do sistema
+        """
+        orgao_obj = Utils.create_orgao_obj()
+        user_obj = Utils.create_user_obj()
+        result_user = user_obj.search_list_users()
+        result_orgao = orgao_obj.search_list_orgaos()
+        data = {
+            'count_orgao' : result_orgao.result_count,
+            'count_user' : result_user.result_count
+            }
+        results = json.dumps(data)
+        return Response(results)
+

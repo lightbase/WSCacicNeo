@@ -8,14 +8,14 @@ import json
 import ast
 from liblightbase.lbsearch.search import *
 from liblightbase.lbutils import conv
-from ..model import orgao
+from ..model import user
 from .. import config
 
-orgao_base = orgao.OrgaoBase()
+user_base = user.UserBase()
 log = logging.getLogger()
 
 
-class SearchOrgao(object):
+class SearchUser(object):
     """
     Classe de métodos para busca do órgão
     """
@@ -28,18 +28,18 @@ class SearchOrgao(object):
         """
         self.param = param
         self.return_object = return_object
-        self.orgao_base = orgao_base
+        self.orgao_base = user_base
 
     def search_by_name(self):
         search = Search(
             select=[
                 "*"
             ],
-            literal="document->>'sigla' = '" + self.param + "'",
+            literal="document->>'matricula' = '" + self.param + "'",
             limit=1
         )
         url = config.REST_URL
-        url += "/orgaos/doc"
+        url += "/users/doc"
         vars = {
             '$$': search._asjson()
         }
@@ -53,28 +53,27 @@ class SearchOrgao(object):
             if self.return_object:
                 #print(response.json())
                 doc = r_json['results'][0]
-                orgao_obj = orgao.Orgao(
+                user_obj = user.User(
                     nome=doc.get('nome'),
-                    pretty_name=doc.get('pretty_name'),
-                    gestor=doc.get('gestor'),
-                    cargo=doc.get('cargo'),
-                    coleta=doc.get('coleta'),
-                    sigla=doc.get('sigla'),
-                    endereco=doc.get('endereco'),
+                    matricula=doc.get('matricula'),
                     email=doc.get('email'),
+                    orgao=doc.get('orgao'),
                     telefone=doc.get('telefone'),
-                    url=doc.get('url'),
-                    habilitar_bot=doc.get('habilitar_bot'),
-                    api_key=doc.get('api_key')
+                    cargo=doc.get('cargo'),
+                    setor=doc.get('setor'),
+                    permissao=doc.get('permissao'),
+                    senha=doc.get('senha'),
+                    itens=doc.get('itens'),
+                    favoritos=doc.get('favoritos')
                 )
-                return orgao_obj
+                return user_obj
             return response.json()
         else:
-            log.error("Erro na busca pelo orgao %s\n%s", self.param, response.text)
+            log.error("Erro na busca pelo usuario %s\n%s", self.param, response.text)
             return None
 
     def list_by_name(self):
-        orderby = OrderBy(asc=['nome'])
+        orderby = OrderBy(asc=['email'])
         search = Search(
             select=[
                 "*"
@@ -85,9 +84,9 @@ class SearchOrgao(object):
             order_by=orderby
         )
         if self.param is not None:
-            search.literal = "document->>'sigla' = '" + self.param + "'",
+            search.literal = "document->>'email' = '" + self.param + "'",
         url = config.REST_URL
-        url += "/orgaos/doc"
+        url += "/users/doc"
         vars = {
             '$$': search._asjson()
         }
@@ -107,21 +106,19 @@ class SearchOrgao(object):
             if self.return_object:
                 #print(response.json())
                 doc = result
-                orgao_obj = orgao.Orgao(
+                user_obj = user.User(
                     nome=doc.get('nome'),
-                    pretty_name=doc.get('pretty_name'),
-                    gestor=doc.get('gestor'),
-                    cargo=doc.get('cargo'),
-                    coleta=doc.get('coleta'),
-                    sigla=doc.get('sigla'),
-                    endereco=doc.get('endereco'),
+                    matricula=doc.get('matricula'),
                     email=doc.get('email'),
+                    orgao=doc.get('orgao'),
                     telefone=doc.get('telefone'),
-                    url=doc.get('url'),
-                    habilitar_bot=doc.get('habilitar_bot'),
-                    api_key=doc.get('api_key')
+                    cargo=doc.get('cargo'),
+                    setor=doc.get('setor'),
+                    permissao=doc.get('permissao'),
+                    senha=doc.get('senha'),
                 )
-                saida.append(orgao_obj)
+
+                saida.append(user_obj)
             else:
                 saida.append(result)
 

@@ -1,0 +1,96 @@
+<metal:main use-macro="load: ../basic/master.pt">
+    <metal:content fill-slot="dash">
+      Cadastrar Notificação     
+    </metal:content>
+    <metal:content fill-slot="conteudo">
+       <div class="alert alert-warning">
+           Os campos marcados com  *  são de preenchimento obigatório
+       </div>
+        <div class="widget-content">
+            <div class="padd">
+                <form class="form-horizontal" style="margin-top: 20px;" role="form">
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">* Órgão:</label>
+                        <div class="col-lg-4">
+                            <select  id="orgao" class="form-control">
+                                <tal tal:repeat="doc orgao_doc">
+                                    <option selected tal:condition="usuario_autenticado.orgao == doc.nome" value="${doc.nome}">${doc.pretty_name}</option>
+                                    <option tal:condition="doc.nome != usuario_autenticado.orgao" value="${doc.nome}">${doc.pretty_name}</option>
+                                </tal>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">* Data Notificação:</label>
+                        <div style="margin-left:207px;" id="datetimepicker1" class="input-append input-group dtpicker">
+                        <input data-format="dd/MM/yyyy"id="data_coleta" type="text" class="form-control">
+                        <span class="input-group-addon add-on">
+                            <i data-time-icon="fa fa-times" data-date-icon="fa fa-calendar" class="fa fa-calendar"></i>
+                        </span>
+                    </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-lg-2 control-label">* Notificação:</label>
+                      <div class="col-lg-2">
+                        <select id="notify" class="form-control">
+                          <option>Erro na Coleta</option>
+                          <option>Coleta Desatualizada</option>
+                          <option>Outros</option>
+                        </select>
+                      </div>
+                    </div>
+                        <div class="form-group">
+                        <label class="col-lg-2 control-label">Comentario:</label>
+                        <div class="col-lg-5">
+                            <textarea class="form-control" id="coment" rows="5" placeholder="Comentario" style="margin: 0px -57.671875px 0px 0px; width: 423px; height: 104px;"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-offset-2 col-lg-6">
+                            <button style="margin-left: 315px;" type="button" id="enviar" class="btn btn-sm btn-primary">Enviar</button>
+                            <button type="button" id="voltar" class="btn btn-sm btn-default">Voltar</button>
+                            <span id="loading" style="display: none; margin-left: 315px;">
+                                <img src="${request.route_url('root')}static/imgs/ajax-loader-circle.gif" />  Aguarde...
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </metal:content>
+    <metal:content fill-slot="javascript">
+        <script type="text/javascript">
+            $('#voltar').click(function(){
+                var oldURL = document.referrer;
+                window.location.href = oldURL;
+            });
+            $('#enviar').click(function(){
+                var data = {
+                   'orgao' : $('#orgao').val(),
+                    'data_coleta' : $('#data_coleta').val(),
+                    'notify' : $('#notify').val(),
+                    'coment' : $('#coment').val(),
+                    'status' : 'Não Vizualizado'
+                };
+                $.ajax({
+                        type: "POST",
+                        url: "${request.route_url('root')}post_notify",
+                        data: data,
+                        beforeSend: function()
+                            {
+                                $('#loading').show();
+                                $('#enviar').hide();
+                                $('#voltar').hide();
+                            },
+                        success: function(){ window.location.href = "${request.route_url('home')}"; },
+                        error: function(){noty({text: 'Erro: Todos campos com (*) devem ser preenchidos.',layout:'topRight',type:'error',timeout:3000});
+                                $('#loading').hide();
+                                $('#enviar').show();
+                                $('#voltar').show();
+                        },
+               });
+            });
+
+        </script>
+    </metal:content>
+</metal:main>

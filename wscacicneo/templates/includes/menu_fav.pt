@@ -1,0 +1,10 @@
+<li role="presentation" class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+      <span class="fa fa-star"></span>&nbsp
+       Favoritos
+    </a>
+    <ul class="dropdown-menu pull-right" role="menu">
+      <li><a tal:repeat="fav usuario_autenticado.favoritos" onclick="getLinkFav('${fav}')" href="#">${fav}</a></li>
+            <li><a href="${request.route_url('root')}usuario/favoritos/${usuario_autenticado.matricula}">Alterar Favoritos</a></li>
+    </ul>
+</li>

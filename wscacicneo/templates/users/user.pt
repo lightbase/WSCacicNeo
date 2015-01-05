@@ -1,0 +1,152 @@
+<metal:main use-macro="load: ../basic/master.pt">
+    <metal:content fill-slot="dash">
+      Cadastrar Usuário
+    </metal:content>
+	<metal:content fill-slot="conteudo">
+    <div class="alert alert-warning">
+           Os campos marcados com  *  são de preenchimento obigatório
+    </div>
+        <div class="padd">
+            <br />
+            <!-- Form starts.  -->
+             <form class="form-horizontal" id="cadastrar_user" role="form">
+                <div class="form-group">
+                  <label class="col-lg-2 control-label">* Nome:</label>
+                  <div class="col-lg-5">
+                    <input type="text" id="nome" class="form-control" placeholder="Nome do Usuário">
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">* Matricula:</label>
+                        <div class="col-lg-5">
+                        <input type="text" id="matricula"  class="form-control" placeholder="Matricula">
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">* E-Mail:</label>
+                        <div class="col-lg-5">
+                        <input type="text" id="email" class="form-control" placeholder="E-Mail">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">* Telefone:</label>
+                        <div class="col-lg-5">
+                        <input type="text" id="telefone" class="form-control" placeholder="Telefone">
+                    </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 control-label">* Orgão:</label>
+                  <div class="col-lg-5">
+                    <select id="orgao" class="form-control">
+                      <option></option>
+                      <option tal:repeat="orgao orgaos" value="${orgao.nome}">${orgao.pretty_name}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">* Cargo:</label>
+                        <div class="col-lg-5">
+                        <input type="text" id="cargo" class="form-control" placeholder="Cargo">
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">* Setor:</label>
+                        <div class="col-lg-5">
+                        <input type="text" id="setor" class="form-control" placeholder="Setor">
+                    </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 control-label">* Permissão:</label>
+                  <div class="col-lg-2">
+                    <select id="permissao" class="form-control">
+                      <option>Gestor</option>
+                      <option>Administrador</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">* Senha:</label>
+                        <div class="col-lg-5">
+                        <input type="password" id="senha" name="senha" class="form-control" placeholder="Senha">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">* Confirmar Senha:</label>
+                        <div class="col-lg-5">
+                        <input type="password" id="confirmarsenha" name="confirmarsenha" class="form-control" placeholder="Confirme sua senha">
+                    </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-lg-offset-2 col-lg-6">
+                    <button type="button" id="enviar" class="btn btn-sm btn-primary" style="margin-left: 315px;" >Enviar</button>
+                    <button type="button" id="voltar" class="btn btn-sm btn-default">Voltar</button>
+                    <span id="loading" style="display: none; margin-left: 315px;">
+                      <img src="${request.route_url('root')}static/imgs/ajax-loader-circle.gif" />  Aguarde...
+                    </span>
+                  </div>
+                </div>
+              </form>
+          </div>
+	</metal:content>
+	<metal:content fill-slot="javascript">
+        <script type="text/javascript">
+           $('#voltar').click(function(){
+                var oldURL = document.referrer;
+                window.location.href = oldURL;
+            });
+           $('#enviar').click(function(){
+                var data = {
+                    'nome' : $('#nome').val(),
+                    'matricula' : $('#matricula').val(),
+                    'email' : $('#email').val(),
+                    'telefone' : $('#telefone').val(),
+                    'orgao' : $('#orgao').val(),
+                    'cargo' : $('#cargo').val(),
+                    'setor' : $('#setor').val(),
+                    'permissao' : $('#permissao').val(),
+                    'senha' : $('#senha').val(),
+                    'favoritos': 'Relatórios',
+                    'cadastro_orgao': 'Cadastro de Órgãos', 
+                    'lista_orgao': 'Lista de Órgãos', 
+                    'cadastro_user': 'Cadastro de Usuário', 
+                    'lista_user': 'Lista de Usuários', 
+                    'notify': 'Notificações'
+                }
+                var emailCorreto = 0;
+                var senhaConfere = 0;
+                if (data.email.indexOf("gov.br") > -1 == true){
+                  emailCorreto = 1;
+                }
+                if(senha.value == confirmarsenha.value && senha.value != "" ){
+                  senhaConfere = 1;
+                }
+                if (emailCorreto == 0 || senhaConfere == 0){
+                    if(emailCorreto == 0){
+                        setTimeout(function() {noty({text: 'O e-mail tem que ser institucional',layout:'topRight',type:'error',timeout:5000});}, 100);
+                    }
+                    if(senhaConfere == 0){
+                        setTimeout(function() {noty({text: 'Sua senha e confirmar senha estão diferentes ou em branco',layout:'topRight',type:'error',timeout:5000});}, 100);  
+                    }
+                }else{
+                    $.ajax({
+                        type: "POST",
+                        url: "${request.route_url('root')}post_user",
+                        data: data,
+                        beforeSend: function()
+                        {
+                            $('#loading').show();
+                            $('#enviar').hide();
+                            $('#voltar').hide();
+                        },
+                        success: function(){ window.location.href = "${request.route_url('listuser')}"; },
+                        error: function(){ noty({text: 'Erro: Todos campos com (*) devem ser preenchidos.',layout:'topRight',type:'error',timeout:3000});
+                            $('#loading').hide();
+                            $('#enviar').show();
+                            $('#voltar').show();
+                        }
+                    }); 
+                }
+            });
+        </script>
+    </metal:content>
+</metal:main>

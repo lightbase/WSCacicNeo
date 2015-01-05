@@ -7,6 +7,7 @@ from wscacicneo.utils.utils import Utils
 from pyramid.httpexceptions import HTTPFound
 from wscacicneo.model import config_reports
 from liblightbase.lbsearch.search import NullDocument
+from pyramid.session import check_csrf_token
 
 
 class Graficos():
@@ -16,11 +17,12 @@ class Graficos():
         :param request: Requisição
         """
         self.request = request
+        self.usuario_autenticado = Utils.retorna_usuario_autenticado(
+            self.request.session.get('userid'))
 
     def graficos(self):
         attr = self.request.matchdict['attr']
         orgao_nm = self.request.matchdict['nm_orgao']
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
         nm_orgao = Utils.format_name(orgao_nm)
         reports_config = config_reports.ConfReports(nm_orgao)
         get_base = reports_config.get_attribute(attr)
@@ -40,5 +42,5 @@ class Graficos():
             if chosen_color >= len(color_list):
                 chosen_color = 0
         return {"data": data,
-                "usuario_autenticado": usuario_autenticado,
+                "usuario_autenticado": self.usuario_autenticado,
         }

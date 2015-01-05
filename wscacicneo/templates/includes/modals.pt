@@ -1,0 +1,80 @@
+<!-- Modal Tempo Coleta -->
+<div id="tempoColetaModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Tempo de Coleta - Ajuda</h4>
+            </div>
+            <div class="modal-body">
+                <p>O campo "Tempo de Coleta" define a frequência que o WSCBot irá coletar.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Url Comunicação -->
+<div id="urlComunicacaoModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">URL de Comunicação - Ajuda</h4>
+            </div>
+            <div class="modal-body">
+                <p>O campo "URL para comunicação" define a qual será a url que o WSCBot irá usar para se conectar.</p>
+                <p>Este campo deve ser preenchido com a url do Super-Gerente</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Url Comunicação -->
+<div id="habilitaBotModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Habilitar Bot - Ajuda</h4>
+            </div>
+            <div class="modal-body">
+                <p>O campo "Habilitar Bot" define se o Super-Gerente irá coletar automaticamente, ou não.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Url Comunicação -->
+<div id="chaveApiModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Chave de API - Ajuda</h4>
+            </div>
+            <div class="modal-body">
+                <p>O campo "Chave de API" é uma "senha" que o WSCBot irá utilizar para se conectar.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

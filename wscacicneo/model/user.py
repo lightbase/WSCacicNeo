@@ -156,6 +156,42 @@ class UserBase():
                     required=False
         ))
 
+        url_hash = Field(**dict(
+                    name='url_hash',
+                    alias='url_hash',
+                    description='hash que sera usado para para criar a url',
+                    datatype='Text',
+                    indices=['Textual'],
+                    multivalued=True,
+                    required=False
+        ))
+
+        nm_user = Field(**dict(
+                    name='nm_user',
+                    alias='nm_user',
+                    description='Nome do usuario',
+                    datatype='Text',
+                    indices=['Textual'],
+                    multivalued=True,
+                    required=False
+        ))
+
+        HashUrl_content = Content()
+        HashUrl_content.append(nm_user)
+        HashUrl_content.append(url_hash)
+
+        HashUrl_metadata = GroupMetadata(
+            name='HashUrl',
+            alias='HashUrl',
+            description='HashUrl',
+            multivalued=False
+        )
+
+        HashUrl = Group(
+            metadata = HashUrl_metadata,
+            content = HashUrl_content
+        )
+
         base_metadata = BaseMetadata(
             name='users',
         )
@@ -173,6 +209,7 @@ class UserBase():
         content_list.append(favoritos)
         content_list.append(home)
         content_list.append(itens)
+        content_list.append(HashUrl)
 
         lbbase = Base(
             metadata=base_metadata,
@@ -325,6 +362,15 @@ class User(user_base.metaclass):
 
         return results
 
+    def get_user_by_id(self, id_user):
+        """
+        Retorna um documento a partir do id
+        """
+
+        results = self.documentrest.get(id_user)
+
+        return results
+
     def delete_user(self, id):
         """
         Deleta o Órgao apartir do ID
@@ -368,7 +414,20 @@ class User(user_base.metaclass):
         results = self.documentrest.update_collection(
             search_obj=search, path_list=path_list)
 
-
+    def edit_home_report(self, report_name, userid):
+        search = Search(
+            literal="document->>'email' = '"+userid+"'"
+        )
+        path_list=[
+            {
+              "path": "home",
+              "mode": "update",
+              "fn": None,
+              "args": [report_name]
+            }
+        ]
+        results = self.documentrest.update_collection(
+            search_obj=search, path_list=path_list)
 
 
 

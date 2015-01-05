@@ -10,6 +10,7 @@ from pyramid.view import view_config
 from wscacicneo.model.orgao import Orgao
 from wscacicneo.model.reports import Reports
 from wscacicneo.search.orgao import SearchOrgao
+from pyramid.session import check_csrf_token
 
 
 class Coleta(object):
@@ -22,6 +23,8 @@ class Coleta(object):
         :param request: Requisição
         """
         self.request = request
+        self.usuario_autenticado = Utils.retorna_usuario_autenticado(
+            self.request.session.get('userid'))
 
     # Reports
     #@view_config(route_name='create_orgao', permission="gest")permission="gest"
@@ -37,11 +40,9 @@ class Coleta(object):
     def cadastro_coleta(self):
         search_obj = SearchOrgao()
         result = search_obj.list_by_name()
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
-        print(result)
 
         return {'orgao_doc': result,
-                'usuario_autenticado':usuario_autenticado
+                'usuario_autenticado': self.usuario_autenticado
                 }
 
 
@@ -82,5 +83,7 @@ class Coleta(object):
         }
         dumps = json.dumps(coleta_dict)
         id_doc = Reports(nm_base_formatted,response_object=False).create_coleta(dumps)
+        session = self.request.session
+        session.flash('Cadastro realizado com sucesso', queue="success")
         return Response(str(id_doc))
 

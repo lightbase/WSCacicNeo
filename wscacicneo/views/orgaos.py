@@ -16,7 +16,7 @@ from .. import config
 from .. import search
 import uuid
 import ast
-
+from pyramid.session import check_csrf_token
 
 class Orgaos(object):
     """
@@ -28,25 +28,14 @@ class Orgaos(object):
         :param request: Requisição
         """
         self.request = request
+        self.usuario_autenticado = Utils.retorna_usuario_autenticado(
+            self.request.session.get('userid'))
 
     def listorgao(self):
-        orgao_obj = Orgao(
-            nome='sahuds',
-            pretty_name='dg dçskg sdgk ds',
-            cargo='cargo',
-            gestor='gestor',
-            coleta='4',
-            sigla='MPOG',
-            endereco='Esplanada bloco C',
-            email='admin@planemaneto.gov.br',
-            telefone='(61) 2025-4117',
-            url='http://api.brlight.net/api',
-            api_key='12242142141'
-        )
+        orgao_obj = Utils.create_orgao_obj()
         search = orgao_obj.search_list_orgaos()
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
         return {'orgao_doc': search.results,
-                'usuario_autenticado':usuario_autenticado
+                'usuario_autenticado': self.usuario_autenticado
                 }
 
     def get_orgao_initial(self):
@@ -66,14 +55,13 @@ class Orgaos(object):
             param=sigla
         )
         orgao_obj = search_obj.search_by_name()
-        usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.authenticated_userid)
 
         saida = orgao_obj.orgao_to_dict()
         # Coloca algum valor na URL
         if saida.get('url') is None:
             saida['url'] = self.request.application_url
 
-        saida['usuario_autenticado'] = usuario_autenticado
+        saida['usuario_autenticado'] = self.usuario_autenticado
 
         return saida
 
@@ -83,12 +71,11 @@ class Orgaos(object):
             param=sigla
         )
         orgao_obj = search_obj.search_by_name()
-        usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.authenticated_userid)
 
         saida = orgao_obj.orgao_to_dict()
         if saida.get('url') is None:
             saida['url'] = self.request.application_url
-        saida['usuario_autenticado'] = usuario_autenticado
+        saida['usuario_autenticado'] = self.usuario_autenticado
 
         return saida
 
@@ -115,11 +102,10 @@ class Orgaos(object):
             api_key=doc.get('api_key')
         )
         try:
-            usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.authenticated_userid)
-            if usuario_autenticado is None:
+            if self.usuario_autenticado is None:
                 user = 'Sistema'
             else:
-                user = usuario_autenticado.results[0].nome
+                user = self.usuario_autenticado.nome
         except IndexError:
             user = 'Sistema'
 
@@ -131,6 +117,8 @@ class Orgaos(object):
         )
         at.create_atividade()
         id_doc = orgao_obj.create_orgao()
+        session = self.request.session
+        session.flash('Orgão cadastrado com sucesso', queue="success")
         return Response(str(id_doc))
 
     def put_orgao(self):
@@ -154,10 +142,9 @@ class Orgaos(object):
             habilitar_bot=ast.literal_eval(doc.get('habilitar_bot')),
             api_key=doc.get('api_key')
         )
-        usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.authenticated_userid)
         at = atividade.Atividade(
             tipo='put',
-            usuario=usuario_autenticado.results[0].nome,
+            usuario=self.usuario_autenticado.nome,
             descricao='Alterou o órgão ' + nome_base,
             data=datetime.datetime.now()
         )
@@ -167,31 +154,21 @@ class Orgaos(object):
         id = search.results[0]._metadata.id_doc
         doc = json.dumps(orgao)
         edit = orgao_obj.edit_orgao(id, doc)
+        session = self.request.session
+        session.flash('Alteração realizado com sucesso', queue="success")
         return Response(edit)
 
     def delete_orgao(self):
         """
         Deleta doc apartir do id
         """
+        session = self.request.session
         doc = self.request.params
         sigla = self.request.matchdict['sigla']
-        orgao_obj = Orgao(
-            nome = 'asdasd',
-            pretty_name='slfkslfkdlsgk',
-            gestor= 'gestor',
-            cargo = 'asdasdasd',
-            coleta = '3',
-            sigla = 'asdasdas',
-            endereco = 'asdsad',
-            email = 'asdsad',
-            telefone = 'sadasd',
-            url = 'sadasd',
-            api_key='sadasd'
-        )
-        usuario_autenticado = Utils.retorna_usuario_autenticado(self.request.authenticated_userid)
+        orgao_obj = Utils.create_orgao_obj()
         at = atividade.Atividade(
             tipo='delete',
-            usuario=usuario_autenticado.results[0].nome,
+            usuario=self.usuario_autenticado.nome,
             descricao='Removeu o órgão '+ sigla,
             data=datetime.datetime.now()
         )
@@ -199,12 +176,16 @@ class Orgaos(object):
         search = orgao_obj.search_orgao(sigla)
         id = search.results[0]._metadata.id_doc
         delete = orgao_obj.delete_orgao(id)
-        return HTTPFound(location = self.request.route_url('listorgao'))
+
+        if(delete):
+            session.flash('Sucesso ao apagar o órgão '+search.results[0].nome, queue="success")
+        else:
+            session.flash('Ocorreu um erro ao apagar o órgão '+search.results[0].nome, queue="error")
+        return HTTPFound(location=self.request.route_url('listorgao'))
 
     # Views de Orgão
     def orgao(self):
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
         return {
-            'usuario_autenticado': usuario_autenticado,
+            'usuario_autenticado': self.usuario_autenticado,
             'api_key': uuid.uuid4()
         }

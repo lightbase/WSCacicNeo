@@ -1,0 +1,139 @@
+<metal:main use-macro="load: ../basic/master.pt">
+  <metal:content fill-slot="dash">
+      Configurar Órgão
+  </metal:content>
+	<metal:content fill-slot="conteudo">
+        <div class="padd">
+            <br />
+            <!-- Form starts.  -->
+             <form class="form-horizontal" id='form_orgaos' role="form">
+                <div class="form-group">
+                  <label class="col-lg-2 control-label">Nome do Órgão</label>
+                  <div class="col-lg-5">
+                    <input type="text" name='pretty_name' id="pretty_name" class="form-control" value="${pretty_name}" placeholder="Nome do Órgão">
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">URL da Base de Dados</label>
+                        <div class="col-lg-5">
+                            <a type="button" href="${request.route_url('root')}create/coleta/${nome}" class="btn btn-sm btn-success">Criar Base de Dados</a>
+                    </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 control-label">Tempo da Coleta</label>
+                  <div class="col-lg-2">
+                    <select id="coleta" class="form-control">
+                      <option value="1">1 hora</option>
+                      <option value="3" selected>3 horas</option>
+                      <option value="24">1 dia</option>
+                      <option value="48">2 dias</option>
+                      <option value="72">3 dias</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 control-label">Habilitar Bot *:</label>
+                  <div class="col-lg-2">
+                    <select id="habilitar_bot" class="form-control">
+                      <option value="True">Sim</option>
+                      <option value="False">Não</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 control-label">URL para comunicação *:</label>
+                  <div class="col-lg-5">
+                    <input type="text" name='url' id="url" class="form-control" value="${url}" placeholder="URL para comunicação">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 control-label">Chave de API:</label>
+                  <div class="col-lg-5">
+                    <input type="text" id="api_key" class="form-control" placeholder="Chave de API" value="${api_key}">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 control-label">Sigla:</label>
+                  <div class="col-lg-2">
+                    <input type="text" name='sigla' id="sigla" class="form-control" value="${sigla}" placeholder="Sigla" readonly>
+                  </div>
+                  <span><i class="fa fa-info"></i> <b>IMPORTANTE</b>: Esse e o nome do orgao que deve ser informado ao WSCBot</span>
+                </div>
+                <div class="form-group">
+                  <div class="col-lg-offset-2 col-lg-6">
+                      <button type="button" id="enviar" class="btn btn-sm btn-primary" style="margin-left: 315px;" >Enviar</button>
+                      <button type="button" id="voltar" class="btn btn-sm btn-default">Voltar</button>
+                      <span id="loading" style="display: none; margin-left: 315px;">
+                          <img src="${request.route_url('root')}static/imgs/ajax-loader-circle.gif" />  Aguarde...
+                      </span>
+                      <input style="display:none;" id="id" value="${request.matchdict['sigla']}">
+                  </div>
+                </div>
+                <input type="hidden" id="telefone" value="${telefone}">
+                <input type="hidden" id="cargo" value="${cargo}">
+                <input type="hidden" id="gestor" value="${gestor}">
+                <input type="hidden" id="end" value="${endereco}">
+                <input type="hidden" id="email" value="${email}">
+                <input type="hidden" id="telefone" value="${telefone}">
+              </form>
+          </div>
+	</metal:content>
+	<metal:content fill-slot="javascript">
+        <script type="text/javascript">
+           $('#voltar').click(function(){
+                var oldURL = document.referrer;
+                window.location.href = oldURL;
+            });
+           $('#enviar').click(function(){
+                var pretty_name = $('#pretty_name').val()
+                    email = $('#email').val()
+                    telefone = $('#telefone').val()
+                    gestor = $('#gestor').val()
+                    cargo = $('#cargo').val()
+                    sigla = $('#sigla').val()
+                    coleta = $('#coleta').val()
+                    end = $('#end').val()
+                    id = $('#id').val()
+                    url = $('#url').val()
+                    habilitar_bot = $('#habilitar_bot').val()
+                    api_key = $('#api_key').val()
+    
+                var data = {
+                    'id': id,
+                    'pretty_name': pretty_name,
+                    'email': email,
+                    'telefone': telefone,
+                    'gestor': gestor,
+                    'cargo': cargo,
+                    'sigla': sigla,
+                    'coleta': coleta,
+                    'end': end,
+                    'url': url,
+                    'habilitar_bot': habilitar_bot,
+                    'api_key': api_key
+                }
+                $.ajax({
+                    type: "PUT",
+                    url: "${request.route_url('put_orgao')}",
+                    data: data,
+                    beforeSend: function()
+                        {
+                            $('#loading').show();
+                            $('#enviar').hide();
+                            $('#voltar').hide();
+                        },
+                    complete: function()
+                        {
+
+                        },
+                    success: function(){ window.location.href = "${request.route_url('listorgao')}"; },
+                    error: function(){ noty({text: 'Erro ao alterar o orgão. Todos os campos são obrigatórios.',layout:'topRight',type:'error',timeout:3000});
+                            $('#loading').hide();
+                            $('#enviar').show();
+                            $('#voltar').show();
+                    }
+                });
+            });
+        </script>
+    </metal:content>
+</metal:main>

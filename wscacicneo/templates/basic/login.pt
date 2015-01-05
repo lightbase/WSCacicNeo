@@ -1,0 +1,86 @@
+<metal:main use-macro="load: master.pt">
+    <metal:content fill-slot="dash">
+        Autenticação
+    </metal:content>
+    <metal:content fill-slot="conteudo">
+            <!-- Form starts.  -->
+                <div align="center" style="margin: 0 auto; width: 50%">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- Widget starts -->
+                            <div class="widget worange">
+                                <!-- Widget head -->
+                                <div class="widget-head">
+                                    <i class="fa fa-lock"></i> Login
+                                </div>
+                                <div class="widget-content">
+                                    <div class="padd">
+                                        <!-- Login form -->
+                                        <form action="${url}" class="form-horizontal" method="post">
+                                            <input type="hidden" name="csrf_token"
+                                                   value="${request.session.get_csrf_token()}">
+                                            <input type="hidden" name="came_from" value="${came_from}"/>
+
+                                            <div class="alert alert-danger" id="errorLogin"
+                                                 style="display: ${is_visible};">
+                                                <span tal:replace="message"/>
+                                                <button type="button" class="close"
+                                                        onclick="$('#errorLogin').hide"><span
+                                                        aria-hidden="true">&times;</span><span
+                                                        class="sr-only">Close</span></button>
+                                            </div>
+
+                                            <!-- Email -->
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-3" for="inputEmail">Email</label>
+
+                                                <div class="col-lg-9">
+                                                    <input type="text" class="form-control" id="email" value="${email}"
+                                                           name="email" placeholder="Email">
+                                                </div>
+                                            </div>
+                                            <!-- Password -->
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-3" for="inputPassword">Senha</label>
+
+                                                <div class="col-lg-9">
+                                                    <input type="password" class="form-control" id="senha" name="senha"
+                                                           value="${senha}" placeholder="Senha">
+                                                </div>
+                                            </div>
+                                            <div class="pull-right col-lg-offset-3">
+                                                <input type="submit" name="form.submitted" id="submit"
+                                                       class="btn btn-sm btn-primary" value="Acessar"/>
+                                            </div>
+                                            <br/>
+                                        </form>
+
+                                    </div>
+                                </div>
+
+                                <div class="widget-foot">
+                                    <a href="#" id="recover">Esqueci minha senha.</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    </metal:content>
+    <metal:content fill-slot="javascript">
+        <script type="text/javascript">
+            $('#recover').click(function(){
+                var data = {
+                    'email' : $('#email').val()
+                }
+                $.ajax({
+                        type: "POST",
+                        url: "${request.route_url('hash_recover_passwd')}",
+                        data: data,
+                        success: function(){noty({text: 'Aguarde.',layout:'topRight',type:'info',timeout:3000});},
+                        error: function(){noty({text: 'Não disponível.',layout:'topRight',type:'info',timeout:3000});}
+                    });
+            });
+
+        </script>
+    </metal:content>
+</metal:main>

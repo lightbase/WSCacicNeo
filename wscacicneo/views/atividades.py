@@ -20,6 +20,7 @@ from pyramid.security import (
     remember,
     forget,
     )
+from pyramid.session import check_csrf_token
 
 class Atividades(object):
     """
@@ -31,6 +32,9 @@ class Atividades(object):
         :param request: Requisição
         """
         self.request = request
+        self.usuario_autenticado = Utils.retorna_usuario_autenticado(
+            self.request.session.get('userid'))
+
 
 
     def list_atividades(self):
@@ -40,10 +44,9 @@ class Atividades(object):
         limit_docs = 100
         atividade_obj = Utils.create_atividade_obj()
         results = atividade_obj.search_list_atividades(limit_docs)
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
 
         return {'data': results.results,
-                'usuario_autenticado': usuario_autenticado,
+                'usuario_autenticado': self.usuario_autenticado,
                }
 
     def list_atividades_bot(self):
@@ -53,9 +56,8 @@ class Atividades(object):
         limit_docs = 100
         atividade_obj = Utils.create_atividade_obj()
         results = atividade_obj.search_list_bot()
-        usuario_autenticado = Utils.retorna_usuario_autenticado(email=self.request.authenticated_userid)
 
         return {'data': results.results,
-                'usuario_autenticado': usuario_autenticado,
+                'usuario_autenticado': self.usuario_autenticado,
                }
 

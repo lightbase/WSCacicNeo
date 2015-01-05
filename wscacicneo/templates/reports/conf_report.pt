@@ -1,0 +1,128 @@
+<metal:main use-macro="load: ../basic/master.pt">
+  <metal:content fill-slot="dash">
+      Relatórios      
+  </metal:content>
+	<metal:content fill-slot="conteudo">
+        <div class="padd">
+            <br />
+            <!-- Form starts.  -->
+             <form class="form-horizontal col-lg-8" role="form">
+                <div class="form-group">
+                  <label class="col-lg-2 control-label">Órgão</label>
+                  <div class="col-lg-2">
+                    <select style="width: 450px"  id="orgao" class="form-control">
+                        <tal tal:condition="request.session.get('userid')" tal:repeat="doc orgao_doc">
+                            <option selected tal:condition="usuario_autenticado.orgao == doc.nome" value="${doc.nome}">${doc.pretty_name}</option>
+                            <option tal:condition="doc.nome != usuario_autenticado.orgao" value="${doc.nome}">${doc.pretty_name}</option>
+                        </tal>
+                        <tal tal:condition="not request.session.get('userid')">
+                            <option></option>
+                            <option tal:repeat="doc orgao_doc" value="${doc.nome}">${doc.pretty_name}</option>
+                        </tal>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 control-label">Item</label>
+                  <div class="col-lg-2">
+                    <select style="width: 450px" id="coleta" class="form-control">
+                      <option></option>
+                      <option value="processador">Processador</option>
+                      <option value="hd">HD</option>
+                      <option value="bios">BIOS</option>
+                      <option value="memoria">Memoria</option>
+                      <option value="so">Sistemas Operacionais</option>
+                      <option value="software">Software (Suítes de Escritório)</option>
+                    </select>
+                  </div>
+                </div>
+                <div style="margin-left: 28%;">
+                    <div class="float-right" style="margin-left: 135px;">
+                        <button type="button" id="enviar" class="btn btn-sm btn-primary">Enviar</button>
+                        <button type="button" id="voltar" class="btn btn-sm btn-default">Voltar</button>
+                        <span id="loading" style="display: none; margin-left: 135px;">
+                          <img src="${request.route_url('root')}static/imgs/ajax-loader-circle.gif" />  Aguarde...
+                      </span>
+                    </div>
+                </div>
+             </form>
+        </div>
+	</metal:content>
+	<metal:content fill-slot="javascript">
+        <script type="text/javascript">
+            $('#voltar').click(function(){
+                var oldURL = document.referrer;
+                window.location.href = oldURL;
+            });
+           $('#enviar').click(function(){
+                orgao = $('#orgao').val()
+                attr = $('#coleta').val()
+                if(attr == 'hd'){
+                    attr = 'win32_diskdrive'
+                    item = 'win32_diskdrive_caption'
+                }
+                else if(attr == 'bios'){
+                    attr = 'win32_bios'
+                    item = "win32_bios_manufacturer"
+                }
+                else if(attr == 'so'){
+                    attr = 'operatingsystem'
+                    item = 'operatingsystem_caption'
+                }
+                else if(attr == 'memoria'){
+                    attr = 'win32_physicalmemory' 
+                    item = 'win32_physicalmemory_memorytype' 
+                }
+                else if(attr == 'processador'){
+                    attr = 'win32_processor'
+                    item = 'win32_processor_manufacturer'
+                }
+                else if(attr == 'software'){
+                    $.ajax({
+                    type: "GET",
+                    beforeSend: function()
+                        {
+                            $('#loading').show();
+                            $('#enviar').hide();
+                            $('#voltar').hide();
+                        },
+                    complete: function()
+                        {},
+                    success:  window.location = "${request.route_url('root')}relatorio/software/"+orgao+"",
+                    error: function(){
+                                noty({text: 'Erro ao gerar relatório.',layout:'topRight',type:'error',timeout:3000});
+                                $('#loading').hide();
+                                $('#enviar').show();
+                                $('#voltar').show();
+                            }
+                });
+                }
+                else{
+                    noty({text: 'Erro: Selecione um órgão e um item.',layout:'topRight',type:'warning',timeout:3000});
+                    return True;
+                }
+
+                $.ajax({
+                    type: "GET",
+                    beforeSend: function()
+                        {
+                            $('#loading').show();
+                            $('#enviar').hide();
+                            $('#voltar').hide();
+                        },
+                    complete: function()
+                        {
+                        },
+                    global:false,
+                    success:  window.location = "${request.route_url('root')}relatorio/"+orgao+"/"+attr+"/"+item+"",
+                    error: function(){ noty({text: 'Erro: Todos campos com (*) devem ser preenchidos.',layout:'topRight',type:'error',timeout:3000});
+                            $('#loading').hide();
+                            $('#enviar').show();
+                            $('#voltar').show();
+                    }
+                });
+
+           });
+        </script>
+    </metal:content>
+</metal:main>
