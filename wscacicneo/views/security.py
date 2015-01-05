@@ -117,7 +117,6 @@ class Security(object):
 
         response = Response()
         response = HTTPFound(location=self.request.route_url('login'),
-                         headers=headers)
-        response = HTTPFound(location=self.request.route_url('login'))
+                             headers=headers)
         session.flash('Você se desconectou', queue="error")
         return response
