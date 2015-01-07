@@ -83,6 +83,7 @@
     <script src="${request.route_url('root')}static/macadmin/js/filter.js"></script> <!-- Filter for support page -->
     <script src="${request.route_url('root')}static/macadmin/js/custom.js"></script> <!-- Custom codes -->
     <script src="${request.route_url('root')}static/macadmin/js/charts.js"></script> <!-- Charts & Graphs -->
+    <script src="${request.route_url('root')}static/jquery.maskedinput.min.js"></script> <!-- Mask -->
     <!--Jquery Validate -->
     <!-- <script src="${request.route_url('root')}static/js/jquery.validate.min.js"></script>  -->
 
