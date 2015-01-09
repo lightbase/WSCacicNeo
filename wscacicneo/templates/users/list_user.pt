@@ -39,7 +39,7 @@
                                                     <td>${doc.permissao}</td>
                                                     <td>
                                                         <a href="${request.route_url('root')}usuario/editar/${doc.matricula}" class="btn btn-xs btn-warning" title="Editar"><i class="fa fa-pencil"></i></a>
-                                                        <a href="${request.route_url('root')}usuario/delete/${doc.matricula}" class="btn btn-xs btn-danger" title="Apagar"><i class="fa fa-times"></i></a>
+                                                        <a id="confirm_${doc.matricula}" onclick="confirm_delete('${doc.matricula}','${doc.nome}')" class="btn btn-xs btn-danger" title="Apagar"><i class="fa fa-times"></i></a>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -55,6 +55,16 @@
         </div>
     </div>
     <input type="hidden" name="csrf_token" value="${request.session.get_csrf_token()}">
+    </metal:content>
+    <metal:content fill-slot="javascript">
+        <script type="text/javascript">
+            function confirm_delete(matricula, nome) {
+               var answer = confirm("Deseja excluir o usuário: "+nome)
+                if (answer == true){
+                    window.location.href = '${request.route_url('root')}usuario/delete/'+matricula;
+                }
+            }
+        </script>
     </metal:content>
 </metal:main>
 
