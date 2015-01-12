@@ -207,3 +207,16 @@ class Utils:
         hash_random = random.getrandbits(hash_size)
 
         return hash_random
+
+    def verifica_orgaos(orgao="mpog"):
+        list_id_users = []
+        user_obj = Utils.create_user_obj()
+        users = user_obj.search_list_users()
+        for x in range(users.result_count):
+            user_orgao = users.results[x].orgao
+            if user_orgao == orgao:
+                list_id_users.append(users.results[x]._metadata.id_doc)
+                print("é igual", user_orgao)
+            else:
+                print("não é igual")
+        print(list_id_users)
