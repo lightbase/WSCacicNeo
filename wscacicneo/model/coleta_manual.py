@@ -168,8 +168,8 @@ class ColetaManualBase(object):
             name='Win32_PhysicalMemory_MemoryType',
             description='Win32_PhysicalMemory_MemoryType',
             alias='Win32_PhysicalMemory_MemoryType',
-            datatype='Text',
-            indices=['Textual'],
+            datatype='Integer',
+            indices=[],
             multivalued=False,
             required=False
         ))

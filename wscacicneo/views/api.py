@@ -361,6 +361,7 @@ class Api(object):
         Verifica permissão do órgão com base na chave de API
         :return:
         """
+        print(self.request.params.get('api_key'))
         orgao = self.request.matchdict['orgao']
         # Se for histórico, verifica permissão para o órgão principal
         log.debug("Nome do órgão: %s", orgao)
