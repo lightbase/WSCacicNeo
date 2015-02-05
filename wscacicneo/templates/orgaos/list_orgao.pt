@@ -57,7 +57,7 @@
     <metal:content fill-slot="javascript">
         <script type="text/javascript">
             function confirm_delete(sigla, nome) {
-               var answer = confirm("Deseja excluir o orgão: "+nome)
+               var answer = confirm("Deseja excluir o órgão "+nome+" e os usuários ligados ao mesmo?")
                 if (answer == true){
                     x = window.location.href = '${request.route_url('root')}orgao/delete/'+sigla;
                 }

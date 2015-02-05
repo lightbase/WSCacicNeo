@@ -166,6 +166,7 @@ class Orgaos(object):
         doc = self.request.params
         sigla = self.request.matchdict['sigla']
         orgao_obj = Utils.create_orgao_obj()
+        user_obj = Utils.create_user_obj()
         at = atividade.Atividade(
             tipo='delete',
             usuario=self.usuario_autenticado.nome,
@@ -175,13 +176,31 @@ class Orgaos(object):
         at.create_atividade()
         search = orgao_obj.search_orgao(sigla)
         id = search.results[0]._metadata.id_doc
-        delete = orgao_obj.delete_orgao(id)
-
-        if(delete):
-            session.flash('Sucesso ao apagar o órgão '+search.results[0].nome, queue="success")
+        orgao_name = search.results[0].nome
+        lista_usuarios = Utils.verifica_orgaos(orgao_name)
+        list_admins = Utils.verifica_admin(lista_usuarios)
+        # Lista os nomes dos usuários administradores do sistema
+        list_admins_names = []
+        for x in list_admins:
+            list_admins_names.append(x.nome)
+        # Remove o órgão e seus usuários caso não exista administradores ligados ao mesmo.
+        if not list_admins:
+            for id_users in lista_usuarios:
+                delete_user = user_obj.delete_user(id_users)
+            delete_orgao = orgao_obj.delete_orgao(id)
+            if delete_orgao:
+                session.flash('Sucesso ao apagar o órgão e os usuários ligados a ele'+search.results[0].pretty_name, queue="success")
+            else:
+                session.flash('Ocorreu um erro ao apagar o órgão '+search.results[0].pretty_name, queue="error")
+            return HTTPFound(location=self.request.route_url('listorgao'))
         else:
-            session.flash('Ocorreu um erro ao apagar o órgão '+search.results[0].nome, queue="error")
-        return HTTPFound(location=self.request.route_url('listorgao'))
+            if len(list_admins) > 1:
+                session.flash('O órgão '+search.results[0].pretty_name+' não pode ser removido pois ainda há administradores ligados a ele.', queue="error")
+                session.flash('Os administradores ligados ao órgão '+search.results[0].pretty_name+' são: '+str(list_admins_names).strip("[]"), queue="error")
+            else:
+                session.flash('O órgão '+search.results[0].pretty_name+' não pode ser removido pois ainda há um administrador ligado a ele.', queue="error")
+                session.flash('O administrador ligado ao órgão '+search.results[0].pretty_name+' é: '+str(list_admins_names).strip("[]"), queue="error")
+            return HTTPFound(location=self.request.route_url('listorgao'))
 
     # Views de Orgão
     def orgao(self):

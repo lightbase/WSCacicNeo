@@ -208,7 +208,7 @@ class Utils:
 
         return hash_random
 
-    def verifica_orgaos(orgao="mpog"):
+    def verifica_orgaos(orgao):
         list_id_users = []
         user_obj = Utils.create_user_obj()
         users = user_obj.search_list_users()
@@ -216,7 +216,17 @@ class Utils:
             user_orgao = users.results[x].orgao
             if user_orgao == orgao:
                 list_id_users.append(users.results[x]._metadata.id_doc)
-                print("é igual", user_orgao)
-            else:
-                print("não é igual")
-        print(list_id_users)
+        return list_id_users
+
+    def verifica_admin(list_users):
+        user_obj = Utils.create_user_obj()
+        list_admins = []
+        for x in list_users:
+            usuario = user_obj.get_user_by_id(x)
+            if usuario.permissao == "Administrador":
+                list_admins.append(usuario)
+        return list_admins
+
+    def remove_usuario(list_users):
+
+        return True
