@@ -14,6 +14,10 @@ from liblightbase.lbrest.base import BaseREST
 from liblightbase.lbrest.document import DocumentREST
 from liblightbase.lbutils import conv
 from liblightbase.lbsearch.search import Search, OrderBy
+from wscacicneo.model.descriptions import DescriptionsBase
+from wscacicneo.model.descriptions import Desc
+from wscacicneo.lib import convert
+
 
 log = logging.getLogger()
 
@@ -103,6 +107,12 @@ class Reports():
         """
         retorna dicionário de atributos agrupados por contador
         """
+
+        convert = {
+            'win32_processor_family': 'processor_converter',
+            'win32_physicalmemory_memorytype': 'memory_converter'
+        }
+
         attr_dict = self.get_attribute(attr)
         results = attr_dict.results
         #log.debug(results)
@@ -118,6 +128,12 @@ class Reports():
                     continue
             else:
                 attribute = getattr(elm, attr)
+
+            if elm in convert.keys():
+                # Executa funçao de conversao para atributo
+                func = getattr(conv, elm)
+                log.debug("Executando funçao de conversao para atributo %s", elm)
+                attribute = func(attribute)
 
             if attr == 'softwarelist':
                 for software in attribute:

@@ -276,3 +276,19 @@ class Desc(desc.metaclass):
 
        return results
 
+    def create_dict_to_desc(self, attr):
+        """
+        Cria um dict apartir de um grupo 
+        """
+        search = Search(
+           select = [attr]
+        )
+        results = self.documentrest.get_collection(search_obj=search)
+        dict_desc = dict()
+        for x in results:
+            dict_desc[results+'_key'] = results+'_value'
+
+        return dict_desc
+
+
+
