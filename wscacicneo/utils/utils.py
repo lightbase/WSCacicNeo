@@ -227,6 +227,9 @@ class Utils:
                 list_admins.append(usuario)
         return list_admins
 
+    def getMaxOfList(list):
+        return max(list)
+
     def remove_usuario(list_users):
 
         return True

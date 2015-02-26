@@ -3,89 +3,41 @@
         Gráficos
     </metal:content>
     <metal:macro fill-slot="conteudo">
-        <div style="font-size: 20px;" align="center"><a href="#" id="print" title="Imprimir Tabela"><i class="fa fa-print"></i>Imprimir</a></div>
+        <div style="font-size: 20px;" align="center"><a href="#" id="print" title="Imprimir Tabela"><i
+                class="fa fa-print"></i>Imprimir</a></div>
         <br/>
-        <div id="graficoPie" style="width: 100%;height: 400px; font-size: 20px"></div>
+        <div id="chart_div" style="width: 900px; height: 500px;"></div>
     </metal:macro>
     <metal:macro fill-slot="javascript">
+        <script type="text/javascript" src="${request.route_url('root')}static/googlecharts.js"></script>
         <script type="text/javascript" src="${request.route_url('root')}static/jquery.print.js"></script>
         <script type="text/javascript">
 
-            $("#print").click(function() {
+            $("#print").click(function () {
                 //$("#graficoPie").printPage();
                 window.print();
             });
 
-            /* Pie chart starts */
 
-            $(function () {
+        </script>
 
-                var data = ${data};
+        <script type="text/javascript">
+            // Load the Visualization API and the piechart package.
+            google.load('visualization', '1.0', {'packages': ['corechart']});
+            google.setOnLoadCallback(drawChart);
+            function drawChart() {
+                dataTableX = ${data}
+                var data = google.visualization.arrayToDataTable(dataTableX);
 
-                /*$.plot($("#pie-chart"), data,
-                        {
-                            series: {
-                                pie: {
-                                    show: true,
-                                    radius: 1,
-                                    label: {
-                                        show: true,
-                                        radius: 3 / 4,
-                                        formatter: function (label, series) {
-                                            return '<div style="font-size:8pt;text-align:center;padding:2px;color:white;">' + label + '<br/>' + Math.round(series.percent) + '%</div>';
-                                        },
-                                        background: {opacity: 0},
-                                    }
-                                }
-                            },
-                            grid: {hoverable: true},
-                            legend: {
-                                show: false
-                            }
-                        });
-                */
+                var options = {
+                    title: '${title_chart}',
+                    is3D: true
+                };
 
-                $.plot($("#graficoPie"), data,
-                        {
-                            series: {
-                                pie: {
-                                    show: true,
-                                    combine: {
-                                        threshold: 0.01,
-                                        color: '#CCC',
-                                        label: 'Outros'
-                                    },
-                                    label: {
-                                        show: true,
-                                        radius: 3 / 4,
-                                        formatter: function (label, series) {
-                                            return '<div style="font-size:12pt;text-align:left;padding:1px;color:black;">'+ Math.round(series.percent) + '%</div>';
-                                        },
-                                        background: {opacity: 0}
-                                    }
-                                }
-                            },
-                            grid: {hoverable: true}
-                        });
+                var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
 
-                /*
-                $.plot($("#pie-chart3"), data,
-                        {
-                            series: {
-                                pie: {
-                                    show: true
-                                }
-                            },
-                            grid: {hoverable: true},
-                            legend: {
-                                show: false
-                            }
-                        });
-                 */
-
-                /* Pie chart ends */
-
-            });
+                chart.draw(data, options);
+            }
 
         </script>
 
