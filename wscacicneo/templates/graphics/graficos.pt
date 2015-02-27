@@ -31,7 +31,9 @@
 
                 var options = {
                     title: '${title_chart}',
-                    is3D: true
+                    is3D: true,
+                    pieResidueSliceLabel: 'Outros',
+                    sliceVisibilityThreshold: 15/720
                 };
 
                 var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
