@@ -107,16 +107,10 @@ class Reports():
         """
         retorna dicionário de atributos agrupados por contador
         """
-
-        convert = {
-            'win32_processor_family': 'processor_converter',
-            'win32_physicalmemory_memorytype': 'memory_converter'
-        }
-
+        print(attr,'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
         attr_dict = self.get_attribute(attr)
         results = attr_dict.results
         #log.debug(results)
-
         saida = dict()
         for elm in results:
             if child:
@@ -129,12 +123,6 @@ class Reports():
             else:
                 attribute = getattr(elm, attr)
 
-            if elm in convert.keys():
-                # Executa funçao de conversao para atributo
-                func = getattr(conv, elm)
-                log.debug("Executando funçao de conversao para atributo %s", elm)
-                attribute = func(attribute)
-
             if attr == 'softwarelist':
                 for software in attribute:
                     if saida.get(software) is None:
@@ -146,4 +134,10 @@ class Reports():
             else:
                 saida[attribute] = 1
 
-        return saida
+        if attr == 'win32_physicalmemory' and 'win32_processor':
+            elm = 'win32_physicalmemory_memorytype'
+            saida_dict = convert.conv_to_dict(saida, elm)
+
+            return saida_dict
+        else:
+            return saida

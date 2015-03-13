@@ -183,3 +183,21 @@ class Relatorios(object):
         else:
             session.flash('Erro ao atualizar o relatório', queue="error")
         return Response(str(results))
+
+
+    def json_csv(self):
+        """
+        Gerencia o download do csv do relatori
+        """
+        params = self.request.params
+        base = 'proc'
+        data = str(params)
+
+        return Response(
+            content_type='text/plain',
+            content_disposition='attachment;filename='+base+'.txt',
+            app_iter=[data]
+
+        )
+
+

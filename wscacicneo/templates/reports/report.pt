@@ -217,35 +217,15 @@
             window.location.href = "${request.route_url('notify')}";
         });
         $('#download-report').click(function(){
-            var columns = $('thead').children('tr').children('th');
-            var col_names = [];
-            columns.each(function(i, th_elm){
-                col_names.push(th_elm.innerText);
-            })
-
-            var rows = $('tbody').children('tr');
-            var json_data = [ ];
-            var cell;
-            var row_data; 
-
-            rows.each(function(i, row){
-                row_data = {}; 
-                $(col_names).each(function(j, col_name){
-                    cell = $(row).children('td')[j];
-                    row_data[col_name] = $(cell).text();
-                });
-                json_data.push(row_data);
+            data = ${data}
+            url = "${request.route_url('json_csv')}"
+            $.ajax({
+                type: "POST",
+                url : url,
+                data : data,
+                success: function(){ alert('bbbbbbbbbbbbbbbbb')},
+                error: function(){ alert('cccccccccccccccccc')}
             });
-
-            var url = "${request.route_url('json2csv')}"
-            var report_name = $('#report-name').text() + '.csv';
-            var form = $('<form action="' + url + '" method="post">' +
-              '<input type="text" name="json_data" value="' + 
-                JSON.stringify(json_data).replace(/"/g, '&quot;') + '" />' +
-              '<input type="text" name="filename" value="' + report_name + '" />' +
-              '</form>');
-            $('body').append(form);
-            form.submit();
         });
         </script>
 </metal:content>
