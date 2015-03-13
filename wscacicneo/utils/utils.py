@@ -6,6 +6,8 @@ import json
 import datetime
 import unicodedata
 import hashlib
+import logging
+from requests.exceptions import HTTPError
 from wscacicneo.model.orgao import Orgao
 from wscacicneo.model.orgao import OrgaoBase
 from wscacicneo.model.user import User
@@ -19,6 +21,9 @@ from wscacicneo.model.atividade import AtividadeBase
 from wscacicneo.model.descriptions import DescriptionsBase
 from wscacicneo.model.descriptions import Desc
 from wscacicneo import config
+
+log = logging.getLogger()
+
 
 class Utils:
 
@@ -153,6 +158,10 @@ class Utils:
             child = itens[elm]
             data = report.count_attribute(attr, child)
             for element in data:
+                if str(element).strip() == '':
+                    log.error("Elemento nulo enviado: %s", elm)
+                    continue
+
                 data_json = {
                     attr: {
                         attr+'_item': str(element),
@@ -160,7 +169,10 @@ class Utils:
                     }
                 }
                 document = json.dumps(data_json)
-                reports_conf.create_coleta(document)
+                try:
+                    reports_conf.create_coleta(document)
+                except HTTPError as e:
+                    log.error("Erro na inserção do documento\n%s", e.strerror)
         return 1
         #except:
             #return 0
@@ -226,6 +238,9 @@ class Utils:
             if usuario.permissao == "Administrador":
                 list_admins.append(usuario)
         return list_admins
+
+    def getMaxOfList(list):
+        return max(list)
 
     def remove_usuario(list_users):
 

@@ -58,7 +58,6 @@ class Home(object):
         notify_base = model_notify.NotifyBase()
         atividade_base = model_atividade.AtividadeBase()
         email_base = model_email.EmailBase()
-        descriptions_base = model_description.DescriptionsBase()
 
         # Cria tudo que precisa para carregar.
         # Pelo fato do object ser response_object = False ele dá erro na hora da criação
@@ -79,9 +78,6 @@ class Home(object):
         elif email_base.is_created() is False:
             createEmail = email_base.create_base()
             return HTTPFound(location=self.request.route_url("home_config_initial"))
-        elif descriptions_base.is_created() is False:
-            createDescription = descriptions_base.create_base()
-            return HTTPFound(location=self.request.route_url("home_config_initial"))
         else:
             return HTTPFound(location=self.request.route_url("home"))
 
@@ -92,7 +88,6 @@ class Home(object):
         notify_base = model_notify.NotifyBase()
         atividade_base = model_atividade.AtividadeBase()
         email_base = model_email.EmailBase()
-        descriptions_base = model_description.DescriptionsBase()
         if user_base.is_created() is False:
             base_criada = "Criar Base de Usuário"
             return {'base_criada':base_criada}
@@ -104,9 +99,6 @@ class Home(object):
             return {'base_criada':base_criada}
         if atividade_base.is_created() is False:
             base_criada = "Criar Base de Atividades"
-            return {'base_criada':base_criada}
-        if descriptions_base.is_created() is False:
-            base_criada = "Criar Base de Descrições"
             return {'base_criada':base_criada}
         if email_base.is_created() is False:
             base_criada = "Criar Base de Emails"
@@ -121,12 +113,10 @@ class Home(object):
         notify_base = model_notify.NotifyBase()
         atividade_base = model_atividade.AtividadeBase()
         email_base = model_email.EmailBase()
-        descriptions_base = model_description.DescriptionsBase()
         if (user_base.is_created() is False or
             orgao_base.is_created() is False or
             notify_base.is_created() is False or
             atividade_base.is_created() is False or
-            descriptions_base.is_created() is False or
             email_base.is_created() is False
         ):
             return HTTPFound(location=self.request.route_url("home_config_initial"))
