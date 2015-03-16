@@ -282,12 +282,12 @@ class Desc(desc.metaclass):
 
        return results
 
-    def create_dict_to_desc(self, attr):
+    def create_dict_to_desc(self, elm):
         """
         Cria um dict apartir de um grupo 
         """
         search = Search(
-           select = [attr]
+           select = [elm]
         )
         results = self.documentrest.get_collection(search_obj=search)
         dict_desc = dict()

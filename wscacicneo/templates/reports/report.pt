@@ -217,18 +217,15 @@
             window.location.href = "${request.route_url('notify')}";
         });
         $('#download-report').click(function(){
-            json_data = []
-            json_data.append(${data})
-            /*json_data = JSON.stringify(json_data)*/
-            var url = "${request.route_url('json2csv')}"
-            var report_name = $('#report-name').text() + '.csv';
-            var form = $('<form action="' + url + '" method="post">' +
-              '<input type="text" name="json_data" value="' +
-                JSON.stringify(json_data).replace(/"/g, '&quot;') + '" />' +
-              '<input type="text" name="filename" value="' + report_name + '" />' +
-              '</form>');
-            $('body').append(form);
-            form.submit();
+            data = ${data}
+            url = "${request.route_url('json_csv')}"
+            $.ajax({
+                type: "POST",
+                url : url,
+                data : data,
+                success: function(){ alert('bbbbbbbbbbbbbbbbb')},
+                error: function(){ alert('cccccccccccccccccc')}
+            });
         });
         </script>
 </metal:content>
