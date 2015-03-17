@@ -21,7 +21,7 @@ requires = [
     'pyramid_who',
     'requests',
     'waitress',
-    'liblightbase',
+    #'liblightbase',
     'pyramid_beaker'
 ]
 

@@ -230,3 +230,13 @@ class Utils:
     def remove_usuario(list_users):
 
         return True
+
+    def creat_to_dict_descriptions(self, attr):
+        """
+        Cria um Dict Com os campos da descrição 
+        """
+        search_desc = Desc.search_desc(attr)
+        desc_dict = dict()
+        for key in search_desc:
+            desc_dict[attr+'_key'] = desc_dict[attr+'_value']
+        return desc_dict

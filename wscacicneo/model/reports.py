@@ -129,5 +129,12 @@ class Reports():
                 saida[attribute] = saida.get(attribute) + 1
             else:
                 saida[attribute] = 1
+        if attr == 'win32_physicalmemory_memorytype' or 'win32_processor_family':
+            saida_dict = dict()
+            dict_to_descriptions = Utils.create_to_dict_descriptions(attr)
+            for x in saida.keys():
+                saida_dict[dict_to_descriptions[x]] = saida[x]
 
-        return saida
+            return saida_dict
+        else:
+            return saida

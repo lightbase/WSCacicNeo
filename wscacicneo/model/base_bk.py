@@ -113,7 +113,6 @@ class BaseBackup():
             required=False
         ))
 
-
         """
         LB Sistema Operacional
         """
