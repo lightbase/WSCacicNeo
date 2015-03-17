@@ -261,9 +261,6 @@ def make_routes(cfg):
     cfg.add_route('orgao_coleta', 'api/{orgao}{path:.*}', request_method='GET')
     cfg.add_view(api.Api, attr='orgao_coleta', route_name='orgao_coleta')
 
-    cfg.add_route('json2csv', 'json2csv', request_method='POST')
-    cfg.add_view(json2csv, route_name='json2csv')
-
     #atividades
     cfg.add_route('list_atividades', 'atividades/lista')
     cfg.add_view(atividades.Atividades, attr='list_atividades', route_name='list_atividades',
@@ -273,4 +270,8 @@ def make_routes(cfg):
     cfg.add_view(atividades.Atividades, attr='list_atividades_bot', route_name='list_atividades_bot',
                  permission="admin", renderer='templates/activities/list_atividades_bot.pt')
 
+    #Rota CSV
+    cfg.add_route('json_csv', 'relatorios/download/csv')
+    cfg.add_view(relatorios.Relatorios, request_method='POST', attr='json_csv', route_name='json_csv',
+                permission="user")
 

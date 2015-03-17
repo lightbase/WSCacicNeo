@@ -5,6 +5,7 @@ __author__ = 'eduardo'
 import logging
 import os
 import json
+import requests
 from requests.exceptions import HTTPError
 from wscacicneo import config
 from liblightbase.lbbase.struct import Base, BaseMetadata
@@ -162,11 +163,12 @@ class DescriptionsBase(object):
         :param lbbase: LBBase object instance
         :return: True or Error if base was not excluded
         """
-        try:
-            response = self.baserest.delete(self.lbbase)
-            return True
-        except HTTPError:
-            raise IOError('Error excluding base from LB')
+        url = self.rest_url + '/' + self.lbbase.metadata.name
+        response = requests.delete(url)
+
+        #response = self.baserest.delete(self.lbbase)
+
+        return response
 
     def is_created(self):
         """
@@ -212,9 +214,13 @@ class DescriptionsBase(object):
         #log.debug(saida)
         document = conv.dict2document(self.lbbase, saida)
         document_json = conv.document2json(self.lbbase, document)
+        log.debug(document_json)
 
         # Recria base e insere um documento
-        self.remove_base()
+        try:
+            self.remove_base()
+        except HTTPError:
+            log.error("Base de descrições ainda não existe")
         self.create_base()
         self.documentrest.create(document_json)
 
@@ -275,4 +281,20 @@ class Desc(desc.metaclass):
        results = self.documentrest.get_collection(search_obj=search)
 
        return results
+
+    def create_dict_to_desc(self, elm):
+        """
+        Cria um dict apartir de um grupo 
+        """
+        search = Search(
+           select = [elm]
+        )
+        results = self.documentrest.get_collection(search_obj=search)
+        dict_desc = dict()
+        for x in results:
+            dict_desc[results+'_key'] = results+'_value'
+
+        return dict_desc
+
+
 

@@ -14,6 +14,10 @@ from liblightbase.lbrest.base import BaseREST
 from liblightbase.lbrest.document import DocumentREST
 from liblightbase.lbutils import conv
 from liblightbase.lbsearch.search import Search, OrderBy
+from wscacicneo.model.descriptions import DescriptionsBase
+from wscacicneo.model.descriptions import Desc
+from wscacicneo.lib import convert
+
 
 log = logging.getLogger()
 
@@ -106,7 +110,6 @@ class Reports():
         attr_dict = self.get_attribute(attr)
         results = attr_dict.results
         #log.debug(results)
-
         saida = dict()
         for elm in results:
             if child:
@@ -129,11 +132,10 @@ class Reports():
                 saida[attribute] = saida.get(attribute) + 1
             else:
                 saida[attribute] = 1
-        if attr == 'win32_physicalmemory_memorytype' or 'win32_processor_family':
-            saida_dict = dict()
-            dict_to_descriptions = Utils.create_to_dict_descriptions(attr)
-            for x in saida.keys():
-                saida_dict[dict_to_descriptions[x]] = saida[x]
+
+        if attr == 'win32_physicalmemory' and 'win32_processor':
+            elm = 'win32_physicalmemory_memorytype'
+            saida_dict = convert.conv_to_dict(saida, elm)
 
             return saida_dict
         else:
