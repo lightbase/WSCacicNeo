@@ -133,10 +133,13 @@ class Reports():
             else:
                 saida[attribute] = 1
 
-        if attr == 'win32_physicalmemory' and 'win32_processor':
+        if attr == 'win32_physicalmemory':
             elm = 'win32_physicalmemory_memorytype'
-            saida_dict = convert.conv_to_dict(saida, elm)
+            saida_dict = convert.dict_desc()
+            dict_saida = dict()
+            for x in saida.keys():
+                dict_saida[saida_dict[x]] = saida[x]
 
-            return saida_dict
+            return dict_saida
         else:
             return saida
