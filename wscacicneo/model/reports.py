@@ -107,7 +107,6 @@ class Reports():
         """
         retorna dicionário de atributos agrupados por contador
         """
-        print(attr,'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
         attr_dict = self.get_attribute(attr)
         results = attr_dict.results
         #log.debug(results)

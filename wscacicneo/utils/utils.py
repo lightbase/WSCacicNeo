@@ -256,10 +256,3 @@ class Utils:
             dict_desc[json_to_desc[attr+'_key']] = json_to_desc[attr+'_value']
 
         return dict_desc
-
-
-
-
-
-
-
