@@ -289,12 +289,12 @@ class Desc(desc.metaclass):
         search = Search(
            select = [elm]
         )
-        results = self.documentrest.get_collection(search_obj=search)
+        result = self.documentrest.get_collection(search_obj=search)
         dict_desc = dict()
-        for x in results:
-            dict_desc[results+'_key'] = results+'_value'
+        y = json.loads(result.results)
+        print(y, 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')
+        for x in y.keys():
+            dict_desc[x] = y[x]
 
         return dict_desc
-
-
 

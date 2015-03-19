@@ -11,7 +11,7 @@ from wscacicneo.model import user as model_usuario
 from wscacicneo.model import orgao as model_orgao
 from wscacicneo.model import notify as model_notify
 from wscacicneo.model import reports as model_reports
-from wscacicneo.model import atividade 
+from wscacicneo.model import atividade
 from wscacicneo.utils.utils import Utils
 from wscacicneo.model import config_reports
 from wscacicneo import config

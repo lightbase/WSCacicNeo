@@ -209,9 +209,9 @@
                     type: "POST",
                     url: "${request.route_url('root')}delete_reports",
                     data : base,
-                    success: function(){window.location.reload();},
+                     success: function(){window.location .reload();},
                     error: function(){ $('#error-message').show();}
-                }); 
+                });
             });
         $('#error').click(function(){
             window.location.href = "${request.route_url('notify')}";
