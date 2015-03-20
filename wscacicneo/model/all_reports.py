@@ -191,3 +191,106 @@ class AllReports():
             return True
         except:
             return False
+
+
+allreports = AllReports()
+
+
+class ReportsAll(allreports.metaclass):
+    """
+    Classe genérica de Reports
+    """
+    def __init__(self, **args):
+        super(ReportsAll, self).__init__(**args)
+        self.documentrest = allreports.documentrest
+
+    @property
+    def coleta(self):
+        """
+        Tempo de coleta
+        :return: Retorna o valor gravado ou o mínimo de 3 horas
+        """
+        col = allreports.metaclass.coleta.__get__(self)
+        if col is None:
+            return 3
+        else:
+            return col
+
+    @coleta.setter
+    def coleta(self, value):
+        """
+        Setter
+        """
+        value = int(value)
+        allreports.metaclass.coleta.__set__(self, value)
+
+    def allreports_to_dict(self):
+        """
+        Convert status object to Python dict
+        :return:
+        """
+
+        return conv.document2dict(allreports.lbbase, self)
+
+    def allreports_to_json(self):
+        """
+        Convert object to json
+        :return:
+        """
+
+        return conv.document2json(allreports.lbbase, self)
+
+    def create_doc_allreports(self):
+        """
+        Insert document on base
+
+        :return: Document creation ID
+        """
+
+        document = self.allreports_to_json()
+        try:
+            result = allreports.documentrest.create(document)
+        except HTTPError as err:
+            log.error(err.strerror)
+            return None
+
+        return result
+
+    def search_doc_allreports(self, sigla):
+        """
+        Busca registro completo do órgao pelo nome
+        :return: obj collection com os dados da base
+        """
+        search = Search(
+            literal="document->>'sigla' = '"+sigla+"'"
+        )
+        results = self.documentrest.get_collection(search_obj=search)
+
+        return results
+
+    def search_list_allreports(self):
+        """
+        Retorna todos os docs da base
+        """
+        search = Search(
+            limit=None
+        )
+        results = self.documentrest.get_collection(search)
+
+        return results
+
+    def edit_allreports(self, id, doc):
+        """
+        altera um doc ou path do doc
+        """
+        results = self.documentrest.update(id, doc)
+
+        return results
+
+    def delete_allreports(self, id):
+        """
+        Deleta o allreports apartir do ID
+        """
+        results = allreports.documentrest.delete(id)
+
+        return results

@@ -50,7 +50,28 @@ class ColetaManualBase(object):
             multivalued=False,
             required=True
         ))
-        
+
+        hash_machine = Field(**dict(
+            name='hash_machine',
+            description='hash para maquinas',
+            alias='hash_machine',
+            datatype='Text',
+            indices=['Textual', 'Unico'],
+            multivalued=False,
+            required=False
+        ))
+
+        nm_orgao = Field(**dict(
+            name='nm_orgao',
+            description='nome do orgao',
+            alias='nm_orgao',
+            datatype='Text',
+            indices=['Textual'],
+            multivalued=False,
+            required=False
+        ))
+
+
         """
         LB Processadores
         """
@@ -328,6 +349,8 @@ class ColetaManualBase(object):
         content_list.append(Win32_PhysicalMemory)
         content_list.append(Win32_DiskDrive)
         content_list.append(SoftwareList)
+        content_list.append(hash_machine)
+        content_list.append(nm_orgao)
 
         lbbase = Base(
             metadata=base_metadata,
