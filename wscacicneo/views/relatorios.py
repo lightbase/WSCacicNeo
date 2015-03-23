@@ -115,16 +115,24 @@ class Relatorios(object):
         attr = 'softwarelist'
         child = None
         nm_orgao = Utils.format_name(orgao_nm)
+
+        # Cria base de relatórios do órgão
         report_base = base_reports.ReportsBase(nm_orgao)
+
+        # Base de configurações do relatório
         reports_config = config_reports.ConfReports(nm_orgao)
+
         if report_base.is_created():
             # Carrega base de descrições de campos
             desc_base = descriptions.DescriptionsBase()
             if not desc_base.is_created():
                 desc_base.create_base()
             desc_base.load_static()
+
             get_base = reports_config.get_attribute(attr)
             results = get_base.results
+
+            # Aqui conta todos os campos
             data = dict()
             for elm in results:
                 if isinstance(elm, NullDocument):
