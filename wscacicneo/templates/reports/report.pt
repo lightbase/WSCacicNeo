@@ -223,8 +223,8 @@
                 type: "POST",
                 url : url,
                 data : data,
-                success: function(){ alert('bbbbbbbbbbbbbbbbb')},
-                error: function(){ alert('cccccccccccccccccc')}
+                success: function(){ noty({text: 'CSV não disponível no momento.',layout:'topRight',type:'information',timeout:3000})},
+                error: function(){ noty({text: 'CSV não disponível no momento.',layout:'topRight',type:'information',timeout:3000})}
             });
         });
         </script>
