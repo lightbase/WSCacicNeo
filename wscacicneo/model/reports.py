@@ -124,6 +124,12 @@ class Reports():
 
             if attr == 'softwarelist':
                 for software in attribute:
+                    # ignorar updates e atualizações
+                    if software.lower().find('atualiza') > -1 or \
+                            software.lower().find('update') > -1:
+
+                        continue
+
                     if saida.get(software) is None:
                         saida[software] = 1
                     else:
