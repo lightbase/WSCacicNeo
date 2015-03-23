@@ -245,14 +245,3 @@ class Utils:
     def remove_usuario(list_users):
 
         return True
-
-    def create_to_dict_descriptions(self, attr):
-        """
-        Cria um dict com os itens da base descriptions
-        """
-        json_to_desc = Desc.search(attr)
-        dict_desc = dict()
-        for x in json_to_desc:
-            dict_desc[json_to_desc[attr+'_key']] = json_to_desc[attr+'_value']
-
-        return dict_desc
