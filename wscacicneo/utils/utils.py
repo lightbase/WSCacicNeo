@@ -245,3 +245,16 @@ class Utils:
     def remove_usuario(list_users):
 
         return True
+
+    def computers_not_found(data, total):
+        a = 0
+        for x in data.keys():
+            a = a+int(data[x])
+
+        count = total - a
+        if a < total:
+            data['Não Informados'] = count
+
+            return data
+        else:
+            return data

@@ -87,7 +87,7 @@ class Relatorios(object):
                 item = getattr(parent, attr+'_item')
                 amount = getattr(parent, attr+'_amount')
                 data[item] = amount
-
+        data = Utils.computers_not_found(data, count_reports)
         return {
             'data': data,
             'count' : count_reports,
