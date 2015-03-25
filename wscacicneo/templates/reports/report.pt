@@ -70,6 +70,7 @@
                                                         </div>
                                                     </div>
                                                 </tr>
+                                                <div><b>Total de Computadores : ${count}</b></div>
                                             </tbody>
                                         </table>
                                         <div class="clearfix"></div>
@@ -163,10 +164,10 @@
             $.ajax({
                     type: "PUT",
                     url: "${request.route_url('root')}put_reports",
-                    data: data, 
+                    data: data,
                     success: function(){location.reload();   },
                     error: function(){ $('#error-message').show();}
-                }); 
+                });
 
                }
             });
@@ -177,14 +178,14 @@
                 $.ajax({
                     type: "POST",
                     url: "${request.route_url('add_user_home_report')}",
-                    data: data, 
-                    success: function(){        
+                    data: data,
+                    success: function(){
                         $('#success-message').show();
                     },
                     error: function(){
                         $('#error-message').show();
                     }
-                }); 
+                });
             });
 
             $('#enviar').click(function(){
@@ -197,10 +198,10 @@
                 $.ajax({
                     type: "PUT",
                     url: "${request.route_url('root')}post_reports",
-                    data: data, 
+                    data: data,
                     success: function(){location.reload();   },
                     error: function(){ $('#error-message').show();}
-                }); 
+                });
             });
         });
         $('#delete').click(function(){

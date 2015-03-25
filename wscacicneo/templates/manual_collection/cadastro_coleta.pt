@@ -1,151 +1,184 @@
 <metal:main use-macro="load: ../basic/master.pt">
-  <metal:content fill-slot="dash">
-      Cadastro Coleta
-  </metal:content>
-	<metal:content fill-slot="conteudo">
-    <div class="alert alert-warning">
-           Os campos marcados com  *  são de preenchimento obrigatório
-    </div>
-<form role="form" class="form-horizontal" id="coleta_manual">
-    <br/>
-    <div class="form-group">
-      <div style="margin-left: 200px;font-size: 150%;">Configuração</div>
-    </div>
-    <div class="form-group">
-      <label class="col-lg-2 control-label">Orgão *:</label>
-      <div class="col-lg-5">
-        <select  id="orgao" class="form-control">
-          <option></option>
-          <option tal:repeat="doc orgao_doc">${doc.nome}</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-lg-2 control-label">Data da Coleta *:</label>
-      <div class="col-lg-2">
-        <input type="date" id="data_coleta" class="form-control" >
-      </div>
-    </div>
-    <br/>
-    <div class="form-group">
-      <div style="margin-left: 200px;font-size: 150%;">Lista de Softwares</div>
-    </div>
-    <div class="form-group">
-      <label class="col-lg-2 control-label">Lista de Softwares:</label>
-      <button class="add_field_button">Adicionar mais softwares</button>
-      <div class="col-lg-5 input_fields_wrap">
-        <input type="text" id="softwarelist_1" class="form-control" placeholder="software">
-          <br/>
-      </div>
-    </div>
+    <metal:content fill-slot="dash">
+        Cadastro Coleta
+    </metal:content>
+    <metal:content fill-slot="conteudo">
+        <div class="alert alert-warning">
+            Os campos marcados com * são de preenchimento obrigatório
+        </div>
+        <form role="form" class="form-horizontal" id="coleta_manual">
+            <br/>
 
-    <br/>
-    <div class="form-group">
-      <div style="margin-left: 200px;font-size: 150%;">Sistema Operacional</div>
-    </div>
-    <div class="form-group">
-      <label class="col-lg-2 control-label">Modelo/Nome do SO:</label>
-      <div class="col-lg-5">
-        <input type="text" id="operatingsystem_caption" class="form-control" placeholder="operatingsystem_caption">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-lg-2 control-label">Versão do SO:</label>
-      <div class="col-lg-5">
-        <input type="text" id="operatingsystem_version" class="form-control" placeholder="operatingsystem_version">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-lg-2 control-label">Dado de instalação do SO:</label>
-      <div class="col-lg-5">
-        <input type="text" id="operatingsystem_installdate" class="form-control" 
-                placeholder="operatingsystem_installdate">
-      </div>
-    </div>
-    <div class="form-group"> 
-      <div style="margin-left: 200px;font-size: 150%;">BIOS</div>
-    </div>
-      <div class="form-group">
-      <label class="col-lg-2 control-label">Nome da BIOS:</label>
-      <div class="col-lg-5">
-        <input type="text" id="win32_bios_manufacturer" class="form-control" placeholder="win32_bios_manufacturer">
-      </div>
-    </div>
-        <br/>
-    <div class="form-group">
-      <div style="margin-left: 200px;font-size: 150%;">Processador</div>
-    </div>
-    <div class="form-group">
-      <label class="col-lg-2 control-label">Nome do Processador:</label>
-      <div class="col-lg-5">
-        <input type="text" id="win32_processor_manufacturer" class="form-control" 
-                placeholder="win32_processor_manufacturer">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-lg-2 control-label">Número de processadores lógicos:</label>
-      <div class="col-lg-5">
-        <input type="text" id="win32_processor_numberoflogicalprocessors" class="form-control" 
-                placeholder="win32_processor_numberoflogicalprocessors">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-lg-2 control-label">Modelo do processador:</label>
-      <div class="col-lg-5">
-        <input type="text" id="win32_processor_caption" class="form-control" 
-                placeholder="win32_processor_caption">
-      </div>
-    </div>
-    <br/>
+            <div class="form-group">
+                <div style="margin-left: 200px;font-size: 150%;">Configuração</div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">Orgão *:</label>
 
-    <div class="form-group">
-      <div class="col-lg-offset-2 col-lg-6">
-        <button type="button" id="enviar" class="btn btn-sm btn-primary" style="margin-left: 315px;" >Enviar</button>
-          <button type="button" id="voltar" class="btn btn-sm btn-default">Voltar</button>
+                <div class="col-lg-5">
+                    <select id="orgao" class="form-control">
+                        <option class="placeholder" selected disabled>Select language</option>
+                        <option tal:repeat="doc orgao_doc" value="${doc.nome}">${doc.pretty_name}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">Data da Coleta *:</label>
+                <div class="col-lg-2">
+                    <input id="data_coleta" class="form-control">
+                </div>
+            </div>
+            <br/>
+            <div class="form-group">
+                <div style="margin-left: 200px;font-size: 150%;">Lista de Softwares</div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">Lista de Softwares:</label>
+                <button class="add_field_button">Adicionar mais softwares</button>
+                <div class="col-lg-5 input_fields_wrap">
+                    <input type="text" id="softwarelist_1" class="form-control" placeholder="software">
+                    <br/>
+                </div>
+            </div>
+
+            <br/>
+
+            <div class="form-group">
+                <div style="margin-left: 200px;font-size: 150%;">Sistema Operacional</div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">Modelo/Nome do SO:</label>
+
+                <div class="col-lg-5">
+                    <input type="text" id="operatingsystem_caption" class="form-control"
+                           placeholder="operatingsystem_caption">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">Versão do SO:</label>
+
+                <div class="col-lg-5">
+                    <input type="text" id="operatingsystem_version" class="form-control"
+                           placeholder="operatingsystem_version">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">Dado de instalação do SO:</label>
+
+                <div class="col-lg-5">
+                    <input type="text" id="operatingsystem_installdate" class="form-control"
+                           placeholder="operatingsystem_installdate">
+                </div>
+            </div>
+            <div class="form-group">
+                <div style="margin-left: 200px;font-size: 150%;">BIOS</div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">Nome da BIOS:</label>
+
+                <div class="col-lg-5">
+                    <input type="text" id="win32_bios_manufacturer" class="form-control"
+                           placeholder="win32_bios_manufacturer">
+                </div>
+            </div>
+            <br/>
+
+            <div class="form-group">
+                <div style="margin-left: 200px;font-size: 150%;">Processador</div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">Nome do Processador:</label>
+
+                <div class="col-lg-5">
+                    <input type="text" id="win32_processor_manufacturer" class="form-control"
+                           placeholder="win32_processor_manufacturer">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">Número de processadores lógicos:</label>
+
+                <div class="col-lg-5">
+                    <input type="text" id="win32_processor_numberoflogicalprocessors" class="form-control"
+                           placeholder="win32_processor_numberoflogicalprocessors">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">Modelo do processador:</label>
+
+                <div class="col-lg-5">
+                    <input type="text" id="win32_processor_caption" class="form-control"
+                           placeholder="win32_processor_caption">
+                </div>
+            </div>
+            <br/>
+
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-6">
+                    <button type="button" id="enviar" class="btn btn-sm btn-primary" style="margin-left: 315px;">
+                        Enviar
+                    </button>
+                    <button type="button" id="voltar" class="btn btn-sm btn-default">Voltar</button>
         <span id="loading" style="display: none; margin-left: 315px;">
-            <img src="${request.route_url('root')}static/imgs/ajax-loader-circle.gif" />  Aguarde...
+            <img src="${request.route_url('root')}static/imgs/ajax-loader-circle.gif"/>  Aguarde...
         </span>
-      </div>
+                </div>
 
 
-</form>
+        </form>
 
-	</metal:content>
-  <metal:content fill-slot="javascript">
-    <script type="text/javascript">
-      var x = 1; //initlal text box count
-      $(document).ready(function() {
-          var max_fields      = 100; //maximum input boxes allowed
-          var wrapper         = $(".input_fields_wrap"); //Fields wrapper
-          var add_button      = $(".add_field_button"); //Add button ID
-          
-          $(add_button).click(function(e){ //on add input button click
-              e.preventDefault();
-              if(x < max_fields){ //max input box allowed
-                  x++; //text box increment
-                  $(wrapper).append('<div><input type="text" id="softwarelist_'+x+'" class="form-control" placeholder="software"/><a href="#" class="remove_field">Remove</a></div>'); //add input box
-              }
-          });
-          
-          $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
-              e.preventDefault(); $(this).parent('div').remove(); x--;
-          })
-      });
+    </metal:content>
+    <metal:content fill-slot="javascript">
+        <!-- Bootstrap -->
+        <script type="text/javascript">
+            $(function () {
+                $("#data_coleta").datepicker({
+                    dateFormat: 'dd/mm/yy',
+                    dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+                    dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S', 'D'],
+                    dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+                    monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                    monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                    nextText: 'Próximo',
+                    prevText: 'Anterior',
+                    changeMonth: true,
+                    changeYear: true
+                });
+            });
+            var x = 1; //initlal text box count
+            $(document).ready(function () {
+                var max_fields = 100; //maximum input boxes allowed
+                var wrapper = $(".input_fields_wrap"); //Fields wrapper
+                var add_button = $(".add_field_button"); //Add button ID
 
-       $('#voltar').click(function(){
+                $(add_button).click(function (e) { //on add input button click
+                    e.preventDefault();
+                    if (x < max_fields) { //max input box allowed
+                        x++; //text box increment
+                        $(wrapper).append('<div><input type="text" id="softwarelist_' + x + '" class="form-control" placeholder="software"/><a href="#" class="remove_field">Remove</a></div>'); //add input box
+                    }
+                });
+
+                $(wrapper).on("click", ".remove_field", function (e) { //user click on remove text
+                    e.preventDefault();
+                    $(this).parent('div').remove();
+                    x--;
+                })
+            });
+
+            $('#voltar').click(function () {
                 var oldURL = document.referrer;
                 window.location.href = oldURL;
-        });
-       $('#enviar').click(function(){
+            });
+            $('#enviar').click(function () {
                 var softwarelist = [];
-                for (i = 1; i <= x; i++) { 
-                softwarelist.push( $("#softwarelist_"+i).val() )
-              }
+                for (i = 1; i <= x; i++) {
+                    softwarelist.push($("#softwarelist_" + i).val())
+                }
                 console.log(softwarelist)
                 var data = {
-                    'orgao': $('#orgao').val(), 
-                    'data_coleta': $('#data_coleta').val(), 
-                    'softwarelist': softwarelist, 
+                    'orgao': $('#orgao').val(),
+                    'data_coleta': $('#data_coleta').val(),
+                    'softwarelist': softwarelist,
                     'win32_processor_manufacturer': $('#win32_processor_manufacturer').val(),
                     'win32_processor_numberoflogicalprocessors': $('#win32_processor_numberoflogicalprocessors').val(),
                     'win32_processor_caption': $('#win32_processor_caption').val(),
@@ -153,30 +186,36 @@
                     'operatingsystem_installdate': $('#operatingsystem_installdate').val(),
                     'operatingsystem_caption': $('#operatingsystem_caption').val(),
                     'win32_bios_manufacturer': $('#win32_bios_manufacturer').val(),
-                    }
+                }
                 json = JSON.stringify(data)
                 $.ajax({
                     type: "POST",
                     url: "${request.route_url('post_coleta_manual')}",
                     data: {'documento': json},
-                    beforeSend: function()
-                        {
-                            $('#loading').show();
-                            $('#enviar').hide();
-                            $('#voltar').hide();
-                        },
-                    complete: function()
-                        {
+                    beforeSend: function () {
+                        $('#loading').show();
+                        $('#enviar').hide();
+                        $('#voltar').hide();
+                    },
+                    complete: function () {
 
-                        },
-                    success: function(){ window.location.href = "${request.route_url('home')}"; },
-                    error: function(){ noty({text: 'Erro: Todos campos com (*) devem ser preenchidos.',layout:'topRight',type:'error',timeout:3000});
+                    },
+                    success: function () {
+                        window.location.href = "${request.route_url('home')}";
+                    },
+                    error: function () {
+                        noty({
+                            text: 'Erro: Todos campos com (*) devem ser preenchidos.',
+                            layout: 'topRight',
+                            type: 'error',
+                            timeout: 3000
+                        });
                         $('#loading').hide();
                         $('#enviar').show();
                         $('#voltar').show();
                     }
                 });
             });
-    </script>
-  </metal:content>
+        </script>
+    </metal:content>
 </metal:main>

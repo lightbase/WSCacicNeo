@@ -12,6 +12,7 @@ from wscacicneo.model.user import User
 from wscacicneo.utils.utils import Utils
 from wscacicneo.model import base_reports
 from wscacicneo.model import config_reports
+from wscacicneo.model import reports
 from wscacicneo.model import descriptions
 from wscacicneo.model.reports import Reports
 from wscacicneo.search.orgao import SearchOrgao
@@ -53,6 +54,10 @@ class Relatorios(object):
         nm_orgao = Utils.format_name(orgao_nm)
         report_base = base_reports.ReportsBase(nm_orgao)
         reports_config = config_reports.ConfReports(nm_orgao)
+        ###
+        reports_count = reports.Reports(nm_orgao).get_base_orgao()
+        ###
+        count_reports = reports_count.result_count
         if(report_base.is_created() == False):
             create_base = report_base.create_base()
 
@@ -82,9 +87,10 @@ class Relatorios(object):
                 item = getattr(parent, attr+'_item')
                 amount = getattr(parent, attr+'_amount')
                 data[item] = amount
-
+        data = Utils.computers_not_found(data, count_reports)
         return {
             'data': data,
+            'count' : count_reports,
             'usuario_autenticado': self.usuario_autenticado,
             'report_name': attr
         }
@@ -112,6 +118,9 @@ class Relatorios(object):
         Rota para os relatórios de software
         """
         orgao_nm = self.request.matchdict['nm_orgao']
+        nm_orgao = self.request.matchdict['nm_orgao']
+        reports_count = reports.Reports(nm_orgao).get_base_orgao()
+        count_reports = reports_count.result_count
         attr = 'softwarelist'
         child = None
         nm_orgao = Utils.format_name(orgao_nm)
@@ -143,6 +152,7 @@ class Relatorios(object):
                 data[item] = amount
             return {
                 'data': data,
+                'count': count_reports,
                 'usuario_autenticado': self.usuario_autenticado,
                 'report_name': 'software'
             }

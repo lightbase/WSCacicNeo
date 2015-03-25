@@ -2,14 +2,17 @@
 # -*- coding: utf-8 -*-
 __author__ = 'macieski'
 
+import datetime
+import logging
+from datetime import date
 from requests.exceptions import HTTPError
 from wscacicneo import config
-import logging
 from liblightbase.lbbase.struct import Base, BaseMetadata
 from liblightbase.lbbase.lbstruct.group import *
 from liblightbase.lbbase.lbstruct.field import *
 from liblightbase.lbbase.content import Content
 from wscacicneo.model import coleta_manual
+from wscacicneo.model import reports
 from liblightbase.lbrest.base import BaseREST
 from liblightbase.lbrest.document import DocumentREST
 from liblightbase.lbutils import conv
@@ -25,17 +28,30 @@ log = logging.getLogger()
 class CreateReports():
 
 
-    def __init__(self):
-        pass
+    def __init__(self, m_base):
+        self.report = reports.Reports(nm_base)
 
 
-
-    def report_attributes(self, attr):
+    def total_computers(self):
         """
-        Cria lista de atributos para o relatorio  
-        Note : attr deve ser uma lista
+        Retorna a quantidade total de computadores do órgão específico 
         """
-        if type(attr) is list:
-            pass
-        else:
-            return str('vai da pau')
+        total = self.report.get_base_orgao()
+
+        return total.result_count
+
+
+    def datetime(self):
+        """
+        Retorna data e hora do relatorio 
+        """
+        date = datetime.datetime.now()
+        date_report = {
+            "day"    : date.day,
+            "month"  : date.month,
+            "year"   : date.year,
+            "hour"   : date.hour,
+            "minute" : date.minute,
+            "second" : date.second
+        }
+        return date_report

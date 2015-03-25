@@ -60,6 +60,7 @@
     <script src="${request.route_url('root')}static/macadmin/js/jquery.prettyPhoto.js"></script> <!-- prettyPhoto -->
     <script src="${request.route_url('root')}static/macadmin/js/jquery.slimscroll.min.js"></script> <!-- jQuery Slim Scroll -->
     <script src="${request.route_url('root')}static/macadmin/js/jquery.dataTables.min.js"></script> <!-- Data tables -->
+    <script src="${request.route_url('root')}static/jquery-ui-datepicker.min.js"></script> <!-- Date Picker Jquery UI 1.11.4 -->
 
     <!-- jQuery Flot -->
     <script src="${request.route_url('root')}static/macadmin/js/excanvas.min.js"></script>

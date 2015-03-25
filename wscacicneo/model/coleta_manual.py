@@ -61,16 +61,15 @@ class ColetaManualBase(object):
             required=False
         ))
 
-        nm_orgao = Field(**dict(
-            name='nm_orgao',
-            description='nome do orgao',
-            alias='nm_orgao',
-            datatype='Text',
+        data_ultimo_acesso = Field(**dict(
+            name='data_ultimo_acesso',
+            description='data do ultimo acesso',
+            alias='data acesso',
+            datatype='DateTime',
             indices=['Textual'],
             multivalued=False,
             required=False
         ))
-
 
         """
         LB Processadores
@@ -350,7 +349,7 @@ class ColetaManualBase(object):
         content_list.append(Win32_DiskDrive)
         content_list.append(SoftwareList)
         content_list.append(hash_machine)
-        content_list.append(nm_orgao)
+        content_list.append(data_ultimo_acesso)
 
         lbbase = Base(
             metadata=base_metadata,
