@@ -273,5 +273,5 @@ def make_routes(cfg):
     #Rota CSV
     cfg.add_route('json_csv', 'relatorios/download/csv')
     cfg.add_view(relatorios.Relatorios, request_method='POST', attr='json_csv', route_name='json_csv',
-                permission="user")
+                 permission="user", renderer='csv')
 

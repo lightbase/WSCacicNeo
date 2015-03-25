@@ -22,13 +22,22 @@
                             <div id="report-name" tal:condition="report_name == 'win32_physicalmemory'" class="pull-left">Relatório de Memória</div>
                             <div id="report-name" tal:condition="report_name == 'operatingsystem'" class="pull-left">Relatório de Sistemas Operacionais</div>
                             <div id="report-name" tal:condition="report_name == 'software'" class="pull-left">Relatório de Softwares (Suítes de Escritório)</div>
-                            <div class="widget-icons pull-right">
-                                <a href="#" id="print" title="Imprimir tabela"><i class="fa fa-print"></i></a>
-                                <a href="${request.route_url('root')}graficos/${request.matchdict['nm_orgao']}/${report_name}" id="grafico" title="Gerar gráfico"><i class="fa fa-bar-chart-o"></i></a>
-                                <a tal:condition="request.session.get('userid') and usuario_autenticado.orgao == request.matchdict['nm_orgao']" href="#" id="plus-home" title="Adicionar no início"><i class="fa fa-plus-circle"></i></a>
-                                <a href="#" id="download-report" title="Baixar relatório"><i class="fa fa-download"></i></a>
-                                <a href="#help_buttons_report" title="Ajuda" data-toggle="modal"><i class="fa fa-question"></i></a>
-                            </div>
+                            <form action="${request.route_url('json_csv')}" id="csv" method="POST">
+                                <div class="widget-icons pull-right">
+                                    <a href="#" id="print" title="Imprimir tabela"><i class="fa fa-print"></i></a>
+                                    <a href="${request.route_url('root')}graficos/${request.matchdict['nm_orgao']}/${report_name}" id="grafico" title="Gerar gráfico"><i class="fa fa-bar-chart-o"></i></a>
+                                    <a tal:condition="request.session.get('userid') and usuario_autenticado.orgao == request.matchdict['nm_orgao']" href="#" id="plus-home" title="Adicionar no início"><i class="fa fa-plus-circle"></i></a>
+                                        <?python
+                                              import json
+                                              json_data = json.dumps(data)
+                                              json_header = json.dumps(["Chave", "Valor"])
+                                        ?>
+                                        <input type="hidden" name="data" value="${json_data}">
+                                        <input type="hidden" name="header" value="${json_header}">
+                                        <a href="#" id="download-report" title="Baixar relatório" onclick="$('#csv').submit();"><i class="fa fa-download"></i></a>
+                                    <a href="#help_buttons_report" title="Ajuda" data-toggle="modal"><i class="fa fa-question"></i></a>
+                                </div>
+                            </form>
                             <div class="clearfix"></div>
                         </div>
                         <div class="widget-content">
@@ -216,17 +225,6 @@
             });
         $('#error').click(function(){
             window.location.href = "${request.route_url('notify')}";
-        });
-        $('#download-report').click(function(){
-            data = ${data}
-            url = "${request.route_url('json_csv')}"
-            $.ajax({
-                type: "POST",
-                url : url,
-                data : data,
-                success: function(){ noty({text: 'CSV não disponível no momento.',layout:'topRight',type:'information',timeout:3000})},
-                error: function(){ noty({text: 'CSV não disponível no momento.',layout:'topRight',type:'information',timeout:3000})}
-            });
         });
         </script>
 </metal:content>

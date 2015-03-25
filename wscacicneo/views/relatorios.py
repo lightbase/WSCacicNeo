@@ -203,20 +203,23 @@ class Relatorios(object):
             session.flash('Erro ao atualizar o relatório', queue="error")
         return Response(str(results))
 
-
     def json_csv(self):
         """
-        Gerencia o download do csv do relatori
+        Gerencia o download do csv do relatorio
         """
-        params = self.request.params
-        base = 'proc'
-        data = str(params)
+        data = self.request.params.get('data')
+        header = self.request.params.get('header')
 
-        return Response(
-            content_type='text/plain',
-            content_disposition='attachment;filename='+base+'.txt',
-            app_iter=[data]
+        rows = json.loads(data)
+        if header is not None:
+            header = json.loads(header)
 
-        )
+        filename = 'software.csv'
+        self.request.response.content_disposition = 'attachment;filename=' + filename
+
+        return {
+            'header': header,
+            'rows': rows
+        }
 
 
