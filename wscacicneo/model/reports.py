@@ -107,6 +107,33 @@ class Reports():
         """
         retorna dicionário de atributos agrupados por contador
         """
+        # FIXME: Pegar um filtro mais dinâmico de offices a excluir
+        excluir = [
+            "Security Update".lower(),
+            "Atualiza".lower(),
+            "Help Pack".lower(),
+            "Compatibility".lower(),
+            "Definition Update".lower(),
+            "Disco".lower(),
+            "UNO runtime".lower(),
+            "Office Access Runtime".lower(),
+            "Office com Clique para Executar".lower(),
+            "Components".lower(),
+            "Update for".lower(),
+            "Hotfix for".lower(),
+            "Web Components".lower(),
+            "Service Pack".lower(),
+            "File Validation Add-In".lower(),
+            "Office InfoPath".lower(),
+            "Office Outlook Connector".lower(),
+            "Office Proofing Tools".lower(),
+            "Office Shared".lower(),
+            "Pacote de Compatibilidade".lower(),
+            "Office Groove".lower(),
+            "Office OneNote".lower()
+        ]
+
+
         attr_dict = self.get_attribute(attr)
         results = attr_dict.results
         #log.debug(results)
@@ -124,6 +151,18 @@ class Reports():
 
             if attr == 'softwarelist':
                 for software in attribute:
+                    # ignorar updates e atualizações
+                    pula = False
+                    for ignora in excluir:
+                        if software.lower().find(ignora) > -1:
+                            # Se chegou aqui esse software deve ser excluído
+                            pula = True
+                            break
+
+                    # Se esse valor for verdadeiro, o software deve ser ignorado
+                    if pula:
+                        continue
+
                     if saida.get(software) is None:
                         saida[software] = 1
                     else:
@@ -135,7 +174,7 @@ class Reports():
 
         if attr == 'win32_physicalmemory':
             elm = 'win32_physicalmemory_memorytype'
-            saida_dict = convert.dict_desc()
+            saida_dict = convert.dict_desc(elm)
             dict_saida = dict()
             for x in saida.keys():
                 dict_saida[saida_dict[x]] = saida[x]

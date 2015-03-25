@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from wscacicneo import config
+from wscacicneo import renderers
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.config import Configurator
@@ -45,6 +46,9 @@ def main(global_config, **settings):
                                                     serializer=None
                                                     )
     cfg.set_session_factory(my_session_factory)
+
+    # Add custom renderers
+    cfg.add_renderer('csv', 'wscacicneo.renderers.CSVRenderer')
 
     from wscacicneo.config import routing
 
