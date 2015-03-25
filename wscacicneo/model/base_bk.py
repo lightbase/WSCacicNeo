@@ -51,6 +51,26 @@ class BaseBackup():
             required=True
         ))
 
+        hash_machine = Field(**dict(
+            name='hash_machine',
+            description='hash para maquinas',
+            alias='hash_machine',
+            datatype='Text',
+            indices=['Textual', 'Unico'],
+            multivalued=False,
+            required=False
+        ))
+
+        data_ultimo_acesso = Field(**dict(
+            name='data_ultimo_acesso',
+            description='data do ultimo acesso',
+            alias='data acesso',
+            datatype='DateTime',
+            indices=['Textual'],
+            multivalued=False,
+            required=False
+        ))
+
         nome_orgao = Field(**dict(
             name='nome_orgao',
             description='Nome do Órgão',
@@ -333,6 +353,8 @@ class BaseBackup():
         content_list = Content()
         content_list.append(nome_orgao)
         content_list.append(data_coleta)
+        content_list.append(hash_machine)
+        content_list.append(data_ultimo_acesso)
         content_list.append(Win32_Processor)
         content_list.append(OperatingSystem)
         content_list.append(Win32_BIOS)
