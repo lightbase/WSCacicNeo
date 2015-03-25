@@ -228,6 +228,16 @@
                 error: function(){ noty({text: 'CSV não disponível no momento.',layout:'topRight',type:'information',timeout:3000})}
             });
         });
+        $(document).ready(function(){
+            $('#data-table').dataTable({
+                "bDestroy" : true,
+                "order": [[ 3, "desc" ]],
+                "aoColumns" : [
+                    null,
+                    {"sType": "numeric"}
+                ]    
+            });
+        });
         </script>
 </metal:content>
 </metal:main>

@@ -165,7 +165,7 @@ class Utils:
                 data_json = {
                     attr: {
                         attr+'_item': str(element),
-                        attr+'_amount': str(data[element])
+                        attr+'_amount': int(data[element])
                     }
                 }
                 document = json.dumps(data_json)
@@ -258,3 +258,9 @@ class Utils:
             return data
         else:
             return data
+
+    def convert_to_index(saida):
+        for x in saida.keys():
+            x = int(saida[x])
+
+        return saida

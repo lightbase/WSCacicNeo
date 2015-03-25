@@ -52,7 +52,7 @@ class ReportsBase():
             name='OperatingSystem_amount',
             alias='amount',
             description='amount',
-            datatype='Text',
+            datatype='Integer',
             indices=['Textual'],
             multivalued=False,
             required=True
@@ -72,7 +72,7 @@ class ReportsBase():
             name='Win32_BIOS_amount',
             alias='amount',
             description='amount',
-            datatype='Text',
+            datatype='Integer',
             indices=['Textual'],
             multivalued=False,
             required=True
@@ -92,7 +92,7 @@ class ReportsBase():
             name='Win32_Processor_amount',
             alias='amount',
             description='amount',
-            datatype='Text',
+            datatype='Integer',
             indices=['Textual'],
             multivalued=False,
             required=True
@@ -112,7 +112,7 @@ class ReportsBase():
             name='Win32_DiskDrive_amount',
             alias='amount',
             description='amount',
-            datatype='Text',
+            datatype='Integer',
             indices=['Textual'],
             multivalued=False,
             required=True
@@ -132,7 +132,7 @@ class ReportsBase():
             name='Win32_PhysicalMemory_amount',
             alias='amount',
             description='amount',
-            datatype='Text',
+            datatype='Integer',
             indices=['Textual'],
             multivalued=False,
             required=True
@@ -152,7 +152,7 @@ class ReportsBase():
             name='SoftwareList_amount',
             alias='SoftwareList_amount',
             description='Software Amount',
-            datatype='Text',
+            datatype='Integer',
             indices=['Textual'],
             multivalued=False,
             required=True
