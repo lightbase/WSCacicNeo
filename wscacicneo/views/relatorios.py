@@ -169,6 +169,7 @@ class Relatorios(object):
             data = Reports(nm_orgao).count_attribute(attr, child)
             return {
                 'data': data,
+                'count': count_reports,
                 'usuario_autenticado': self.usuario_autenticado,
                 'report_name': 'software'
             }
