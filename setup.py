@@ -26,7 +26,7 @@ requires = [
 ]
 
 setup(name='WSCacicNeo',
-      version='0.1',
+      version='1.0.1b',
       description='WSCacicNeo',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
