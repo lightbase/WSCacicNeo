@@ -88,8 +88,14 @@ class Relatorios(object):
                 amount = getattr(parent, attr+'_amount')
                 data[item] = amount
         data = Utils.computers_not_found(data, count_reports)
+        index_itens = dict()
+        key_number = 1
+        for item in data.keys():
+            index_itens[key_number] = item
+            key_number = key_number + 1
         return {
             'data': data,
+            'index_itens': index_itens,
             'count' : count_reports,
             'usuario_autenticado': self.usuario_autenticado,
             'report_name': attr
@@ -97,11 +103,13 @@ class Relatorios(object):
 
     def put_reports(self):
         data = self.request.params
-        item = data['item']
+        print(data)
+        item_key = data['item']
+        item = data['dict_itens['+item_key+']']
         attr = data['attr']
         nm_orgao = data['nm_base']
         value = data['value']
-        data_dic = {attr : {attr+'_item': item, attr+'_amount': value}}
+        data_dic = {attr : {attr+'_item': item, attr+'_amount': int(value)}}
         valor = attr+'_item'
         reports_config = config_reports.ConfReports(nm_orgao)
         search = reports_config.search_item(attr, valor, item)
@@ -150,8 +158,14 @@ class Relatorios(object):
                 item = getattr(parent, attr+'_item')
                 amount = getattr(parent, attr+'_amount')
                 data[item] = amount
+            index_itens = dict()
+            key_number = 1
+            for item in data.keys():
+                index_itens[key_number] = item
+                key_number = key_number + 1
             return {
                 'data': data,
+                'index_itens': index_itens,
                 'count': count_reports,
                 'usuario_autenticado': self.usuario_autenticado,
                 'report_name': 'software'
@@ -167,8 +181,14 @@ class Relatorios(object):
 
             insert_reports = Utils().create_report(nm_orgao)
             data = Reports(nm_orgao).count_attribute(attr, child)
+            index_itens = dict()
+            key_number = 1
+            for item in data.keys():
+                index_itens[key_number] = item
+                key_number = key_number + 1
             return {
                 'data': data,
+                'index_itens': index_itens,
                 'count': count_reports,
                 'usuario_autenticado': self.usuario_autenticado,
                 'report_name': 'software'
@@ -184,7 +204,7 @@ class Relatorios(object):
         item = data['item']
         value = data['value']
         nm_orgao = Utils.format_name(orgao)
-        dumps = {attr : {attr+'_item': str(item), attr+'_amount': str(value)}}
+        dumps = {attr : {attr+'_item': str(item), attr+'_amount': int(value)}}
         document = json.dumps(dumps)
         reports_config = config_reports.ConfReports(nm_orgao)
         response = reports_config.create_coleta(document)
