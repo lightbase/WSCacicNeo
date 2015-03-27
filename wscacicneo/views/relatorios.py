@@ -103,10 +103,11 @@ class Relatorios(object):
 
     def put_reports(self):
         data = self.request.params
-        print(data)
         item_key = data['item']
         item = data['dict_itens['+item_key+']']
         attr = data['attr']
+        if attr == 'software':
+            attr = 'softwarelist'
         nm_orgao = data['nm_base']
         value = data['value']
         data_dic = {attr : {attr+'_item': item, attr+'_amount': int(value)}}
@@ -200,6 +201,8 @@ class Relatorios(object):
         """
         data = self.request.params
         attr = data['attr']
+        if attr == 'software':
+            attr = 'softwarelist'
         orgao = data['base']
         item = data['item']
         value = data['value']
