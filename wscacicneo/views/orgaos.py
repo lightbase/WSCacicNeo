@@ -208,3 +208,53 @@ class Orgaos(object):
             'usuario_autenticado': self.usuario_autenticado,
             'api_key': uuid.uuid4()
         }
+
+    def valida_orgao(self):
+        """
+        Valida cadastro do órgão
+        :return: JSON no seguinte formato
+                {
+                    'result': True/False,
+                    'message': 'Se houver erro'
+                    'element': 'Id do elemento onde houve o erro'
+                }
+        """
+        orgao = self.request.json_body
+
+        # 1 - Verifica nome do órgão
+        search_obj = search.orgao.SearchOrgao(
+            param=orgao['sigla']
+        )
+        orgao_obj = search_obj.search_by_name()
+        if orgao_obj is not None:
+            # Órgão já existe
+            return {
+                'result': False,
+                'message': 'Já existe um órgão com esse nome',
+                'element': 'sigla'
+            }
+
+        # 2 - Nome tem que ser único
+        exists = search.orgao.orgao_base.element_exists('nome', orgao['sigla'])
+        if exists:
+            # Email existe
+            return {
+                'result': False,
+                'message': 'Nome de órgão já cadastrado',
+                'element': 'sigla'
+            }
+
+        # 2 - Verifica e-mail
+        exists = search.orgao.orgao_base.element_exists('email', orgao['email'])
+        if exists:
+            # Email existe
+            return {
+                'result': False,
+                'message': 'E-mail já cadastrado',
+                'element': 'email'
+            }
+
+        # Retorna verdadeiro com padrão
+        return {
+            'result': True
+        }

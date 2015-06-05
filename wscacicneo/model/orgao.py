@@ -5,6 +5,7 @@ __author__ = 'macieski'
 from requests.exceptions import HTTPError
 from wscacicneo import config
 import logging
+import requests
 from liblightbase.lbbase.struct import Base, BaseMetadata
 from liblightbase.lbbase.lbstruct.group import *
 from liblightbase.lbbase.lbstruct.field import *
@@ -231,6 +232,32 @@ class OrgaoBase(object):
             return True
         except HTTPError:
             return False
+
+    def element_exists(self, element, value):
+        """
+        Return a crime by name
+        """
+        orderby = OrderBy([element])
+        search = Search(
+            limit=1,
+            order_by=orderby,
+            literal="document->>'" + element + "' = '" + value + "'",
+        )
+        params = {
+            '$$': search._asjson()
+        }
+
+        url = self.rest_url + '/' + self.lbbase.metadata.name + '/doc'
+        result = requests.get(
+            url=url,
+            params=params
+        )
+        results = result.json()
+        print(results)
+        if results['result_count'] == 0:
+            return False
+        else:
+            return True
 
 orgao_base = OrgaoBase()
 

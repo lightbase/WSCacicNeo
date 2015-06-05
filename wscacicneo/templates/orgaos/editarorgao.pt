@@ -118,7 +118,7 @@
                     id = $('#id').val()
                     url = $('#url').val()
                     habilitar_bot =  $('#habilitar_bot').val()
-                    api_key =  $('#api_key').val()
+                    api_key =  $('#api_key').val();
     
                 var data = {
                     'id': id,
@@ -133,13 +133,27 @@
                     'url': url,
                     'habilitar_bot': habilitar_bot,
                     'api_key': api_key
-                }
+                };
                 $.ajax({
                     type: "PUT",
                     url: "${request.route_url('put_orgao')}",
                     data: data,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
                     beforeSend: function()
                         {
+                            var valida_url = "${request.route_url('valida_orgao')}";
+                            var result = validaOrgao(data, valida_url);
+                            if (result.result == false) {
+                                // Dá mensagem de erro no elemento
+                                var error_html = '&nbsp;<span class="label label-danger">' +
+                                    result.message +
+                                '</span>';
+                                $( '#'+result.element ).append(error_html);
+
+                                // Cancel the request
+                                return false;
+                            }
                             $('#loading').show();
                             $('#enviar').hide();
                             $('#voltar').hide();

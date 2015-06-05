@@ -78,6 +78,10 @@ def make_routes(cfg):
     cfg.add_view(orgaos.Orgaos, attr='config_orgao', route_name='config_orgao',
                  renderer='templates/orgaos/config_orgao.pt', permission="admin")
 
+    cfg.add_route('valida_orgao', 'orgao/valida')
+    cfg.add_view(orgaos.Orgaos, attr='valida_orgao', route_name='valida_orgao',
+                 renderer='json', permission="admin", request_method='POST')
+
     # Users
     cfg.add_route('user', 'usuario/cadastro')
     cfg.add_view(users.Users, attr='user', route_name='user',
@@ -105,7 +109,6 @@ def make_routes(cfg):
     cfg.add_route('hash_recover_passwd', 'hash_recover_passwd')
     cfg.add_view(users.Users, attr='hash_recover_passwd', route_name='hash_recover_passwd',
                  permission='user')
-
 
     cfg.add_route('edituser', 'usuario/editar/{matricula}')
     cfg.add_view(users.Users, attr='edituser', route_name='edituser',
@@ -201,7 +204,6 @@ def make_routes(cfg):
     cfg.add_route('delete_reports', 'delete_reports')
     cfg.add_view(relatorios.Relatorios, attr='delete_reports', route_name='delete_reports',
                    permission="gest" )
-
 
     cfg.add_route('report_itens', 'relatorio/{nm_orgao}/{attr}/{child}')
     cfg.add_view(relatorios.Relatorios, attr='report_itens', route_name='report_itens',

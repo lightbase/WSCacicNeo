@@ -88,6 +88,9 @@
     <!--Jquery Validate -->
     <!-- <script src="${request.route_url('root')}static/js/jquery.validate.min.js"></script>  -->
 
+    <!-- Órgãos lib -->
+    <script src="${request.static_url('wscacicneo:static/js/orgaos.js')}"></script>
+
     <!-- Slot para o JavaScript -->
     <metal:content define-slot="javascript" />
 

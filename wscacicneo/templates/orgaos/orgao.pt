@@ -129,8 +129,16 @@
                     type: "POST",
                     url: "${request.route_url('post_orgao')}",
                     data: data,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
                     beforeSend: function()
                         {
+                            var valida_url = "${request.route_url('valida_orgao')}";
+                            var result = validaOrgao(data, valida_url);
+                            if (!result) {
+                                return false;
+                            }
+
                             $('#loading').show();
                             $('#enviar').hide();
                             $('#voltar').hide();
