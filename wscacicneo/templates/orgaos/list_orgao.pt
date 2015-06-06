@@ -34,7 +34,7 @@
                                                                 <td>${doc.endereco}</td>
                                                                 <td>${doc.email}</td>
                                                                 <td>
-                                                                    <a href="${request.route_url('root')}orgao/configuracoes/${doc.sigla}" class="btn btn-xs btn-success" id="create"><i class="fa fa-cogs" title="Configuraçõe ${doc.nome}" ></i></a>
+                                                                    <a href="${request.route_url('root')}orgao/configuracoes/${doc.sigla}" class="btn btn-xs btn-success" id="create"><i class="fa fa-cogs" title="Configurações do órgão ${doc.nome}" ></i></a>
                                                                     <a href="${request.route_url('root')}orgao/editar/${doc.sigla}" title="Alterar Orgão" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i></a>
                                                                     <a id="confirm_${doc.sigla}" class="btn btn-xs btn-danger" onclick="confirm_delete('${doc.sigla}','${doc.pretty_name}')" title="Apagar Orgão" ><i class="fa fa-times"></i></a>
                                                                 </td>
