@@ -124,34 +124,33 @@
                     'habilitar_bot' : $('#habilitar_bot').val(),
                     'url': $('#url').val(),
                     'api_key': $('#api_key').val()
-                }
+                };
                 $.ajax({
                     type: "POST",
                     url: "${request.route_url('post_orgao')}",
-                    data: data,
+                    data: JSON.stringify( data ),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
-                    beforeSend: function()
-                        {
-                            var valida_url = "${request.route_url('valida_orgao')}";
-                            var result = validaOrgao(data, valida_url);
-                            if (!result) {
-                                return false;
-                            }
+                    beforeSend: function() {
+                        var valida_url = "${request.route_url('valida_orgao')}";
+                        var result = validaOrgao(data, valida_url, 'POST');
+                        if (!result) {
+                            return false;
+                        }
 
-                            $('#loading').show();
-                            $('#enviar').hide();
-                            $('#voltar').hide();
-                        },
-                    complete: function()
-                        {
-
-                        },
-                    success: function(){ window.location.href = "${request.route_url('listorgao')}";},
-                    error: function(){ noty({text: 'Erro: Todos campos com (*) devem ser preenchidos.',layout:'topRight',type:'error',timeout:3000});
-                            $('#loading').hide();
-                            $('#enviar').show();
-                            $('#voltar').show();
+                        $('#loading').show();
+                        $('#enviar').hide();
+                        $('#voltar').hide();
+                    },
+                    complete: function() {},
+                    success: function(){
+                        window.location.href = "${request.route_url('listorgao')}";
+                    },
+                    error: function(){
+                        noty({text: 'Erro geral ao inserir o órgão. Consulte o administrador do sistema.',layout:'topRight',type:'error',timeout:3000});
+                        $('#loading').hide();
+                        $('#enviar').show();
+                        $('#voltar').show();
                     }
                 });
             });

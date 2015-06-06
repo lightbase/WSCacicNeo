@@ -1,14 +1,15 @@
 /**
  * Created by eduardo on 05/06/15.
  */
-function validaOrgao(orgao, url) {
-    var response;
+function validaOrgao(orgao, url, method) {
+    var response = true;
     $.ajax({
-        type: "POST",
+        type: method,
         url: url,
         data: JSON.stringify( orgao ),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+        async: false,
         beforeSend: function(){
             // Esconde todas as mensagens de erro
             $( '.label-danger').hide();
@@ -31,10 +32,8 @@ function validaOrgao(orgao, url) {
                 });
 
                 // Cancel the request
-                response = true;
+                response = false;
                 //return false;
-            } else {
-                //return true;
             }
         },
         error: function(result){
@@ -55,13 +54,11 @@ function validaOrgao(orgao, url) {
                 });
 
                 // Cancel the request
-                return false;
-            } else {
-                return true;
+                response = false;
             }
         }
     });
 
-    alert(response);
+    return response;
 }
 

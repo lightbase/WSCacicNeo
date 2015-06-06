@@ -82,6 +82,10 @@ def make_routes(cfg):
     cfg.add_view(orgaos.Orgaos, attr='valida_orgao', route_name='valida_orgao',
                  renderer='json', permission="admin", request_method='POST')
 
+    cfg.add_route('valida_put_orgao', 'orgao/valida2')
+    cfg.add_view(orgaos.Orgaos, attr='valida_put_orgao', route_name='valida_put_orgao',
+                 renderer='json', permission="admin", request_method='PUT')
+
     # Users
     cfg.add_route('user', 'usuario/cadastro')
     cfg.add_view(users.Users, attr='user', route_name='user',

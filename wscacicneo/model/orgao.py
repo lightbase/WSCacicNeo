@@ -233,16 +233,23 @@ class OrgaoBase(object):
         except HTTPError:
             return False
 
-    def element_exists(self, element, value):
+    def element_exists(self, element, value, orgao=None):
         """
         Return a crime by name
         """
         orderby = OrderBy([element])
-        search = Search(
-            limit=1,
-            order_by=orderby,
-            literal="document->>'" + element + "' = '" + value + "'",
-        )
+        if orgao is None:
+            search = Search(
+                limit=1,
+                order_by=orderby,
+                literal="document->>'" + element + "' = '" + value + "'",
+            )
+        else:
+            search = Search(
+                limit=1,
+                order_by=orderby,
+                literal="document->>'" + element + "' = '" + value + "' and document->>'nome' <> '" + orgao + "'",
+            )
         params = {
             '$$': search._asjson()
         }

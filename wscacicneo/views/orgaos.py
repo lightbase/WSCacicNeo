@@ -85,7 +85,7 @@ class Orgaos(object):
         """
         rest_url = config.REST_URL
         orgaobase = model_orgao.OrgaoBase().lbbase
-        doc = self.request.params
+        doc = self.request.json_body
         nome_base = Utils.format_name(doc.get('sigla'))
         orgao_obj = Orgao(
             nome=nome_base,
@@ -125,7 +125,7 @@ class Orgaos(object):
         """
         Edita um doc apartir do id
         """
-        doc = self.request.params
+        doc = self.request.json_body
         sigla = doc['id']
         nome_base = Utils.format_name(doc.get('sigla'))
         orgao_obj = Orgao(
@@ -153,10 +153,12 @@ class Orgaos(object):
         search = orgao_obj.search_orgao(sigla)
         id = search.results[0]._metadata.id_doc
         doc = json.dumps(orgao)
+        print(doc)
+        print(sigla)
         edit = orgao_obj.edit_orgao(id, doc)
         session = self.request.session
         session.flash('Alteração realizado com sucesso', queue="success")
-        return Response(edit)
+        return Response(str(id))
 
     def delete_orgao(self):
         """
@@ -222,29 +224,28 @@ class Orgaos(object):
         orgao = self.request.json_body
 
         # 1 - Verifica nome do órgão
-        search_obj = search.orgao.SearchOrgao(
-            param=orgao['sigla']
-        )
-        orgao_obj = search_obj.search_by_name()
-        if orgao_obj is not None:
+        exists = search.orgao.orgao_base.element_exists('nome', orgao['sigla'])
+        if exists:
             # Órgão já existe
             return {
                 'result': False,
-                'message': 'Já existe um órgão com esse nome',
+                'message': 'Já existe um órgão com essa sigla',
                 'element': 'sigla'
             }
 
         # 2 - Nome tem que ser único
-        exists = search.orgao.orgao_base.element_exists('nome', orgao['sigla'])
+        nome_base = Utils.format_name(orgao['sigla'])
+        exists = search.orgao.orgao_base.element_exists('nome', nome_base)
         if exists:
             # Email existe
             return {
                 'result': False,
-                'message': 'Nome de órgão já cadastrado',
+                'message': 'Nome de órgão já cadastrado. '
+                           'Números e caracteres especiais são desconsiderados',
                 'element': 'sigla'
             }
 
-        # 2 - Verifica e-mail
+        # 3 - Verifica e-mail
         exists = search.orgao.orgao_base.element_exists('email', orgao['email'])
         if exists:
             # Email existe
@@ -252,6 +253,68 @@ class Orgaos(object):
                 'result': False,
                 'message': 'E-mail já cadastrado',
                 'element': 'email'
+            }
+
+        # Retorna verdadeiro com padrão
+        return {
+            'result': True
+        }
+
+    def valida_put_orgao(self):
+        """
+        Valida cadastro do órgão
+        :return: JSON no seguinte formato
+                {
+                    'result': True/False,
+                    'message': 'Se houver erro'
+                    'element': 'Id do elemento onde houve o erro'
+                }
+        """
+        orgao = self.request.json_body
+
+        # 1 - Verifica nome do órgão
+        search_obj = search.orgao.SearchOrgao(
+            param=orgao['id']
+        )
+        orgao_obj = search_obj.search_by_name()
+        if orgao_obj is None:
+            # Órgão já existe
+            return {
+                'result': False,
+                'message': 'Órgão não encontrado',
+                'element': 'sigla'
+            }
+
+        # 2 - Nome tem que ser único
+        nome_base = Utils.format_name(orgao['sigla'])
+        exists = search.orgao.orgao_base.element_exists('nome', nome_base, orgao_obj.nome)
+        if exists:
+            # Email existe
+            return {
+                'result': False,
+                'message': 'Nome de órgão já cadastrado. '
+                           'Números e caracteres especiais são desconsiderados',
+                'element': 'sigla'
+            }
+
+        # 3 - Verifica e-mail
+        exists = search.orgao.orgao_base.element_exists('email', orgao['email'], orgao_obj.nome)
+        if exists:
+            # Email existe
+            return {
+                'result': False,
+                'message': 'E-mail já cadastrado',
+                'element': 'email'
+            }
+
+        exists = search.orgao.orgao_base.element_exists('sigla', orgao['sigla'], orgao_obj.nome)
+        if exists:
+            # Email existe
+            return {
+                'result': False,
+                'message': 'Sigla já cadastrado. '
+                           'Números e caracteres especiais são desconsiderados',
+                'element': 'sigla'
             }
 
         # Retorna verdadeiro com padrão
