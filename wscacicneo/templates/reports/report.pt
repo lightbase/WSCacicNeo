@@ -55,46 +55,32 @@
                                                 <tr class="info">
                                                     <th>Item</th>
                                                     <th width="10%">Quantidade</th>
-                                                    <th width="5%">Opções</th>
+                                                    <div tal:condition="usuario_autenticado != None">
+                                                        <div tal:condition="usuario_autenticado.permissao == 'Administrador'">
+                                                            <th width="5%">Opções</th>
+                                                        </div>
+                                                        <div tal:condition="usuario_autenticado.permissao == 'Gestor'">
+                                                            <div tal:condition="usuario_autenticado.orgao == orgao_name">
+                                                                <th width="5%">Opções</th>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr class="active" tal:repeat="k data.keys()">
                                                     <td>${k}</td>
                                                     <td width="10%">${data[k]}</td>
-                                                    <tal tal:repeat="item_key index_itens.keys()">
-                                                        <td width="5%" tal:condition="index_itens[item_key] == k" >
-                                                            <a href="#modal_item_${item_key}" title="Ajuda" data-toggle="modal" class="btn btn-xs btn-warning">
-                                                                <i class="fa fa-pencil"></i>
-                                                            </a>
-                                                        <!-- Modal De alteração do valor do Report -->
-                                                        <div id="modal_item_${item_key}" class="modal fade" tabindex="-1"
-                                                             role="dialog" aria-labelledby="myModalLabel"
-                                                             aria-hidden="true">
-                                                            <div class="modal-dialog">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <button type="button" class="close"
-                                                                                data-dismiss="modal" aria-hidden="true">
-                                                                            ×
-                                                                        </button>
-                                                                        <h4 class="modal-title">Alterar quantidade de "${index_itens[item_key]}"</h4>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <p>Valor atual: <b>${data[k]}</b></p>
-                                                                        <div>
-                                                                            <label class="control-label">Novo valor:</label>
-                                                                            <input class="form-control" type="text" id="${item_key}" style="width:20%;" class="form-control" placeholder="Valor">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" data-id="${item_key}" class="btn btn-primary">Alterar</button>
-                                                                        <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Fechar</button
-                                                                    </div>
-                                                                </div>
+                                                    <div tal:condition="usuario_autenticado != None">
+                                                        <div tal:condition="usuario_autenticado.permissao == 'Administrador'">
+                                                            <metal:macro use-macro="load: ../includes/report_options.pt">
+                                                        </div>
+                                                        <div tal:condition="usuario_autenticado.permissao == 'Gestor'">
+                                                            <div tal:condition="usuario_autenticado.orgao == orgao_name">
+                                                                <metal:macro use-macro="load: ../includes/report_options.pt">
                                                             </div>
                                                         </div>
-                                                    </td></tal>
+                                                    </div>
                                                 </tr>
                                                 <div><b>Total de Computadores : ${count}</b></div>
                                             </tbody>

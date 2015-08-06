@@ -98,29 +98,40 @@ class Relatorios(object):
             'index_itens': index_itens,
             'count' : count_reports,
             'usuario_autenticado': self.usuario_autenticado,
-            'report_name': attr
+            'report_name': attr,
+            'orgao_name': orgao_nm,
         }
 
     def put_reports(self):
-        data = self.request.params
-        item_key = data['item']
-        item = data['dict_itens['+item_key+']']
-        attr = data['attr']
-        if attr == 'software':
-            attr = 'softwarelist'
-        nm_orgao = data['nm_base']
-        value = data['value']
-        data_dic = {attr : {attr+'_item': item, attr+'_amount': int(value)}}
-        valor = attr+'_item'
-        reports_config = config_reports.ConfReports(nm_orgao)
-        search = reports_config.search_item(attr, valor, item)
-        #print(search)
-        data_id = search.results[0]._metadata.id_doc
-        document = json.dumps(data_dic)
-        put_doc = reports_config.update_coleta(data_id, document)
-        session = self.request.session
-        session.flash('Alteração realizado com sucesso', queue="success")
-        return Response(put_doc)
+        if self.usuario_autenticado:
+            data = self.request.params
+            if self.usuario_autenticado.permissao == 'Administrador' or (self.usuario_autenticado.permissao == 'Gestor' and self.usuario_autenticado.orgao == data['nm_base']):
+                item_key = data['item']
+                item = data['dict_itens['+item_key+']']
+                attr = data['attr']
+                if attr == 'software':
+                    attr = 'softwarelist'
+                nm_orgao = data['nm_base']
+                value = data['value']
+                data_dic = {attr : {attr+'_item': item, attr+'_amount': int(value)}}
+                valor = attr+'_item'
+                reports_config = config_reports.ConfReports(nm_orgao)
+                search = reports_config.search_item(attr, valor, item)
+                #print(search)
+                data_id = search.results[0]._metadata.id_doc
+                document = json.dumps(data_dic)
+                put_doc = reports_config.update_coleta(data_id, document)
+                session = self.request.session
+                session.flash('Alteração realizada com sucesso', queue="success")
+                return Response(put_doc)
+            else:
+                session = self.request.session
+                session.flash('Você não tem permissão para alterar.', queue="error")
+                return Response(None)
+        else:
+            session = self.request.session
+            session.flash('Você não tem permissão para alterar.', queue="error")
+            return Response(None)
 
     def report_software(self):
         """
