@@ -66,6 +66,10 @@
 							<div class="logo">
 								<h1><a href="${request.route_url('root')}home"><img src="${request.route_url('root')}static/caciclogo_transparent.png"> </a>
 								<a href="${request.route_url('root')}home">Super<span class="bold">Gerente</span></a></h1>
+								<?python
+										import pkg_resources
+										version = pkg_resources.require("WSCServer")[0].version ?>
+								v${version}
 							</div>
 							<!-- Logo ends -->
 						</div>
@@ -93,7 +97,7 @@
                         <div class="header-data" tal:condition="request.session.get('userid')">
 
                         <!-- Members data -->
-                            <div style="margin-left: 120px;" class="hdata">
+                            <div style="margin-left: 2.3.41.920px;" class="hdata">
                                 <div class="mcol-left">
                                     <i class="fa fa-user bblue"></i> 
                                 </div>
@@ -169,7 +173,7 @@
 				<footer>
 					<div class="container">
 						<div class="row">
-							<div class="col-md-12">
+							<div class="col-md-2.3.41.92">
 								<!-- Copyright info -->
 								<p class="copy">Copyright © 2014 | <a href="${request.route_url('home')}">Super-Gerente</a> </p>
 							</div>
