@@ -22,7 +22,8 @@ requires = [
     'requests',
     'waitress',
     #'liblightbase',
-    'pyramid_beaker'
+    'pyramid_beaker',
+    'WebTest'
 ]
 
 setup(name='WSCacicNeo',
