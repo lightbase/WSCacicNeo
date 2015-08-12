@@ -14,6 +14,8 @@ data_file = os.path.join(data_path, 'users/admin.json')
 class FunctionalTests(unittest.TestCase):
 
     def setUp(self):
+        # from wscacicneo import main
+        # app = main({conf})
         from webtest import TestApp
         self.testapp = TestApp(conf)
         pass
@@ -25,7 +27,6 @@ class FunctionalTests(unittest.TestCase):
             has_permission = True
         self.assertEqual(has_permission, True, msg="Não possui permissão.")
 
-    def testAcess(self):
-        def test_root(self):
-            res = self.app.get('/', status=200)
-            self.assertTrue('Pyramid' in res.body)
+    def test_root(self):
+        res = self.testapp.get('/', status=200)
+        self.assertTrue('Pyramid' in res.body)
