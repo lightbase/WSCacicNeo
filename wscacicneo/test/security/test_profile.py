@@ -6,6 +6,9 @@ import unittest
 import json
 import os
 from .. import conf
+from wscacicneo.model import blacklist
+from liblightbase.lbbase.struct import Base
+from liblightbase.lbutils import conv
 
 here = os.path.abspath(os.path.dirname(__file__))
 data_path = os.path.join(here, "../fixtures/")
@@ -19,6 +22,8 @@ class FunctionalTests(unittest.TestCase):
         from webtest import TestApp
         self.testapp = TestApp(conf)
         pass
+        self.blacklist_base = blacklist.Blacklist()
+
 
     def testCheckPermission(self):
         data = json.loads(open(data_file).read())
@@ -27,6 +32,14 @@ class FunctionalTests(unittest.TestCase):
             has_permission = True
         self.assertEqual(has_permission, True, msg="Não possui permissão.")
 
-    def test_root(self):
-        res = self.testapp.get('/', status=200)
-        self.assertTrue('Pyramid' in res.body)
+    # def test_root(self):
+    #     res = self.testapp.get('/', status=200)
+    #     self.assertTrue('Pyramid' in res.body)
+
+    def testCreateBlacklistBase(self):
+        """
+        Testa criação da base no LB
+        """
+        result = self.blacklist_base.create_base()
+        self.assertIsNotNone(result)
+
