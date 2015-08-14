@@ -19,7 +19,7 @@ class FunctionalTests(unittest.TestCase):
         # from wscacicneo import main
         # app = main({conf})
         from webtest import TestApp
-        self.testapp = TestApp(conf)
+        self.testapp = TestApp(**settings)
         pass
         self.blacklist_base = blacklist.Blacklist()
 

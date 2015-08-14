@@ -73,7 +73,7 @@
                                                     <td width="10%">${data[k]}</td>
                                                     <div tal:condition="usuario_autenticado != None">
                                                         <div tal:condition="usuario_autenticado.permissao == 'Administrador'">
-                                                            <metal:macro use-macro="load: ../includes/report_options.pt">
+                                                            <metal:macro use-macro="load: ../includes/report_options_blacklist.pt">
                                                         </div>
                                                         <div tal:condition="usuario_autenticado.permissao == 'Gestor'">
                                                             <div tal:condition="usuario_autenticado.orgao == orgao_name">

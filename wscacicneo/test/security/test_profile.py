@@ -3,7 +3,6 @@
 __author__ = 'adley'
 
 import unittest
-import json
 import os
 from .. import settings
 
@@ -18,18 +17,26 @@ class FunctionalTests(unittest.TestCase):
         app = main({}, **settings)
         from webtest import TestApp
         self.testapp = TestApp(app)
+        self.testapp.authorization = ('Basic', ('admin@gov.br', '123'))
         pass
 
 
-    def testCheckPermission(self):
-        data = json.loads(open(data_file).read())
-        has_permission = False
-        if data["permissao"] == "Administrador":
-            has_permission = True
-        self.assertEqual(has_permission, True, msg="Não possui permissão.")
+    # def test_check_permission(self):
+    #     data = json.loads(open(data_file).read())
+    #     has_permission = False
+    #     if data["permissao"] == "Administrador":
+    #         has_permission = True
+    #     self.assertEqual(has_permission, True, msg="Não possui permissão.")
 
     def test_root(self):
         res = self.testapp.get('/home', status=200)
         self.assertTrue(b'Sistema Super-Gerente' in res.body)
 
+    def test_login_succeeds(self):
+        r = self.app.post('/dologin', params={'login': self.user['username'], 'password': self.password})
+        resp = self.testapp.post('/orgao/lista')
 
+    def test_good_login(self):
+        r = r.follow() # Should only be one redirect to root
+        assert 'http://localhost/' == r.request.url
+        assert 'Dashboard' in r
