@@ -19,8 +19,8 @@ class TestAgrupamentoRelatorio(unittest.TestCase):
         app = main({}, **settings)
         from webtest import TestApp
         self.testapp = TestApp(app)
-        self.software_list_file= open(data_path + "reports/software_list.txt")
-        # Criando um dicionário com a lista de softwaresp
+        self.software_list_file= open(data_path + "reports/software_list.json")
+        # Criando um dicionário com a lista de softwares
         self.software_list = ast.literal_eval(self.software_list_file.read())
         pass
 
@@ -50,16 +50,22 @@ class TestAgrupamentoRelatorio(unittest.TestCase):
         """
         Testa a existência de outras expressões no nome do programa
         """
+        release_expressions = [
+            "Ultimate",
+            "Professional",
+            "Standard",
+            "Premium",
+            "Enterprise",
+            "Starter",
+            "MUI"
+        ]
         fail = False
-        if any(s.lower().find('Ultimate'.lower()) >-1 for
+        # Verifica todas as expressões de release
+        for release_expression in release_expressions:
+            if any(s.lower().find(release_expression.lower()) >-1 for
                s in self.software_list.keys()):
-            fail = True
-        if any(s.lower().find('Professional'.lower()) >-1 for
-               s in self.software_list.keys()):
-            fail = True
-        if any(s.lower().find('Standard'.lower()) >-1 for
-               s in self.software_list.keys()):
-            fail = True
+                fail = True
+
         self.assertFalse(fail, "Elementos da lista de Software incorretos,\n"
                                "O tipo de release não deve estar presente.")
 
