@@ -146,7 +146,6 @@ class Reports():
 
         attr_dict = self.get_attribute(attr)
         results = attr_dict.results
-        # log.debug(results)
         saida = dict()
         for elm in results:
             if child:
@@ -211,6 +210,13 @@ class Reports():
                     else:
                         saida[software] += 1
                 # Criando arquivo 'software_list.json' para uso em testes
+                orgaos = self.get_attribute("nome_orgao")
+
+                """orgao_name_list = [type(orgao).__name__ for orgao in orgaos.results]
+                if all(orgao_name == orgao_name_list[0] for orgao_name in orgao_name_list):
+                    pass
+                saida_orgao = dict()
+                saida_orgao[orgao_name_list[0]]=saida"""
                 here = os.path.abspath(os.path.dirname(__file__))
                 data_path = os.path.join(here, "../test/fixtures/reports/")
                 software_list_file = open(data_path + "software_list.json",
@@ -230,5 +236,5 @@ class Reports():
 
             return dict_saida
         else:
-            log.info(saida)
+            # log.info(saida)
             return saida
