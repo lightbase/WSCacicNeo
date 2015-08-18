@@ -38,6 +38,10 @@
                                     <a href="#help_buttons_report" title="Ajuda" data-toggle="modal"><i class="fa fa-question"></i></a>
                                 </div>
                             </form>
+                            <div id="list-buttons" tal:condition="report_name == 'software'" class="pull-right">
+                                <button type="button" id="simple-view" class="btn btn-sm btn-success">Lista Agrupada por Nome</button>
+                                <button type="button" id="detailed-view" class="btn btn-sm btn-default disabled">Lista Detalhada</button>
+                            </div>
                             <div class="clearfix"></div>
                         </div>
                         <div class="widget-content">
@@ -68,7 +72,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr class="active" tal:repeat="k data.keys()">
+                                                <tr tal:repeat="k data.keys()">
                                                     <td>${k}</td>
                                                     <td width="10%">${data[k]}</td>
                                                     <div tal:condition="usuario_autenticado != None">
