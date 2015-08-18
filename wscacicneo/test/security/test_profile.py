@@ -9,7 +9,8 @@ import json
 
 here = os.path.abspath(os.path.dirname(__file__))
 data_path = os.path.join(here, "../fixtures/")
-data_file = os.path.join(data_path, 'users/admin.json')
+data_file_adm = os.path.join(data_path, 'users/admin.json')
+data_file_gest = os.path.join(data_path, 'users/gest.json')
 
 class TestProfile(unittest.TestCase):
 
@@ -20,7 +21,7 @@ class TestProfile(unittest.TestCase):
         self.testapp = TestApp(app)
 
     def test_permission_administrator(self):
-        data = json.loads(open(data_file).read())
+        data = json.loads(open(data_file_adm).read())
         has_permission = False
         if data["permissao"] == "Administrador":
             has_permission = True

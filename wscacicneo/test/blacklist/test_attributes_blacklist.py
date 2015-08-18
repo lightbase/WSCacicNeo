@@ -21,17 +21,16 @@ class TestAttributesBlacklist(unittest.TestCase):
         from webtest import TestApp
         self.testapp = TestApp(app)
 
-    def test_insert_blacklist(self):
+    def test_insert_admin_blacklist(self):
         """
         :return: Insere um Item na base Blacklist
         """
         from wscacicneo.model import blacklist
         from wscacicneo.utils.utils import Utils
         from wscacicneo.test.security.test_profile import TestProfile
-        """
-        Verifica se possui permissão de Admin
-        """
+        ''' Verifica se possui permissão de Admin '''
         TestProfile.test_permission_administrator(self)
+        ''' Gera uma string aleatória '''
         random_name = Utils.random_string(8)
         blacklist_obj = blacklist.Blacklist(
             item=random_name
