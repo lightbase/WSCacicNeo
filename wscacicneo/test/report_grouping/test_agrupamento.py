@@ -4,10 +4,11 @@ import unittest
 import json
 import os
 from .. import settings
+import logging
 
 here = os.path.abspath(os.path.dirname(__file__))
 data_path = os.path.join(here, "../fixtures/")
-
+log = logging.Logger("TesteAgrupamento")
 class TestAgrupamentoRelatorio(unittest.TestCase):
     """
     Testa a funcionalidade de agrupamento dos Relatórios
@@ -18,7 +19,7 @@ class TestAgrupamentoRelatorio(unittest.TestCase):
         app = main({}, **settings)
         from webtest import TestApp
         self.testapp = TestApp(app)
-        self.software_list_file= open(data_path + "reports/software_list.txt")
+        self.software_list_file= open(data_path + "reports/software_list.json")
         # Criando um dicionário com a lista de softwares
         self.software_list = ast.literal_eval(self.software_list_file.read())
         pass
@@ -28,7 +29,7 @@ class TestAgrupamentoRelatorio(unittest.TestCase):
         Testa a existência de versão do nome do programa
         """
         fail = False
-        if any(s.find('.') >-1 for s in self.software_list.keys().__str__()):
+        if any(s.find('.') >-1 for s in self.software_list.keys()):
             fail = True
         self.assertFalse(fail, "Elementos da lista de Software incorretos,\n"
                                "O nome de versão não deve possuir ponto.")
@@ -38,28 +39,44 @@ class TestAgrupamentoRelatorio(unittest.TestCase):
         Testa a existência de ano de release no nome do programa
         """
         fail = False
-        if any(s.find('20') >-1 for s in self.software_list.keys().__str__()):
+        if any(s.find('20') >-1 for s in self.software_list.keys()):
             fail = True
-        if any(s.find('19') >-1 for s in self.software_list.keys().__str__()):
+        if any(s.find('19') >-1 for s in self.software_list.keys()):
             fail = True
         self.assertFalse(fail, "Elementos da lista de Software incorretos,\n"
                                "O ano de release não deve estar presente.")
 
     def test_atributos_release(self):
         """
-        Testa oa existência de outras expressões no nome do programa
+        Testa a existência de outras expressões no nome do programa
         """
+        release_expressions = [
+            "Ultimate",
+            "Professional",
+            "Standard",
+            "Premium",
+            "Enterprise",
+            "Starter",
+            "MUI"
+        ]
         fail = False
-        if any(s.find('Ultimate') >-1 for
-               s in self.software_list.keys().__str__()):
-            fail = True
-        if any(s.find('Professional') >-1 for
-               s in self.software_list.keys().__str__()):
-            fail = True
-        if any(s.find('Standard') >-1 for
-               s in self.software_list.keys().__str__()):
-            fail = True
+        # Verifica todas as expressões de release
+        for release_expression in release_expressions:
+            if any(s.lower().find(release_expression.lower()) >-1 for
+               s in self.software_list.keys()):
+                fail = True
+
         self.assertFalse(fail, "Elementos da lista de Software incorretos,\n"
                                "O tipo de release não deve estar presente.")
 
+
+    def test_atributos_detalhes(self):
+        """
+        Testa a existência de detalhes entre parênteses
+        """
+        fail = False
+        if any(s.find('(') >-1 for s in self.software_list.keys()):
+            fail = True
+        self.assertFalse(fail, "Elementos da lista de Software incorretos,\n"
+                               "Não devem haver detalhes entre parênteses.")
 

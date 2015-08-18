@@ -5,6 +5,8 @@ __author__ = 'macieski'
 from requests.exceptions import HTTPError
 from wscacicneo import config
 import logging
+import os
+import json
 from liblightbase.lbbase.struct import Base, BaseMetadata
 from liblightbase.lbbase.lbstruct.group import *
 from liblightbase.lbbase.lbstruct.field import *
@@ -70,14 +72,14 @@ class Reports():
         result = self.documentrest.create(document)
         return result
   
-    def update_coleta(self,id, document):
+    def update_coleta(self, id, document):
         """
         Altera dados de coleta
         """
-        coleta = self.documentrest.update(id,document)
+        coleta = self.documentrest.update(id, document)
         return coleta
 
-    def delete_coleta(self,id, document):
+    def delete_coleta(self, id, document):
         """
         Apaga os dados de coleta
         """
@@ -107,6 +109,15 @@ class Reports():
         """
         retorna dicionário de atributos agrupados por contador
         """
+        release_expressions = [ # para uso em agrupamento
+            "Professional",
+            "Ultimate",
+            "Standard",
+            "Enterprise",
+            "Premium",
+            "Starter",
+            "MUI"
+        ]
         # FIXME: Pegar um filtro mais dinâmico de offices a excluir
         excluir = [
             "Security Update".lower(),
@@ -133,10 +144,9 @@ class Reports():
             "Office OneNote".lower()
         ]
 
-
         attr_dict = self.get_attribute(attr)
         results = attr_dict.results
-        #log.debug(results)
+        # log.debug(results)
         saida = dict()
         for elm in results:
             if child:
@@ -153,20 +163,59 @@ class Reports():
                 for software in attribute:
                     # ignorar updates e atualizações
                     pula = False
+                    agrupa = False
+                    expressao_atual = ''
                     for ignora in excluir:
                         if software.lower().find(ignora) > -1:
                             # Se chegou aqui esse software deve ser excluído
                             pula = True
                             break
 
-                    # Se esse valor for verdadeiro, o software deve ser ignorado
+                    #atualizando expressão de agrupamento
+                    expressao_atual = software
+                    agrupa = False
+                    if expressao_atual.lower().find('(') > 0:
+                        expressao_atual = expressao_atual.split('(',1)[0] + \
+                                          expressao_atual.split(')')[-1]
+                        agrupa = True
+                    if expressao_atual.lower().find('.') > 0:
+                        expressao_atual = expressao_atual.split('.',1)[0]
+                        agrupa = True
+                    if expressao_atual.lower().find('-') > 0:
+                        expressao_atual = expressao_atual.split('-',1)[0]
+                        agrupa = True
+                    if software.lower().find('20') > -1:
+                        expressao_atual = expressao_atual.translate(
+                            str.maketrans('','','1234567890'))
+                        agrupa = True
+                    # Verifica se existe alguma expressão de release
+                    for release_expression in release_expressions:
+                        if expressao_atual.lower().find(
+                                release_expression.lower()) > 0:
+                            expressao_atual = expressao_atual.split(
+                                release_expression,1)[0]
+                            agrupa = True
+                    # Se 'pula' for verdadeiro, o software deve ser ignorado
                     if pula:
                         continue
-
+                    # Se 'agrupa' for verdadeiro, o software será agrupado
+                    if agrupa:
+                        expressao_atual = expressao_atual.strip()
+                        if saida.get(expressao_atual) is None:
+                            saida[expressao_atual] = 1
+                        else:
+                            saida[expressao_atual] += 1
+                        continue
                     if saida.get(software) is None:
                         saida[software] = 1
                     else:
                         saida[software] += 1
+                # Criando arquivo 'software_list.json' para uso em testes
+                here = os.path.abspath(os.path.dirname(__file__))
+                data_path = os.path.join(here, "../test/fixtures/reports/")
+                software_list_file = open(data_path + "software_list.json",
+                                          "w+")
+                software_list_file.write(json.dumps(saida))
             elif saida.get(attribute):
                 saida[attribute] = saida.get(attribute) + 1
             else:
@@ -181,4 +230,5 @@ class Reports():
 
             return dict_saida
         else:
+            log.info(saida)
             return saida
