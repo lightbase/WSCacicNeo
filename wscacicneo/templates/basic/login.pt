@@ -16,7 +16,7 @@
                                 <div class="widget-content">
                                     <div class="padd">
                                         <!-- Login form -->
-                                        <form action="${url}" class="form-horizontal" method="post">
+                                        <form id="dologin" action="${url}" class="form-horizontal" method="post">
                                             <input type="hidden" name="csrf_token"
                                                    value="${request.session.get_csrf_token()}">
                                             <input type="hidden" name="came_from" value="${came_from}"/>

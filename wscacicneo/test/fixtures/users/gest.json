@@ -1,0 +1,27 @@
+{
+  "cargo": "Gestor",
+  "matricula": "123456",
+  "permissao": "Gestor",
+  "itens": [
+      "Lista de Órgãos",
+      "Cadastro de Órgãos",
+      "Lista de Usuários",
+      "Cadastro de Usuário",
+      "Notificações"
+  ],
+  "favoritos": [
+      "Relatórios"
+  ],
+  "setor": "Gestão de Sistema",
+  "nome": "Gestor",
+  "_metadata": {
+  "dt_last_up": "06/08/2015 15:34:41",
+  "dt_doc": "05/08/2015 10:15:17",
+  "dt_idx": null,
+  "id_doc": 1
+  },
+  "email": "gest@gov.br",
+  "orgao": "mpog",
+  "senha": "3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2",
+  "telefone": "(12) 3123-23123"
+}

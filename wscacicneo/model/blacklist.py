@@ -18,7 +18,7 @@ from liblightbase.lbsearch.search import Search, OrderBy
 log = logging.getLogger()
 
 
-class BlackListBase(object):
+class BlacklistBase(object):
     """
     Classe para a base de órgãos
     """
@@ -103,7 +103,7 @@ class BlackListBase(object):
             return False
 
 
-blacklist_base = BlackListBase()
+blacklist_base = BlacklistBase()
 
 
 class Blacklist(blacklist_base.metaclass):

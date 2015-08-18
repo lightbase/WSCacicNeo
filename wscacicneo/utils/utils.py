@@ -1,6 +1,7 @@
 #!/usr/env python
 # -*- coding: utf-8 -*-
 import requests
+import string
 import random
 import json
 import datetime
@@ -21,6 +22,7 @@ from wscacicneo.model.atividade import AtividadeBase
 from wscacicneo.model.descriptions import DescriptionsBase
 from wscacicneo.model.descriptions import Desc
 from wscacicneo import config
+
 
 log = logging.getLogger()
 
@@ -44,7 +46,7 @@ class Utils:
     # Retorna uma string sem caracteres especiais(sem espaço e acentos).
     def format_name(data):
         return ''.join(x for x in unicodedata.normalize('NFKD', data) if \
-        unicodedata.category(x)[0] == 'L').lower()
+                       unicodedata.category(x)[0] == 'L').lower()
 
     # Retorna um hex de um objeto hash, com uma senha encryptada
     def hash_password(password):
@@ -175,7 +177,7 @@ class Utils:
                     log.error("Erro na inserção do documento\n%s", e.strerror)
         return 1
         #except:
-            #return 0
+        #return 0
 
     @staticmethod
     def create_atividade_obj():
@@ -264,3 +266,7 @@ class Utils:
             x = int(saida[x])
 
         return saida
+
+    def random_string(length):
+            rand_string = ''.join(random.choice(string.ascii_lowercase) for i in range(length))
+            return rand_string
