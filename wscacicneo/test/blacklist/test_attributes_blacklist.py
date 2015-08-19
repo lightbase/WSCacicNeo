@@ -36,9 +36,25 @@ class TestAttributesBlacklist(unittest.TestCase):
             item=random_name
         )
         results = blacklist_obj.create_item()
-        total_blackliset = blacklist_obj.search_list_items()
-        total_count = total_blackliset.result_count
         self.assertEqual(type(results), int)
+
+    def test_delete_admin_blacklist(self):
+        """
+        :return: Remove um Item da base Blacklist
+        """
+        from wscacicneo.model import blacklist
+        from wscacicneo.utils.utils import Utils
+        from wscacicneo.test.security.test_profile import TestProfile
+        ''' Verifica se possui permissão de Admin '''
+        TestProfile.test_permission_administrator(self)
+        ''' Gera uma string aleatória '''
+        random_name = Utils.random_string(8)
+        blacklist_obj = blacklist.Blacklist(
+            item=random_name
+        )
+        id_new_data = blacklist_obj.create_item()
+        results = blacklist_obj.delete_item(id_new_data)
+        self.assertEqual(results, "DELETED")
 
     def tearDown(self):
         """

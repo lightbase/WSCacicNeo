@@ -167,7 +167,7 @@ class Blacklist(blacklist_base.metaclass):
 
         return results
 
-    def edit_item (self, id, doc):
+    def edit_item(self, id, doc):
         """
         altera um doc ou path do doc
         """
@@ -184,7 +184,7 @@ class Blacklist(blacklist_base.metaclass):
 
         return results
 
-    def delete_user(self, id):
+    def delete_item(self, id):
         """
         Deleta o Órgao apartir do ID
         """
