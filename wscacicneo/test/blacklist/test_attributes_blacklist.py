@@ -38,7 +38,7 @@ class TestAttributesBlacklist(unittest.TestCase):
         results = blacklist_obj.create_item()
         total_blackliset = blacklist_obj.search_list_items()
         total_count = total_blackliset.result_count
-        self.assertEqual(results, total_count)
+        self.assertEqual(type(results), int)
 
     def tearDown(self):
         """
