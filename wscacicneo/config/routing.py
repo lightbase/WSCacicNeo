@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'eduardo'
 
-from ..views import home, notifications, orgaos, users, relatorios, coleta, security, api, graficos, atividades
+from ..views import home, notifications, orgaos, users, relatorios, coleta, security, api, graficos, atividades, blacklist
 from ..utils.csvhandler import json2csv
 from pyramid.httpexceptions import HTTPNotFound
 
@@ -267,7 +267,7 @@ def make_routes(cfg):
     cfg.add_route('orgao_coleta', 'api/{orgao}{path:.*}', request_method='GET')
     cfg.add_view(api.Api, attr='orgao_coleta', route_name='orgao_coleta')
 
-    #atividades
+    # Atividades
     cfg.add_route('list_atividades', 'atividades/lista')
     cfg.add_view(atividades.Atividades, attr='list_atividades', route_name='list_atividades',
                  permission="admin", renderer='templates/activities/list_atividades.pt')
@@ -276,8 +276,12 @@ def make_routes(cfg):
     cfg.add_view(atividades.Atividades, attr='list_atividades_bot', route_name='list_atividades_bot',
                  permission="admin", renderer='templates/activities/list_atividades_bot.pt')
 
-    #Rota CSV
+    # Rota CSV
     cfg.add_route('json_csv', 'relatorios/download/csv')
     cfg.add_view(relatorios.Relatorios, request_method='POST', attr='json_csv', route_name='json_csv',
                  permission="user", renderer='csv')
 
+    # Blacklist
+    cfg.add_route('blacklist', 'blacklist/lista')
+    cfg.add_view(blacklist.Blacklist, attr='list_blacklist_items', route_name='blacklist',
+                 renderer='templates/blacklist/list_blacklist.pt', permission="admin")

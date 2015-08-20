@@ -5,6 +5,7 @@ __author__ = 'adley'
 import unittest
 import os
 from .. import settings
+import collections
 
 here = os.path.abspath(os.path.dirname(__file__))
 data_path = os.path.join(here, "../fixtures/")
@@ -55,6 +56,25 @@ class TestAttributesBlacklist(unittest.TestCase):
         id_new_data = blacklist_obj.create_item()
         results = blacklist_obj.delete_item(id_new_data)
         self.assertEqual(results, "DELETED")
+
+    def test_list_items_blacklist(self):
+        """
+        :return: Lista todos os itens da base Blacklist
+        """
+        from wscacicneo.model import blacklist
+        from wscacicneo.test.security.test_profile import TestProfile
+        import collections
+        ''' Verifica se possui permissão de Admin '''
+        TestProfile.test_permission_administrator(self)
+        blacklist_obj = blacklist.Blacklist(
+            item="name"
+        )
+        list_items = blacklist_obj.search_list_items()
+        result = False
+        if isinstance(list_items, collections.Iterator):
+            result = True
+        print(result)
+        self.assertEqual(result, True, msg="O objeto recebido não é do tipo Collection")
 
     def tearDown(self):
         """
