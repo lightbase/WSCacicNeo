@@ -25,15 +25,22 @@
           <i class="fa fa-home">
             </i> Início</a>
           </li>
-          <li><a href="${request.route_url('root')}relatorios/configuracao">
-            <i class="fa fa-file-text">
-              </i> Relatórios</a>
+
+          <li class="has_sub">
+            <a href="#">
+              <i class="fa fa-file-text"></i>
+                Relatórios
+                <span class="pull-right">
+                  <i class="fa fa-chevron-right"></i>
+                </span>
+            </a>
+            <ul>
+              <li><a href="${request.route_url('root')}relatorios/configuracao">Relatórios</a></li>
+              <li><a href="${request.route_url('root')}blacklist/lista">Itens Removidos</a></li>
+              <li><a href="${request.route_url('root')}coleta/cadastro">Cadastrar Coleta</a></li>
+            </ul>
           </li>
-          
-          <li><a href="${request.route_url('root')}coleta/cadastro">
-            <i class="fa fa-tasks">
-              </i> Cadastrar Coleta</a>
-          </li>
+
           <li class="has_sub">
             <a href="#">
               <i class="fa fa-comment"></i> 

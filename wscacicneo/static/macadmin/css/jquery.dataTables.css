@@ -84,6 +84,7 @@ table.dataTable tr.even td.sorting_3 { background-color: #F9F9FF; }
 .dataTables_paginate {
 	float: right;
 	text-align: right;
+	color: black;
 }
 
 /* Two button pagination - previous / next */
@@ -219,3 +220,10 @@ table.dataTable thead td:active {
 	-webkit-overflow-scrolling: touch;
 }
 
+.ui-button {
+	cursor: pointer;
+}
+.fg-button {
+	font-weight: bold;
+	color: black;
+}

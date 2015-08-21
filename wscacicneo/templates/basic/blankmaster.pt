@@ -16,7 +16,7 @@
     <!-- Font awesome icon -->
     <link rel="stylesheet" href="${request.route_url('root')}static/macadmin/css/font-awesome.min.css"> 
     <!-- jQuery UI -->
-    <link rel="stylesheet" href="${request.route_url('root')}static/macadmin/css/jquery-ui.css"> 
+    <link rel="stylesheet" href="${request.route_url('root')}static/macadmin/css/jquery-ui.css">
     <!-- Calendar -->
     <link rel="stylesheet" href="${request.route_url('root')}static/macadmin/css/fullcalendar.css">
     <!-- prettyPhoto -->
