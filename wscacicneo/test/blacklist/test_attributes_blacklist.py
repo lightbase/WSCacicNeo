@@ -21,6 +21,11 @@ class TestAttributesBlacklist(unittest.TestCase):
         app = main({}, **settings)
         from webtest import TestApp
         self.testapp = TestApp(app)
+        # from wscacicneo.model import blacklist
+        #
+        # blacklist_base = blacklist.BlacklistBase()
+        # result = blacklist_base.create_base()
+        # self.assertEqual(result, True)
 
     def test_insert_admin_blacklist(self):
         """
@@ -70,14 +75,15 @@ class TestAttributesBlacklist(unittest.TestCase):
             item="name"
         )
         list_items = blacklist_obj.search_list_items()
-        result = False
-        if isinstance(list_items, collections.Iterator):
-            result = True
-        print(result)
-        self.assertEqual(result, True, msg="O objeto recebido não é do tipo Collection")
+        result_count = list_items.result_count
+        self.assertEqual(type(result_count), int, msg="O resultado não é um inteiro.")
 
     def tearDown(self):
         """
         :return: Apaga dados do Teste
         """
-        pass
+        # from wscacicneo.model import blacklist
+        #
+        # blacklist_base = blacklist.BlacklistBase()
+        # result = blacklist_base.remove_base()
+        # self.assertEqual(result, True)

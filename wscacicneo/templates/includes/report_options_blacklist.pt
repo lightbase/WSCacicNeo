@@ -1,6 +1,6 @@
 <tal tal:repeat="item_key index_itens.keys()">
     <td width="5%" tal:condition="index_itens[item_key] == k" >
-        <a href="#"  title="Adicionar à lista de remoção" class="btn btn-xs btn-success"><i class="fa fa-plus-square"></i></a>
+        <a href="#" onclick="add_blacklist('${k}')"  title="Adicionar à lista de remoção" class="btn btn-xs btn-success"><i class="fa fa-plus-square"></i></a>
         <a href="#modal_item_${item_key}" title="Ajuda" data-toggle="modal" class="btn btn-xs btn-warning">
             <i class="fa fa-pencil"></i>
         </a>
