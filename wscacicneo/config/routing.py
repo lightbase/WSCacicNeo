@@ -282,6 +282,14 @@ def make_routes(cfg):
                  permission="user", renderer='csv')
 
     # Blacklist
-    cfg.add_route('blacklist', 'blacklist/lista')
-    cfg.add_view(blacklist.Blacklist, attr='list_blacklist_items', route_name='blacklist',
+    cfg.add_route('list_blacklist_items', 'blacklist/lista')
+    cfg.add_view(blacklist.Blacklist, attr='list_blacklist_items', route_name='list_blacklist_items',
                  renderer='templates/blacklist/list_blacklist.pt', permission="admin")
+
+    cfg.add_route('delete_blacklist_item', 'blacklist/delete/{item}')
+    cfg.add_view(blacklist.Blacklist, attr='delete_blacklist_item', route_name='delete_blacklist_item',
+                 permission="admin")
+
+    cfg.add_route('post_blacklist_item', 'post_blacklist_item')
+    cfg.add_view(blacklist.Blacklist, attr='post_blacklist_item', route_name='post_blacklist_item',
+                 permission="admin")

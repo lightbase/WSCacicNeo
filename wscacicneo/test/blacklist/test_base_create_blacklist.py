@@ -26,8 +26,6 @@ class TestBaseBlacklist(unittest.TestCase):
         :return: Cria a base no LB
         """
         from wscacicneo.model import blacklist
-        from liblightbase.lbbase.struct import Base
-
         blacklist_base = blacklist.BlacklistBase()
         result = blacklist_base.create_base()
         self.assertEqual(result, True)
