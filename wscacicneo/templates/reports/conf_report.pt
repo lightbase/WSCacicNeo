@@ -19,6 +19,7 @@
                             <option></option>
                             <option tal:repeat="doc orgao_doc" value="${doc.nome}">${doc.pretty_name}</option>
                         </tal>
+                        <option value="all">Todos os Órgãos</option>
                     </select>
                   </div>
                 </div>
@@ -26,7 +27,7 @@
                   <label class="col-lg-2 control-label">Item</label>
                   <div class="col-lg-2">
                     <select style="width: 450px" id="coleta" class="form-control">
-                      <option></option>
+                      <option value="todos">Todos os Itens</option>
                       <option value="processador">Processador</option>
                       <option value="hd">HD</option>
                       <option value="bios">BIOS</option>

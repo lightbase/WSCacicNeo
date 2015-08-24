@@ -147,6 +147,11 @@ class Reports():
         attr_dict = self.get_attribute(attr)
         results = attr_dict.results
         saida = dict()
+        orgaos = self.get_attribute("nome_orgao")
+
+        orgao_name_list = [type(orgao).__name__ for orgao in orgaos.results]
+        orgao_name_set = set(orgao_name_list)
+        saida_orgao = dict()
         for elm in results:
             if child:
                 parent = getattr(elm, attr)
@@ -210,18 +215,12 @@ class Reports():
                     else:
                         saida[software] += 1
                 # Criando arquivo 'software_list.json' para uso em testes
-                orgaos = self.get_attribute("nome_orgao")
-
-                """orgao_name_list = [type(orgao).__name__ for orgao in orgaos.results]
-                if all(orgao_name == orgao_name_list[0] for orgao_name in orgao_name_list):
-                    pass
-                saida_orgao = dict()
-                saida_orgao[orgao_name_list[0]]=saida"""
                 here = os.path.abspath(os.path.dirname(__file__))
                 data_path = os.path.join(here, "../test/fixtures/reports/")
                 software_list_file = open(data_path + "software_list.json",
                                           "w+")
-                software_list_file.write(json.dumps(saida))
+                saida_orgao[self.base_nm]=saida
+                software_list_file.write(json.dumps(saida_orgao))
             elif saida.get(attribute):
                 saida[attribute] = saida.get(attribute) + 1
             else:

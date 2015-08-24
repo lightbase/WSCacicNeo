@@ -17,7 +17,7 @@
                 <div class="widget" id="tabela_relatorio">
                         <div class="widget-head">
                             <div id="report-name" tal:condition="report_name == 'win32_processor'" class="pull-left">Relatório de Processadores</div>
-                            <div id="report-name" tal:condition="report_name == 'win32_diskdrive'" class="pull-left">Relatório de HD</div>
+                            <div id="report-name" tal:condition="report_name == 'win32_diskdrive'" class="pull-left">Relatório de Todos os Itens - Todos os Órgãos</div>
                             <div id="report-name" tal:condition="report_name == 'win32_bios'" class="pull-left">Relatório da BIOS</div>
                             <div id="report-name" tal:condition="report_name == 'win32_physicalmemory'" class="pull-left">Relatório de Memória</div>
                             <div id="report-name" tal:condition="report_name == 'operatingsystem'" class="pull-left">Relatório de Sistemas Operacionais</div>
@@ -59,6 +59,8 @@
                                                 <tr class="info">
                                                     <th>Item</th>
                                                     <th width="10%">Quantidade</th>
+                                                    <th width="15%" tal:condition="report_name in ['all_items','all_organs_items']">Tipo</th>
+                                                    <th width="30%" tal:condition="report_name in ['all_organs','all_organs_items']">Órgão</th>
                                                     <div tal:condition="usuario_autenticado != None">
                                                         <div tal:condition="usuario_autenticado.permissao == 'Administrador'">
                                                             <th width="5%">Opções</th>
@@ -72,20 +74,24 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr tal:repeat="k data.keys()">
-                                                    <td>${k}</td>
-                                                    <td width="10%">${data[k]}</td>
-                                                    <div tal:condition="usuario_autenticado != None">
-                                                        <div tal:condition="usuario_autenticado.permissao == 'Administrador'">
-                                                            <metal:macro use-macro="load: ../includes/report_options_blacklist.pt">
-                                                        </div>
-                                                        <div tal:condition="usuario_autenticado.permissao == 'Gestor'">
-                                                            <div tal:condition="usuario_autenticado.orgao == orgao_name">
-                                                                <metal:macro use-macro="load: ../includes/report_options.pt">
+                                                <div tal:repeat="k data.keys()">
+                                                    <tr>
+                                                        <td>${k}</td>
+                                                        <td width="10%">${data[k]}</td>
+                                                        <td width="15%" tal:condition="report_name in ['all_items','all_organs_items']">Item</td>
+                                                        <td width="30%" tal:condition="report_name in ['all_organs','all_organs_items']">Órgão</td>
+                                                        <div tal:condition="usuario_autenticado != None">
+                                                            <div tal:condition="usuario_autenticado.permissao == 'Administrador'">
+                                                                <metal:macro use-macro="load: ../includes/report_options_blacklist.pt">
+                                                            </div>
+                                                            <div tal:condition="usuario_autenticado.permissao == 'Gestor'">
+                                                                <div tal:condition="usuario_autenticado.orgao == orgao_name">
+                                                                    <metal:macro use-macro="load: ../includes/report_options.pt">
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </tr>
+                                                    </tr>
+                                                </div>
                                                 <div><b>Total de Computadores : ${count}</b></div>
                                             </tbody>
                                         </table>

@@ -21,7 +21,7 @@ class TestAgrupamentoRelatorio(unittest.TestCase):
         self.testapp = TestApp(app)
         self.software_list_file= open(data_path + "reports/software_list.json")
         # Criando um dicionário com a lista de softwares
-        self.software_list = ast.literal_eval(self.software_list_file.read())
+        self.orgao_list = ast.literal_eval(self.software_list_file.read())
         pass
 
     def test_atributos_versao(self):
@@ -29,8 +29,9 @@ class TestAgrupamentoRelatorio(unittest.TestCase):
         Testa a existência de versão do nome do programa
         """
         fail = False
-        if any(s.find('.') >-1 for s in self.software_list.keys()):
-            fail = True
+        for orgao in self.orgao_list.keys():
+            if any(s.find('.') >-1 for s in self.orgao_list[orgao].keys()):
+                fail = True
         self.assertFalse(fail, "Elementos da lista de Software incorretos,\n"
                                "O nome de versão não deve possuir ponto.")
 
@@ -39,10 +40,11 @@ class TestAgrupamentoRelatorio(unittest.TestCase):
         Testa a existência de ano de release no nome do programa
         """
         fail = False
-        if any(s.find('20') >-1 for s in self.software_list.keys()):
-            fail = True
-        if any(s.find('19') >-1 for s in self.software_list.keys()):
-            fail = True
+        for orgao in self.orgao_list.keys():
+            if any(s.find('20') >-1 for s in self.orgao_list[orgao].keys()):
+                fail = True
+            if any(s.find('19') >-1 for s in self.orgao_list[orgao].keys()):
+                fail = True
         self.assertFalse(fail, "Elementos da lista de Software incorretos,\n"
                                "O ano de release não deve estar presente.")
 
@@ -62,9 +64,10 @@ class TestAgrupamentoRelatorio(unittest.TestCase):
         fail = False
         # Verifica todas as expressões de release
         for release_expression in release_expressions:
-            if any(s.lower().find(release_expression.lower()) >-1 for
-               s in self.software_list.keys()):
-                fail = True
+            for orgao in self.orgao_list.keys():
+                if any(s.lower().find(release_expression.lower()) >-1 for
+                    s in self.orgao_list[orgao].keys()):
+                        fail = True
 
         self.assertFalse(fail, "Elementos da lista de Software incorretos,\n"
                                "O tipo de release não deve estar presente.")
@@ -75,8 +78,9 @@ class TestAgrupamentoRelatorio(unittest.TestCase):
         Testa a existência de detalhes entre parênteses
         """
         fail = False
-        if any(s.find('(') >-1 for s in self.software_list.keys()):
-            fail = True
+        for orgao in self.orgao_list.keys():
+            if any(s.find('(') >-1 for s in self.orgao_list[orgao].keys()):
+                fail = True
         self.assertFalse(fail, "Elementos da lista de Software incorretos,\n"
                                "Não devem haver detalhes entre parênteses.")
 
