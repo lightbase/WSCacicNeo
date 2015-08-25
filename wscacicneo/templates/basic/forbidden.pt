@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <!-- Title and other stuffs -->
-    <title>Erro - Página não encontrada</title>
+    <title>Erro - Sem Permissão</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="keywords" content="">
@@ -36,16 +36,17 @@
                 <div class="widget">
                     <!-- Widget head -->
                     <div class="widget-head">
-                        <i class="fa fa-question-circle"></i> Erro 404 - Página não encontrada.
+                        <i class="fa fa-question-circle"></i> Erro 403 - Sem premissão.
                     </div>
 
                     <div class="widget-content">
                         <div class="padd error">
-                            <h1>Página não encontrada!</h1>
-                            <p>A página solicitada não existe ou não foi encontrada. </p>
+                            <h1>Sem permissão.</h1>
+                            <p>Você não tem permissão para acessar essa página. Autentique-se. </p>
                             <br/>
                             <div>
                                 <a class="btn btn-primary" href="${request.route_url('home')}" type="button">Início</a>
+                                <a class="btn btn-primary" href="${request.route_url('login')}" type="button">Login</a>
                             </div>
 
                         </div>
