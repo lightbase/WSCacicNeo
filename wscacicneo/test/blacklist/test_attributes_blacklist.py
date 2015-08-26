@@ -12,6 +12,9 @@ data_path = os.path.join(here, "../fixtures/")
 data_file = os.path.join(data_path, 'users/admin.json')
 
 class TestAttributesBlacklist(unittest.TestCase):
+    """
+    Testa histórias relacionadas à lista de eliminação
+    """
 
     def setUp(self):
         """
