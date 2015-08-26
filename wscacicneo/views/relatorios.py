@@ -118,9 +118,13 @@ class Relatorios(object):
             index_itens = dict()
             key_number = 1
             for datas in data.keys():
-                for item in data[datas].keys():
-                    index_itens[key_number] = item
-                    key_number = key_number + 1
+                if isinstance(data[datas], type(dict())):
+                    for item in data[datas].keys():
+                        index_itens[key_number] = item
+                        key_number = key_number + 1
+                else:
+                    index_itens[key_number] = datas
+                    key_number = key_number +1
         return {
             'data': data,
             'index_itens': index_itens,

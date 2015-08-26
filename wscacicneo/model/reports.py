@@ -148,11 +148,11 @@ class Reports():
             return saida
         attr_dict = self.get_attribute(attr)
         results = attr_dict.results
-        saida = dict()
         orgaos = self.get_attribute("nome_orgao")
         orgao_name_list = [type(orgao).__name__ for orgao in orgaos.results]
         orgao_name_set = set(orgao_name_list)
         saida_orgao = dict()
+        saida = dict()
         for elm in results:
             if child:
                 parent = getattr(elm, attr)
@@ -226,7 +226,6 @@ class Reports():
                 saida[attribute] = saida.get(attribute) + 1
             else:
                 saida[attribute] = 1
-
         if attr == 'win32_physicalmemory':
             elm = 'win32_physicalmemory_memorytype'
             saida_dict = convert.dict_desc(elm)
@@ -238,6 +237,7 @@ class Reports():
         else:
             # log.info(saida)
             return saida
+
     def count_all_attr(self):
         release_expressions = [ # para uso em agrupamento
             "Professional",

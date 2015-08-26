@@ -145,25 +145,22 @@ class Utils:
 
     def computers_not_found(data, total):
         a = 0
-        if Utils.dict_depth(data)==1:
-            for x in data.keys():
-                a = a+int(data[x])
-
-            count = total - a
-            if a < total:
-                data['Não Informados'] = count
-
-                return data
-            else:
-                return data
-        else:
-            for y in data.values():
-                for x in y.keys():
-                    a = a+int(y[x])
-
+        for x in data.keys():
+            if isinstance(data[x],type(dict())):
+                for y in data[x].keys():
+                    a = a+int(data[x][y])
                 count = total - a
                 if a < total:
-                    y['Não Informados'] = count
+                    data[x]['Não Informados'] = count
+
+                    return data
+                else:
+                    return data
+            else:
+                count = total - a
+                a = a+int(data[x])
+                if a < total:
+                    data['Não Informados'] = count
 
                     return data
                 else:
