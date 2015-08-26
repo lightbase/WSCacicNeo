@@ -17,7 +17,7 @@ def dict_depth(d, depth=0):
 
 class TestVerTodosAtributos(unittest.TestCase):
     """
-    Testa a funcionalidade de agrupamento dos Relatórios
+    Agrupamento de softwares cadastrados por versão principal
     """
     def setUp(self):
         from wscacicneo import main
@@ -30,13 +30,24 @@ class TestVerTodosAtributos(unittest.TestCase):
         self.software_list = ast.literal_eval(self.software_list_file.read())
         pass
 
-    def test_multiplos_orgaos(self):
-        fail=False
-        if dict_depth(self.software_list)<2:
-            fail=True
-        self.assertFalse(fail,"O dicionario deve ter sublistas de software")
-    def test_todos_os_orgaos(self):
-        fail = False
-        if "all" not in self.software_list.keys():
-            fail = True
-        self.assertFalse(fail,"O dicionario deve possuir o orgao 'all'")
+    def test_agrupamento(self):
+        """
+        DADO QUE: Sou usuário do sistema;
+        QUERO: Agrupar os softwares coletados;
+        PELOS SEGUINTES ATRIBUTOS: Nome do software.
+        """
+        assert False
+
+    def test_agrupamento_versao(self):
+        """
+        Dado que: O sistema tenha recebido dados dos agentes de coleta;
+        Quando: Os softwares presentes em meu sistema possuam vários componentes que o definam, como “releases” e subversões;
+        Então: O sistema deverá apresentar um relatório com os softwares agrupados somente pelo indicador de sua versão principal.
+        """
+        assert False
+
+    def tearDown(self):
+        """
+        Apaga dados de teste
+        """
+        pass
