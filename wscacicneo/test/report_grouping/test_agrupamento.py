@@ -84,3 +84,8 @@ class TestAgrupamentoRelatorio(unittest.TestCase):
         self.assertFalse(fail, "Elementos da lista de Software incorretos,\n"
                                "Não devem haver detalhes entre parênteses.")
 
+    def tearDown(self):
+        """
+        Apaga dados de teste
+        """
+        pass
