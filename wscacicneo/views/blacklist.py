@@ -31,7 +31,13 @@ class Blacklist(object):
     def list_blacklist_items(self):
         blacklist_obj = blacklist.Blacklist(item="name")
         search = blacklist_obj.search_list_items()
-        return {'blacklist_doc': search.results,
+        results = search.results
+        index_itens = dict()
+        key_number = 1
+        for elm in results:
+            index_itens[key_number] = elm.item
+            key_number = key_number + 1
+        return {'blacklist_doc': index_itens,
                 'usuario_autenticado': self.usuario_autenticado
                 }
 

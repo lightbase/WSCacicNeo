@@ -25,10 +25,29 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr tal:repeat="doc blacklist_doc">
-                                                                <td>${doc.item}</td>
+                                                            <tr tal:repeat="id blacklist_doc.keys()">
+                                                                <td>${blacklist_doc[id]}</td>
                                                                 <td width="10%">
-                                                                    <a id="confirm_${doc.item}" class="btn btn-xs btn-danger" onclick="confirm_delete('${doc.item}')" title="Remover o item ${doc.item}"><i class="fa fa-minus-square"></i></a>
+                                                                    <!-- Button trigger modal -->
+                                                                    <a id="confirm_${id}" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#delete${id}"><i class="fa fa-minus-square"></i></a>
+                                                                    <!-- Modal -->
+                                                                    <div class="modal fade" id="delete${id}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                                      <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                          <div class="modal-header">
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                                            <h4 class="modal-title" id="myModalLabel">Confirmar Exclusão</h4>
+                                                                          </div>
+                                                                          <div class="modal-body">
+                                                                            Deseja excluir o item "${blacklist_doc[id]}" da lista de remoção?
+                                                                          </div>
+                                                                          <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                                                            <button id="confirm_${id}" type="button" class="btn btn-primary"  onclick="confirm_delete('${blacklist_doc[id]}')" >Confirmar</button>
+                                                                          </div>
+                                                                        </div>
+                                                                      </div>
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -49,10 +68,7 @@
     <metal:content fill-slot="javascript">
         <script type="text/javascript">
             function confirm_delete(item) {
-               var answer = confirm("Deseja excluir o item "+item+" da lista de remoção?")
-                if (answer == true){
-                    x = window.location.href = '${request.route_url('root')}blacklist/delete/'+item;
-                }
+                x = window.location.href = '${request.route_url('root')}blacklist/delete/'+item;
             }
         </script>
     </metal:content>
