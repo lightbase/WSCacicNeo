@@ -32,6 +32,11 @@ class Utils:
     def __init__(self):
         pass
 
+    def dict_depth(d, depth=0):
+        if not isinstance(d, dict) or not d:
+            return depth
+        return max(Utils.dict_depth(v, depth+1) for k, v in d.items())
+
     def to_url(*args):
         return '/'.join(list(args))
 
@@ -137,6 +142,32 @@ class Utils:
             saida[elm] = search[elm]
 
         return saida
+
+    def computers_not_found(data, total):
+        a = 0
+        if Utils.dict_depth(data)==1:
+            for x in data.keys():
+                a = a+int(data[x])
+
+            count = total - a
+            if a < total:
+                data['Não Informados'] = count
+
+                return data
+            else:
+                return data
+        else:
+            for y in data.values():
+                for x in y.keys():
+                    a = a+int(y[x])
+
+                count = total - a
+                if a < total:
+                    y['Não Informados'] = count
+
+                    return data
+                else:
+                    return data
 
     def create_report(self, nm_base):
         """
@@ -247,19 +278,6 @@ class Utils:
     def remove_usuario(list_users):
 
         return True
-
-    def computers_not_found(data, total):
-        a = 0
-        for x in data.keys():
-            a = a+int(data[x])
-
-        count = total - a
-        if a < total:
-            data['Não Informados'] = count
-
-            return data
-        else:
-            return data
 
     def convert_to_index(saida):
         for x in saida.keys():

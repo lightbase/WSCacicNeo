@@ -19,7 +19,7 @@
                             <option></option>
                             <option tal:repeat="doc orgao_doc" value="${doc.nome}">${doc.pretty_name}</option>
                         </tal>
-                        <option value="all">Todos os Órgãos</option>
+                        <option value="todos-orgaos">Todos os Órgãos</option>
                     </select>
                   </div>
                 </div>
@@ -27,13 +27,14 @@
                   <label class="col-lg-2 control-label">Item</label>
                   <div class="col-lg-2">
                     <select style="width: 450px" id="coleta" class="form-control">
-                      <option value="todos">Todos os Itens</option>
+                      <option></option>
                       <option value="processador">Processador</option>
                       <option value="hd">HD</option>
                       <option value="bios">BIOS</option>
                       <option value="memoria">Memoria</option>
                       <option value="so">Sistemas Operacionais</option>
                       <option value="software">Software (Suítes de Escritório)</option>
+                      <option value="todos-itens">Todos os Itens</option>
                     </select>
                   </div>
                 </div>
@@ -77,6 +78,10 @@
                 else if(attr == 'processador'){
                     attr = 'win32_processor'
                     item = 'win32_processor_manufacturer'
+                }
+                else if(attr == 'todos-itens'){
+                    attr = 'todos'
+                    item = 'itens'
                 }
                 else if(attr == 'software'){
                     $.ajax({

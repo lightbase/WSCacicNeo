@@ -22,6 +22,7 @@
                             <div id="report-name" tal:condition="report_name == 'win32_physicalmemory'" class="pull-left">Relatório de Memória</div>
                             <div id="report-name" tal:condition="report_name == 'operatingsystem'" class="pull-left">Relatório de Sistemas Operacionais</div>
                             <div id="report-name" tal:condition="report_name == 'software'" class="pull-left">Relatório de Softwares (Suítes de Escritório)</div>
+                            <div id="report-name" tal:condition="report_name == 'todos'" class="pull-left">Relatório de Todos os Itens</div>
                             <form action="${request.route_url('json_csv')}" id="csv" method="POST">
                                 <div class="widget-icons pull-right">
                                     <a href="#" id="print" title="Imprimir tabela"><i class="fa fa-print"></i></a>
@@ -59,7 +60,7 @@
                                                 <tr class="info">
                                                     <th>Item</th>
                                                     <th width="10%">Quantidade</th>
-                                                    <th width="15%" tal:condition="report_name in ['all_items','all_organs_items']">Tipo</th>
+                                                    <th width="15%" tal:condition="report_name in ['todos','all_organs_items']">Tipo</th>
                                                     <th width="30%" tal:condition="report_name in ['all_organs','all_organs_items']">Órgão</th>
                                                     <div tal:condition="usuario_autenticado != None">
                                                         <div tal:condition="usuario_autenticado.permissao == 'Administrador'">
@@ -74,11 +75,29 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <div tal:repeat="k data.keys()">
+                                                <div tal:condition="report_name != 'todos' " tal:repeat="k data.keys()">
                                                     <tr>
                                                         <td>${k}</td>
                                                         <td width="10%">${data[k]}</td>
                                                         <td width="15%" tal:condition="report_name in ['all_items','all_organs_items']">Item</td>
+                                                        <td width="30%" tal:condition="report_name in ['all_organs','all_organs_items']">Órgão</td>
+                                                        <div tal:condition="usuario_autenticado != None">
+                                                            <div tal:condition="usuario_autenticado.permissao == 'Administrador'">
+                                                                <metal:macro use-macro="load: ../includes/report_options_blacklist.pt">
+                                                            </div>
+                                                            <div tal:condition="usuario_autenticado.permissao == 'Gestor'">
+                                                                <div tal:condition="usuario_autenticado.orgao == orgao_name">
+                                                                    <metal:macro use-macro="load: ../includes/report_options.pt">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </tr>
+                                                </div>
+                                                <div tal:condition="report_name == 'todos' " tal:repeat="key data.keys()">
+                                                    <tr tal:repeat="k data[key].keys()">
+                                                        <td>${k}</td>
+                                                        <td width="10%">${data[key][k]}</td>
+                                                        <td width="15%" tal:condition="report_name in ['todos','all_organs_items']">${key}</td>
                                                         <td width="30%" tal:condition="report_name in ['all_organs','all_organs_items']">Órgão</td>
                                                         <div tal:condition="usuario_autenticado != None">
                                                             <div tal:condition="usuario_autenticado.permissao == 'Administrador'">

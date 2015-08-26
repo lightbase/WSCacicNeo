@@ -143,12 +143,13 @@ class Reports():
             "Office Groove".lower(),
             "Office OneNote".lower()
         ]
-
+        if attr == 'todos':
+            saida = self.count_all_attr()
+            return saida
         attr_dict = self.get_attribute(attr)
         results = attr_dict.results
         saida = dict()
         orgaos = self.get_attribute("nome_orgao")
-
         orgao_name_list = [type(orgao).__name__ for orgao in orgaos.results]
         orgao_name_set = set(orgao_name_list)
         saida_orgao = dict()
@@ -237,3 +238,145 @@ class Reports():
         else:
             # log.info(saida)
             return saida
+    def count_all_attr(self):
+        release_expressions = [ # para uso em agrupamento
+            "Professional",
+            "Ultimate",
+            "Standard",
+            "Enterprise",
+            "Premium",
+            "Starter",
+            "MUI"
+        ]
+        # FIXME: Pegar um filtro mais dinâmico de offices a excluir
+        excluir = [
+            "Security Update".lower(),
+            "Atualiza".lower(),
+            "Help Pack".lower(),
+            "Compatibility".lower(),
+            "Definition Update".lower(),
+            "Disco".lower(),
+            "UNO runtime".lower(),
+            "Office Access Runtime".lower(),
+            "Office com Clique para Executar".lower(),
+            "Components".lower(),
+            "Update for".lower(),
+            "Hotfix for".lower(),
+            "Web Components".lower(),
+            "Service Pack".lower(),
+            "File Validation Add-In".lower(),
+            "Office InfoPath".lower(),
+            "Office Outlook Connector".lower(),
+            "Office Proofing Tools".lower(),
+            "Office Shared".lower(),
+            "Pacote de Compatibilidade".lower(),
+            "Office Groove".lower(),
+            "Office OneNote".lower()
+        ]
+        saida_final= dict()
+        for attr in ['softwarelist','win32_physicalmemory', 'win32_bios', 'win32_diskdrive', 'operatingsystem', 'win32_processor']:
+            attr_dict = self.get_attribute(attr)
+            results = attr_dict.results
+            saida = dict()
+            orgaos = self.get_attribute("nome_orgao")
+            orgao_name_list = [type(orgao).__name__ for orgao in orgaos.results]
+            orgao_name_set = set(orgao_name_list)
+            saida_orgao = dict()
+            if attr == 'win32_physicalmemory':
+                child = 'win32_physicalmemory_memorytype'
+            elif attr == 'win32_bios':
+                child = 'win32_bios_manufacturer'
+            elif attr == 'win32_diskdrive':
+                child = 'win32_diskdrive_caption'
+            elif attr == 'operatingsystem':
+                child = 'operatingsystem_caption'
+            elif attr == 'win32_processor':
+                child = 'win32_processor_manufacturer'
+            else:
+                child = None
+            for elm in results:
+                if child:
+                    parent = getattr(elm, attr)
+                    # Verifica valores nulos
+                    try:
+                        attribute = getattr(parent, child)
+                    except AttributeError:
+                        continue
+                else:
+                    attribute = getattr(elm, attr)
+
+                if attr == 'softwarelist':
+                    for software in attribute:
+                        # ignorar updates e atualizações
+                        pula = False
+                        agrupa = False
+                        expressao_atual = ''
+                        for ignora in excluir:
+                            if software.lower().find(ignora) > -1:
+                                # Se chegou aqui esse software deve ser excluído
+                                pula = True
+                                break
+
+                        #atualizando expressão de agrupamento
+                        expressao_atual = software
+                        agrupa = False
+                        if expressao_atual.lower().find('(') > 0:
+                            expressao_atual = expressao_atual.split('(',1)[0] + \
+                                              expressao_atual.split(')')[-1]
+                            agrupa = True
+                        if expressao_atual.lower().find('.') > 0:
+                            expressao_atual = expressao_atual.split('.',1)[0]
+                            agrupa = True
+                        if expressao_atual.lower().find('-') > 0:
+                            expressao_atual = expressao_atual.split('-',1)[0]
+                            agrupa = True
+                        if software.lower().find('20') > -1:
+                            expressao_atual = expressao_atual.translate(
+                                str.maketrans('','','1234567890'))
+                            agrupa = True
+                        # Verifica se existe alguma expressão de release
+                        for release_expression in release_expressions:
+                            if expressao_atual.lower().find(
+                                    release_expression.lower()) > 0:
+                                expressao_atual = expressao_atual.split(
+                                    release_expression,1)[0]
+                                agrupa = True
+                        # Se 'pula' for verdadeiro, o software deve ser ignorado
+                        if pula:
+                            continue
+                        # Se 'agrupa' for verdadeiro, o software será agrupado
+                        """if agrupa:
+                            expressao_atual = expressao_atual.strip()
+                            if saida.get(expressao_atual) is None:
+                                saida[expressao_atual] = 1
+                            else:
+                                saida[expressao_atual] += 1
+                            continue"""
+                        if saida.get(software) is None:
+                            saida[software] = 1
+                        else:
+                            saida[software] += 1
+                elif saida.get(attribute):
+                    saida[attribute] = saida.get(attribute) + 1
+                else:
+                    saida[attribute] = 1
+
+            if attr == 'win32_physicalmemory':
+                elm = 'win32_physicalmemory_memorytype'
+                saida_dict = convert.dict_desc(elm)
+                dict_saida = dict()
+                for x in saida.keys():
+                    dict_saida[saida_dict[x]] = saida[x]
+
+                saida_final[attr] = dict_saida
+            else:
+                # log.info(saida)
+                saida_final[attr] = saida
+        # Criando arquivo 'software_list.json' para uso em testes
+        here = os.path.abspath(os.path.dirname(__file__))
+        data_path = os.path.join(here, "../test/fixtures/reports/")
+        software_list_file = open(data_path + "attribute_list.json",
+                                 "w+")
+        saida_orgao[self.base_nm]=saida_final
+        software_list_file.write(json.dumps(saida_orgao))
+        return saida_final
