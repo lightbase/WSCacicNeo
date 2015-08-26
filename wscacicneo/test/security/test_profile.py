@@ -22,7 +22,7 @@ class TestProfile(unittest.TestCase):
 
     def test_permission_administrator(self):
         """
-        :return: Testa se a permissão do usuário é administrador
+        Testa se a permissão do usuário é administrador
         """
         data = json.loads(open(data_file_adm).read())
         has_permission = False
@@ -32,7 +32,7 @@ class TestProfile(unittest.TestCase):
 
     def test_root(self):
         """
-        :return: Acessa a página inicial do super-gerente
+        Acessa a página inicial do super-gerente
         """
         res = self.testapp.get('/home', status=200)
         self.assertTrue(b'Sistema Super-Gerente' in res.body)

@@ -5,7 +5,6 @@ __author__ = 'adley'
 import unittest
 import os
 from .. import settings
-import collections
 
 here = os.path.abspath(os.path.dirname(__file__))
 data_path = os.path.join(here, "../fixtures/")
