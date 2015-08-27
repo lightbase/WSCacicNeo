@@ -22,6 +22,7 @@ from wscacicneo.model.atividade import AtividadeBase
 from wscacicneo.model.descriptions import DescriptionsBase
 from wscacicneo.model.descriptions import Desc
 from wscacicneo import config
+from wscacicneo.model import blacklist
 
 
 log = logging.getLogger()
@@ -154,22 +155,33 @@ class Utils:
             "win32_physicalmemory": "win32_physicalmemory_memorytype",
             "softwarelist": None
         }
+        blacklist_obj = blacklist.Blacklist(item="name")
+        search_blacklist = blacklist_obj.search_list_items()
+        blacklist_result = search_blacklist.results
+        in_blacklist = False
         #try:
         for elm in itens.keys():
             attr = elm
             child = itens[elm]
             data = report.count_attribute(attr, child)
             for element in data:
+                in_blacklist = False
                 if str(element).strip() == '':
                     log.error("Elemento nulo enviado: %s", elm)
                     continue
-
-                data_json = {
-                    attr: {
-                        attr+'_item': str(element),
-                        attr+'_amount': int(data[element])
+                for elm_blacklist in blacklist_result:
+                    if elm_blacklist.item == element:
+                        in_blacklist = True
+                        break
+                if in_blacklist:
+                    break
+                else:
+                    data_json = {
+                        attr: {
+                            attr+'_item': str(element),
+                            attr+'_amount': int(data[element])
+                        }
                     }
-                }
                 document = json.dumps(data_json)
                 try:
                     reports_conf.create_coleta(document)
