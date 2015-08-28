@@ -163,9 +163,9 @@ class Utils:
         for elm in itens.keys():
             attr = elm
             child = itens[elm]
+            print(itens[elm])
             data = report.count_attribute(attr, child)
             for element in data:
-                in_blacklist = False
                 if str(element).strip() == '':
                     log.error("Elemento nulo enviado: %s", elm)
                     continue
@@ -174,7 +174,8 @@ class Utils:
                         in_blacklist = True
                         break
                 if in_blacklist:
-                    break
+                    in_blacklist = False
+                    continue
                 else:
                     data_json = {
                         attr: {
@@ -182,11 +183,11 @@ class Utils:
                             attr+'_amount': int(data[element])
                         }
                     }
-                document = json.dumps(data_json)
-                try:
-                    reports_conf.create_coleta(document)
-                except HTTPError as e:
-                    log.error("Erro na inserção do documento\n%s", e.strerror)
+                    document = json.dumps(data_json)
+                    try:
+                        reports_conf.create_coleta(document)
+                    except HTTPError as e:
+                        log.error("Erro na inserção do documento\n%s", e.strerror)
         return 1
         #except:
         #return 0
