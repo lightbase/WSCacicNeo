@@ -164,6 +164,10 @@
                                   style="width: 100%; text-align: center;" tal:condition="request.session.peek_flash('success')" tal:repeat="msg request.session.pop_flash('success')" tal:content="msg">
                                 <button type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
 							</div>
+                            <div id="alert_warning" class="alert alert-warning"
+                                  style="width: 100%; text-align: center;" tal:condition="request.session.peek_flash('warning')" tal:repeat="msg request.session.pop_flash('warning')" tal:content="msg">
+                                <button type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
+							</div>
                         <div class="metter">
                             <metal:content define-slot="conteudo" />
 						</div>

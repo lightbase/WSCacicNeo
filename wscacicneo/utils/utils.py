@@ -167,6 +167,15 @@ class Utils:
                 else:
                     return data
 
+    def return_blacklist(self):
+        blacklist_obj = blacklist.Blacklist(item="name")
+        search_blacklist = blacklist_obj.search_list_items()
+        blacklist_result = search_blacklist.results
+        list_items = []
+        for elm in blacklist_result:
+            list_items.append(elm.item)
+        return list_items
+
     def create_report(self, nm_base):
         """
         Inseri Relatorio completo na base de relatorios
@@ -191,12 +200,12 @@ class Utils:
         for elm in itens.keys():
             attr = elm
             child = itens[elm]
-            print(itens[elm])
             data = report.count_attribute(attr, child)
             for element in data:
                 if str(element).strip() == '':
                     log.error("Elemento nulo enviado: %s", elm)
                     continue
+                # Verifica se os itens do relatório estão presentes na blacklist
                 for elm_blacklist in blacklist_result:
                     if elm_blacklist.item == element:
                         in_blacklist = True

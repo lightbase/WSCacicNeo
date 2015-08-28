@@ -1,11 +1,30 @@
 <tal tal:repeat="item_key index_itens.keys()">
     <td width="5%" tal:condition="index_itens[item_key] == k" >
         <tal tal:condition="report_name == 'software'">
-            <a href="#" onclick="add_blacklist('${k}')"  title="Adicionar à lista de remoção" class="btn btn-xs btn-success"><i class="fa fa-plus-square"></i></a>
+            <a href="#add_blacklist_${item_key}" id="new_blacklist_${item_key}" title="Adicionar à lista de remoção" class="btn btn-xs btn-success" data-toggle="modal" data-target="#add_blacklist_${item_key}"><i class="fa fa-plus-square"></i></a>
         </tal>
         <a href="#modal_item_${item_key}" title="Ajuda" data-toggle="modal" class="btn btn-xs btn-warning">
             <i class="fa fa-pencil"></i>
         </a>
+        <!-- Modal de adição há blacklist -->
+        <div class="modal fade" id="add_blacklist_${item_key}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Confirmar Inclusão na Lista de Remoção</h4>
+              </div>
+              <div class="modal-body">
+                Deseja incluir o item "${k}" na lista de remoção?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button id="confirm_blacklist_${item_key}" type="button" class="btn btn-primary"  onclick="add_blacklist('${k}')" >Confirmar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Modal De alteração do valor do Report -->
         <div id="modal_item_${item_key}" class="modal fade" tabindex="-1"
              role="dialog" aria-labelledby="myModalLabel"

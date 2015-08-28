@@ -21,6 +21,7 @@ from liblightbase.lbutils import conv
 from liblightbase.lbsearch.search import NullDocument
 from random import randint
 from pyramid.session import check_csrf_token
+from pyramid.httpexceptions import HTTPFound
 
 log = logging.getLogger()
 
@@ -176,7 +177,6 @@ class Relatorios(object):
         attr = 'softwarelist'
         child = None
         nm_orgao = Utils.format_name(orgao_nm)
-
         # Cria base de relatórios do órgão
         report_base = base_reports.ReportsBase(nm_orgao)
 
@@ -222,7 +222,6 @@ class Relatorios(object):
             if not desc_base.is_created():
                 desc_base.create_base()
             desc_base.load_static()
-
             insert_reports = Utils().create_report(nm_orgao)
             data = Reports(nm_orgao).count_attribute(attr, child)
             index_itens = dict()
@@ -237,6 +236,7 @@ class Relatorios(object):
                 'usuario_autenticado': self.usuario_autenticado,
                 'report_name': 'software'
             }
+
 
     def post_reports(self):
         """
@@ -265,6 +265,7 @@ class Relatorios(object):
         session = self.request.session
         if results:
             session.flash('Atualização do relatório realizado com sucesso', queue="success")
+            session.flash('Para ver as mudanças no relatório, atualize a página!', queue="warning")
         else:
             session.flash('Erro ao atualizar o relatório', queue="error")
         return Response(str(results))
