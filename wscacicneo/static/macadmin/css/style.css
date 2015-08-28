@@ -1337,7 +1337,7 @@ header .header-data .hdata em{
 
 .error-page .container{
 	max-width:100%;
-	width:100%:
+	width:100%;
 }
 
 .error h1{
@@ -1666,7 +1666,7 @@ footer .copy{
 	.col-left{
 		width: 100%;
 		float: none;
-		margin-right: none;
+		margin-right: 0;
 	}
 	.col-right{
 		width: 100%;

@@ -13,6 +13,7 @@ from wscacicneo.utils.utils import Utils
 from wscacicneo.model import base_reports
 from wscacicneo.model import config_reports
 from wscacicneo.model import reports
+from wscacicneo.model import all_reports
 from wscacicneo.model import descriptions
 from wscacicneo.model.reports import Reports
 from wscacicneo.search.orgao import SearchOrgao
@@ -77,22 +78,53 @@ class Relatorios(object):
             if not desc_base.is_created():
                 desc_base.create_base()
             desc_base.load_static()
-            get_base = reports_config.get_attribute(attr)
-            results = get_base.results
-            data = dict()
-            for elm in results:
-                if isinstance(elm, NullDocument):
-                    continue
-                parent = getattr(elm, attr)
-                item = getattr(parent, attr+'_item')
-                amount = getattr(parent, attr+'_amount')
-                data[item] = amount
-        data = Utils.computers_not_found(data, count_reports)
-        index_itens = dict()
-        key_number = 1
-        for item in data.keys():
-            index_itens[key_number] = item
-            key_number = key_number + 1
+            if attr != 'todos':
+                get_base = reports_config.get_attribute(attr)
+                results = get_base.results
+                data = dict()
+                for elm in results:
+                    if isinstance(elm, NullDocument):
+                        continue
+                    parent = getattr(elm, attr)
+                    item = getattr(parent, attr+'_item')
+                    amount = getattr(parent, attr+'_amount')
+                    data[item] = amount
+
+            else:
+                data = dict()
+                for attri in ['softwarelist','win32_physicalmemory', 'win32_bios', 'win32_diskdrive', 'operatingsystem', 'win32_processor']:
+                    data_parcial = dict()
+                    get_base = reports_config.get_attribute(attri)
+                    results = get_base.results
+
+                    for elm in results:
+                        if isinstance(elm, NullDocument):
+                            continue
+                        parent = getattr(elm, attri)
+                        item = getattr(parent, attri+'_item')
+                        amount = getattr(parent, attri+'_amount')
+                        data_parcial[item] = amount
+                    data[attri] = data_parcial
+
+        if attr != 'todos':
+            data = Utils.computers_not_found(data, count_reports)
+            index_itens = dict()
+            key_number = 1
+            for item in data.keys():
+                index_itens[key_number] = item
+                key_number = key_number + 1
+        else:
+            data = Utils.computers_not_found(data, count_reports)
+            index_itens = dict()
+            key_number = 1
+            for datas in data.keys():
+                if isinstance(data[datas], type(dict())):
+                    for item in data[datas].keys():
+                        index_itens[key_number] = item
+                        key_number = key_number + 1
+                else:
+                    index_itens[key_number] = datas
+                    key_number = key_number +1
         return {
             'data': data,
             'index_itens': index_itens,

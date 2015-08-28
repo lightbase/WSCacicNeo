@@ -27,25 +27,21 @@ class TestVerTodosAtributos(unittest.TestCase):
         self.testapp = TestApp(app)
         self.software_list_file= open(data_path + "reports/attribute_list.json")
         # Criando um dicionário com a lista de softwares
-        self.software_list = ast.literal_eval(self.software_list_file.read())
+        self.organ_list = ast.literal_eval(self.software_list_file.read())
         pass
 
-    def test_agrupamento(self):
+    def test_list_all(self):
         """
-        DADO QUE: Sou usuário do sistema;
-        QUERO: Agrupar os softwares coletados;
-        PELOS SEGUINTES ATRIBUTOS: Nome do software.
+        001 - Testa a existencia de todos os tipos de itens na lista de atributos
         """
-        assert False
-
-    def test_agrupamento_versao(self):
-        """
-        Dado que: O sistema tenha recebido dados dos agentes de coleta;
-        Quando: Os softwares presentes em meu sistema possuam vários componentes que o definam, como “releases” e subversões;
-        Então: O sistema deverá apresentar um relatório com os softwares agrupados somente pelo indicador de sua versão principal.
-        """
-        assert False
-
+        fail = True
+        for orgao in self.organ_list.keys():
+            if all(item_type in [
+                'softwarelist','win32_physicalmemory', 'win32_bios',
+                'win32_diskdrive', 'operatingsystem', 'win32_processor'
+            ] for item_type in self.organ_list[orgao].keys()):
+                fail = False
+        self.assertFalse(fail, "Sua lista de atributos deve conter todos os tipos de atributos.")
     def tearDown(self):
         """
         Apaga dados de teste
