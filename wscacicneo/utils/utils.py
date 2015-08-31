@@ -307,3 +307,85 @@ class Utils:
     def random_string(length):
             rand_string = ''.join(random.choice(string.ascii_lowercase) for i in range(length))
             return rand_string
+
+    def group_data(ungrouped_data):
+
+        release_expressions = [ # para uso em agrupamento
+            "Professional",
+            "Ultimate",
+            "Standard",
+            "Enterprise",
+            "Premium",
+            "Starter",
+            "MUI"
+        ]
+        excluir = [
+            "Security Update".lower(),
+            "Atualiza".lower(),
+            "Help Pack".lower(),
+            "Compatibility".lower(),
+            "Definition Update".lower(),
+            "Disco".lower(),
+            "UNO runtime".lower(),
+            "Office Access Runtime".lower(),
+            "Office com Clique para Executar".lower(),
+            "Components".lower(),
+            "Update for".lower(),
+            "Hotfix for".lower(),
+            "Web Components".lower(),
+            "Service Pack".lower(),
+            "File Validation Add-In".lower(),
+            "Office InfoPath".lower(),
+            "Office Outlook Connector".lower(),
+            "Office Proofing Tools".lower(),
+            "Office Shared".lower(),
+            "Pacote de Compatibilidade".lower(),
+            "Office Groove".lower(),
+            "Office OneNote".lower()
+        ]
+        saida = dict()
+        for software in ungrouped_data.keys():
+            agrupa = False
+            pula=False
+            expressao_atual=software
+            for ignora in excluir:
+                if expressao_atual.lower().find(ignora) > -1:
+                    # Se chegou aqui esse software deve ser excluído
+                    pula = True
+                    break
+            # Se 'pula' for verdadeiro, o software deve ser ignorado
+            if pula:
+                continue
+            if expressao_atual.lower().find('(') > 0:
+                expressao_atual = expressao_atual.split('(',1)[0] + \
+                                    expressao_atual.split(')')[-1]
+                agrupa = True
+            if expressao_atual.lower().find('.') > 0:
+                expressao_atual = expressao_atual.split('.',1)[0]
+                agrupa = True
+            if expressao_atual.lower().find('-') > 0:
+                expressao_atual = expressao_atual.split('-',1)[0]
+                agrupa = True
+            if expressao_atual.lower().find('20') > -1:
+                expressao_atual = expressao_atual.translate(
+                    str.maketrans('','','1234567890'))
+                agrupa = True
+            # Verifica se existe alguma expressão de release
+            for release_expression in release_expressions:
+                if expressao_atual.lower().find(
+                        release_expression.lower()) > 0:
+                    expressao_atual = expressao_atual.split(
+                        release_expression,1)[0]
+                    agrupa = True
+            if agrupa:
+                expressao_atual = expressao_atual.strip()
+                if saida.get(expressao_atual) is None:
+                    saida[expressao_atual] = ungrouped_data[software]
+                else:
+                    saida[expressao_atual] += ungrouped_data[software]
+                continue
+            if saida.get(software) is None:
+                saida[software] = ungrouped_data[software]
+            else:
+                saida[software] += ungrouped_data[software]
+        return saida

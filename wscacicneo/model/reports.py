@@ -105,7 +105,7 @@ class Reports():
 
         return get
 
-    def count_attribute(self, attr, child=None):
+    def count_attribute(self, attr, child=None, clean_view=False):
         """
         retorna dicionário de atributos agrupados por contador
         """
@@ -175,7 +175,9 @@ class Reports():
                             # Se chegou aqui esse software deve ser excluído
                             pula = True
                             break
-
+                    # Se 'pula' for verdadeiro, o software deve ser ignorado
+                    if pula:
+                        continue
                     #atualizando expressão de agrupamento
                     expressao_atual = software
                     agrupa = False
@@ -200,11 +202,9 @@ class Reports():
                             expressao_atual = expressao_atual.split(
                                 release_expression,1)[0]
                             agrupa = True
-                    # Se 'pula' for verdadeiro, o software deve ser ignorado
-                    if pula:
-                        continue
+
                     # Se 'agrupa' for verdadeiro, o software será agrupado
-                    if agrupa:
+                    if agrupa and clean_view:
                         expressao_atual = expressao_atual.strip()
                         if saida.get(expressao_atual) is None:
                             saida[expressao_atual] = 1
@@ -316,7 +316,9 @@ class Reports():
                                 # Se chegou aqui esse software deve ser excluído
                                 pula = True
                                 break
-
+                        # Se 'pula' for verdadeiro, o software deve ser ignorado
+                        if pula:
+                            continue
                         #atualizando expressão de agrupamento
                         expressao_atual = software
                         agrupa = False
@@ -341,9 +343,6 @@ class Reports():
                                 expressao_atual = expressao_atual.split(
                                     release_expression,1)[0]
                                 agrupa = True
-                        # Se 'pula' for verdadeiro, o software deve ser ignorado
-                        if pula:
-                            continue
                         # Se 'agrupa' for verdadeiro, o software será agrupado
                         """if agrupa:
                             expressao_atual = expressao_atual.strip()

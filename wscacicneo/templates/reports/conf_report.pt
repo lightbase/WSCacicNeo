@@ -33,7 +33,8 @@
                       <option value="bios">BIOS</option>
                       <option value="memoria">Memoria</option>
                       <option value="so">Sistemas Operacionais</option>
-                      <option value="software">Software (Suítes de Escritório)</option>
+                      <option value="software-simple">Software (Suítes de Escritório) - Simplificada</option>
+                      <option value="software-detailed">Software (Suítes de Escritório) - Detalhada</option>
                       <option value="todos-itens">Todos os Itens</option>
                     </select>
                   </div>
@@ -83,9 +84,9 @@
                     attr = 'todos'
                     item = 'itens'
                 }
-                else if(attr == 'software'){
+                else if(attr == 'software-detailed'){
                     $.ajax({
-                    type: "GET",
+                        type: "GET",
                     beforeSend: function()
                         {
                             $('#loading').show();
@@ -94,7 +95,28 @@
                         },
                     complete: function()
                         {},
-                    success:  window.location = "${request.route_url('root')}relatorio/software/"+orgao+"",
+                    success:  window.location = "${request.route_url('root')}relatorio/software/detalhado/"+orgao+"",
+                    error: function(){
+                                noty({text: 'Erro ao gerar relatório.',layout:'topRight',type:'error',timeout:3000});
+                                $('#loading').hide();
+                                $('#enviar').show();
+                                $('#voltar').show();
+                            }
+                });
+                }
+                else if(attr == 'software-simple'){
+                    $.ajax({
+                        type: "GET",
+                    beforeSend: function()
+                        {
+                            $('#loading').show();
+                            $('#enviar').hide();
+                            $('#voltar').hide();
+                        },
+                    complete: function()
+
+                        {},
+                    success:  window.location = "${request.route_url('root')}relatorio/software/simples/"+orgao+"",
                     error: function(){
                                 noty({text: 'Erro ao gerar relatório.',layout:'topRight',type:'error',timeout:3000});
                                 $('#loading').hide();

@@ -40,8 +40,10 @@
                                 </div>
                             </form>
                             <div id="list-buttons" tal:condition="report_name == 'software'" class="pull-right">
-                                <button type="button" id="simple-view" class="btn btn-sm btn-success">Lista Agrupada por Nome</button>
-                                <button type="button" id="detailed-view" class="btn btn-sm btn-default disabled">Lista Detalhada</button>
+                                <button tal:condition="view_type == 'detailed'" type="button" id="simple-view" class="btn btn-sm btn-success">Lista Agrupada por Nome</button>
+                                <button tal:condition="view_type == 'simple'" type="button" id="none" class="btn btn-sm btn-success disabled">Lista Agrupada por Nome</button>
+                                <button tal:condition="view_type == 'simple'" type="button" id="detailed-view" class="btn btn-sm btn-default">Lista Detalhada</button>
+                                <button tal:condition="view_type == 'detailed'" type="button" id="none" class="btn btn-sm btn-default disabled">Lista Detalhada</button>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -79,7 +81,6 @@
                                                     <tr>
                                                         <td>${k}</td>
                                                         <td width="10%">${data[k]}</td>
-                                                        <td width="15%" tal:condition="report_name in ['all_items','all_organs_items']">Item</td>
                                                         <td width="30%" tal:condition="report_name in ['all_organs','all_organs_items']">Órgão</td>
                                                         <div tal:condition="usuario_autenticado != None">
                                                             <div tal:condition="usuario_autenticado.permissao == 'Administrador'">
@@ -253,9 +254,10 @@
                     error: function(){ $('#error-message').show();}
                 });
             });
-        });
-        $('#delete').click(function(){
-                base = {'base': "${request.matchdict['nm_orgao']}"}
+            $('#delete').click(function(){
+                base = {
+                    'base': "${request.matchdict['nm_orgao']}"
+                }
                 $.ajax({
                     type: "POST",
                     url: "${request.route_url('root')}delete_reports",
@@ -264,12 +266,30 @@
                     error: function(){ $('#error-message').show();}
                 });
             });
-        $('#error').click(function(){
-            window.location.href = "${request.route_url('notify')}";
-        });
-        $('#add_blacklist').click(function(){
-            window.location.href = "${request.route_url('notify')}";
-        });
+            $('#simple-view').click(function(){
+                orgao = "${request.matchdict['nm_orgao']}"
+                $.ajax({
+                    type:"GET",
+                    complete: function()
+                        {},
+                    success:  window.location = "${request.route_url('root')}relatorio/software/simples/"+orgao+""
+                });
+            });
+            $('#detailed-view').click(function(){
+                orgao = "${request.matchdict['nm_orgao']}"
+                $.ajax({
+                    type:"GET",
+                    complete: function()
+                    {},
+                    success:  window.location = "${request.route_url('root')}relatorio/software/detalhado/"+orgao+""
+                });
+            });
+            $('#error').click(function(){
+                window.location.href = "${request.route_url('notify')}";
+            });
+            $('#add_blacklist').click(function(){
+                window.location.href = "${request.route_url('notify')}";
+            });
         function add_blacklist(item_name) {
             $.ajax({
                 type: "POST",
@@ -279,6 +299,7 @@
                 error: function(){ $('#error-message').show();}
             });
         }
+        });
     </script>
 </metal:content>
 </metal:main>

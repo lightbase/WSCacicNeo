@@ -209,6 +209,14 @@ def make_routes(cfg):
     cfg.add_view(relatorios.Relatorios, attr='delete_reports', route_name='delete_reports',
                    permission="gest" )
 
+    cfg.add_route('simple_report', 'simple_report')
+    cfg.add_view(relatorios.Relatorios, attr='simple_report', route_name='simple_report',
+                   permission="gest" )
+
+    cfg.add_route('report_software', 'relatorio/software/{view_type}/{nm_orgao}')
+    cfg.add_view(relatorios.Relatorios, attr='report_software', route_name='report_software',
+                 renderer='templates/reports/report.pt', permission="user")
+
     cfg.add_route('report_itens', 'relatorio/{nm_orgao}/{attr}/{child}')
     cfg.add_view(relatorios.Relatorios, attr='report_itens', route_name='report_itens',
                  renderer='templates/reports/report.pt', permission="user")
@@ -221,9 +229,6 @@ def make_routes(cfg):
     cfg.add_view(relatorios.Relatorios, attr='post_reports', route_name='post_reports',
                   permission="user")
 
-    cfg.add_route('report_software', 'relatorio/software/{nm_orgao}')
-    cfg.add_view(relatorios.Relatorios, attr='report_software', route_name='report_software',
-                 renderer='templates/reports/report.pt', permission="user")
 
     # Gráficos
     cfg.add_route('graficos', 'graficos/{nm_orgao}/{attr}')

@@ -170,6 +170,12 @@ class Relatorios(object):
         """
         Rota para os relatórios de software
         """
+        view_type =''
+        view_type_pt = self.request.matchdict['view_type']
+        if view_type_pt == 'simples':
+            view_type = 'simple'
+        elif view_type_pt == 'detalhado':
+            view_type = 'detailed'
         orgao_nm = self.request.matchdict['nm_orgao']
         nm_orgao = self.request.matchdict['nm_orgao']
         reports_count = reports.Reports(nm_orgao).get_base_orgao()
@@ -204,6 +210,8 @@ class Relatorios(object):
                 data[item] = amount
             index_itens = dict()
             key_number = 1
+            if view_type == 'simple':
+                data = Utils.group_data(data)
             for item in data.keys():
                 index_itens[key_number] = item
                 key_number = key_number + 1
@@ -212,7 +220,8 @@ class Relatorios(object):
                 'index_itens': index_itens,
                 'count': count_reports,
                 'usuario_autenticado': self.usuario_autenticado,
-                'report_name': 'software'
+                'report_name': 'software',
+                'view_type': view_type
             }
         else:
             create_base = report_base.create_base()
@@ -223,7 +232,10 @@ class Relatorios(object):
                 desc_base.create_base()
             desc_base.load_static()
             insert_reports = Utils().create_report(nm_orgao)
-            data = Reports(nm_orgao).count_attribute(attr, child)
+            if view_type == 'simple':
+                data = Reports(nm_orgao).count_attribute(attr, child, True)
+            elif view_type == 'detailed':
+                data = Reports(nm_orgao).count_attribute(attr, child)
             index_itens = dict()
             key_number = 1
             for item in data.keys():
@@ -234,7 +246,8 @@ class Relatorios(object):
                 'index_itens': index_itens,
                 'count': count_reports,
                 'usuario_autenticado': self.usuario_autenticado,
-                'report_name': 'software'
+                'report_name': 'software',
+                'view_type': view_type
             }
 
 
