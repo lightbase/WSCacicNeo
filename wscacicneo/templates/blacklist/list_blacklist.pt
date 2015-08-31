@@ -10,7 +10,7 @@
                         <div class="widget">
                             <div class="widget-head">
                                 <div class="pull-left">Itens Removidos</div>
-                                 <div class="pull-right"><a href="${request.route_url('root')}relatorio/software/todos-orgaos"><span class="fa fa-plus"></span> Adicionar itens</a></div>
+                                 <div class="pull-right"><a href="${request.route_url('root')}relatorio/software/mpog"><span class="fa fa-plus"></span> Adicionar itens</a></div>
                                     <div class="clearfix"></div>
                                     </div>
                                     <div class="widget-content">
@@ -29,7 +29,7 @@
                                                                 <td>${blacklist_doc[id]}</td>
                                                                 <td width="10%">
                                                                     <!-- Button trigger modal -->
-                                                                    <a id="confirm_${id}" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#delete${id}"><i class="fa fa-minus-square"></i></a>
+                                                                    <a id="confirm_${id}" title="Excluir item da lista de remoção" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#delete${id}"><i class="fa fa-minus-square"></i></a>
                                                                     <!-- Modal -->
                                                                     <div class="modal fade" id="delete${id}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                                                       <div class="modal-dialog" role="document">
