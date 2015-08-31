@@ -97,7 +97,14 @@
                                                     <tr tal:repeat="k data[key].keys()">
                                                         <td>${k}</td>
                                                         <td width="10%">${data[key][k]}</td>
-                                                        <td width="15%" tal:condition="report_name in ['todos','all_organs_items']">${key}</td>
+                                                        <td width="15%" tal:condition="report_name in ['todos','all_organs_items']">
+                                                            <div tal:condition="key == 'softwarelist'">Software</div>
+                                                            <div tal:condition="key == 'win32_processor'">Processador</div>
+                                                            <div tal:condition="key == 'win32_diskdrive'">HD</div>
+                                                            <div tal:condition="key == 'win32_bios'">BIOS</div>
+                                                            <div tal:condition="key == 'win32_physicalmemory'">Memória</div>
+                                                            <div tal:condition="key == 'operatingsystem'">Sistema Operacional</div>
+                                                        </td>
                                                         <td width="30%" tal:condition="report_name in ['all_organs','all_organs_items']">Órgão</td>
                                                         <div tal:condition="usuario_autenticado != None">
                                                             <div tal:condition="usuario_autenticado.permissao == 'Administrador'">
