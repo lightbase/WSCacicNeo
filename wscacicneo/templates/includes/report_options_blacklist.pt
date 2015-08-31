@@ -70,3 +70,14 @@
         </div>
     </td>
 </tal>
+<script type="text/javascript">
+    function add_blacklist(item_name) {
+    $.ajax({
+        type: "POST",
+        url: "${request.route_url('post_blacklist_item')}",
+        data :  {"item": item_name},
+        success: function(){window.location.reload();},
+        error: function(){ $('#error-message').show();}
+    });
+}
+</script>

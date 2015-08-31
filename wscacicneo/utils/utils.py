@@ -208,6 +208,10 @@ class Utils:
                 # Verifica se os itens do relatório estão presentes na blacklist
                 for elm_blacklist in blacklist_result:
                     if elm_blacklist.item == element:
+                        print("black=",elm_blacklist.item)
+                        print("elemento=",element)
+                        print(elm_blacklist == element)
+                    if elm_blacklist.item == element:
                         in_blacklist = True
                         break
                 if in_blacklist:
