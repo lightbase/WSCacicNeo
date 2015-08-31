@@ -58,3 +58,6 @@ docs/_build/
 # Ignore .ini files
 *.ini
 *.wsgi
+
+#Ignore Software List
+wscacicneo/test/fixtures/reports/software_list.json
