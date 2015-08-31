@@ -223,19 +223,20 @@ class Relatorios(object):
                 desc_base.create_base()
             desc_base.load_static()
             insert_reports = Utils().create_report(nm_orgao)
-            data = Reports(nm_orgao).count_attribute(attr, child)
-            index_itens = dict()
-            key_number = 1
-            for item in data.keys():
-                index_itens[key_number] = item
-                key_number = key_number + 1
-            return {
-                'data': data,
-                'index_itens': index_itens,
-                'count': count_reports,
-                'usuario_autenticado': self.usuario_autenticado,
-                'report_name': 'software'
-            }
+            return HTTPFound(location=self.request.route_url('report_software', nm_orgao=orgao_nm))
+            # data = Reports(nm_orgao).count_attribute(attr, child)
+            # index_itens = dict()
+            # key_number = 1
+            # for item in data.keys():
+            #     index_itens[key_number] = item
+            #     key_number = key_number + 1
+            # return {
+            #     'data': data,
+            #     'index_itens': index_itens,
+            #     'count': count_reports,
+            #     'usuario_autenticado': self.usuario_autenticado,
+            #     'report_name': 'software'
+            # }
 
 
     def post_reports(self):
@@ -264,8 +265,7 @@ class Relatorios(object):
         results = base.remove_base()
         session = self.request.session
         if results:
-            session.flash('Atualização do relatório realizado com sucesso', queue="success")
-            session.flash('Para ver as mudanças no relatório, atualize a página!', queue="warning")
+            session.flash('Atualização do relatório realizada com sucesso', queue="success")
         else:
             session.flash('Erro ao atualizar o relatório', queue="error")
         return Response(str(results))
