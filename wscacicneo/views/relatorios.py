@@ -221,7 +221,8 @@ class Relatorios(object):
                 'count': count_reports,
                 'usuario_autenticado': self.usuario_autenticado,
                 'report_name': 'software',
-                'view_type': view_type
+                'view_type': view_type,
+                'orgao_name': nm_orgao
             }
         else:
             create_base = report_base.create_base()

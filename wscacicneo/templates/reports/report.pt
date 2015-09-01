@@ -77,7 +77,14 @@
                                                         </div>
                                                         <div tal:condition="usuario_autenticado.permissao == 'Gestor'">
                                                             <div tal:condition="usuario_autenticado.orgao == orgao_name">
-                                                                <th width="5%">Opções</th>
+                                                                <tal tal:condition="report_name != 'software'">
+                                                                    <th width="5%">Opções</th>
+                                                                </tal>
+                                                                <tal tal:condition="report_name == 'software'">
+                                                                    <tal tal:condition="view_type == 'detailed'">
+                                                                        <th width="5%">Opções</th>
+                                                                    </tal>
+                                                                </tal>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -102,7 +109,14 @@
                                                             </div>
                                                             <div tal:condition="usuario_autenticado.permissao == 'Gestor'">
                                                                 <div tal:condition="usuario_autenticado.orgao == orgao_name">
-                                                                    <metal:macro use-macro="load: ../includes/report_options.pt">
+                                                                    <tal tal:condition="report_name != 'software'">
+                                                                        <metal:macro use-macro="load: ../includes/report_options.pt"/>
+                                                                    </tal>
+                                                                    <tal tal:condition="report_name == 'software'">
+                                                                        <tal tal:condition="view_type == 'detailed'">
+                                                                            <metal:macro use-macro="load: ../includes/report_options.pt"/>
+                                                                        </tal>
+                                                                    </tal>
                                                                 </div>
                                                             </div>
                                                         </div>
