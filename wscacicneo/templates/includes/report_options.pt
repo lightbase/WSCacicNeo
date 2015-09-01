@@ -2,13 +2,13 @@
     <td width="5%" tal:condition="index_itens[item_key] == k" >
         <tal tal:condition="report_name == 'software'">
             <tal tal:condition="view_type == 'detailed'">
-                <a href="#modal_item_${item_key}" title="Ajuda" data-toggle="modal" class="btn btn-xs btn-warning">
+                <a href="#modal_item_${item_key}" title="Alterar quantidade" data-toggle="modal" class="btn btn-xs btn-warning">
                     <i class="fa fa-pencil"></i>
                 </a>
             </tal>
         </tal>
         <tal tal:condition="report_name != 'software'">
-            <a href="#modal_item_${item_key}" title="Ajuda" data-toggle="modal" class="btn btn-xs btn-warning">
+            <a href="#modal_item_${item_key}" title="Alterar quantidade" data-toggle="modal" class="btn btn-xs btn-warning">
                     <i class="fa fa-pencil"></i>
             </a>
         </tal>
