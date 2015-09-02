@@ -230,8 +230,8 @@ class Relatorios(object):
         if report_base.is_created():
             # Carrega base de descrições de campos
             desc_base = descriptions.DescriptionsBase()
-            # if not desc_base.is_created():
-            #     desc_base.create_base()
+            if not desc_base.is_created():
+                desc_base.create_base()
             desc_base.load_static()
 
             get_base = reports_config.get_attribute(attr)

@@ -14,6 +14,7 @@ from wscacicneo.model import reports as model_reports
 from wscacicneo.model import atividade as model_atividade
 from wscacicneo.model import all_reports as model_all_reports
 from wscacicneo.model import descriptions as model_description
+from wscacicneo.model import blacklist as model_blacklist
 from wscacicneo.model import email as model_email
 from wscacicneo.utils.utils import Utils
 from wscacicneo.model import config_reports
@@ -60,6 +61,7 @@ class Home(object):
         atividade_base = model_atividade.AtividadeBase()
         email_base = model_email.EmailBase()
         all_reports_base = model_all_reports.AllReports()
+        blacklist_base = model_blacklist.BlacklistBase()
 
         # Cria tudo que precisa para carregar.
         # Pelo fato do object ser response_object = False ele dá erro na hora da criação
@@ -83,6 +85,9 @@ class Home(object):
         elif all_reports_base.is_created() is False:
             createAllReports = all_reports_base.create_base()
             return HTTPFound(location=self.request.route_url("home_config_initial"))
+        elif blacklist_base.is_created() is False:
+            createBlacklist = blacklist_base.create_base()
+            return HTTPFound(location=self.request.route_url("home_config_initial"))
         else:
             return HTTPFound(location=self.request.route_url("home"))
 
@@ -94,24 +99,29 @@ class Home(object):
         atividade_base = model_atividade.AtividadeBase()
         email_base = model_email.EmailBase()
         all_reports_base = model_all_reports.AllReports()
+        blacklist_base = model_blacklist.BlacklistBase()
+
         if user_base.is_created() is False:
             base_criada = "Criar Base de Usuário"
-            return {'base_criada':base_criada}
+            return {'base_criada': base_criada}
         if orgao_base.is_created() is False:
             base_criada = "Criar Base de Órgãos"
-            return {'base_criada':base_criada}
+            return {'base_criada': base_criada}
         if notify_base.is_created() is False:
             base_criada = "Criar Base de Notificações"
-            return {'base_criada':base_criada}
+            return {'base_criada': base_criada}
         if atividade_base.is_created() is False:
             base_criada = "Criar Base de Atividades"
-            return {'base_criada':base_criada}
+            return {'base_criada': base_criada}
         if email_base.is_created() is False:
             base_criada = "Criar Base de Emails"
-            return {'base_criada':base_criada}
+            return {'base_criada': base_criada}
         if all_reports_base.is_created() is False:
             base_criada = "Criar Base de Todos Relatórios (All Reports)"
-            return {'base_criada':base_criada}
+            return {'base_criada': base_criada}
+        if blacklist_base.is_created() is False:
+            base_criada = "Criar Base da Lista de Eliminação"
+            return {'base_criada': base_criada}
         return HTTPFound(location=self.request.route_url("home"))
 
     #@view_config(route_name='home', renderer='../templates/home.pt')
@@ -123,10 +133,12 @@ class Home(object):
         atividade_base = model_atividade.AtividadeBase()
         email_base = model_email.EmailBase()
         all_reports_base = model_all_reports.AllReports()
+        blacklist_base = model_blacklist.BlacklistBase()
         if (user_base.is_created() is False or
             orgao_base.is_created() is False or
             notify_base.is_created() is False or
             atividade_base.is_created() is False or
+            blacklist_base.is_created() is False or
             all_reports_base.is_created() is False or
             email_base.is_created() is False
         ):
