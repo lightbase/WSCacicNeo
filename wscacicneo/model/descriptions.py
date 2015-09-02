@@ -217,10 +217,8 @@ class DescriptionsBase(object):
         log.debug(document_json)
 
         # Recria base e insere um documento
-        try:
+        if self.is_created():
             self.remove_base()
-        except HTTPError:
-            log.error("Base de descrições ainda não existe")
         self.create_base()
         self.documentrest.create(document_json)
 
@@ -292,7 +290,6 @@ class Desc(desc.metaclass):
         result = self.documentrest.get_collection(search_obj=search)
         dict_desc = dict()
         y = json.loads(result.results)
-        print(y, 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')
         for x in y.keys():
             dict_desc[x] = y[x]
 

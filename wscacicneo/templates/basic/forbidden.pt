@@ -46,7 +46,7 @@
                             <br/>
                             <div>
                                 <a class="btn btn-primary" href="${request.route_url('home')}" type="button">Início</a>
-                                <a class="btn btn-primary" href="${request.route_url('login')}" type="button">Login</a>
+                                <!--?<a class="btn btn-primary" href="${request.route_url('login')}" type="button">Login</a>-->
                             </div>
 
                         </div>

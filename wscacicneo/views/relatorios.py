@@ -227,6 +227,7 @@ class Relatorios(object):
                 'usuario_autenticado': self.usuario_autenticado,
                 'report_name': 'software',
                 'view_type': view_type,
+                'orgao_name': orgao_nm,
                 #'pretty_name_orgao': pretty_name_orgao
             }
         else:

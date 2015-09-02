@@ -1,6 +1,6 @@
 <metal:main use-macro="load: ../basic/master.pt">
     <metal:content fill-slot="dash">
-      Lista de Eliminação
+      Lista de Eliminação <a href="#help_blacklist" title="Ajuda" data-toggle="modal"><i class="fa fa-question"></i></a>
     </metal:content>
 	<metal:content fill-slot="conteudo">
         <div class="matter">
@@ -29,7 +29,7 @@
                                                                 <td>${blacklist_doc[id]}</td>
                                                                 <td width="10%">
                                                                     <!-- Button trigger modal -->
-                                                                    <a id="confirm_${id}" title="Excluir item da lista de remoção" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#delete${id}"><i class="fa fa-minus-square"></i></a>
+                                                                    <a id="confirm_${id}" title="Remover item da lista de eliminação" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#delete${id}"><i class="fa fa-minus-square"></i></a>
                                                                     <!-- Modal -->
                                                                     <div class="modal fade" id="delete${id}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                                                       <div class="modal-dialog" role="document">
@@ -64,6 +64,30 @@
                     </div>
                 </div>
             </div>
+
+        <!-- Modal Help Botões dos Reports -->
+        <div id="help_blacklist" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">Ajuda - Lista de Eliminação</h4>
+                    </div>
+                    <div class="modal-body">
+                        <ul>
+                            <li><p> A Lista de Eliminação tem por finalidade remover itens dos relatórios de softwares (suítes de escritório).</p></li>
+                            <li><p> A página 'Lista de Eliminação' mostra quais os itens já estão sendo removído dos relatórios.</p></li>
+                            <li><p> Para excluir um ítem da lista de eliminção, no caso, adicioná-lo de volta aos relatórios, acione o botão<button class="btn btn-xs btn-danger"><i class="fa fa-minus-square"></i></button> e no relatório desejado, clique no botão <button class="btn btn-xs btn-success "><i class="fa fa-refresh"></i> Atualizar Relatório</button>.</p></li>
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Fechar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </metal:content>
     <metal:content fill-slot="javascript">
         <script type="text/javascript">
