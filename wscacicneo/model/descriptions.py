@@ -216,9 +216,14 @@ class DescriptionsBase(object):
         document_json = conv.document2json(self.lbbase, document)
         log.debug(document_json)
 
+        # FIXME: Verificar para que serve a remoção da base.
         # Recria base e insere um documento
         if self.is_created():
             self.remove_base()
+        # try:
+        #     self.create_base()
+        # except:
+        #     pass
         self.create_base()
         self.documentrest.create(document_json)
 
