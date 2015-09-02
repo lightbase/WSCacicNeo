@@ -57,6 +57,7 @@
                 window.location.href = oldURL;
             });
            $('#enviar').click(function(){
+                var listaorgaos = []
                 orgao = $('#orgao').val()
                 attr = $('#coleta').val()
                 if(attr == 'hd'){
@@ -128,7 +129,6 @@
                     noty({text: 'Erro: Selecione um órgão e um item.',layout:'topRight',type:'warning',timeout:3000});
                     return True;
                 }
-
                 $.ajax({
                     type: "GET",
                     beforeSend: function()

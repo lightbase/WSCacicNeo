@@ -399,3 +399,13 @@ class Utils:
         search = orgao_obj.search_orgao(sigla)
         pretty_name = search.results[0].pretty_name
         return pretty_name
+
+    def orgaos_com_reports():
+        orgaos = list()
+        all_bases = Utils.return_all_bases_list()
+        for base in all_bases:
+            if base.find('_bk') > -1:
+                orgaos.append(base.split('_bk')[0])
+        return orgaos
+
+
