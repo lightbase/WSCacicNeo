@@ -36,7 +36,7 @@
             </a>
             <ul>
               <li><a href="${request.route_url('root')}relatorios/configuracao">Relatórios</a></li>
-              <li><a href="${request.route_url('root')}blacklist/lista">Itens Removidos</a></li>
+              <li><a href="${request.route_url('root')}blacklist/lista">Lista de Eliminação</a></li>
               <li><a href="${request.route_url('root')}coleta/cadastro">Cadastrar Coleta</a></li>
             </ul>
           </li>
