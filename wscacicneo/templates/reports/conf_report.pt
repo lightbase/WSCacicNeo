@@ -27,15 +27,14 @@
                   <label class="col-lg-2 control-label">Item</label>
                   <div class="col-lg-2">
                     <select style="width: 450px" id="coleta" class="form-control">
-                      <option></option>
-                      <option value="processador">Processador</option>
-                      <option value="hd">HD</option>
-                      <option value="bios">BIOS</option>
-                      <option value="memoria">Memoria</option>
-                      <option value="so">Sistemas Operacionais</option>
-                      <option value="software-simple">Software (Suítes de Escritório) - Simplificada</option>
-                      <option value="software-detailed">Software (Suítes de Escritório) - Detalhada</option>
-                      <option value="todos-itens">Todos os Itens</option>
+                        <option value="todos-itens">Todos os Itens</option>
+                        <option value="processador">Processador</option>
+                        <option value="hd">HD</option>
+                        <option value="bios">BIOS</option>
+                        <option value="memoria">Memoria</option>
+                        <option value="so">Sistemas Operacionais</option>
+                        <option value="software-simple">Software (Suítes de Escritório)</option>
+                        <!--?<option value="software-detailed">Software (Suítes de Escritório) - Detalhada</option>-->
                     </select>
                   </div>
                 </div>

@@ -393,3 +393,9 @@ class Utils:
             else:
                 saida[software] += ungrouped_data[software]
         return saida
+
+    def pretty_name_orgao(sigla):
+        orgao_obj = Utils.create_orgao_obj()
+        search = orgao_obj.search_orgao(sigla)
+        pretty_name = search.results[0].pretty_name
+        return pretty_name

@@ -39,11 +39,14 @@
                                     <a href="#help_buttons_report" title="Ajuda" data-toggle="modal"><i class="fa fa-question"></i></a>
                                 </div>
                             </form>
+                            <div id="loading" style="display: none; margin-left: 10px; margin-right: 10px" class="pull-right">
+                                <img src="${request.route_url('root')}static/imgs/ajax-loader-circle.gif" />  Aguarde...
+                            </div>
                             <div id="list-buttons" tal:condition="report_name == 'software'" class="pull-right">
-                                <button tal:condition="view_type == 'detailed'" type="button" id="simple-view" class="btn btn-sm btn-success">Lista Agrupada por Nome</button>
-                                <button tal:condition="view_type == 'simple'" type="button" id="none" class="btn btn-sm btn-success disabled">Lista Agrupada por Nome</button>
-                                <button tal:condition="view_type == 'simple'" type="button" id="detailed-view" class="btn btn-sm btn-default">Lista Detalhada</button>
-                                <button tal:condition="view_type == 'detailed'" type="button" id="none" class="btn btn-sm btn-default disabled">Lista Detalhada</button>
+                                <button tal:condition="view_type == 'detailed'" type="button" id="simple-view" class="btn btn-sm btn-success" onclick="document.getElementById('simple-view').disabled=true;document.getElementById('loading').style.display='block';">Lista Agrupada por Nome</button>
+                                <button tal:condition="view_type == 'simple'" type="button" id="none-simple" class="btn btn-sm btn-success disabled">Lista Agrupada por Nome</button>
+                                <button tal:condition="view_type == 'simple'" type="button" id="detailed-view" class="btn btn-sm btn-default" onclick="document.getElementById('detailed-view').disabled=true;document.getElementById('loading').style.display='block';">Lista Completa</button>
+                                <button tal:condition="view_type == 'detailed'" type="button" id="none-detailed" class="btn btn-sm btn-default disabled">Lista Completa</button>
                             </div>
                             <div class="clearfix"></div>
                         </div>

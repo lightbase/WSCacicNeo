@@ -1,7 +1,7 @@
 <tal tal:repeat="item_key index_itens.keys()">
     <td width="5%" tal:condition="index_itens[item_key] == k" >
         <tal tal:condition="report_name == 'software'">
-            <a href="#add_blacklist_${item_key}" id="new_blacklist_${item_key}" title="Adicionar à lista de remoção" class="btn btn-xs btn-success" data-toggle="modal" data-target="#add_blacklist_${item_key}"><i class="fa fa-plus-square"></i></a>
+            <a href="#add_blacklist_${item_key}" id="new_blacklist_${item_key}" title="Adicionar à lista de eliminação" class="btn btn-xs btn-success" data-toggle="modal" data-target="#add_blacklist_${item_key}"><i class="fa fa-plus-square"></i></a>
         </tal>
         <tal tal:condition="report_name == 'software'">
             <tal tal:condition="view_type == 'detailed'">
