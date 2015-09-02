@@ -235,6 +235,10 @@
                if(b == 'Alterar'){
                     value = $('#'+data_id).val()
                     attr = "${report_name}"
+                    if(attr == 'todos')
+                    {
+                        attr = $(this).attr('data-type')
+                    }
                     base = "${request.matchdict['nm_orgao']}"
                     data = {
                         'nm_base' : base,
