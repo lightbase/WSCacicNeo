@@ -56,14 +56,16 @@ class Relatorios(object):
         else:
             search = SearchOrgao()
             orgaos = [org.nome for org in search.list_by_name()]
-            index_itens = dict()
+            index_orgaos = dict()
             key_number = 1
             count = 0
             for orgao in orgaos:
+                index_itens = dict()
                 data[orgao] = self.report_itens(orgao)
                 for item in data[orgao]['data'].keys():
                     index_itens[key_number] = item
                     key_number = key_number + 1
+                index_orgaos[orgao] = index_itens
                 count += data[orgao]['count']
 
             return {
@@ -71,7 +73,7 @@ class Relatorios(object):
             'usuario_autenticado': self.usuario_autenticado,
             'report_name': self.request.matchdict['attr'],
             'orgao_name': orgao_nm,
-            'index_itens': index_itens,
+            'index_itens': index_orgaos,
             'count':count
             #'pretty_name_orgao': pretty_name_orgao
          }
