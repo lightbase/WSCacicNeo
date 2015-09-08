@@ -56,7 +56,8 @@ docs/_build/
 .idea/
 
 # Ignore .ini files
-*.ini
+development.ini
+production.ini
 *.wsgi
 
 #Ignore Software List
