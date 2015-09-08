@@ -17,13 +17,13 @@
                 <div class="widget" id="tabela_relatorio">
                         <div class="widget-head">
                             <div id="report-name" tal:condition="report_name == 'win32_processor'" class="pull-left">Relatório de Processadores</div>
-                            <div id="report-name" tal:condition="report_name == 'win32_diskdrive'" class="pull-left">Relatório de Todos os Itens - Todos os Órgãos</div>
+                            <div id="report-name" tal:condition="report_name == 'win32_diskdrive'" class="pull-left">Relatório de HDs</div>
                             <div id="report-name" tal:condition="report_name == 'win32_bios'" class="pull-left">Relatório da BIOS</div>
                             <div id="report-name" tal:condition="report_name == 'win32_physicalmemory'" class="pull-left">Relatório de Memória</div>
                             <div id="report-name" tal:condition="report_name == 'operatingsystem'" class="pull-left">Relatório de Sistemas Operacionais</div>
                             <div id="report-name" tal:condition="report_name == 'software'" class="pull-left">Relatório de Softwares (Suítes de Escritório)</div>
                             <div id="report-name" tal:condition="report_name == 'todos'" class="pull-left">Relatório de Todos os Itens</div>
-                            <div>&nbsp;- ${pretty_name_orgao}</div>
+                            <div class="pull-left">&nbsp;- ${pretty_name_orgao}</div>
                             <form action="${request.route_url('json_csv')}" id="csv" method="POST">
                                 <div class="widget-icons pull-right">
                                     <a href="#" id="print" title="Imprimir tabela"><i class="fa fa-print"></i></a>
@@ -70,7 +70,7 @@
                                                     <th>Item</th>
                                                     <th width="10%">Quantidade</th>
                                                     <th width="15%" tal:condition="report_name in ['todos','all_organs_items']">Tipo</th>
-                                                    <th width="10%" tal:condition="orgao_name == 'todos-orgaos'">Órgão</th>
+                                                    <th width="30%" tal:condition="orgao_name == 'todos-orgaos'">Órgão</th>
                                                     <div tal:condition="usuario_autenticado != None">
                                                         <div tal:condition="usuario_autenticado.permissao == 'Administrador'">
                                                             <tal tal:condition="report_name != 'software'">
@@ -166,7 +166,11 @@
                                                             <tr>
                                                                 <td>${k}</td>
                                                                 <td width="10%">${data_final[orgao][k]}</td>
-                                                                <td width="10%">${orgao}</td>
+                                                                <?python
+                                                                        from wscacicneo.utils.utils import Utils
+                                                                        pretty_orgao = Utils.pretty_name_orgao(orgao)
+                                                                ?>
+                                                                <td width="30%">${pretty_orgao}</td>
                                                                 <div tal:condition="usuario_autenticado != None">
                                                                     <div tal:condition="usuario_autenticado.permissao == 'Administrador'">
                                                                         <tal tal:condition="report_name != 'software'">
@@ -194,30 +198,36 @@
                                                             </tr>
                                                         </div>
                                                     </div>
-                                                    <div tal:condition="report_name == 'todos' ">
-                                                        <tr tal:repeat="k data[key].keys()">
-                                                            <td>${k}</td>
-                                                            <td width="10%">${data[key][k]}</td>
-                                                            <td width="15%" tal:condition="report_name in ['todos','all_organs_items']">
-                                                                <div tal:condition="key == 'softwarelist'">Software</div>
-                                                                <div tal:condition="key == 'win32_processor'">Processador</div>
-                                                                <div tal:condition="key == 'win32_diskdrive'">HD</div>
-                                                                <div tal:condition="key == 'win32_bios'">BIOS</div>
-                                                                <div tal:condition="key == 'win32_physicalmemory'">Memória</div>
-                                                                <div tal:condition="key == 'operatingsystem'">Sistema Operacional</div>
-                                                            </td>
-                                                            <td width="30%">Órgão</td>
-                                                            <div tal:condition="usuario_autenticado != None">
-                                                                <div tal:condition="usuario_autenticado.permissao == 'Administrador'">
-                                                                    <metal:macro use-macro="load: ../includes/report_options_blacklist.pt">
-                                                                </div>
-                                                                <div tal:condition="usuario_autenticado.permissao == 'Gestor'">
-                                                                    <div tal:condition="usuario_autenticado.orgao == orgao_name">
-                                                                        <metal:macro use-macro="load: ../includes/report_options.pt">
+                                                    <div tal:condition="report_name == 'todos'" tal:repeat="orgao data_final.keys()">
+                                                        <div tal:repeat="key data_final[orgao].keys()">
+                                                            <tr tal:repeat="k data_final[orgao][key].keys()">
+                                                                <td>${k}</td>
+                                                                <td width="10%">${data_final[orgao][key][k]}</td>
+                                                                <td width="15%" tal:condition="report_name in ['todos','all_organs_items']">
+                                                                    <div tal:condition="key == 'softwarelist'">Software</div>
+                                                                    <div tal:condition="key == 'win32_processor'">Processador</div>
+                                                                    <div tal:condition="key == 'win32_diskdrive'">HD</div>
+                                                                    <div tal:condition="key == 'win32_bios'">BIOS</div>
+                                                                    <div tal:condition="key == 'win32_physicalmemory'">Memória</div>
+                                                                    <div tal:condition="key == 'operatingsystem'">Sistema Operacional</div>
+                                                                </td>
+                                                                <?python
+                                                                        from wscacicneo.utils.utils import Utils
+                                                                        pretty_orgao = Utils.pretty_name_orgao(orgao)
+                                                                ?>
+                                                                <td width="30%">${pretty_orgao}</td>
+                                                                <div tal:condition="usuario_autenticado != None">
+                                                                    <div tal:condition="usuario_autenticado.permissao == 'Administrador'">
+                                                                        <metal:macro use-macro="load: ../includes/report_options_blacklist.pt">
+                                                                    </div>
+                                                                    <div tal:condition="usuario_autenticado.permissao == 'Gestor'">
+                                                                        <div tal:condition="usuario_autenticado.orgao == orgao_name">
+                                                                            <metal:macro use-macro="load: ../includes/report_options.pt">
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </tr>
+                                                            </tr>
+                                                        </div>
                                                     </div>
                                                     <div><b>Total de Computadores : ${count}</b></div>
                                                 </div>

@@ -51,22 +51,34 @@ class Relatorios(object):
     def report_orgao(self):
         data = dict()
         orgao_nm = self.request.matchdict['nm_orgao']
+        attr = self.request.matchdict['attr']
         if orgao_nm != 'todos-orgaos':
             return self.report_itens()
         else:
             search = SearchOrgao()
             orgaos = [org.nome for org in search.list_by_name()]
             index_orgaos = dict()
+            index_attr = dict()
             key_number = 1
             count = 0
             for orgao in orgaos:
                 index_itens = dict()
                 data[orgao] = self.report_itens(orgao)
-                for item in data[orgao]['data'].keys():
-                    index_itens[key_number] = item
-                    key_number = key_number + 1
-                index_orgaos[orgao] = index_itens
-                count += data[orgao]['count']
+                if attr != 'todos':
+                    for item in data[orgao]['data'].keys():
+                        index_itens[key_number] = item
+                        key_number = key_number + 1
+                    index_orgaos[orgao] = index_itens
+                    count += data[orgao]['count']
+                else:
+                    for attr in data[orgao]['data'].keys():
+                        index_attr = dict()
+                        for item in data[orgao]['data'][attr]:
+                            index_itens[key_number] = item
+                            key_number = key_number + 1
+                        index_attr[attr] = index_itens
+                    index_orgaos[orgao] = index_attr
+                    count += data[orgao]['count']
 
             return {
             'data_list': data,
@@ -74,8 +86,8 @@ class Relatorios(object):
             'report_name': self.request.matchdict['attr'],
             'orgao_name': orgao_nm,
             'index_itens': index_orgaos,
-            'count':count
-            #'pretty_name_orgao': pretty_name_orgao
+            'count':count,
+            'pretty_name_orgao': 'Todos os Órgãos'
          }
 
 
