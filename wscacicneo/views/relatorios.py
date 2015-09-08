@@ -91,7 +91,7 @@ class Relatorios(object):
         report_base = base_reports.ReportsBase(nm_orgao)
         reports_config = config_reports.ConfReports(nm_orgao)
         # Retorna o nome do orgão
-        # pretty_name_orgao = Utils.pretty_name_orgao(orgao_nm)
+        pretty_name_orgao = Utils.pretty_name_orgao(orgao_nm)
         ###
         reports_count = reports.Reports(nm_orgao).get_base_orgao()
         ###
@@ -170,7 +170,7 @@ class Relatorios(object):
             'usuario_autenticado': self.usuario_autenticado,
             'report_name': attr,
             'orgao_name': orgao_nm,
-            #'pretty_name_orgao': pretty_name_orgao
+            'pretty_name_orgao': pretty_name_orgao
         }
 
     def put_reports(self):
@@ -217,7 +217,7 @@ class Relatorios(object):
         orgao_nm = self.request.matchdict['nm_orgao']
         nm_orgao = self.request.matchdict['nm_orgao']
         # Retorna o nome do Orgão
-        #pretty_name_orgao = Utils.pretty_name_orgao(orgao_nm)
+        pretty_name_orgao = Utils.pretty_name_orgao(orgao_nm)
         reports_count = reports.Reports(nm_orgao).get_base_orgao()
         count_reports = reports_count.result_count
         attr = 'softwarelist'
@@ -263,7 +263,7 @@ class Relatorios(object):
                 'report_name': 'software',
                 'view_type': view_type,
                 'orgao_name': orgao_nm,
-                #'pretty_name_orgao': pretty_name_orgao
+                'pretty_name_orgao': pretty_name_orgao
             }
         else:
             create_base = report_base.create_base()

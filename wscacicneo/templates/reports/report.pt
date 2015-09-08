@@ -23,6 +23,7 @@
                             <div id="report-name" tal:condition="report_name == 'operatingsystem'" class="pull-left">Relatório de Sistemas Operacionais</div>
                             <div id="report-name" tal:condition="report_name == 'software'" class="pull-left">Relatório de Softwares (Suítes de Escritório)</div>
                             <div id="report-name" tal:condition="report_name == 'todos'" class="pull-left">Relatório de Todos os Itens</div>
+                            <div>&nbsp;- ${pretty_name_orgao}</div>
                             <form action="${request.route_url('json_csv')}" id="csv" method="POST">
                                 <div class="widget-icons pull-right">
                                     <a href="#" id="print" title="Imprimir tabela"><i class="fa fa-print"></i></a>
