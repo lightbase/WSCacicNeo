@@ -217,8 +217,8 @@ def make_routes(cfg):
     cfg.add_view(relatorios.Relatorios, attr='report_software', route_name='report_software',
                  renderer='templates/reports/report.pt', permission="user")
 
-    cfg.add_route('report_itens', 'relatorio/{nm_orgao}/{attr}/{child}')
-    cfg.add_view(relatorios.Relatorios, attr='report_itens', route_name='report_itens',
+    cfg.add_route('report_orgao', 'relatorio/{nm_orgao}/{attr}/{child}')
+    cfg.add_view(relatorios.Relatorios, attr='report_orgao', route_name='report_orgao',
                  renderer='templates/reports/report.pt', permission="user")
 
     cfg.add_route('put_reports', 'put_reports')

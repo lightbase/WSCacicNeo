@@ -48,9 +48,41 @@ class Relatorios(object):
                 'usuario_autenticado': self.usuario_autenticado
                 }
 
-    #@view_config(route_name='report_itens', renderer='../templates/report.pt', permission="user")
-    def report_itens(self):
+    def report_orgao(self):
+        data = dict()
         orgao_nm = self.request.matchdict['nm_orgao']
+        if orgao_nm != 'todos-orgaos':
+            return self.report_itens()
+        else:
+            search = SearchOrgao()
+            orgaos = [org.nome for org in search.list_by_name()]
+            index_itens = dict()
+            key_number = 1
+            count = 0
+            for orgao in orgaos:
+                data[orgao] = self.report_itens(orgao)
+                for item in data[orgao]['data'].keys():
+                    index_itens[key_number] = item
+                    key_number = key_number + 1
+                count += data[orgao]['count']
+
+            return {
+            'data_list': data,
+            'usuario_autenticado': self.usuario_autenticado,
+            'report_name': self.request.matchdict['attr'],
+            'orgao_name': orgao_nm,
+            'index_itens': index_itens,
+            'count':count
+            #'pretty_name_orgao': pretty_name_orgao
+         }
+
+
+    #@view_config(route_name='report_itens', renderer='../templates/report.pt', permission="user")
+    def report_itens(self, orgao=None):
+        if orgao is None:
+            orgao_nm = self.request.matchdict['nm_orgao']
+        else:
+            orgao_nm = orgao
         attr = self.request.matchdict['attr']
         child = self.request.matchdict['child']
         nm_orgao = Utils.format_name(orgao_nm)
@@ -129,6 +161,7 @@ class Relatorios(object):
                     index_itens[key_number] = datas
                     key_number = key_number +1
         return {
+            'data_list': data,
             'data': data,
             'index_itens': index_itens,
             'count' : count_reports,
