@@ -31,11 +31,17 @@
                                     <a tal:condition="request.session.get('userid') and usuario_autenticado.orgao == request.matchdict['nm_orgao']" href="#" id="plus-home" title="Adicionar no início"><i class="fa fa-plus-circle"></i></a>
                                         <?python
                                                 import json
+                                                json_data = json.dumps(data_list)
                                                 if orgao_name != 'todos-orgaos':
-                                                        json_data = json.dumps(data_list)
+                                                        if report_name != 'todos':
+                                                                json_header = json.dumps(["Item", "Quantidade"])
+                                                        else:
+                                                                json_header = json.dumps(["Item", "Quantidade", "Tipo"])
                                                 else:
-                                                        json_data = {}
-                                                json_header = json.dumps(["Chave", "Valor"])
+                                                        if report_name != 'todos':
+                                                                json_header = json.dumps(["Item", "Quantidade", "Órgão"])
+                                                        else:
+                                                                json_header = json.dumps(["Item", "Quantidade", "Tipo", "Órgão"])
                                         ?>
                                         <input type="hidden" name="data" value="${json_data}">
                                         <input type="hidden" name="header" value="${json_header}">

@@ -127,7 +127,9 @@ class Relatorios(object):
 
             else:
                 data = dict()
-                for attri in ['softwarelist','win32_physicalmemory', 'win32_bios', 'win32_diskdrive', 'operatingsystem', 'win32_processor']:
+                for attri in ['softwarelist','win32_physicalmemory',
+                              'win32_bios', 'win32_diskdrive',
+                              'operatingsystem', 'win32_processor']:
                     data_parcial = dict()
                     get_base = reports_config.get_attribute(attri)
                     results = get_base.results
