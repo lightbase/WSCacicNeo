@@ -213,8 +213,8 @@ def make_routes(cfg):
     cfg.add_view(relatorios.Relatorios, attr='simple_report', route_name='simple_report',
                    permission="gest" )
 
-    cfg.add_route('report_software', 'relatorio/software/{view_type}/{nm_orgao}')
-    cfg.add_view(relatorios.Relatorios, attr='report_software', route_name='report_software',
+    cfg.add_route('report_orgao_software', 'relatorio/software/{view_type}/{nm_orgao}')
+    cfg.add_view(relatorios.Relatorios, attr='report_orgao_software', route_name='report_orgao_software',
                  renderer='templates/reports/report.pt', permission="user")
 
     cfg.add_route('report_orgao', 'relatorio/{nm_orgao}/{attr}/{child}')

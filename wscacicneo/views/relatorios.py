@@ -51,37 +51,23 @@ class Relatorios(object):
     def report_orgao(self):
         data = dict()
         orgao_nm = self.request.matchdict['nm_orgao']
-        attr = self.request.matchdict['attr']
         if orgao_nm != 'todos-orgaos':
             return self.report_itens()
         else:
             search = SearchOrgao()
             orgaos = [org.nome for org in search.list_by_name()]
             index_orgaos = dict()
-            index_attr = dict()
-            key_number = 1
+            data_list = dict()
             count = 0
             for orgao in orgaos:
-                index_itens = dict()
                 data[orgao] = self.report_itens(orgao)
-                if attr != 'todos':
-                    for item in data[orgao]['data'].keys():
-                        index_itens[key_number] = item
-                        key_number = key_number + 1
-                    index_orgaos[orgao] = index_itens
-                    count += data[orgao]['count']
-                else:
-                    for attr in data[orgao]['data'].keys():
-                        index_attr = dict()
-                        for item in data[orgao]['data'][attr]:
-                            index_itens[key_number] = item
-                            key_number = key_number + 1
-                        index_attr[attr] = index_itens
-                    index_orgaos[orgao] = index_attr
-                    count += data[orgao]['count']
+                data_list[orgao] = data[orgao]['data']
+                index_orgaos[orgao] = data[orgao]['index_itens']
+                count += data[orgao]['count']
 
             return {
-            'data_list': data,
+            'data': data_list,
+            'data_list': data_list,
             'usuario_autenticado': self.usuario_autenticado,
             'report_name': self.request.matchdict['attr'],
             'orgao_name': orgao_nm,
@@ -216,7 +202,42 @@ class Relatorios(object):
             session.flash('Você não tem permissão para alterar.', queue="error")
             return Response(None)
 
-    def report_software(self):
+    def report_orgao_software(self):
+        data = dict()
+        orgao_nm = self.request.matchdict['nm_orgao']
+        if orgao_nm != 'todos-orgaos':
+            return self.report_software()
+        else:
+            search = SearchOrgao()
+            orgaos = [org.nome for org in search.list_by_name()]
+            index_orgaos = dict()
+            data_list = dict()
+            count = 0
+            view_tipo = self.request.matchdict['view_type']
+            if view_tipo == 'simples':
+                view_type = 'simple'
+            elif view_tipo == 'detalhado':
+                view_type = 'detailed'
+            for orgao in orgaos:
+                data[orgao] = self.report_software(orgao)
+                data_list[orgao] = data[orgao]['data']
+                index_orgaos[orgao] = data[orgao]['index_itens']
+                count += data[orgao]['count']
+
+            return {
+            'data': data_list,
+            'data_list': data_list,
+            'usuario_autenticado': self.usuario_autenticado,
+            'report_name': 'software',
+            'view_type': view_type,
+            'orgao_name': orgao_nm,
+            'index_itens': index_orgaos,
+            'count':count,
+            'pretty_name_orgao': 'Todos os Órgãos'
+         }
+
+
+    def report_software(self, orgao = None):
         """
         Rota para os relatórios de software
         """
@@ -226,9 +247,12 @@ class Relatorios(object):
             view_type = 'simple'
         elif view_type_pt == 'detalhado':
             view_type = 'detailed'
-        orgao_nm = self.request.matchdict['nm_orgao']
-        nm_orgao = self.request.matchdict['nm_orgao']
-        # Retorna o nome do Orgão
+        if orgao is None:
+            orgao_nm = self.request.matchdict['nm_orgao']
+            nm_orgao = self.request.matchdict['nm_orgao']
+        else:
+            orgao_nm = orgao
+            nm_orgao = orgao
         pretty_name_orgao = Utils.pretty_name_orgao(orgao_nm)
         reports_count = reports.Reports(nm_orgao).get_base_orgao()
         count_reports = reports_count.result_count
@@ -268,6 +292,7 @@ class Relatorios(object):
                 index_itens[key_number] = item
                 key_number = key_number + 1
             return {
+                'data_list':data,
                 'data': data,
                 'index_itens': index_itens,
                 'count': count_reports,

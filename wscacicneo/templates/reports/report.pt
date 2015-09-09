@@ -156,16 +156,11 @@
                                                     <div><b>Total de Computadores : ${count}</b></div>
                                                 </div>
                                                 <div tal:condition="orgao_name == 'todos-orgaos'">
-                                                    <?python
-                                                            data_final = dict()
-                                                            for dat in data_list.keys():
-                                                                    data_final[dat] = data_list[dat]['data']
-                                                    ?>
-                                                    <div tal:condition="report_name != 'todos'" tal:repeat="orgao data_final.keys()">
-                                                        <div tal:repeat="k data_final[orgao].keys()">
+                                                    <div tal:condition="report_name != 'todos'" tal:repeat="orgao data_list.keys()">
+                                                        <div tal:repeat="k data_list[orgao].keys()">
                                                             <tr>
                                                                 <td>${k}</td>
-                                                                <td width="10%">${data_final[orgao][k]}</td>
+                                                                <td width="10%">${data_list[orgao][k]}</td>
                                                                 <?python
                                                                         from wscacicneo.utils.utils import Utils
                                                                         pretty_orgao = Utils.pretty_name_orgao(orgao)
@@ -198,11 +193,11 @@
                                                             </tr>
                                                         </div>
                                                     </div>
-                                                    <div tal:condition="report_name == 'todos'" tal:repeat="orgao data_final.keys()">
-                                                        <div tal:repeat="key data_final[orgao].keys()">
-                                                            <tr tal:repeat="k data_final[orgao][key].keys()">
+                                                    <div tal:condition="report_name == 'todos'" tal:repeat="orgao data_list.keys()">
+                                                        <div tal:repeat="key data_list[orgao].keys()">
+                                                            <tr tal:repeat="k data_list[orgao][key].keys()">
                                                                 <td>${k}</td>
-                                                                <td width="10%">${data_final[orgao][key][k]}</td>
+                                                                <td width="10%">${data_list[orgao][key][k]}</td>
                                                                 <td width="15%" tal:condition="report_name in ['todos','all_organs_items']">
                                                                     <div tal:condition="key == 'softwarelist'">Software</div>
                                                                     <div tal:condition="key == 'win32_processor'">Processador</div>
