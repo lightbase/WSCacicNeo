@@ -231,6 +231,10 @@ def make_routes(cfg):
 
 
     # Gráficos
+    cfg.add_route('graficos_software', 'graficos/{nm_orgao}/software/{view_type}')
+    cfg.add_view(graficos.Graficos, attr='graficos_software', route_name='graficos_software',
+                 renderer='templates/graphics/graficos.pt')
+
     cfg.add_route('graficos', 'graficos/{nm_orgao}/{attr}')
     cfg.add_view(graficos.Graficos, attr='graficos', route_name='graficos',
                  renderer='templates/graphics/graficos.pt')
