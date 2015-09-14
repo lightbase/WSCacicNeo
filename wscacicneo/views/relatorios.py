@@ -317,7 +317,7 @@ class Relatorios(object):
                 data = Reports(nm_orgao).count_attribute(attr, child, True)
             elif view_type == 'detailed':
                 data = Reports(nm_orgao).count_attribute(attr, child)
-            return HTTPFound(location=self.request.route_url('report_software', view_type=view_type_pt, nm_orgao=orgao_nm))
+            return HTTPFound(location=self.request.route_url('report_orgao_software', view_type=view_type_pt, nm_orgao=orgao_nm))
             # index_itens = dict()
             # key_number = 1
             # for item in data.keys():
@@ -354,14 +354,17 @@ class Relatorios(object):
 
     def delete_reports(self):
         nm_base = self.request.params['base']
-        base = base_reports.ReportsBase(nm_base)
-        results = base.remove_base()
-        session = self.request.session
-        if results:
-            session.flash('Atualização do relatório realizada com sucesso', queue="success")
+        if nm_base == "todos-orgaos":
+            return None
         else:
-            session.flash('Erro ao atualizar o relatório', queue="error")
-        return Response(str(results))
+            base = base_reports.ReportsBase(nm_base)
+            results = base.remove_base()
+            session = self.request.session
+            if results:
+                session.flash('Atualização do relatório realizada com sucesso', queue="success")
+            else:
+                session.flash('Erro ao atualizar o relatório', queue="error")
+            return Response(str(results))
 
     def json_csv(self):
         """
@@ -381,5 +384,3 @@ class Relatorios(object):
             'header': header,
             'rows': rows
         }
-
-

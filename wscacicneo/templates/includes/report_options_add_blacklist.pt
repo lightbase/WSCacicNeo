@@ -1,0 +1,39 @@
+<tal tal:repeat="orgao_nome index_itens.keys()">
+    <tal tal:repeat="item_key index_itens[orgao_nome].keys()">
+        <td width="5%" tal:condition="index_itens[orgao_nome][item_key] == k and orgao_nome == orgao" >
+            <a href="#add_blacklist_${item_key}_${orgao}" id="new_blacklist_${item_key}_${orgao}" title="Adicionar à lista de eliminação" class="btn btn-xs btn-success" data-toggle="modal" data-target="#add_blacklist_${item_key}_${orgao}">
+                <i class="fa fa-plus-square"></i>
+            </a>
+            <!-- Modal de adição há blacklist -->
+            <div id="add_blacklist_${item_key}_${orgao}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Confirmar Inclusão na Lista de Remoção</h4>
+                  </div>
+                  <div class="modal-body">
+                    Deseja incluir o item "${k}" na lista de remoção?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button id="confirm_blacklist_${item_key}_${orgao}" type="button" class="btn btn-primary"  onclick="add_blacklist('${k}')" >Confirmar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        </td>
+    </tal>
+</tal>
+<script type="text/javascript">
+    function add_blacklist(item_name) {
+    $.ajax({
+        type: "POST",
+        url: "${request.route_url('post_blacklist_item')}",
+        data :  {"item": item_name},
+        success: function(){window.location.reload();},
+        error: function(){ $('#error-message').show();}
+    });
+}
+</script>

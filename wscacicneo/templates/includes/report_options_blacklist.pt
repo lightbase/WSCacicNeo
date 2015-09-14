@@ -81,22 +81,24 @@
         <tal tal:repeat="item_key index_itens[orgao_nome].keys()">
             <td width="5%" tal:condition="index_itens[orgao_nome][item_key] == k and orgao_nome == orgao" >
                 <tal tal:condition="report_name == 'software'">
-                    <a href="#add_blacklist_${item_key}" id="new_blacklist_${item_key}" title="Adicionar à lista de eliminação" class="btn btn-xs btn-success" data-toggle="modal" data-target="#add_blacklist_${item_key}"><i class="fa fa-plus-square"></i></a>
+                    <a href="#add_blacklist_${item_key}_${orgao}" id="new_blacklist_${item_key}_${orgao}" title="Adicionar à lista de eliminação" class="btn btn-xs btn-success" data-toggle="modal" data-target="#add_blacklist_${item_key}_${orgao}">
+                        <i class="fa fa-plus-square"></i>
+                    </a>
                 </tal>
                 <tal tal:condition="report_name == 'software'">
                     <tal tal:condition="view_type == 'detailed'">
-                        <a href="#modal_item_${item_key}" title="Alterar quantidade" data-toggle="modal" class="btn btn-xs btn-warning">
+                        <a href="#add_blacklist_${item_key}_${orgao}" title="Alterar quantidade" data-toggle="modal" class="btn btn-xs btn-warning">
                             <i class="fa fa-pencil"></i>
                         </a>
                     </tal>
                 </tal>
                 <tal tal:condition="report_name != 'software'">
-                    <a href="#modal_item_${item_key}" title="Alterar quantidade" data-toggle="modal" class="btn btn-xs btn-warning">
+                    <a href="#modal_item_${item_key}_${orgao}" title="Alterar quantidade" data-toggle="modal" class="btn btn-xs btn-warning">
                             <i class="fa fa-pencil"></i>
                     </a>
                 </tal>
                 <!-- Modal de adição há blacklist -->
-                <div class="modal fade" id="add_blacklist_${item_key}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div id="add_blacklist_${item_key}_${orgao}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
@@ -108,14 +110,14 @@
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="confirm_blacklist_${item_key}" type="button" class="btn btn-primary"  onclick="add_blacklist('${k}')" >Confirmar</button>
+                        <button id="confirm_blacklist_${item_key}_${orgao}" type="button" class="btn btn-primary"  onclick="add_blacklist('${k}')" >Confirmar</button>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 <!-- Modal De alteração do valor do Report -->
-                <div id="modal_item_${item_key}" class="modal fade" tabindex="-1"
+                <div id="modal_item_${item_key}_${orgao}" class="modal fade" tabindex="-1"
                      role="dialog" aria-labelledby="myModalLabel"
                      aria-hidden="true">
                     <div class="modal-dialog">

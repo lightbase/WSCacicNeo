@@ -1,0 +1,75 @@
+<metal:main use-macro="load: ../basic/master.pt">
+    <metal:content fill-slot="dash">
+      Adicionar Item à Lista de Eliminação
+  </metal:content>
+  <metal:content fill-slot="conteudo">
+    <div class="matter">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="widget" id="tabela_relatorio">
+                        <div class="widget-head">
+                            <div id="report-name" class="pull-left">Softwares não inclusos na Lista de Eliminação</div>
+                            <div class="pull-left">&nbsp;- ${pretty_name_orgao}</div>
+                            <div id="loading" style="display: none; margin-left: 10px; margin-right: 10px" class="pull-right">
+                                <img src="${request.route_url('root')}static/imgs/ajax-loader-circle.gif" />  Aguarde...
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="widget-content">
+                            <div id="error-message" class="alert alert-danger" style="display:none">
+                                Erro ao realizar a operação.
+                            </div>
+                            <div id="success-message" class="alert alert-success"  style="display:none">
+                                Operação realizada com sucesso!
+                            </div>
+                            <div class="padd">
+                                <div class="page-tables">
+                                    <div class="table-responsive ">
+                                        <table class="table table-condensed table-bordered table-hover no-margin" id="data-table">
+                                            <thead>
+                                                <tr class="info">
+                                                    <th>Item</th>
+                                                    <th width="5%">Opções</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            <div tal:repeat="orgao data_list.keys()">
+                                                <div tal:repeat="k data_list[orgao].keys()">
+                                                    <tr>
+                                                        <td>${k}</td>
+                                                        <metal:macro use-macro="load: ../includes/report_options_add_blacklist.pt"/>
+                                                    </tr>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <b>Total de Computadores : ${count}</b>
+                                            </div>
+                                            </tbody>
+                                        </table>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="box-chart">
+        <canvas id="GraficoLine" style="width:100%;"></canvas>
+    </div>
+    </div>
+
+
+  </metal:content>
+    <metal:content fill-slot="javascript">
+    <script type="text/javascript">
+        $(function() {
+            $('#add_blacklist').click(function(){
+                window.location.href = "${request.route_url('notify')}";
+            });
+        });
+    </script>
+</metal:content>
+</metal:main>

@@ -302,3 +302,7 @@ def make_routes(cfg):
     cfg.add_route('post_blacklist_item', 'post_blacklist_item')
     cfg.add_view(blacklist.Blacklist, attr='post_blacklist_item', route_name='post_blacklist_item',
                  permission="admin")
+
+    cfg.add_route('add_blacklist_item', 'blacklist/adicionar')
+    cfg.add_view(blacklist.Blacklist, attr='add_blacklist_item', route_name='add_blacklist_item',
+                 permission="admin", renderer='templates/blacklist/add_blacklist.pt')
