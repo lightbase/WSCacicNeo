@@ -100,17 +100,6 @@ class Graficos():
                 continue
             parent = getattr(elm, attr)
             item = getattr(parent, attr + '_item')
-            if view_type == 'simple':
-                if item.lower().find('(') > 0:
-                    item = item.split('(',1)[0] + \
-                                      item.split(')')[-1]
-                if item.lower().find('.') > 0:
-                    item = item.split('.',1)[0]
-                if item.lower().find('-') > 0:
-                    item = item.split('-',1)[0]
-                if item.lower().find('20') > -1:
-                    item = item.translate(
-                        str.maketrans('','','1234567890'))
             amount = getattr(parent, attr + '_amount')
             data.append([item, int(amount)])
             list_of_numbers.append([int(amount)])
@@ -120,6 +109,17 @@ class Graficos():
             #if chosen_color >= len(color_list):
             #    chosen_color = 0
 
+        if view_type == 'simple':
+            data_dict = dict()
+            data.pop(0)
+            for a in data:
+                data_dict[a[0]]= a[1]
+            data_dict = Utils.group_data(data_dict)
+            print(data_dict)
+            data=list()
+            data.append(['Item', 'Quantidade'])
+            for a in data_dict.keys():
+                data.append([a, int(data_dict[a])])
         #if attr == "software":
             #max_num = Utils.getMaxOfList(list_of_numbers)
 
