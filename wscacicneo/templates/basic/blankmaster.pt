@@ -35,8 +35,8 @@
     <link href="${request.route_url('root')}static/macadmin/css/style.css" rel="stylesheet">
     <!-- Widgets stylesheet -->
     <link href="${request.route_url('root')}static/macadmin/css/widgets.css" rel="stylesheet">
-    <link rel="shortcut icon" href="${request.route_url('root')}static/macadmin/img/favicon/favicon.png">   
-    <link rel="shortcut icon" href="${request.route_url('root')}static/js/jqueryui-editable/css/jqueryui-editable.css">   
+    <link rel="shortcut icon" href="${request.route_url('root')}static/macadmin/img/favicon/favicon.png">
+    <link rel="shortcut icon" href="${request.route_url('root')}static/js/jqueryui-editable/css/jqueryui-editable.css">
     <!-- Slot para o CSS -->
     <metal:content define-slot="css" />
     <script src="${request.route_url('root')}static/macadmin/js/respond.min.js"></script>
@@ -51,7 +51,7 @@
 
     <!-- JS -->
 
-    <script src="${request.route_url('root')}static/macadmin/js/jquery.js"></script> 
+    <script src="${request.route_url('root')}static/macadmin/js/jquery.js"></script>
     <!-- jQuery -->
     <script src="${request.route_url('root')}static/macadmin/js/bootstrap.min.js"></script> <!-- Bootstrap -->
     <script src="${request.route_url('root')}static/macadmin/js/jquery-ui.min.js"></script> <!-- jQuery UI -->
