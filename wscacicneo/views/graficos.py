@@ -32,8 +32,9 @@ class Graficos():
             if attr not in ['softwarelist','todos']:
                 return self.graficos(orgao = orgao)
             elif attr == 'todos':
-                for attrib in ['softwarelist','win32_physicalmemory', 'win32_bios', 'win32_diskdrive', 'operatingsystem', 'win32_processor']:
-                    data[attrib] = self.graficos(attr = attrib)['data']
+                for attrib in ['win32_physicalmemory', 'win32_bios', 'win32_diskdrive', 'operatingsystem', 'win32_processor']:
+                    data[attrib] = self.graficos(attr=attrib)['data']
+                data['softwarelist'] = self.graficos_software(view_type='detailed')['data']
             else:
                 return self.graficos_software(orgao)
         else:
@@ -44,7 +45,7 @@ class Graficos():
                     data[org] = self.graficos(orgao = org)['data']
                 else:
                     data[org] = self.graficos_software(org)['data']
-
+        title_chart = ''
         # Define o nome do gráfico baseado no "attr"
         if attr == "win32_processor":
             title_chart = "Gráfico de Processadores"
@@ -58,7 +59,7 @@ class Graficos():
             title_chart = "Gráfico de Sistemas Operacionais"
         elif attr == "softwarelist":
             title_chart = "Gráfico de Softwares"
-        else:
+        elif attr != 'todos':
             title_chart = "Gráfico de "+attr
 
         return {"data": data,
@@ -127,11 +128,12 @@ class Graficos():
                 "attr": attr
         }
 
-    def graficos_software(self, orgao=None):
+    def graficos_software(self, orgao=None, view_type = None):
 
         attr = 'softwarelist'
         title_chart = "Gráfico de Softwares"
-        view_type = self.request.matchdict['view_type']
+        if view_type is None:
+            view_type = self.request.matchdict['view_type']
         if orgao is None:
             orgao_nm = self.request.matchdict['nm_orgao']
         else:

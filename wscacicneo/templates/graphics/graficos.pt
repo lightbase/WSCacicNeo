@@ -6,13 +6,13 @@
         <div style="font-size: 20px;" align="center"><a href="#" id="print" title="Imprimir Tabela"><i
                 class="fa fa-print"></i>Imprimir</a></div>
         <br/>
-        <tal tal:condition="orgao_nm != 'todos-orgaos'">
+        <tal tal:condition="orgao_nm != 'todos-orgaos' and attr != 'todos'">
             <div id="chart_div" style="width: 900px; height: 500px;"></div>
         </tal>
         <tal tal:condition="orgao_nm == 'todos-orgaos'" tal:repeat="orgao data.keys()">
             <div id="${orgao}" style="width: 900px; height: 500px;"></div>
         </tal>
-        <tal tal:condition="attr == 'todos'" tal:repeat="attrib data.keys()">
+        <tal tal:condition="orgao_nm != 'todos-orgaos' and attr == 'todos'" tal:repeat="attrib data.keys()">
             <div id="${attrib}" style="width: 900px; height: 500px;"></div>
         </tal>
     </metal:macro>
@@ -34,7 +34,7 @@
             google.load('visualization', '1.0', {'packages': ['corechart']});
             google.setOnLoadCallback(drawChart);
             function drawChart() {
-                if('${orgao_nm}'!='todos-orgaos')
+                if(('${orgao_nm}'!='todos-orgaos')&&('${attr}'!= 'todos'))
                 {
                     dataTableX = ${data}
                     var data = google.visualization.arrayToDataTable(dataTableX);
@@ -56,9 +56,21 @@
                     for (var attrib in data_dict) {
                         dataTableX = data_dict[attrib]
                         var data = google.visualization.arrayToDataTable(dataTableX);
-
+                        var title_chart;
+                        if (attrib == "win32_processor")
+                            title_chart = "Gráfico de Processadores"
+                        else if (attrib == "win32_diskdrive")
+                            title_chart = "Gráfico de HD";
+                        else if (attrib == "win32_bios")
+                            title_chart = "Gráfico de BIOS";
+                        else if (attrib == "win32_physicalmemory")
+                            title_chart = "Gráfico de Memória";
+                        else if (attrib == "operatingsystem")
+                            title_chart = "Gráfico de Sistemas Operacionais";
+                        else if (attrib == "softwarelist")
+                            title_chart = "Gráfico de Softwares";
                         var options = {
-                            title: 'Gráfico de ' + attrib,
+                            title: title_chart,
                             is3D: true,
                             pieResidueSliceLabel: 'Outros',
                             sliceVisibilityThreshold: 20/720
