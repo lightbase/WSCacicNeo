@@ -24,10 +24,12 @@ from wscacicneo.model import descriptions
 from wscacicneo.model.reports import Reports
 from liblightbase.lbsearch.search import NullDocument
 
+
 class Blacklist(object):
     """
     Views de notificação
     """
+
     def __init__(self, request):
         """
         Método construtor
@@ -58,9 +60,9 @@ class Blacklist(object):
         id = search.results[0]._metadata.id_doc
         delete_item = blacklist_obj.delete_item(id)
         if delete_item:
-            session.flash('Sucesso ao excluir o item '+item_name+' da lista de remoção', queue="success")
+            session.flash('Sucesso ao excluir o item ' + item_name + ' da lista de remoção', queue="success")
         else:
-            session.flash('Ocorreu um erro ao excluir o item'+item_name+' de lista de remoção', queue="error")
+            session.flash('Ocorreu um erro ao excluir o item' + item_name + ' de lista de remoção', queue="error")
         return HTTPFound(location=self.request.route_url('list_blacklist_items'))
 
     def post_blacklist_item(self):
@@ -74,48 +76,27 @@ class Blacklist(object):
         )
         id_doc = blacklist_obj.create_item()
         session = self.request.session
-        session.flash('O Item "'+data+'" foi adicionado à lista de remoção com sucesso', queue="success")
+        session.flash('O Item "' + data + '" foi adicionado à lista de remoção com sucesso', queue="success")
         session.flash('Para ver as mudanças no relatório, clique no botão "Atualizar Relatório"', queue="warning")
         return Response(str(id_doc))
 
     def add_blacklist_item(self):
-        data = dict()
-        index_orgaos = dict()
-        data_list = dict()
+        data = list()
+        index_itens = dict()
+        data_list = list()
         search = SearchOrgao()
         orgaos = [org.nome for org in search.list_by_name()]
-        count = 0
-        view_type = 'detailed'
 
         for orgao in orgaos:
-            data[orgao] = self.report_software_for_blacklist(orgao)
-            data_list[orgao] = data[orgao]['data']
-            index_orgaos[orgao] = data[orgao]['index_itens']
-            count += data[orgao]['count']
-        data_test = dict()
-        data_test = {'iti':{'BrOffice 3.3':100}}
-        data_test2 = {'iti':{10: 'BrOffice 3.3'}}
-        data_list['iti'] = data_test['iti']
-        index_orgaos['iti'] = data_test2['iti']
-
-        result_dict = dict()
-
-        for key, value in data_list.items():
-            if value not in result_dict.values():
-                result_dict[key] = value
-
-        print(result_dict)
-        data_list = result_dict
+            data = self.report_software_for_blacklist(orgao)
+            # Remove valores duplicados
+            for item in data:
+                if item not in data_list:
+                    data_list.append(item)
+        index_itens = Utils.dict_items_indexed(data_list)
         return {
-            'data': data_list,
-            'data_list': data_list,
             'usuario_autenticado': self.usuario_autenticado,
-            'report_name': 'software',
-            'view_type': view_type,
-            'index_itens': index_orgaos,
-            'count':count,
-            'orgao_name':'todos-orgaos',
-            'pretty_name_orgao': 'Todos os Órgãos'
+            'index_itens': index_itens
         }
 
     def report_software_for_blacklist(self, orgao):
@@ -153,8 +134,8 @@ class Blacklist(object):
                 if isinstance(elm, NullDocument):
                     continue
                 parent = getattr(elm, attr)
-                item = getattr(parent, attr+'_item')
-                amount = getattr(parent, attr+'_amount')
+                item = getattr(parent, attr + '_item')
+                amount = getattr(parent, attr + '_amount')
                 data[item] = amount
             index_itens = dict()
             key_number = 1
@@ -176,10 +157,6 @@ class Blacklist(object):
                 data = Reports(nm_orgao).count_attribute(attr, child, True)
             elif view_type == 'detailed':
                 data = Reports(nm_orgao).count_attribute(attr, child)
+        items = list(index_itens.values())
+        return items
 
-        return {
-                'data_list':data,
-                'data': data,
-                'index_itens': index_itens,
-                'count': count_reports,
-            }

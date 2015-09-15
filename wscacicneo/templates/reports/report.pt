@@ -21,7 +21,8 @@
                             <div id="report-name" tal:condition="report_name == 'win32_bios'" class="pull-left">Relatório da BIOS</div>
                             <div id="report-name" tal:condition="report_name == 'win32_physicalmemory'" class="pull-left">Relatório de Memória</div>
                             <div id="report-name" tal:condition="report_name == 'operatingsystem'" class="pull-left">Relatório de Sistemas Operacionais</div>
-                            <div id="report-name" tal:condition="report_name == 'software'" class="pull-left">Relatório de Softwares (Suítes de Escritório)</div>
+                            <div id="report-name" tal:condition="report_name == 'software'" class="pull-left">Relatório Suítes de Escritório <tal tal:condition="
+                                    view_type == 'simple'">(Clean)</tal></div>
                             <div id="report-name" tal:condition="report_name == 'todos'" class="pull-left">Relatório de Todos os Itens</div>
                             <div class="pull-left">&nbsp;- ${pretty_name_orgao}</div>
                             <form action="${request.route_url('json_csv')}" id="csv" method="POST">

@@ -10,7 +10,6 @@
                     <div class="widget" id="tabela_relatorio">
                         <div class="widget-head">
                             <div id="report-name" class="pull-left">Softwares não inclusos na Lista de Eliminação</div>
-                            <div class="pull-left">&nbsp;- ${pretty_name_orgao}</div>
                             <div id="loading" style="display: none; margin-left: 10px; margin-right: 10px" class="pull-right">
                                 <img src="${request.route_url('root')}static/imgs/ajax-loader-circle.gif" />  Aguarde...
                             </div>
@@ -34,17 +33,40 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            <div tal:repeat="orgao data_list.keys()">
-                                                <div tal:repeat="k data_list[orgao].keys()">
+                                                <div tal:repeat="k index_itens.keys()">
                                                     <tr>
-                                                        <td>${k}</td>
-                                                        <metal:macro use-macro="load: ../includes/report_options_add_blacklist.pt"/>
+                                                        <td>${index_itens[k]}</td>
+                                                        <!--? Options Buttons-->
+                                                        <tal tal:repeat="item_key index_itens.keys()">
+                                                            <td width="5%"  tal:condition="item_key == k" >
+                                                                <a href="#add_blacklist_${item_key}" id="new_blacklist_${item_key}" title="Adicionar à lista de eliminação" class="btn btn-xs btn-success" data-toggle="modal" data-target="#add_blacklist_${item_key}">
+                                                                    <i class="fa fa-plus-square"></i>
+                                                                </a>
+
+                                                                <!-- Modal de adição há blacklist -->
+                                                                <div id="add_blacklist_${item_key}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                                  <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                      <div class="modal-header">
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                                        <h4 class="modal-title" id="myModalLabel">Confirmar Inclusão na Lista de Remoção</h4>
+                                                                      </div>
+                                                                      <div class="modal-body">
+                                                                        Deseja incluir o item "${index_itens[k]}" na lista de remoção?
+                                                                      </div>
+                                                                      <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                                                        <button id="confirm_blacklist_${item_key}" type="button" class="btn btn-primary"  onclick="add_blacklist('${index_itens[k]}')" >Confirmar</button>
+                                                                      </div>
+                                                                    </div>
+                                                                  </div>
+                                                                </div>
+
+                                                            </td>
+                                                        </tal>
+
                                                     </tr>
                                                 </div>
-                                            </div>
-                                            <div>
-                                                <b>Total de Computadores : ${count}</b>
-                                            </div>
                                             </tbody>
                                         </table>
                                         <div class="clearfix"></div>
@@ -56,9 +78,6 @@
                 </div>
             </div>
         </div>
-    <div class="box-chart">
-        <canvas id="GraficoLine" style="width:100%;"></canvas>
-    </div>
     </div>
 
 
@@ -70,6 +89,21 @@
                 window.location.href = "${request.route_url('notify')}";
             });
         });
+    </script>
+        <script type="text/javascript">
+            function add_blacklist(item_name) {
+                $.ajax({
+                    type: "POST",
+                    url: "${request.route_url('post_blacklist_item')}",
+                    data: {"item": item_name},
+                    success: function () {
+                        window.location.reload();
+                    },
+                    error: function () {
+                        $('#error-message').show();
+                    }
+                });
+            }
     </script>
 </metal:content>
 </metal:main>

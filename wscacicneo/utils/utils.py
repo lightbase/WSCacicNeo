@@ -408,4 +408,10 @@ class Utils:
                 orgaos.append(base.split('_bk')[0])
         return orgaos
 
-
+    def dict_items_indexed(data):
+        index_itens = dict()
+        key_number = 0
+        for item in data:
+            index_itens[key_number] = item
+            key_number = key_number + 1
+        return index_itens
