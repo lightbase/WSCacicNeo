@@ -32,7 +32,7 @@
                     </div>
 
                     <div class="user-details">
-                        <h3>Orgão</h3>
+                        <h3>Órgão</h3>
                         <a href="${ request.route_url('listorgao') }" class="btn btn-primary btn-xs"> Listar Órgãos</a>
                         <a href="${ request.route_url('orgao') }" class="btn btn-primary btn-xs"> Cadastrar Órgão</a>
                     </div>

@@ -25,7 +25,7 @@
                                                     <th>Nome</th>
                                                     <th>Matricula</th>
                                                     <th>E-mail</th>
-                                                    <th>Orgão</th>
+                                                    <th>Órgão</th>
                                                     <th tal:condition="usuario_autenticado.permissao == 'Administrador'">Permissão</th>
                                                     <th tal:condition="usuario_autenticado.permissao == 'Administrador'">Opções</th>
                                                 </tr>

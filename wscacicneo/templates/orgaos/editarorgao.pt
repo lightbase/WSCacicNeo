@@ -1,6 +1,6 @@
 <metal:main use-macro="load: ../basic/master.pt">
   <metal:content fill-slot="dash">
-      Editar Orgão      
+      Editar Órgão
   </metal:content>
 	<metal:content fill-slot="conteudo">
         <div class="padd">

@@ -1,6 +1,6 @@
 <metal:main use-macro="load: ../basic/master.pt" xmlns="http://www.w3.org/1999/html">
   <metal:content fill-slot="dash">
-      Cadastrar Orgão      
+      Cadastrar Órgão
     </metal:content>
 	<metal:content fill-slot="conteudo">
     <div class="alert alert-warning">
