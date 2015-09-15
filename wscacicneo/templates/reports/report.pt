@@ -27,11 +27,13 @@
                             <form action="${request.route_url('json_csv')}" id="csv" method="POST">
                                 <div class="widget-icons pull-right">
                                     <a href="#" id="print" title="Imprimir tabela"><i class="fa fa-print"></i></a>
-                                    <tal tal:condition="report_name == 'software'">
-                                        <a href="${request.route_url('root')}graficos/${request.matchdict['nm_orgao']}/software/${view_type}" id="grafico" title="Gerar gráfico"><i class="fa fa-bar-chart-o"></i></a>
-                                    </tal>
-                                    <tal tal:condition="report_name != 'software'">
-                                        <a href="${request.route_url('root')}graficos/${request.matchdict['nm_orgao']}/${attr}" id="grafico" title="Gerar gráfico"><i class="fa fa-bar-chart-o"></i></a>
+                                    <tal tal:condition="[orgao_name, report_name] != ['todos-orgaos','todos']">
+                                        <tal tal:condition="report_name == 'software'">
+                                            <a href="${request.route_url('root')}graficos/${request.matchdict['nm_orgao']}/software/${view_type}" id="grafico" title="Gerar gráfico"><i class="fa fa-bar-chart-o"></i></a>
+                                        </tal>
+                                        <tal tal:condition="report_name != 'software'">
+                                            <a href="${request.route_url('root')}graficos/${request.matchdict['nm_orgao']}/${report_name}" id="grafico" title="Gerar gráfico"><i class="fa fa-bar-chart-o"></i></a>
+                                        </tal>
                                     </tal>
                                     <a tal:condition="request.session.get('userid') and usuario_autenticado.orgao == request.matchdict['nm_orgao']" href="#" id="plus-home" title="Adicionar no início"><i class="fa fa-plus-circle"></i></a>
                                         <?python

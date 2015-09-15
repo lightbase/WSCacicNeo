@@ -232,11 +232,11 @@ def make_routes(cfg):
 
     # Gráficos
     cfg.add_route('graficos_software', 'graficos/{nm_orgao}/software/{view_type}')
-    cfg.add_view(graficos.Graficos, attr='graficos_software', route_name='graficos_software',
+    cfg.add_view(graficos.Graficos, attr='graficos_orgao', route_name='graficos_software',
                  renderer='templates/graphics/graficos.pt')
 
-    cfg.add_route('graficos', 'graficos/{nm_orgao}/{attr}')
-    cfg.add_view(graficos.Graficos, attr='graficos', route_name='graficos',
+    cfg.add_route('graficos_orgao', 'graficos/{nm_orgao}/{attr}')
+    cfg.add_view(graficos.Graficos, attr='graficos_orgao', route_name='graficos_orgao',
                  renderer='templates/graphics/graficos.pt')
 
     # Autenticação
