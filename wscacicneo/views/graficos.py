@@ -97,7 +97,6 @@ class Graficos():
         results = get_base.results
         data = []
         list_of_numbers = []
-        print(attr)
         data.append(['Item', 'Quantidade'])
 
         # color_list = ["#8B0000", "#191970", "#2F4F4F", "#006400", "#808000",
@@ -144,7 +143,6 @@ class Graficos():
         results = get_base.results
         data = []
         list_of_numbers = []
-        print(attr)
         data.append(['Item', 'Quantidade'])
 
         # color_list = ["#8B0000", "#191970", "#2F4F4F", "#006400", "#808000",
@@ -171,7 +169,6 @@ class Graficos():
             for a in data:
                 data_dict[a[0]]= a[1]
             data_dict = Utils.group_data(data_dict)
-            print(data_dict)
             data=list()
             data.append(['Item', 'Quantidade'])
             for a in data_dict.keys():
@@ -182,4 +179,6 @@ class Graficos():
         return {"data": data,
                 "usuario_autenticado": self.usuario_autenticado,
                 "title_chart": title_chart,
+                "orgao_nm": orgao_nm,
+                "attr": attr
         }
