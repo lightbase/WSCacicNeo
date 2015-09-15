@@ -89,7 +89,7 @@ def make_routes(cfg):
     # Users
     cfg.add_route('user', 'usuario/cadastro')
     cfg.add_view(users.Users, attr='user', route_name='user',
-                 renderer='templates/users/user.pt', permission='admin')
+                 renderer='templates/users/user.pt', permission='gest')
 
     cfg.add_route('add_user_home_report', 'add_user_home_report')
     cfg.add_view(users.Users, attr='add_user_home_report', route_name='add_user_home_report',
@@ -101,7 +101,7 @@ def make_routes(cfg):
 
     cfg.add_route('post_user', 'post_user')
     cfg.add_view(users.Users, attr='post_user', route_name='post_user',
-                 permission="admin")
+                 permission="gest")
 
     cfg.add_route('post_first_user', 'post_first_user')
     cfg.add_view(users.Users, attr='post_first_user', route_name='post_first_user')
@@ -132,7 +132,7 @@ def make_routes(cfg):
 
     cfg.add_route('listuser', 'usuario/lista')
     cfg.add_view(users.Users, attr='listuser', route_name='listuser',
-                 renderer='templates/users/list_user.pt', permission="admin")
+                 renderer='templates/users/list_user.pt', permission="gest")
 
     cfg.add_route('delete_user', 'usuario/delete/{matricula}')
     cfg.add_view(users.Users, attr='delete_user', route_name='delete_user',

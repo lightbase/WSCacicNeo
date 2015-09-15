@@ -119,15 +119,30 @@ class Users(object):
                 itens = [doc['lista_orgao'], doc['cadastro_orgao'], doc['lista_user'], doc['cadastro_user'], doc['notify']]
             else:
                 itens = [doc['notify']]
-            user_obj = User(
+            if self.usuario_autenticado == 'Administrador':
+                user_obj = User(
+                    nome = doc['nome'],
+                    matricula = doc['matricula'],
+                    email = doc['email'],
+                    orgao = doc['orgao'],
+                    telefone = doc['telefone'],
+                    cargo = doc['cargo'],
+                    setor = doc['setor'],
+                    permissao = doc['permissao'],
+                    senha = Utils.hash_password(doc['senha']),
+                    favoritos = favoritos,
+                    itens = itens
+                )
+            else:
+                user_obj = User(
                 nome = doc['nome'],
                 matricula = doc['matricula'],
                 email = doc['email'],
-                orgao = doc['orgao'],
+                orgao = self.usuario_autenticado.orgao,
                 telefone = doc['telefone'],
                 cargo = doc['cargo'],
                 setor = doc['setor'],
-                permissao = doc['permissao'],
+                permissao = 'Gestor',
                 senha = Utils.hash_password(doc['senha']),
                 favoritos = favoritos,
                 itens = itens
