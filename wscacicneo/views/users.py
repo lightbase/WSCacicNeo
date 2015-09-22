@@ -18,7 +18,7 @@ from wscacicneo.search.user import SearchUser
 from pyramid.security import (
     remember,
     forget,
-    )
+)
 from pyramid.session import check_csrf_token
 
 REST_URL = 'http://api.brlight.net/api'
@@ -28,6 +28,7 @@ class Users(object):
     """
     Métodos básicos do sistema
     """
+
     def __init__(self, request):
         """
         Método construtor
@@ -38,33 +39,33 @@ class Users(object):
             self.request.session.get('userid'))
 
     # Views de Favoritos
-    #@view_config(route_name='favoritos', renderer='../templates/favoritos.pt', permission="gest")
+    # @view_config(route_name='favoritos', renderer='../templates/favoritos.pt', permission="gest")
     def favoritos(self):
         matricula = self.request.matchdict['matricula']
         user_obj = Utils.create_user_obj()
         search = user_obj.search_user(matricula)
         email = search.results[0].email
-        if (self.usuario_autenticado.email ==  email):
+        if self.usuario_autenticado.email == email:
             search = user_obj.search_user(matricula)
             favoritos = search.results[0].favoritos
             return {
                 'favoritos': search.results[0].favoritos,
                 'itens': search.results[0].itens,
-                'nome' : search.results[0].nome,
-                'matricula' : search.results[0].matricula,
-                'email' : search.results[0].email,
-                'orgao' : search.results[0].orgao,
-                'telefone' : search.results[0].telefone,
-                'cargo' : search.results[0].cargo,
-                'setor' : search.results[0].setor,
-                'permissao' : search.results[0].permissao,
-                'senha' : search.results[0].senha,
+                'nome': search.results[0].nome,
+                'matricula': search.results[0].matricula,
+                'email': search.results[0].email,
+                'orgao': search.results[0].orgao,
+                'telefone': search.results[0].telefone,
+                'cargo': search.results[0].cargo,
+                'setor': search.results[0].setor,
+                'permissao': search.results[0].permissao,
+                'senha': search.results[0].senha,
                 'usuario_autenticado': self.usuario_autenticado
             }
         else:
             return HTTPFound(location=self.request.route_url('home'))
 
-    #@view_config(route_name='edit_favoritos', permission="gest")
+    # @view_config(route_name='edit_favoritos', permission="gest")
     def edit_favoritos(self):
         """
         Editar do Favoritos
@@ -93,7 +94,7 @@ class Users(object):
 
     # Users
 
-    #@view_config(route_name='user', renderer='../templates/user.pt', permission='admin')
+    # @view_config(route_name='user', renderer='../templates/user.pt', permission='admin')
     def user(self):
         orgao_obj = Utils.create_orgao_obj()
         distinct_orgaos = orgao_obj.get_distinct_orgaos("document->>'nome'")
@@ -102,7 +103,7 @@ class Users(object):
             'orgaos': distinct_orgaos.results
         }
 
-    #@view_config(route_name='post_user', permission="admin")
+    # @view_config(route_name='post_user', permission="admin")
     def post_user(self):
         """
         Post doc users
@@ -112,45 +113,46 @@ class Users(object):
         doc = self.request.params
         email_user = doc['email']
         email_is_institucional = Utils.verifica_email_institucional(email_user)
-        if(email_is_institucional):
+        if email_is_institucional:
             document = doc['favoritos']
             favoritos = [document]
-            if(doc['permissao'] == "Administrador "):
-                itens = [doc['lista_orgao'], doc['cadastro_orgao'], doc['lista_user'], doc['cadastro_user'], doc['notify']]
+            if doc['permissao'] == "Administrador ":
+                itens = [doc['lista_orgao'], doc['cadastro_orgao'], doc['lista_user'], doc['cadastro_user'],
+                         doc['notify']]
             else:
                 itens = [doc['notify']]
-            if self.usuario_autenticado == 'Administrador':
+            if self.usuario_autenticado.permissao == 'Administrador':
                 user_obj = User(
-                    nome = doc['nome'],
-                    matricula = doc['matricula'],
-                    email = doc['email'],
-                    orgao = doc['orgao'],
-                    telefone = doc['telefone'],
-                    cargo = doc['cargo'],
-                    setor = doc['setor'],
-                    permissao = doc['permissao'],
-                    senha = Utils.hash_password(doc['senha']),
-                    favoritos = favoritos,
-                    itens = itens
+                    nome=doc['nome'],
+                    matricula=doc['matricula'],
+                    email=doc['email'],
+                    orgao=doc['orgao'],
+                    telefone=doc['telefone'],
+                    cargo=doc['cargo'],
+                    setor=doc['setor'],
+                    permissao=doc['permissao'],
+                    senha=Utils.hash_password(doc['senha']),
+                    favoritos=favoritos,
+                    itens=itens
                 )
             else:
                 user_obj = User(
-                nome = doc['nome'],
-                matricula = doc['matricula'],
-                email = doc['email'],
-                orgao = self.usuario_autenticado.orgao,
-                telefone = doc['telefone'],
-                cargo = doc['cargo'],
-                setor = doc['setor'],
-                permissao = 'Gestor',
-                senha = Utils.hash_password(doc['senha']),
-                favoritos = favoritos,
-                itens = itens
-            )
+                    nome=doc['nome'],
+                    matricula=doc['matricula'],
+                    email=doc['email'],
+                    orgao=self.usuario_autenticado.orgao,
+                    telefone=doc['telefone'],
+                    cargo=doc['cargo'],
+                    setor=doc['setor'],
+                    permissao='Gestor',
+                    senha=Utils.hash_password(doc['senha']),
+                    favoritos=favoritos,
+                    itens=itens
+                )
             at = atividade.Atividade(
                 tipo='insert',
                 usuario=self.usuario_autenticado.nome,
-                descricao='Cadastrou o  Usuario '+ doc['nome'],
+                descricao='Cadastrou o  Usuario ' + doc['nome'],
                 data=datetime.datetime.now()
             )
             at.create_atividade()
@@ -159,9 +161,9 @@ class Users(object):
             session.flash('Cadastro realizado com sucesso', queue="success")
             return Response(str(id_doc))
         else:
-            return {"emailerrado":"emailerrado"}
+            return {"emailerrado": "emailerrado"}
 
-    #@view_config(route_name='post_first_user')
+    # @view_config(route_name='post_first_user')
     def post_first_user(self):
         """
         Post doc users
@@ -169,36 +171,37 @@ class Users(object):
         user_obj = Utils.create_user_obj()
         search = user_obj.search_list_users()
         result_count = search.result_count
-        if(result_count == 0):
+        if result_count == 0:
             rest_url = REST_URL
             userbase = model_usuario.UserBase().lbbase
             doc = self.request.params
             email_user = doc['email']
             email_is_institucional = Utils.verifica_email_institucional(email_user)
-            if(email_is_institucional):
+            if email_is_institucional:
                 document = doc['favoritos']
                 favoritos = [document]
-                itens = [doc['lista_orgao'], doc['cadastro_orgao'], doc['lista_user'], doc['cadastro_user'], doc['notify']]
+                itens = [doc['lista_orgao'], doc['cadastro_orgao'], doc['lista_user'], doc['cadastro_user'],
+                         doc['notify']]
                 user_obj = User(
-                    nome = doc['nome'],
-                    matricula = doc['matricula'],
-                    email = doc['email'],
-                    orgao = doc['orgao'],
-                    telefone = doc['telefone'],
-                    cargo = doc['cargo'],
-                    setor = doc['setor'],
-                    permissao = "Administrador",
-                    senha = Utils.hash_password(doc['senha']),
-                    favoritos = favoritos,
-                    itens = itens
+                    nome=doc['nome'],
+                    matricula=doc['matricula'],
+                    email=doc['email'],
+                    orgao=doc['orgao'],
+                    telefone=doc['telefone'],
+                    cargo=doc['cargo'],
+                    setor=doc['setor'],
+                    permissao="Administrador",
+                    senha=Utils.hash_password(doc['senha']),
+                    favoritos=favoritos,
+                    itens=itens
                 )
                 id_doc = user_obj.create_user()
 
                 at = atividade.Atividade(
                     tipo='insert',
                     usuario='Sistema',
-                    descricao='Cadastrou o usuário '+ doc['nome'],
-                    data=datetime.datetime. now()
+                    descricao='Cadastrou o usuário ' + doc['nome'],
+                    data=datetime.datetime.now()
                 )
                 at.create_atividade()
                 session = self.request.session
@@ -207,9 +210,9 @@ class Users(object):
             else:
                 return {"emailerrado": "emailerrado"}
         else:
-            return HTTPFound(location = self.request.route_url('home'))
+            return HTTPFound(location=self.request.route_url('home'))
 
-    #@view_config(route_name='edituser', renderer='../templates/editaruser.pt', permission="admin")
+    # @view_config(route_name='edituser', renderer='../templates/editaruser.pt', permission="admin")
     def edituser(self):
         matricula = self.request.matchdict['matricula']
         user_obj = Utils.create_user_obj()
@@ -233,7 +236,7 @@ class Users(object):
             'orgaos': distinct_orgaos.results
         }
 
-    #@view_config(route_name='put_user', permission="admin")
+    # @view_config(route_name='put_user', permission="admin")
     def put_user(self):
         """
         Edita um doc de user apartir do id
@@ -251,7 +254,8 @@ class Users(object):
             edit_yourself = True
             email_user = usuario_autenticado_email
         if params['permissao'] == "Administrador" and params['permissao'] != permissao_usuario_edit:
-            itens = [params['lista_orgao'], params['cadastro_orgao'], params['lista_user'], params['cadastro_user'], params['notify']]
+            itens = [params['lista_orgao'], params['cadastro_orgao'], params['lista_user'], params['cadastro_user'],
+                     params['notify']]
             favoritos = [params['favoritos']]
             user = {
                 'nome': params['nome'],
@@ -301,7 +305,7 @@ class Users(object):
         at = atividade.Atividade(
             tipo='put',
             usuario=self.usuario_autenticado.nome,
-            descricao='Editou o  usuario '+params['nome'],
+            descricao='Editou o  usuario ' + params['nome'],
             data=datetime.datetime.now()
         )
         at.create_atividade()
@@ -318,24 +322,25 @@ class Users(object):
                 session.invalidate()
                 headers = forget(self.request)
                 response = Response()
-                session.flash('Alteração realizado com sucesso. Você estará sendo desconectado. Reconecte-se.', queue="success")
+                session.flash('Alteração realizado com sucesso. Você estará sendo desconectado. Reconecte-se.',
+                              queue="success")
                 response = HTTPFound(location=self.request.route_url('login'),
                                      headers=headers)
                 return response
         else:
             return {"emailerrado": "E-mail não institucional"}
 
-    #@view_config(route_name='listuser', renderer='../templates/list_user.pt', permission="admin")
+    # @view_config(route_name='listuser', renderer='../templates/list_user.pt', permission="admin")
     def listuser(self):
         # Valida CSRF do formulário de login
-        #check_csrf_token(self.request)
+        # check_csrf_token(self.request)
         user_obj = Utils.create_user_obj()
         search = user_obj.search_list_users()
         return {'user_doc': search.results,
                 'usuario_autenticado': self.usuario_autenticado
                 }
 
-    #@view_config(route_name='delete_user', permission="admin")
+    # @view_config(route_name='delete_user', permission="admin")
     def delete_user(self):
         """
         Deleta doc apartir do id
@@ -349,7 +354,7 @@ class Users(object):
         at = atividade.Atividade(
             tipo='delete',
             usuario=self.usuario_autenticado.nome,
-            descricao='Deletou o usuario '+nome,
+            descricao='Deletou o usuario ' + nome,
             data=datetime.datetime.now()
         )
         at.create_atividade()
@@ -366,7 +371,7 @@ class Users(object):
             session.flash('Você não pode apagar a si mesmo.', queue="error")
             return HTTPFound(location=self.request.route_url('listuser'))
 
-    #@view_config(route_name='edit_profile_user', renderer='../templates/editarperfil.pt', permission="gest")
+    # @view_config(route_name='edit_profile_user', renderer='../templates/editarperfil.pt', permission="gest")
     def edit_profile_user(self):
         matricula = self.request.matchdict['matricula']
         user_obj = Utils.create_user_obj()
@@ -391,9 +396,9 @@ class Users(object):
                 'orgaos': distinct_orgaos.results
             }
         else:
-            return HTTPFound(location = self.request.route_url('home'))
+            return HTTPFound(location=self.request.route_url('home'))
 
-    #@view_config(route_name='put_profile_user', permission="gest")
+    # @view_config(route_name='put_profile_user', permission="gest")
     def put_profile_user(self):
         """
         Edita um doc de user apartir do id
@@ -426,20 +431,21 @@ class Users(object):
             headers = forget(self.request)
             response = Response()
             response = HTTPFound(location=self.request.route_url('login'))
-                                 #,headers=headers)
-            session.flash('Alteração realizado com sucesso. Você está sendo desconectado. Reconecte-se.', queue="success")
+            # ,headers=headers)
+            session.flash('Alteração realizado com sucesso. Você está sendo desconectado. Reconecte-se.',
+                          queue="success")
             return response
         else:
             session.flash('Alteração realizado com sucesso.', queue="success")
             return Response(edit)
 
-    #@view_config(route_name='edit_password_user', renderer='../templates/alterar_senha.pt', permission="gest")
+    # @view_config(route_name='edit_password_user', renderer='../templates/alterar_senha.pt', permission="gest")
     def edit_password_user(self):
         matricula = self.request.matchdict['matricula']
         user_obj = Utils.create_user_obj()
         search = user_obj.search_user(matricula)
         email = search.results[0].email
-        if self.usuario_autenticado.email ==  email:
+        if self.usuario_autenticado.email == email:
             return {
                 'nome': search.results[0].nome,
                 'matricula': search.results[0].matricula,
@@ -457,7 +463,7 @@ class Users(object):
         else:
             return HTTPFound(location=self.request.route_url('home'))
 
-    #@view_config(route_name='put_password_user', permission="gest")
+    # @view_config(route_name='put_password_user', permission="gest")
     def put_password_user(self):
         """
         Edita um doc de user apartir do id
@@ -487,10 +493,10 @@ class Users(object):
         session.flash('Alteração realizado com sucesso', queue="success")
         return Response(edit)
 
-    #@view_config (route_name='init_config_user', renderer='../templates/init_config_user.pt')
+    # @view_config (route_name='init_config_user', renderer='../templates/init_config_user.pt')
     def init_config_user(self):
         if Utils.check_has_user():
-            return HTTPFound(location = self.request.route_url('login'))
+            return HTTPFound(location=self.request.route_url('login'))
         orgao_obj = Utils.create_orgao_obj()
         distinct_orgaos = orgao_obj.get_distinct_orgaos("document->>'nome'")
         return {
