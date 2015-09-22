@@ -372,12 +372,13 @@ class Relatorios(object):
         """
         data = self.request.params.get('data')
         header = self.request.params.get('header')
-
+        orgao = self.request.params.get('orgao_name')
+        item = self.request.params.get('report_name')
         rows = json.loads(data)
         if header is not None:
             header = json.loads(header)
 
-        filename = 'software.csv'
+        filename = orgao + '_' + item + '.csv'
         self.request.response.content_disposition = 'attachment;filename=' + filename
 
         return {
