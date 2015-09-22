@@ -9,7 +9,7 @@
                 <div tal:condition="usuario_autenticado.orgao == request.matchdict['nm_orgao'] or usuario_autenticado.permissao == 'Administrador'">
                     <a type="button" href="#modal" data-toggle="modal" class="btn btn-sm btn-primary"><i class="fa fa-plus-square"></i> Adicionar valor</a>
                     <button type="button" id="error" class="btn btn-sm btn-warning"><i class="fa fa-exclamation-triangle"></i> Questionar coleta</button>
-                    <button type="button" id="delete" class="btn btn-sm btn-success"><i class="fa fa-refresh"></i> Atualizar Relatório</button>
+                    <button tal:condition="request.matchdict['nm_orgao'] != 'todos-orgaos' " type="button" id="delete" class="btn btn-sm btn-success"><i class="fa fa-refresh"></i> Atualizar Relatório</button>
                 </div>
             </div>
             <div class="row">
