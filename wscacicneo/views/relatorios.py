@@ -375,6 +375,21 @@ class Relatorios(object):
         orgao = self.request.params.get('orgao_name')
         item = self.request.params.get('report_name')
         rows = json.loads(data)
+
+        if item == 'win32_processor':
+            item = 'processador'
+        elif item == 'win32_diskdrive':
+            item = 'HD'
+        elif item == 'win32_bios':
+            item = 'BIOS'
+        elif item == 'win32_physicalmemory':
+            item = 'memoria'
+        elif item == 'operatingsystem':
+            item = 'sistema-operacional'
+        elif item == 'software':
+            item = 'suites-de-escritorio'
+        elif item == 'todos':
+            item = 'todos-itens'
         if header is not None:
             header = json.loads(header)
 
