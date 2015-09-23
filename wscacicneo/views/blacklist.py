@@ -77,7 +77,6 @@ class Blacklist(object):
         id_doc = blacklist_obj.create_item()
         session = self.request.session
         session.flash('O Item "' + data + '" foi adicionado à lista de remoção com sucesso', queue="success")
-        session.flash('Para ver as mudanças no relatório, clique no botão "Atualizar Relatório"', queue="warning")
         return Response(str(id_doc))
 
     def add_blacklist_item(self):
