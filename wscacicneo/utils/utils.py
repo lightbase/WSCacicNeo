@@ -145,27 +145,18 @@ class Utils:
         return saida
 
     def computers_not_found(data, total):
-        a = 0
-        for x in data.keys():
-            if isinstance(data[x],type(dict())):
-                for y in data[x].keys():
-                    a = a+int(data[x][y])
-                count = total - a
-                if a < total:
-                    data[x]['Não Informados'] = count
+        count_items = 0
 
-                    return data
-                else:
-                    return data
+        for key in data.keys():
+            if not isinstance(data[key], type(dict())):
+                count_items = count_items + data[key]
             else:
-                count = total - a
-                a = a+int(data[x])
-                if a < total:
-                    data['Não Informados'] = count
-
-                    return data
-                else:
-                    return data
+                for item_amount in data[key].keys():
+                    count_items = count_items + data[key][item_amount]
+        if count_items < total:
+            count_final = total - count_items
+            data['Não Informados'] = count_final
+        return data
 
     def return_blacklist(self):
         blacklist_obj = blacklist.Blacklist(item="name")
