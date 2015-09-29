@@ -394,7 +394,6 @@ class Utils:
     def orgaos_com_reports():
         orgaos = list()
         all_bases = Utils.return_all_bases_list()
-        print(all_bases)
         for base in all_bases:
             if base.find('_bk') > -1:
                 orgaos.append(base.split('_bk')[0])
@@ -410,7 +409,6 @@ class Utils:
 
     def delete_all_bases():
         orgaos_list = Utils.orgaos_com_reports()
-        print(orgaos_list)
         results_list = list()
         for nm_base in orgaos_list:
             base = ReportsBase(nm_base)
