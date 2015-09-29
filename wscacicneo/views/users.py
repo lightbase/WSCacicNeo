@@ -116,11 +116,13 @@ class Users(object):
         if email_is_institucional:
             document = doc['favoritos']
             favoritos = [document]
-            if doc['permissao'] == "Administrador ":
+            print(doc['permissao'])
+            if doc['permissao'] == "Administrador":
+                print("entrei na sessão de administrador.")
                 itens = [doc['lista_orgao'], doc['cadastro_orgao'], doc['lista_user'], doc['cadastro_user'],
                          doc['notify']]
             else:
-                itens = [doc['notify']]
+                itens = [doc['notify'], doc['lista_user']]
             if self.usuario_autenticado.permissao == 'Administrador':
                 user_obj = User(
                     nome=doc['nome'],

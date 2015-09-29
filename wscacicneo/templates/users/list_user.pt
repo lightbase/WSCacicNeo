@@ -23,7 +23,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>Nome</th>
-                                                    <th>Matricula</th>
+                                                    <th tal:condition="usuario_autenticado.permissao == 'Administrador'">Matricula</th>
                                                     <th>E-mail</th>
                                                     <th>Órgão</th>
                                                     <th tal:condition="usuario_autenticado.permissao == 'Administrador'">Permissão</th>
@@ -45,12 +45,9 @@
                                             </tbody>
                                             <tbody tal:condition="usuario_autenticado.permissao == 'Gestor'">
                                                 <tr tal:repeat="doc user_doc">
-                                                    <tal tal:condition="doc.orgao == usuario_autenticado.orgao">
-                                                        <td>${doc.nome}</td>
-                                                        <td>${doc.matricula}</td>
-                                                        <td>${doc.email}</td>
-                                                        <td>${doc.orgao}</td>
-                                                    </tal>
+                                                    <td>${doc.nome}</td>
+                                                    <td>${doc.email}</td>
+                                                    <td>${doc.orgao}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
