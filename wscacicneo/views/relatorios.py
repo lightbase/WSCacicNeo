@@ -355,16 +355,16 @@ class Relatorios(object):
     def delete_reports(self):
         nm_base = self.request.params['base']
         if nm_base == "todos-orgaos":
-            return None
+            results = Utils.delete_all_bases()
         else:
             base = base_reports.ReportsBase(nm_base)
             results = base.remove_base()
-            session = self.request.session
-            if results:
-                session.flash('Atualização do relatório realizada com sucesso', queue="success")
-            else:
-                session.flash('Erro ao atualizar o relatório', queue="error")
-            return Response(str(results))
+        session = self.request.session
+        if results:
+            session.flash('Atualização do relatório realizada com sucesso', queue="success")
+        else:
+            session.flash('Erro ao atualizar o relatório', queue="error")
+        return Response(str(results))
 
     def json_csv(self):
         """

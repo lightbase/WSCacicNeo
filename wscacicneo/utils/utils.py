@@ -112,7 +112,7 @@ class Utils:
 
     def return_all_bases_list():
         # RETORNA TODAS AS BASES
-        bases = requests.get(config.REST_URL)
+        bases = requests.get(config.REST_URL+'?$$={"limit":null}')
         bases_dict = bases.json()
         base_list = []
         for value in bases_dict["results"]:
@@ -394,6 +394,7 @@ class Utils:
     def orgaos_com_reports():
         orgaos = list()
         all_bases = Utils.return_all_bases_list()
+        print(all_bases)
         for base in all_bases:
             if base.find('_bk') > -1:
                 orgaos.append(base.split('_bk')[0])
@@ -406,3 +407,13 @@ class Utils:
             index_itens[key_number] = item
             key_number = key_number + 1
         return index_itens
+
+    def delete_all_bases():
+        orgaos_list = Utils.orgaos_com_reports()
+        print(orgaos_list)
+        results_list = list()
+        for nm_base in orgaos_list:
+            base = ReportsBase(nm_base)
+            result = base.remove_base()
+            results_list.append(result)
+        return results_list
