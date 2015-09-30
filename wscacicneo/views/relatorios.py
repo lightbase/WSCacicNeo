@@ -178,11 +178,15 @@ class Relatorios(object):
             data = self.request.params
             if self.usuario_autenticado.permissao == 'Administrador' or (self.usuario_autenticado.permissao == 'Gestor' and self.usuario_autenticado.orgao == data['nm_base']):
                 item_key = data['item']
-                item = data['dict_itens['+item_key+']']
                 attr = data['attr']
                 if attr == 'software':
                     attr = 'softwarelist'
                 nm_orgao = data['nm_base']
+                all_organs = data['all_organs']
+                if all_organs == 'true':
+                    item = data['dict_itens['+nm_orgao+']['+item_key+']']
+                else:
+                    item = data['dict_itens['+item_key+']']
                 value = data['value']
                 data_dic = {attr : {attr+'_item': item, attr+'_amount': int(value)}}
                 valor = attr+'_item'

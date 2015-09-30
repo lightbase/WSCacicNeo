@@ -333,12 +333,20 @@
                         attr = $(this).attr('data-type')
                     }
                     base = "${request.matchdict['nm_orgao']}"
+                    all_organs = 'false';
+                    if(base == 'todos-orgaos')
+                    {
+                        base = $(this).attr('orgao')
+                        all_organs = 'true';
+                        data_id = $(this).attr('item-key')
+                    }
                     data = {
                         'nm_base' : base,
                         'attr': attr,
                         'value' : value,
                         'item' : data_id,
-                        'dict_itens': index_itens
+                        'dict_itens': index_itens,
+                        'all_organs': all_organs
                     }
             $.ajax({
                     type: "PUT",

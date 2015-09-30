@@ -87,7 +87,7 @@
                 </tal>
                 <tal tal:condition="report_name == 'software'">
                     <tal tal:condition="view_type == 'detailed'">
-                        <a href="#add_blacklist_${item_key}_${orgao}" title="Alterar quantidade" data-toggle="modal" class="btn btn-xs btn-warning">
+                        <a href="#modal_item_${item_key}_${orgao}" title="Alterar quantidade" data-toggle="modal" class="btn btn-xs btn-warning">
                             <i class="fa fa-pencil"></i>
                         </a>
                     </tal>
@@ -133,22 +133,22 @@
                                 <p>Valor atual: <b>${data_list[orgao][k]}</b></p>
                                 <div>
                                     <label class="control-label">Novo valor:</label>
-                                    <input class="form-control" type="text" id="${item_key}" style="width:20%;" class="form-control" placeholder="Valor">
+                                    <input class="form-control" type="text" id="${item_key}_${orgao}" style="width:20%;" class="form-control" placeholder="Valor">
                                 </div>
                             </div>
                             <div tal:condition="report_name=='todos'" class="modal-body">
                                 <p>Valor atual: <b>${data[orgao][key][k]}</b></p>
                                 <div>
                                     <label class="control-label">Novo valor:</label>
-                                    <input class="form-control" type="text" id="${item_key}" style="width:20%;" class="form-control" placeholder="Valor">
+                                    <input class="form-control" type="text" id="${item_key}_${orgao}" style="width:20%;" class="form-control" placeholder="Valor">
                                 </div>
                             </div>
                             <div tal:condition="report_name!='todos'" class="modal-footer">
-                                <button type="button" data-id="${item_key}" class="btn btn-primary">Alterar</button>
+                                <button type="button" data-id="${item_key}_${orgao}" item-key="${item_key}" orgao="${orgao}" class="btn btn-primary">Alterar</button>
                                 <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Fechar</button>
                             </div>
                             <div tal:condition="report_name=='todos'" class="modal-footer">
-                                <button type="button" data-id="${item_key}" data-type="${key}" class="btn btn-primary">Alterar</button>
+                                <button type="button" data-id="${item_key}_${orgao}" data-type="${key}" item-key="${item_key}" orgao="${orgao}" class="btn btn-primary">Alterar</button>
                                 <button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Fechar</button>
                             </div>
                         </div>
