@@ -415,3 +415,26 @@ class Utils:
             result = base.remove_base()
             results_list.append(result)
         return results_list
+
+class RelacionalConverter:
+    # recebe a base de coleta de um PC e retorna um json equivalente para enviar para o LBRELACIONAL
+    def __init__(self, base_inicial_json):
+        self.base_inicial_dict = json.loads(base_inicial_json)
+        
+    def cria_json_relacional(self):
+        base_final_dict = dict()
+        for attr in self.base_inicial_dict:
+            # Busca dentro dos campos e coloca no dict
+            if attr in ['win32_physicalmemory',
+                        'win32_bios', 'win32_diskdrive',
+                        'operatingsystem', 'win32_processor']:
+                # itera dentro dos grupos para obter os sub atributos
+                for subattr in self.base_inicial_dict[attr]:
+                    base_final_dict[subattr] = self.base_inicial_dict[attr][subattr]
+            elif attr not in ["data_coleta",  "file_ext", "dt_base", "description",
+                              "password", "file_ext_time", "idx_exp", "idx_exp_time",
+                              "idx_exp_url", "name", "id_base", "color","softwarelist"]:
+                # obtem somente os atributos necessarios
+                base_final_dict[attr] = self.base_inicial_dict[attr]
+        base_final_dict["nome_orgao"] = self.base_inicial_dict["name"]
+        return json.dumps(base_final_dict)
