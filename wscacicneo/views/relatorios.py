@@ -48,6 +48,9 @@ class Relatorios(object):
                 'usuario_autenticado': self.usuario_autenticado
                 }
 
+    def conf_csv(self):
+        return self.conf_report()
+
     def report_orgao(self):
         data = dict()
         orgao_nm = self.request.matchdict['nm_orgao']

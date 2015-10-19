@@ -1,0 +1,114 @@
+<metal:main use-macro="load: ../basic/master.pt">
+  <metal:content fill-slot="dash">
+      CSV Relacional
+  </metal:content>
+	<metal:content fill-slot="conteudo">
+        <div class="padd">
+            <br />
+            <!-- Form starts.  -->
+             <form class="form-horizontal col-lg-8" role="form">
+                 <div style="margin-left: 10%;">
+                     <h3 class="col-lg-2 control-label">Órgão</h3>
+                     <br>
+                     <br>
+                     <tal tal:repeat="doc orgao_doc">
+                        <input type="checkbox" name="orgao" onclick="toggle_any(this)" value="${doc.nome}">${doc.pretty_name}
+                        <br />
+                     </tal>
+                     <input type="radio" name="todos_orgaos" onClick="toggle_all(this)" checked value="todos-orgaos">Todos os Órgãos
+                     <br/>
+                     <h3 class="col-lg-2 control-label">Item</h3>
+                     <br>
+                     <br>
+                     <input type="checkbox" name="item" checked value="hardware">Hardware</input>
+                     <br />
+                     <input type="checkbox" name="item" value="software">Software</input>
+                 </div>
+                 <div style="margin-left: 28%;">
+                     <div class="float-right" style="margin-left: 135px;">
+                         <button type="button" id="enviar" class="btn btn-sm btn-primary">Baixar</button>
+                         <button type="button" id="voltar" class="btn btn-sm btn-default">Voltar</button>
+                         <span id="loading" style="display: none; margin-left: 135px;">
+                             <img src="${request.route_url('root')}static/imgs/ajax-loader-circle.gif" />  Aguarde...
+                         </span>
+                     </div>
+                 </div>
+             </form>
+        </div>
+	</metal:content>
+	<metal:content fill-slot="javascript">
+        <script type="text/javascript">
+            function toggle_any(source) {
+                var radio = document.getElementsByName('todos_orgaos')
+                var checkboxes = document.getElementsByName('orgao')
+                for(var i=0, n=radio.length;i<n;i++) {
+                        radio[i].checked = false
+                }
+                if(!source.checked)
+                {
+                    var all_unchecked = true
+                    for(var i= 0,n=checkboxes.length;i<n;i++)
+                    {
+                        if(checkboxes[i].checked)
+                        {
+                            all_unchecked = false
+                        }
+                    }
+                    if(all_unchecked)
+                    {
+                        for(var i=0, n=radio.length;i<n;i++) {
+                            radio[i].checked = true
+                        }
+                    }
+                }
+            }
+            function toggle_all(source) {
+                checkboxes = document.getElementsByName('orgao');
+                if(source.checked) {
+                    for(var i=0, n=checkboxes.length;i<n;i++)
+                    {
+                        checkboxes[i].checked = false;
+                    }
+                }
+            }
+            $('#voltar').click(function(){
+                var oldURL = document.referrer;
+                window.location.href = oldURL;
+            });
+            $('#enviar').click(function(){
+                var listaorgaos = []
+                var listaitens = []
+                checks_orgaos = document.getElementsByName('orgao')
+                radio = document.getElementsByName('todos_orgaos')
+                checks_itens = document.getElementsByName('item')
+                if(radio[0].checked)
+                {
+                orgao = 'todos'
+                }
+                else
+                {
+                    for (var i = 0, n = checks_orgaos.length; i < n; i++)
+                    {
+                        if (checks_orgaos[i].checked)
+                        {
+                            listaorgaos.push(checks_orgaos[i].value)
+                        }
+                    }
+                }
+                for (var i = 0, n = checks_itens.length; i<n; i++)
+                {
+                    if(checks_itens[i].checked)
+                    {
+                        listaitens.push(checks_itens[i].value)
+                    }
+                }
+                if(listaitens.length == 0)
+                {
+                    noty({text: 'Erro: Selecione um item.',layout:'topRight',type:'warning',timeout:3000});
+                    return True;
+                }
+
+            });
+        </script>
+    </metal:content>
+</metal:main>

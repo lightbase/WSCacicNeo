@@ -229,6 +229,9 @@ def make_routes(cfg):
     cfg.add_view(relatorios.Relatorios, attr='post_reports', route_name='post_reports',
                   permission="user")
 
+    cfg.add_route('conf_csv', 'csv/configuracao')
+    cfg.add_view(relatorios.Relatorios, attr='conf_csv', route_name='conf_csv',
+                 renderer='templates/reports/conf_csv.pt', permission="admin")
 
     # Gráficos
     cfg.add_route('graficos_software', 'graficos/{nm_orgao}/software/{view_type}')
