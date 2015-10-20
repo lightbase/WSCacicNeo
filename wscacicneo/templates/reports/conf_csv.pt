@@ -17,12 +17,6 @@
                      </tal>
                      <input type="radio" name="todos_orgaos" onClick="toggle_all(this)" checked value="todos-orgaos">Todos os Órgãos
                      <br/>
-                     <h3 class="col-lg-2 control-label">Item</h3>
-                     <br>
-                     <br>
-                     <input type="checkbox" name="item" checked value="hardware">Hardware</input>
-                     <br />
-                     <input type="checkbox" name="item" value="software">Software</input>
                  </div>
                  <div style="margin-left: 28%;">
                      <div class="float-right" style="margin-left: 135px;">
