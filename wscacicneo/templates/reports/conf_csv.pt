@@ -6,7 +6,7 @@
         <div class="padd">
             <br />
             <!-- Form starts.  -->
-             <form class="form-horizontal col-lg-8" role="form">
+             <form action="${request.route_url('lbrelacional_csv')}" id="csv" method="POST" class="form-horizontal col-lg-8" role="form">
                  <div style="margin-left: 10%;">
                      <h3 class="col-lg-2 control-label">Órgão</h3>
                      <br>
@@ -15,8 +15,6 @@
                         <input type="checkbox" name="orgao" onclick="toggle_any(this)" value="${doc.nome}">${doc.pretty_name}
                         <br />
                      </tal>
-                     <input type="radio" name="todos_orgaos" onClick="toggle_all(this)" checked value="todos-orgaos">Todos os Órgãos
-                     <br/>
                  </div>
                  <div style="margin-left: 28%;">
                      <div class="float-right" style="margin-left: 135px;">
@@ -73,35 +71,24 @@
                 var listaorgaos = []
                 var listaitens = []
                 checks_orgaos = document.getElementsByName('orgao')
-                radio = document.getElementsByName('todos_orgaos')
                 checks_itens = document.getElementsByName('item')
-                if(radio[0].checked)
+
+                for (var i = 0, n = checks_orgaos.length; i < n; i++)
                 {
-                orgao = 'todos'
+                    if (checks_orgaos[i].checked)
+                    {
+                        listaorgaos.push(checks_orgaos[i].value)
+                    }
+                }
+                if(listaorgaos.length == 0)
+                {
+                    noty({text: 'Erro: Selecione um órgão.',layout:'topRight',type:'warning',timeout:3000});
+                    return true;
                 }
                 else
                 {
-                    for (var i = 0, n = checks_orgaos.length; i < n; i++)
-                    {
-                        if (checks_orgaos[i].checked)
-                        {
-                            listaorgaos.push(checks_orgaos[i].value)
-                        }
-                    }
+                    $('#csv').submit();
                 }
-                for (var i = 0, n = checks_itens.length; i<n; i++)
-                {
-                    if(checks_itens[i].checked)
-                    {
-                        listaitens.push(checks_itens[i].value)
-                    }
-                }
-                if(listaitens.length == 0)
-                {
-                    noty({text: 'Erro: Selecione um item.',layout:'topRight',type:'warning',timeout:3000});
-                    return True;
-                }
-
             });
         </script>
     </metal:content>
