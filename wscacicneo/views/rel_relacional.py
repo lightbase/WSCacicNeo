@@ -54,7 +54,7 @@ class RelatorioRelacional(object):
     def lbrelacional_csv(self):
         conn = psycopg2.connect(host="localhost", database="lb_relacional", user="rest", password="rest")
         cur = conn.cursor()
-        cur.execute("SELECT * FROM cacic_relacional.cacic_relacional WHERE name_orgao = ? ",variavel)
+        cur.execute("SELECT * FROM cacic_relacional.cacic_relacional")
         rows = cur.fetchall()
         cur.execute("SELECT * FROM cacic_relacional.cacic_relacional LIMIT 0")
         header = [desc[0] for desc in cur.description]
