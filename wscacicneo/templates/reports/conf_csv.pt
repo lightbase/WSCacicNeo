@@ -1,31 +1,28 @@
 <metal:main use-macro="load: ../basic/master.pt">
   <metal:content fill-slot="dash">
-      CSV Relacional
+      Exportação
   </metal:content>
 	<metal:content fill-slot="conteudo">
         <div class="padd">
             <br />
             <!-- Form starts.  -->
-             <form action="${request.route_url('lbrelacional_csv')}" id="csv" method="POST" class="form-horizontal col-lg-8" role="form">
-                 <div style="margin-left: 10%;">
-                     <h3 class="col-lg-2 control-label">Órgão</h3>
-                     <br>
-                     <br>
-                     <tal tal:repeat="doc orgao_doc">
-                        <input type="checkbox" name="orgao" onclick="toggle_any(this)" value="${doc.nome}">${doc.pretty_name}
-                        <br />
-                     </tal>
-                 </div>
-                 <div style="margin-left: 28%;">
-                     <div class="float-right" style="margin-left: 135px;">
+            <form style="margin-left: 30%;" action="${request.route_url('lbrelacional_csv')}" id="csv" method="POST" class="form-horizontal col-lg-8" role="form">
+                 <div class="widget"  style=" width: 60%">
+                     <div class="widget-head">Órgãos
+                     </div>
+                     <div class="widget-content">
+                         <br>
+                         <tal tal:repeat="doc orgao_doc">
+                            <input style="margin-left: 6%;" type="checkbox" name="orgao" onclick="toggle_any(this)" value="${doc.nome}">${doc.pretty_name}
+                            <br />
+                         </tal>
+                         <br>
+                     </div>
+                     <div class="widget-foot" align="center">
                          <button type="button" id="enviar" class="btn btn-sm btn-primary">Baixar</button>
-                         <button type="button" id="voltar" class="btn btn-sm btn-default">Voltar</button>
-                         <span id="loading" style="display: none; margin-left: 135px;">
-                             <img src="${request.route_url('root')}static/imgs/ajax-loader-circle.gif" />  Aguarde...
-                         </span>
                      </div>
                  </div>
-             </form>
+            </form>
         </div>
 	</metal:content>
 	<metal:content fill-slot="javascript">
