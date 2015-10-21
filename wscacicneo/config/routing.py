@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'eduardo'
 
-from ..views import home, notifications, orgaos, users, relatorios, rel_relacional, coleta, security, api, graficos, atividades, blacklist
+from ..views import home, notifications, orgaos, users, relatorios, relacional, coleta, security, api, graficos, atividades, blacklist
 from ..utils.csvhandler import json2csv
 from pyramid.httpexceptions import HTTPNotFound
 
@@ -232,12 +232,16 @@ def make_routes(cfg):
 
     # Relatórios relacionais/csv
     cfg.add_route('conf_csv', 'csv/configuracao')
-    cfg.add_view(rel_relacional.RelatorioRelacional, attr='conf_csv', route_name='conf_csv',
+    cfg.add_view(relacional.Relacional, attr='conf_csv', route_name='conf_csv',
                  renderer='templates/reports/conf_csv.pt', permission="admin")
 
     cfg.add_route('lbrelacional_csv', 'csv/relacional/download')
-    cfg.add_view(rel_relacional.RelatorioRelacional, request_method='POST', attr='lbrelacional_csv', route_name='lbrelacional_csv',
+    cfg.add_view(relacional.Relacional, request_method='POST', attr='lbrelacional_csv', route_name='lbrelacional_csv',
                  permission="user", renderer='csv')
+
+    cfg.add_route('generate_relacional', 'generate_relacional')
+    cfg.add_view(relacional.Relacional, attr='generate_relacional', route_name='generate_relacional',
+                 permission="admin")
     # Gráficos
     cfg.add_route('graficos_software', 'graficos/{nm_orgao}/software/{view_type}')
     cfg.add_view(graficos.Graficos, attr='graficos_orgao', route_name='graficos_software',

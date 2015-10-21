@@ -6,14 +6,21 @@
         <div class="padd">
             <br />
             <!-- Form starts.  -->
-            <form style="margin-left: 30%;" action="${request.route_url('lbrelacional_csv')}" id="csv" method="POST" class="form-horizontal col-lg-8" role="form">
-                 <div class="widget"  style=" width: 60%">
+            <form style="margin-left: 20%;" action="${request.route_url('lbrelacional_csv')}" id="csv" method="POST" class="form-horizontal col-lg-8" role="form">
+                <div class="content" style="text-align: center">
+                    <h2>Gerar Tabela do Banco de dados relacional</h2>
+                    <a title="Gera banco de dados relacional" href="${request.route_url('generate_relacional')}" 
+                        type="button" class="btn btn-lg btn-success" id="generate_relacional">
+                        <i class="fa fa-cogs"></i> Gerar</a>
+                </div>
+                <br/>
+                <div class="widget"  style="text-align: center;">
                      <div class="widget-head">Órgãos
                      </div>
                      <div class="widget-content">
                          <br>
                          <tal tal:repeat="doc orgao_doc">
-                            <input style="margin-left: 6%;" type="checkbox" name="orgao" onclick="toggle_any(this)" value="${doc.nome}">${doc.pretty_name}
+                            <input style="width:15px; height: 15px" type="checkbox" name="orgao" onclick="toggle_any(this)" value="${doc.nome}"><i style="font-size: 18px;" > ${doc.pretty_name}</i>
                             <br />
                          </tal>
                          <br>
