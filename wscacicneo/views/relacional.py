@@ -60,6 +60,7 @@ class Relacional(object):
         header = [desc[0] for desc in cur.description]
         filename = 'tabela_relacional' + '.csv'
         self.request.response.content_disposition = 'attachment;filename=' + filename
+        conn.close
         return {
             'header': header,
             'rows': rows
@@ -69,6 +70,18 @@ class Relacional(object):
         json_relacional = {}
         list_orgaos = ["mpog"]
         headers = {'Content-Type': 'application/json'}
+        database_name = "cacic_relacional"
+        # Verifica se o Schema já existe
+        conn = psycopg2.connect(host="localhost", database="lb_relacional", user="rest", password="rest")
+        cur = conn.cursor()
+        try:
+            cur.execute("DROP SCHEMA "+database_name+" CASCADE;")
+            conn.commit()
+            conn.close()
+            print("dropei")
+        except Exception as e:
+            print("Drop database error:", e)
+
         for orgao_name in list_orgaos:
             # Pega  url da base e do orgão
             orgao_base_results = requests.get(config.REST_URL+"/"+orgao_name)
@@ -76,20 +89,19 @@ class Relacional(object):
             orgao_table = json.loads(orgao_base_results.text)
             orgao_table_model = orgao_table["metadata"]["model"]
             orgao_table_model["name_orgao"] = "Text"
-            print("*********************", orgao_table_model)
             json_data = json.dumps(orgao_table_model)
-            relacional_path = "http://127.0.1.1:5000"+"/sqlapi/lightbase/tables/cacic_relacional"
+            relacional_path = "http://127.0.1.1:5000"+"/sqlapi/lightbase/tables/"+database_name
             postRelacional = requests.post(relacional_path, data=json_data, headers=headers)
-            print(postRelacional)
-            
+
             # Verifica registro por registro e adiciona o campo name_orgao
             orgao_doc_results = requests.get(config.REST_URL+"/"+orgao_name+"/doc")
             orgao_doc = json.loads(orgao_doc_results.text)
             orgao_doc = orgao_doc["results"]
             for item in orgao_doc:
                 item["name_orgao"] = orgao_name
+                item.pop("_metadata", None)
                 json_data_doc = json.dumps(item)
-                relacional_path = "http://127.0.1.1:5000"+"/sqlapi/lightbase/content/cacic_relacional"
-                postRelacional = requests.post(relacional_path, data=json_data_doc, headers=headers)
+                relacional_path = "http://127.0.1.1:5000"+"/sqlapi/lightbase/content/"+database_name
+                postRelacionalDoc = requests.post(relacional_path, data=json_data_doc, headers=headers)
 
         return HTTPFound(location=self.request.route_url("conf_csv"))
