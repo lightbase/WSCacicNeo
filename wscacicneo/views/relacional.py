@@ -52,19 +52,24 @@ class Relacional(object):
                 }
 
     def lbrelacional_csv(self):
-        conn = psycopg2.connect(host="localhost", database="lb_relacional", user="rest", password="rest")
-        cur = conn.cursor()
-        cur.execute("SELECT * FROM cacic_relacional.cacic_relacional")
-        rows = cur.fetchall()
-        cur.execute("SELECT * FROM cacic_relacional.cacic_relacional LIMIT 0")
-        header = [desc[0] for desc in cur.description]
-        filename = 'tabela_relacional' + '.csv'
-        self.request.response.content_disposition = 'attachment;filename=' + filename
-        conn.close
-        return {
-            'header': header,
-            'rows': rows
-        }
+        try:
+            conn = psycopg2.connect(host="localhost", database="lb_relacional", user="rest", password="rest")
+            cur = conn.cursor()
+            cur.execute("SELECT * FROM cacic_relacional.cacic_relacional")
+            rows = cur.fetchall()
+            cur.execute("SELECT * FROM cacic_relacional.cacic_relacional LIMIT 0")
+            header = [desc[0] for desc in cur.description]
+            filename = 'tabela_relacional' + '.csv'
+            self.request.response.content_disposition = 'attachment;filename=' + filename
+            conn.close()
+            return {
+                'header': header,
+                'rows': rows
+            }
+        except Exception as error:
+            session = self.request.session
+            session.flash('É necessário gerar o banco de dados relacional antes de exportá-lo!', queue="error")
+            return HTTPFound(location=self.request.route_url("conf_csv"))
 
     def generate_relacional(self):
         list_orgaos = []
@@ -113,7 +118,8 @@ class Relacional(object):
                 json_data_doc = json.dumps(item)
                 relacional_path = "http://127.0.1.1:5000"+"/sqlapi/lightbase/content/"+database_name
                 postRelacionalDoc = requests.post(relacional_path, data=json_data_doc, headers=headers)
-
+        session = self.request.session
+        session.flash('O banco de dados relacional foi gerado com sucesso', queue="success")
         return HTTPFound(location=self.request.route_url("conf_csv"))
 
     @staticmethod

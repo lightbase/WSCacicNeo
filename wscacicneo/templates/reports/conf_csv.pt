@@ -8,7 +8,7 @@
             <!-- Form starts.  -->
             <form style="margin-left: 20%;" action="${request.route_url('lbrelacional_csv')}" id="csv" method="POST" class="form-horizontal col-lg-8" role="form">
                 <div class="content" style="text-align: center">
-                    <h2>Gerar Tabela do Banco de dados relacional</h2>
+                    <h2>Gerar Banco de Dados relacional</h2>
                     <a title="Gera banco de dados relacional" href="${request.route_url('generate_relacional')}" 
                         type="button" class="btn btn-lg btn-success" id="generate_relacional">
                         <i class="fa fa-cogs"></i> Gerar</a>
