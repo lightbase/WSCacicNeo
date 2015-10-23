@@ -6,7 +6,7 @@
         <div class="padd">
             <br />
             <!-- Form starts.  -->
-            <form style="margin-left: 20%;" id="csv" class="form-horizontal col-lg-8" role="form">
+            <form style="margin-left: 20%;" id="csv" method="POST" action="${request.route_url('lbrelacional_csv')}" class="form-horizontal col-lg-8" role="form">
                 <div class="content" style="text-align: center">
                     <h2>Gerar Banco de Dados relacional</h2>
                     <a title="Gera banco de dados relacional" href="${request.route_url('generate_relacional')}" 
@@ -84,18 +84,8 @@
                     return true;
                 }
                 else
-                {   var final_data = {
-                    'orgaos': listaorgaos
-                    };
-                    $.ajax({
-                        type: "POST",
-                        url: "${request.route_url('lbrelacional_csv')}",
-                        data: final_data,
-                        success: function(){},
-                        error: function(){
-                            noty({text: 'Ocorreu um erro ao gerar o CSV.',layout:'topRight',type:'error',timeout:3000});
-                        }
-                    });
+                {
+                    $('#csv').submit();
                 }
             });
         </script>

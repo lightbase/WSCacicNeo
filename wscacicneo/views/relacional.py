@@ -52,12 +52,15 @@ class Relacional(object):
                 }
 
     def lbrelacional_csv(self):
-        doc = self.request.params
-        print(doc)
         try:
+            listaorgaos = self.request.params.getall('orgao')
+            print(listaorgaos)
             conn = psycopg2.connect(host="localhost", database="lb_relacional", user="rest", password="rest")
             cur = conn.cursor()
-            cur.execute("SELECT * FROM cacic_relacional.cacic_relacional")
+            if len(listaorgaos) == 1:
+                cur.execute("SELECT * FROM cacic_relacional.cacic_relacional WHERE name_orgao = '{0}'".format(listaorgaos[0]))
+            else:
+                cur.execute("SELECT * FROM cacic_relacional.cacic_relacional WHERE name_orgao in {0}".format(tuple(listaorgaos)))
             rows = cur.fetchall()
             cur.execute("SELECT * FROM cacic_relacional.cacic_relacional LIMIT 0")
             header = [desc[0] for desc in cur.description]
@@ -70,6 +73,7 @@ class Relacional(object):
             }
         except Exception as error:
             session = self.request.session
+            print(error)
             session.flash('É necessário gerar o banco de dados relacional antes de exportá-lo!', queue="error")
             return HTTPFound(location=self.request.route_url("conf_csv"))
 
