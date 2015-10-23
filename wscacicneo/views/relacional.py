@@ -67,8 +67,11 @@ class Relacional(object):
         }
 
     def generate_relacional(self):
-        json_relacional = {}
-        list_orgaos = ["mpog"]
+        list_orgaos = []
+        search_obj = SearchOrgao()
+        result = search_obj.list_by_name()
+        for item in result:
+            list_orgaos.append(item.nome)
         headers = {'Content-Type': 'application/json'}
         database_name = "cacic_relacional"
         # Verifica se o Schema já existe
@@ -78,9 +81,8 @@ class Relacional(object):
             cur.execute("DROP SCHEMA "+database_name+" CASCADE;")
             conn.commit()
             conn.close()
-            print("dropei")
-        except Exception as e:
-            print("Drop database error:", e)
+        except Exception as error:
+            log.error("Drop database error:", error)
 
         for orgao_name in list_orgaos:
             # Pega  url da base e do orgão
@@ -97,11 +99,29 @@ class Relacional(object):
             orgao_doc_results = requests.get(config.REST_URL+"/"+orgao_name+"/doc")
             orgao_doc = json.loads(orgao_doc_results.text)
             orgao_doc = orgao_doc["results"]
+            # Verifica se os databases já foram criados.
+            select = self.try_select(database_name)
+            while not select:
+                select = self.try_select(database_name)
+
             for item in orgao_doc:
                 item["name_orgao"] = orgao_name
                 item.pop("_metadata", None)
+                if not item["softwarelist"]:
+                    print("entrei")
+                    item.pop("softwarelist", None)
                 json_data_doc = json.dumps(item)
                 relacional_path = "http://127.0.1.1:5000"+"/sqlapi/lightbase/content/"+database_name
                 postRelacionalDoc = requests.post(relacional_path, data=json_data_doc, headers=headers)
 
         return HTTPFound(location=self.request.route_url("conf_csv"))
+
+    @staticmethod
+    def try_select(database_name):
+        try:
+            conn = psycopg2.connect(host="localhost", database="lb_relacional", user="rest", password="rest")
+            cur = conn.cursor()
+            cur.execute("SELECT * FROM "+database_name+"."+database_name)
+            return True
+        except Exception as error:
+            return False
