@@ -6,7 +6,7 @@
         <div class="padd">
             <br />
             <!-- Form starts.  -->
-            <form style="margin-left: 20%;" action="${request.route_url('lbrelacional_csv')}" id="csv" method="POST" class="form-horizontal col-lg-8" role="form">
+            <form style="margin-left: 20%;" id="csv" class="form-horizontal col-lg-8" role="form">
                 <div class="content" style="text-align: center">
                     <h2>Gerar Banco de Dados relacional</h2>
                     <a title="Gera banco de dados relacional" href="${request.route_url('generate_relacional')}" 
@@ -20,7 +20,7 @@
                      <div class="widget-content">
                          <br>
                          <tal tal:repeat="doc orgao_doc">
-                            <input style="width:15px; height: 15px" type="checkbox" name="orgao" onclick="toggle_any(this)" value="${doc.nome}"><i style="font-size: 18px;" > ${doc.pretty_name}</i>
+                            <input style="width:15px; height: 15px" type="checkbox" name="orgao" checked onclick="toggle_any(this)" value="${doc.nome}"><i style="font-size: 18px;" > ${doc.pretty_name}</i>
                             <br />
                          </tal>
                          <br>
@@ -67,15 +67,9 @@
                     }
                 }
             }
-            $('#voltar').click(function(){
-                var oldURL = document.referrer;
-                window.location.href = oldURL;
-            });
             $('#enviar').click(function(){
-                var listaorgaos = []
-                var listaitens = []
+                var listaorgaos = new Array();
                 checks_orgaos = document.getElementsByName('orgao')
-                checks_itens = document.getElementsByName('item')
 
                 for (var i = 0, n = checks_orgaos.length; i < n; i++)
                 {
@@ -90,8 +84,18 @@
                     return true;
                 }
                 else
-                {
-                    $('#csv').submit();
+                {   var final_data = {
+                    'orgaos': listaorgaos
+                    };
+                    $.ajax({
+                        type: "POST",
+                        url: "${request.route_url('lbrelacional_csv')}",
+                        data: final_data,
+                        success: function(){},
+                        error: function(){
+                            noty({text: 'Ocorreu um erro ao gerar o CSV.',layout:'topRight',type:'error',timeout:3000});
+                        }
+                    });
                 }
             });
         </script>

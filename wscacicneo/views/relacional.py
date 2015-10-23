@@ -52,6 +52,8 @@ class Relacional(object):
                 }
 
     def lbrelacional_csv(self):
+        doc = self.request.params
+        print(doc)
         try:
             conn = psycopg2.connect(host="localhost", database="lb_relacional", user="rest", password="rest")
             cur = conn.cursor()
