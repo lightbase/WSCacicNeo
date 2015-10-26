@@ -40,6 +40,10 @@ class Relacional(object):
         self.request = request
         self.usuario_autenticado = Utils.retorna_usuario_autenticado(
             self.request.session.get('userid'))
+        self.host = "localhost"
+        self.database = "lb_relacional"
+        self.user_db = "rest"
+        self.password_db = "rest"
 
     #@view_config(route_name='conf_csv', renderer='../templates/conf_csv.pt')
 
@@ -54,8 +58,7 @@ class Relacional(object):
     def lbrelacional_csv(self):
         try:
             listaorgaos = self.request.params.getall('orgao')
-            print(listaorgaos)
-            conn = psycopg2.connect(host="localhost", database="lb_relacional", user="rest", password="rest")
+            conn = psycopg2.connect(host=self.host, database=self.database, user=self.user_db, password=self.password_db)
             cur = conn.cursor()
             if len(listaorgaos) == 1:
                 cur.execute("SELECT * FROM cacic_relacional.cacic_relacional WHERE name_orgao = '{0}'".format(listaorgaos[0]))
@@ -86,7 +89,7 @@ class Relacional(object):
         headers = {'Content-Type': 'application/json'}
         database_name = "cacic_relacional"
         # Verifica se o Schema já existe
-        conn = psycopg2.connect(host="localhost", database="lb_relacional", user="rest", password="rest")
+        conn = psycopg2.connect(host=self.host, database=self.database, user=self.user_db, password=self.password_db)
         cur = conn.cursor()
         try:
             cur.execute("DROP SCHEMA "+database_name+" CASCADE;")
@@ -102,6 +105,11 @@ class Relacional(object):
             orgao_table = json.loads(orgao_base_results.text)
             orgao_table_model = orgao_table["metadata"]["model"]
             orgao_table_model["name_orgao"] = "Text"
+            try:
+                verify_hash = orgao_table["metadata"]["model"]["hash_machine"]
+            except:
+                orgao_table_model["hash_machine"] = "Text"
+
             json_data = json.dumps(orgao_table_model)
             relacional_path = "http://127.0.1.1:5000"+"/sqlapi/lightbase/tables/"+database_name
             postRelacional = requests.post(relacional_path, data=json_data, headers=headers)
@@ -128,10 +136,9 @@ class Relacional(object):
         session.flash('O banco de dados relacional foi gerado com sucesso', queue="success")
         return HTTPFound(location=self.request.route_url("conf_csv"))
 
-    @staticmethod
-    def try_select(database_name):
+    def try_select(self, database_name):
         try:
-            conn = psycopg2.connect(host="localhost", database="lb_relacional", user="rest", password="rest")
+            conn = psycopg2.connect(host=self.host, database=self.database, user=self.user_db, password=self.password_db)
             cur = conn.cursor()
             cur.execute("SELECT * FROM "+database_name+"."+database_name)
             return True

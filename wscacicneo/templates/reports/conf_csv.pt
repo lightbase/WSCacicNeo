@@ -26,7 +26,7 @@
                          <br>
                      </div>
                      <div class="widget-foot" align="center">
-                         <button type="button" id="enviar" class="btn btn-sm btn-primary">Baixar</button>
+                         <button type="button" id="enviar" class="btn btn-sm btn-primary">Exportar</button>
                      </div>
                  </div>
             </form>
