@@ -8,10 +8,16 @@
             <!-- Form starts.  -->
             <form style="margin-left: 20%;" id="csv" method="POST" action="${request.route_url('lbrelacional_csv')}" class="form-horizontal col-lg-8" role="form">
                 <div class="content" style="text-align: center">
-                    <h2>Gerar Banco de Dados relacional</h2>
-                    <a title="Gera banco de dados relacional" href="${request.route_url('generate_relacional')}" 
+                    <h2>Gerar Banco de Dados Relacional</h2>
+                    <a onclick="call_gif();" title="Gera banco de dados relacional" href="${request.route_url('generate_relacional')}"
                         type="button" class="btn btn-lg btn-success" id="generate_relacional">
-                        <i class="fa fa-cogs"></i> Gerar</a>
+                        <i class="fa fa-cogs"></i>
+                        <tal tal:condition="not table_exists">Gerar Tabela</tal>
+                        <tal tal:condition="table_exists">Gerar Conteúdo</tal>
+                    </a>
+                    <span id="loading" style="display: none;">
+                          <img src="${request.route_url('root')}static/imgs/ajax-loader-circle.gif" />  Aguarde...
+                      </span>
                 </div>
                 <br/>
                 <div class="widget"  style="text-align: center;">
@@ -34,6 +40,10 @@
 	</metal:content>
 	<metal:content fill-slot="javascript">
         <script type="text/javascript">
+            function call_gif(){
+                document.getElementById('generate_relacional').style.display = "none";
+                document.getElementById('loading').style.display = "block"
+            };
             function toggle_any(source) {
                 var radio = document.getElementsByName('todos_orgaos')
                 var checkboxes = document.getElementsByName('orgao')

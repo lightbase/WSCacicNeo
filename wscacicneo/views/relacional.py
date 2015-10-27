@@ -40,10 +40,11 @@ class Relacional(object):
         self.request = request
         self.usuario_autenticado = Utils.retorna_usuario_autenticado(
             self.request.session.get('userid'))
-        self.host = "localhost"
-        self.database = "lb_relacional"
-        self.user_db = "rest"
-        self.password_db = "rest"
+        self.host = config.DB_HOST
+        self.database = config.DB_NAME
+        self.user_db = config.DB_USER
+        self.password_db = config.DB_PASS
+        self.schema_name = 'cacic_relacional'
 
     #@view_config(route_name='conf_csv', renderer='../templates/conf_csv.pt')
 
@@ -51,8 +52,18 @@ class Relacional(object):
         search_obj = SearchOrgao()
         result = search_obj.list_by_name()
 
+        # Verifica se o Schema já existe
+        conn = psycopg2.connect(host=self.host, database=self.database, user=self.user_db, password=self.password_db)
+        cur = conn.cursor()
+        # Verifica se a base já foi criada
+        cur.execute("SELECT EXISTS (SELECT schema_name FROM information_schema.schemata WHERE schema_name = 'cacic_relacional');")
+        for item in cur:
+            check_exists = item
+        check_exists = check_exists[0]
+
         return {'orgao_doc': result,
-                'usuario_autenticado': self.usuario_autenticado
+                'usuario_autenticado': self.usuario_autenticado,
+                'table_exists': check_exists
                 }
 
     def lbrelacional_csv(self):
@@ -61,11 +72,11 @@ class Relacional(object):
             conn = psycopg2.connect(host=self.host, database=self.database, user=self.user_db, password=self.password_db)
             cur = conn.cursor()
             if len(listaorgaos) == 1:
-                cur.execute("SELECT * FROM cacic_relacional.cacic_relacional WHERE name_orgao = '{0}'".format(listaorgaos[0]))
+                cur.execute("SELECT * FROM "+self.schema_name+"."+self.schema_name+" WHERE name_orgao = '{0}'".format(listaorgaos[0]))
             else:
-                cur.execute("SELECT * FROM cacic_relacional.cacic_relacional WHERE name_orgao in {0}".format(tuple(listaorgaos)))
+                cur.execute("SELECT * FROM "+self.schema_name+"."+self.schema_name+" WHERE name_orgao in {0}".format(tuple(listaorgaos)))
             rows = cur.fetchall()
-            cur.execute("SELECT * FROM cacic_relacional.cacic_relacional LIMIT 0")
+            cur.execute("SELECT * FROM "+self.schema_name+"."+self.schema_name+" LIMIT 0")
             header = [desc[0] for desc in cur.description]
             filename = 'tabela_relacional' + '.csv'
             self.request.response.content_disposition = 'attachment;filename=' + filename
@@ -76,27 +87,29 @@ class Relacional(object):
             }
         except Exception as error:
             session = self.request.session
-            print(error)
             session.flash('É necessário gerar o banco de dados relacional antes de exportá-lo!', queue="error")
             return HTTPFound(location=self.request.route_url("conf_csv"))
 
     def generate_relacional(self):
+        # Verifica se o Schema já existe
+        conn = psycopg2.connect(host=self.host, database=self.database, user=self.user_db, password=self.password_db)
+        cur = conn.cursor()
+        # Verifica se a base já foi criada
+        cur.execute("SELECT EXISTS (SELECT schema_name FROM information_schema.schemata WHERE schema_name = 'cacic_relacional');")
+        for item in cur:
+            check_exists = item
+        check_exists = check_exists[0]
+        if check_exists:
+            cur.execute("DELETE FROM cacic_relacional.cacic_relacional_softwarelist; ")
+            cur.execute("DELETE FROM cacic_relacional.cacic_relacional; ")
+            conn.commit()
+
         list_orgaos = []
         search_obj = SearchOrgao()
         result = search_obj.list_by_name()
         for item in result:
             list_orgaos.append(item.nome)
         headers = {'Content-Type': 'application/json'}
-        database_name = "cacic_relacional"
-        # Verifica se o Schema já existe
-        conn = psycopg2.connect(host=self.host, database=self.database, user=self.user_db, password=self.password_db)
-        cur = conn.cursor()
-        try:
-            cur.execute("DROP SCHEMA "+database_name+" CASCADE;")
-            conn.commit()
-            conn.close()
-        except Exception as error:
-            log.error("Drop database error:", error)
 
         for orgao_name in list_orgaos:
             # Pega  url da base e do orgão
@@ -111,36 +124,58 @@ class Relacional(object):
                 orgao_table_model["hash_machine"] = "Text"
 
             json_data = json.dumps(orgao_table_model)
-            relacional_path = "http://127.0.1.1:5000"+"/sqlapi/lightbase/tables/"+database_name
-            postRelacional = requests.post(relacional_path, data=json_data, headers=headers)
+            if not check_exists:
+                session = self.request.session
+                session.flash('A tabela foi gerada com sucesso.', queue="success")
+                session.flash('Clique em gerar para gerar o conteúdo.', queue="warning")
+                relacional_path = "http://127.0.1.1:5000"+"/sqlapi/lightbase/tables/"+self.schema_name
+                requests.post(relacional_path, data=json_data, headers=headers)
+                select = self.try_select()
+                while not select:
+                    select = self.try_select()
+                    if select:
+                        cur.execute("DELETE FROM cacic_relacional.cacic_relacional_softwarelist; ")
+                        cur.execute("DELETE FROM cacic_relacional.cacic_relacional; ")
+                        conn.commit()
+                        conn.close()
+                return HTTPFound(location=self.request.route_url("conf_csv"))
+            else:
+                conn.close()
+                try:
+                    self.post_content_relacional(orgao_name, headers)
+                    session = self.request.session
+                    session.flash('O banco de dados relacional foi gerado com sucesso', queue="success")
+                    return HTTPFound(location=self.request.route_url("conf_csv"))
+                except Exception as e:
+                    logging.error("Erro ao criar conteúdo: ", e)
+                    session = self.request.session
+                    session.flash('O banco de dados relacional foi gerado com sucesso', queue="success")
+                    return HTTPFound(location=self.request.route_url("conf_csv"))
 
-            # Verifica registro por registro e adiciona o campo name_orgao
-            orgao_doc_results = requests.get(config.REST_URL+"/"+orgao_name+"/doc")
-            orgao_doc = json.loads(orgao_doc_results.text)
-            orgao_doc = orgao_doc["results"]
-            # Verifica se os databases já foram criados.
-            select = self.try_select(database_name)
-            while not select:
-                select = self.try_select(database_name)
-
-            for item in orgao_doc:
-                item["name_orgao"] = orgao_name
-                item.pop("_metadata", None)
-                if not item["softwarelist"]:
-                    print("entrei")
-                    item.pop("softwarelist", None)
-                json_data_doc = json.dumps(item)
-                relacional_path = "http://127.0.1.1:5000"+"/sqlapi/lightbase/content/"+database_name
-                postRelacionalDoc = requests.post(relacional_path, data=json_data_doc, headers=headers)
-        session = self.request.session
-        session.flash('O banco de dados relacional foi gerado com sucesso', queue="success")
-        return HTTPFound(location=self.request.route_url("conf_csv"))
-
-    def try_select(self, database_name):
+    def try_select(self):
+        conn = psycopg2.connect(host=self.host, database=self.database, user=self.user_db, password=self.password_db)
+        cur = conn.cursor()
         try:
-            conn = psycopg2.connect(host=self.host, database=self.database, user=self.user_db, password=self.password_db)
-            cur = conn.cursor()
-            cur.execute("SELECT * FROM "+database_name+"."+database_name)
+            cur.execute("SELECT * FROM "+self.schema_name+"."+self.schema_name+";")
+            cur.execute("SELECT * FROM "+self.schema_name+"."+self.schema_name+"_softwarelist;")
+            conn.close()
             return True
-        except Exception as error:
-            return False
+        except:
+            conn.close()
+            return True
+
+    def post_content_relacional(self, orgao_name, headers):
+        # Verifica registro por registro e adiciona o campo name_orgao
+        orgao_doc_results = requests.get(config.REST_URL+"/"+orgao_name+"/doc?$$={\"limit\":null}")
+        orgao_doc = json.loads(orgao_doc_results.text)
+        orgao_doc = orgao_doc["results"]
+
+        # Verifica se os databases já foram criados.
+        for item in orgao_doc:
+            item["name_orgao"] = orgao_name
+            item.pop("_metadata", None)
+            if not item["softwarelist"]:
+                item.pop("softwarelist", None)
+            json_data_doc = json.dumps(item)
+            relacional_path = "http://127.0.1.1:5000"+"/sqlapi/lightbase/content/"+self.schema_name
+            postRelacionalDoc = requests.post(relacional_path, data=json_data_doc, headers=headers)

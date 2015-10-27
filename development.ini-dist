@@ -11,6 +11,15 @@ pyramid.default_locale_name = en
 rest_url = http://10.1.0.102/lbgenerator
 bulk_url = http://localhost/api/lbbulk
 
+# Database config to connect in LBRelacional
+dbName = server
+dbUser  = rest
+dbPass  = rest
+dbHost = localhost
+
+# Others configs to LBRelacional
+schema_name = cacic_relacional
+
 # Beaker cache
 cache.regions = default_term, second, short_term, long_term
 cache.type = memory
