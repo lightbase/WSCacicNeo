@@ -44,6 +44,7 @@ class Relacional(object):
         self.database = config.DB_NAME
         self.user_db = config.DB_USER
         self.password_db = config.DB_PASS
+        self.lbrelacional_url = config.LBRELACIONAL_URL
         self.schema_name = 'cacic_relacional'
 
     #@view_config(route_name='conf_csv', renderer='../templates/conf_csv.pt')
@@ -128,7 +129,7 @@ class Relacional(object):
                 session = self.request.session
                 session.flash('A tabela foi gerada com sucesso.', queue="success")
                 session.flash('Clique em gerar para gerar o conteúdo.', queue="warning")
-                relacional_path = "http://127.0.1.1:5000"+"/sqlapi/lightbase/tables/"+self.schema_name
+                relacional_path = self.lbrelacional_url+"/sqlapi/lightbase/tables/"+self.schema_name
                 requests.post(relacional_path, data=json_data, headers=headers)
                 select = self.try_select()
                 while not select:
@@ -166,7 +167,7 @@ class Relacional(object):
 
     def post_content_relacional(self, orgao_name, headers):
         # Verifica registro por registro e adiciona o campo name_orgao
-        orgao_doc_results = requests.get(config.REST_URL+"/"+orgao_name+"/doc?$$={\"limit\":null}")
+        orgao_doc_results = requests.get(config.REST_URL+"/"+orgao_name+"/doc?$$={\"limit\":50}")
         orgao_doc = json.loads(orgao_doc_results.text)
         orgao_doc = orgao_doc["results"]
 
@@ -177,5 +178,5 @@ class Relacional(object):
             if not item["softwarelist"]:
                 item.pop("softwarelist", None)
             json_data_doc = json.dumps(item)
-            relacional_path = "http://127.0.1.1:5000"+"/sqlapi/lightbase/content/"+self.schema_name
+            relacional_path = self.lbrelacional_url+"/sqlapi/lightbase/content/"+self.schema_name
             postRelacionalDoc = requests.post(relacional_path, data=json_data_doc, headers=headers)
