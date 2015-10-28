@@ -17,8 +17,8 @@ def setup(settings):
     global DB_USER
     global DB_PASS
     global DB_HOST
-    global SCHEMA_NAME
-    global LBRELACIONAL_URL
+    # global SCHEMA_NAME
+    # global LBRELACIONAL_URL
     #global TMP_DIR
 
     REST_URL = settings['rest_url']
@@ -28,5 +28,5 @@ def setup(settings):
     DB_USER = settings['dbUser']
     DB_PASS = settings['dbPass']
     DB_HOST = settings['dbHost']
-    SCHEMA_NAME = settings['schema_name']
-    LBRELACIONAL_URL = settings['lbrelacional_url']
+    # SCHEMA_NAME = settings['schema_name']
+    # LBRELACIONAL_URL = settings['lbrelacional_url']

@@ -44,7 +44,8 @@ class Relacional(object):
         self.database = config.DB_NAME
         self.user_db = config.DB_USER
         self.password_db = config.DB_PASS
-        self.lbrelacional_url = config.LBRELACIONAL_URL
+        # self.lbrelacional_url = config.LBRELACIONAL_URL
+        # self.schema_name = config.SCHEMA_NAME
         self.schema_name = 'cacic_relacional'
 
     #@view_config(route_name='conf_csv', renderer='../templates/conf_csv.pt')
@@ -92,78 +93,81 @@ class Relacional(object):
             return HTTPFound(location=self.request.route_url("conf_csv"))
 
     def generate_relacional(self):
-        # Verifica se o Schema já existe
-        conn = psycopg2.connect(host=self.host, database=self.database, user=self.user_db, password=self.password_db)
-        cur = conn.cursor()
-        # Verifica se a base já foi criada
-        cur.execute("SELECT EXISTS (SELECT schema_name FROM information_schema.schemata WHERE schema_name = 'cacic_relacional');")
-        for item in cur:
-            check_exists = item
-        check_exists = check_exists[0]
-        if check_exists:
-            cur.execute("DELETE FROM cacic_relacional.cacic_relacional_softwarelist; ")
-            cur.execute("DELETE FROM cacic_relacional.cacic_relacional; ")
-            conn.commit()
-
-        list_orgaos = []
-        search_obj = SearchOrgao()
-        result = search_obj.list_by_name()
-        for item in result:
-            list_orgaos.append(item.nome)
-        headers = {'Content-Type': 'application/json'}
-
-        for orgao_name in list_orgaos:
-            # Pega  url da base e do orgão
-            orgao_base_results = requests.get(config.REST_URL+"/"+orgao_name)
-            # Pega e cria json e cria tabela no banco relacional
-            orgao_table = json.loads(orgao_base_results.text)
-            orgao_table_model = orgao_table["metadata"]["model"]
-            orgao_table_model["name_orgao"] = "Text"
-            try:
-                verify_hash = orgao_table["metadata"]["model"]["hash_machine"]
-            except:
-                orgao_table_model["hash_machine"] = "Text"
-
-            json_data = json.dumps(orgao_table_model)
-            if not check_exists:
-                session = self.request.session
-                session.flash('A tabela foi gerada com sucesso.', queue="success")
-                session.flash('Clique em gerar para gerar o conteúdo.', queue="warning")
-                relacional_path = self.lbrelacional_url+"/sqlapi/lightbase/tables/"+self.schema_name
-                requests.post(relacional_path, data=json_data, headers=headers)
-                select = self.try_select()
-                while not select:
-                    select = self.try_select()
-                    if select:
-                        cur.execute("DELETE FROM cacic_relacional.cacic_relacional_softwarelist; ")
-                        cur.execute("DELETE FROM cacic_relacional.cacic_relacional; ")
-                        conn.commit()
-                        conn.close()
-                return HTTPFound(location=self.request.route_url("conf_csv"))
-            else:
-                conn.close()
-                try:
-                    self.post_content_relacional(orgao_name, headers)
-                    session = self.request.session
-                    session.flash('O banco de dados relacional foi gerado com sucesso', queue="success")
-                    return HTTPFound(location=self.request.route_url("conf_csv"))
-                except Exception as e:
-                    logging.error("Erro ao criar conteúdo: ", e)
-                    session = self.request.session
-                    session.flash('O banco de dados relacional foi gerado com sucesso', queue="success")
-                    return HTTPFound(location=self.request.route_url("conf_csv"))
-
-    def try_select(self):
-        conn = psycopg2.connect(host=self.host, database=self.database, user=self.user_db, password=self.password_db)
-        cur = conn.cursor()
-        try:
-            cur.execute("SELECT * FROM "+self.schema_name+"."+self.schema_name+";")
-            cur.execute("SELECT * FROM "+self.schema_name+"."+self.schema_name+"_softwarelist;")
-            conn.close()
-            return True
-        except:
-            conn.close()
-            return True
+    #     # Verifica se o Schema já existe
+    #     conn = psycopg2.connect(host=self.host, database=self.database, user=self.user_db, password=self.password_db)
+    #     cur = conn.cursor()
+    #     # Verifica se a base já foi criada
+    #     cur.execute("SELECT EXISTS (SELECT schema_name FROM information_schema.schemata WHERE schema_name = 'cacic_relacional');")
+    #     for item in cur:
+    #         check_exists = item
+    #     check_exists = check_exists[0]
+    #     if check_exists:
+    #         cur.execute("DELETE FROM cacic_relacional.cacic_relacional_softwarelist; ")
+    #         cur.execute("DELETE FROM cacic_relacional.cacic_relacional; ")
+    #         conn.commit()
+    #
+    #     list_orgaos = []
+    #     search_obj = SearchOrgao()
+    #     result = search_obj.list_by_name()
+    #     for item in result:
+    #         list_orgaos.append(item.nome)
+    #     headers = {'Content-Type': 'application/json'}
+    #
+    #     for orgao_name in list_orgaos:
+    #         # Pega  url da base e do orgão
+    #         orgao_base_results = requests.get(config.REST_URL+"/"+orgao_name)
+    #         # Pega e cria json e cria tabela no banco relacional
+    #         orgao_table = json.loads(orgao_base_results.text)
+    #         orgao_table_model = orgao_table["metadata"]["model"]
+    #         orgao_table_model["name_orgao"] = "Text"
+    #         try:
+    #             verify_hash = orgao_table["metadata"]["model"]["hash_machine"]
+    #         except:
+    #             orgao_table_model["hash_machine"] = "Text"
+    #
+    #         json_data = json.dumps(orgao_table_model)
+    #         if not check_exists:
+    #             session = self.request.session
+    #             session.flash('A tabela foi gerada com sucesso.', queue="success")
+    #             session.flash('Clique em gerar para gerar o conteúdo.', queue="warning")
+    #             relacional_path = self.lbrelacional_url+"/sqlapi/lightbase/tables/"+self.schema_name
+    #             requests.post(relacional_path, data=json_data, headers=headers)
+    #             select = self.try_select()
+    #             while not select:
+    #                 select = self.try_select()
+    #                 if select:
+    #                     cur.execute("DELETE FROM cacic_relacional.cacic_relacional_softwarelist; ")
+    #                     cur.execute("DELETE FROM cacic_relacional.cacic_relacional; ")
+    #                     conn.commit()
+    #                     conn.close()
+    #             return HTTPFound(location=self.request.route_url("conf_csv"))
+    #         else:
+    #             conn.close()
+    #             try:
+    #                 self.post_content_relacional(orgao_name, headers)
+    #                 session = self.request.session
+    #                 session.flash('O banco de dados relacional foi gerado com sucesso', queue="success")
+    #                 return HTTPFound(location=self.request.route_url("conf_csv"))
+    #             except Exception as e:
+    #                 logging.error("Erro ao criar conteúdo: ", e)
+    #                 session = self.request.session
+    #                 session.flash('O banco de dados relacional foi gerado com sucesso', queue="success")
+    #                 return HTTPFound(location=self.request.route_url("conf_csv"))
+    #
+    # def try_select(self):
+    #     conn = psycopg2.connect(host=self.host, database=self.database, user=self.user_db, password=self.password_db)
+    #     cur = conn.cursor()
+    #     try:
+    #         cur.execute("SELECT * FROM "+self.schema_name+"."+self.schema_name+";")
+    #         cur.execute("SELECT * FROM "+self.schema_name+"."+self.schema_name+"_softwarelist;")
+    #         conn.close()
+    #         return True
+    #     except:
+    #         conn.close()
+    #         return True
+        session = self.request.session
+        session.flash('Essa rota foi desabilitada', queue="warning")
+        return HTTPFound(location=self.request.route_url("conf_csv"))
 
     def post_content_relacional(self, orgao_name, headers):
         # Verifica registro por registro e adiciona o campo name_orgao
