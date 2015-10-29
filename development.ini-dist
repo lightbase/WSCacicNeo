@@ -10,7 +10,6 @@ pyramid.default_locale_name = en
 
 rest_url = http://10.1.0.102/lbgenerator
 bulk_url = http://localhost/api/lbbulk
-#lbrelacional_url = http://127.0.1.1:5000
 
 # Configuration for relational database
 dbName = server
