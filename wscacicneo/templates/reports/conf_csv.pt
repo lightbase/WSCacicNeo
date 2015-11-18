@@ -6,7 +6,7 @@
         <div class="padd">
             <br />
             <!-- Form starts.  -->
-            <form style="margin-left: 20%;" id="csv" method="POST" action="${request.route_url('lbrelacional_csv')}" class="form-horizontal col-lg-8" role="form">
+            <form style="margin-left: 20%;" id="csv" method="POST" class="form-horizontal col-lg-8" role="form">
                 <!--?<div class="content" style="text-align: center">-->
                     <!--?<h2>Gerar Banco de Dados Relacional</h2>-->
                     <!--?<a onclick="call_gif();" title="Gera banco de dados relacional" href="${request.route_url('generate_relacional')}"-->
@@ -31,7 +31,8 @@
                          <br>
                      </div>
                      <div class="widget-foot" align="center">
-                         <button type="button" id="enviar" class="btn btn-sm btn-primary">Exportar</button>
+                         <button type="button" id="enviar" class="btn btn-sm btn-primary">Exportar Hardware</button>
+                         <button type="button" id="enviar_software" class="btn btn-sm btn-primary">Exportar Software</button>
                      </div>
                  </div>
             </form>
@@ -79,6 +80,29 @@
             $('#enviar').click(function(){
                 var listaorgaos = new Array();
                 checks_orgaos = document.getElementsByName('orgao')
+                frm = document.getElementById('csv')
+                for (var i = 0, n = checks_orgaos.length; i < n; i++)
+                {
+                    if (checks_orgaos[i].checked)
+                    {
+                        listaorgaos.push(checks_orgaos[i].value)
+                    }
+                }
+                if(listaorgaos.length == 0)
+                {
+                    noty({text: 'Erro: Selecione um órgão.',layout:'topRight',type:'warning',timeout:3000});
+                    return true;
+                }
+                else
+                {
+                    frm.action="${request.route_url('lbrelacional_csv')}"
+                    $('#csv').submit();
+                }
+            });
+            $('#enviar_software').click(function(){
+                var listaorgaos = new Array();
+                frm = document.getElementById('csv')
+                checks_orgaos = document.getElementsByName('orgao')
 
                 for (var i = 0, n = checks_orgaos.length; i < n; i++)
                 {
@@ -94,6 +118,7 @@
                 }
                 else
                 {
+                    frm.action="${request.route_url('lbrelacional_csv_software')}"
                     $('#csv').submit();
                 }
             });

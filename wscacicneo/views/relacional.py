@@ -47,6 +47,7 @@ class Relacional(object):
         # self.lbrelacional_url = config.LBRELACIONAL_URL
         # self.schema_name = config.SCHEMA_NAME
         self.schema_name = 'cacic_relacional'
+        self.software_base = 'cacic_relacional_softwarelist'
 
     #@view_config(route_name='conf_csv', renderer='../templates/conf_csv.pt')
 
@@ -74,9 +75,9 @@ class Relacional(object):
             conn = psycopg2.connect(host=self.host, database=self.database, user=self.user_db, password=self.password_db)
             cur = conn.cursor()
             if len(listaorgaos) == 1:
-                cur.execute("SELECT * FROM "+self.schema_name+"."+self.schema_name+" WHERE name_orgao = '{0}'".format(listaorgaos[0]))
+                cur.execute("SELECT * FROM "+self.schema_name+"."+self.schema_name+" WHERE nome_orgao = '{0}'".format(listaorgaos[0]))
             else:
-                cur.execute("SELECT * FROM "+self.schema_name+"."+self.schema_name+" WHERE name_orgao in {0}".format(tuple(listaorgaos)))
+                cur.execute("SELECT * FROM "+self.schema_name+"."+self.schema_name+" WHERE nome_orgao in {0}".format(tuple(listaorgaos)))
             rows = cur.fetchall()
             cur.execute("SELECT * FROM "+self.schema_name+"."+self.schema_name+" LIMIT 0")
             header = [desc[0] for desc in cur.description]
@@ -89,6 +90,33 @@ class Relacional(object):
             }
         except Exception as error:
             session = self.request.session
+            session.flash('É necessário gerar o banco de dados relacional antes de exportá-lo!', queue="error")
+            return HTTPFound(location=self.request.route_url("conf_csv"))
+
+    def lbrelacional_csv_software(self):
+        try:
+            listaorgaos = self.request.params.getall('orgao')
+            conn = psycopg2.connect(host=self.host, database=self.database, user=self.user_db, password=self.password_db)
+            cur = conn.cursor()
+            if len(listaorgaos) == 1:
+                cur.execute("SELECT id FROM "+self.schema_name+"."+self.schema_name+" WHERE nome_orgao = '{0}'".format(listaorgaos[0]))
+            else:
+                cur.execute("SELECT id FROM "+self.schema_name+"."+self.schema_name+" WHERE nome_orgao in {0}".format(tuple(listaorgaos)))
+            id_list = cur.fetchall()
+            cur.execute("SELECT * FROM "+self.schema_name+"."+self.software_base+" WHERE pc_id in {0}".format(tuple([id_n[0] for id_n in id_list])))
+            rows = cur.fetchall()
+            cur.execute("SELECT * FROM "+self.schema_name+"."+self.software_base+" LIMIT 0")
+            header = [desc[0] for desc in cur.description]
+            filename = 'tabela_relacional_software' + '.csv'
+            self.request.response.content_disposition = 'attachment;filename=' + filename
+            conn.close()
+            return {
+                'header': header,
+                'rows': rows
+            }
+        except Exception as error:
+            session = self.request.session
+            log.error(error)
             session.flash('É necessário gerar o banco de dados relacional antes de exportá-lo!', queue="error")
             return HTTPFound(location=self.request.route_url("conf_csv"))
 

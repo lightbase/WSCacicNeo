@@ -239,6 +239,10 @@ def make_routes(cfg):
     cfg.add_view(relacional.Relacional, request_method='POST', attr='lbrelacional_csv', route_name='lbrelacional_csv',
                  permission="user", renderer='csv')
 
+    cfg.add_route('lbrelacional_csv_software', 'csv/relacional/software/download')
+    cfg.add_view(relacional.Relacional, request_method='POST', attr='lbrelacional_csv_software', route_name='lbrelacional_csv_software',
+                 permission="user", renderer='csv')
+
     cfg.add_route('generate_relacional', 'generate_relacional')
     cfg.add_view(relacional.Relacional, attr='generate_relacional', route_name='generate_relacional',
                  permission="admin")
