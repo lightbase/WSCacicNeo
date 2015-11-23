@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 __author__ = 'eduardo'
 
-from ..views import home, notifications, orgaos, users, relatorios, relacional, coleta, security, api, graficos, atividades, blacklist
+from ..views import home, notifications, orgaos, users, relatorios, relacional, coleta, security, api, graficos, \
+    atividades, blacklist, admin
 from ..utils.csvhandler import json2csv
 from pyramid.httpexceptions import HTTPNotFound
 
@@ -322,3 +323,12 @@ def make_routes(cfg):
     cfg.add_route('add_blacklist_item', 'blacklist/adicionar')
     cfg.add_view(blacklist.Blacklist, attr='add_blacklist_item', route_name='add_blacklist_item',
                  permission="admin", renderer='templates/blacklist/add_blacklist.pt')
+
+    # Admin
+    cfg.add_route('admin_index', 'admin')
+    cfg.add_view(admin.AdminView, attr='admin_index', route_name='admin_index',
+                 permission='admin', renderer='templates/admin/index.pt')
+
+    cfg.add_route('admin_bases_update', 'admin/bases/{nm_base}')
+    cfg.add_view(admin.AdminView, attr='admin_bases_update', route_name='admin_bases_update',
+                 permission='admin', renderer='json', request_method='PUT')
