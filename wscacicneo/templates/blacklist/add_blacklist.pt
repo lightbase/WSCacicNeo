@@ -1,0 +1,109 @@
+<metal:main use-macro="load: ../basic/master.pt">
+    <metal:content fill-slot="dash">
+      Adicionar Item à Lista de Eliminação
+  </metal:content>
+  <metal:content fill-slot="conteudo">
+    <div class="matter">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="widget" id="tabela_relatorio">
+                        <div class="widget-head">
+                            <div id="report-name" class="pull-left">Softwares não inclusos na Lista de Eliminação</div>
+                            <div id="loading" style="display: none; margin-left: 10px; margin-right: 10px" class="pull-right">
+                                <img src="${request.route_url('root')}static/imgs/ajax-loader-circle.gif" />  Aguarde...
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="widget-content">
+                            <div id="error-message" class="alert alert-danger" style="display:none">
+                                Erro ao realizar a operação.
+                            </div>
+                            <div id="success-message" class="alert alert-success"  style="display:none">
+                                Operação realizada com sucesso!
+                            </div>
+                            <div class="padd">
+                                <div class="page-tables">
+                                    <div class="table-responsive ">
+                                        <table class="table table-condensed table-bordered table-hover no-margin" id="data-table">
+                                            <thead>
+                                                <tr class="info">
+                                                    <th>Item</th>
+                                                    <th width="5%">Opções</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <div tal:repeat="k index_itens.keys()">
+                                                    <tr>
+                                                        <td>${index_itens[k]}</td>
+                                                        <!--? Options Buttons-->
+                                                        <tal tal:repeat="item_key index_itens.keys()">
+                                                            <td width="5%"  tal:condition="item_key == k" >
+                                                                <a href="#add_blacklist_${item_key}" id="new_blacklist_${item_key}" title="Adicionar à lista de eliminação" class="btn btn-xs btn-success" data-toggle="modal" data-target="#add_blacklist_${item_key}">
+                                                                    <i class="fa fa-plus-square"></i>
+                                                                </a>
+
+                                                                <!-- Modal de adição há blacklist -->
+                                                                <div id="add_blacklist_${item_key}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                                  <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                      <div class="modal-header">
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                                        <h4 class="modal-title" id="myModalLabel">Confirmar Inclusão na Lista de Remoção</h4>
+                                                                      </div>
+                                                                      <div class="modal-body">
+                                                                        Deseja incluir o item "${index_itens[k]}" na lista de remoção?
+                                                                      </div>
+                                                                      <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                                                        <button id="confirm_blacklist_${item_key}" type="button" class="btn btn-primary"  onclick="add_blacklist('${index_itens[k]}')" >Confirmar</button>
+                                                                      </div>
+                                                                    </div>
+                                                                  </div>
+                                                                </div>
+
+                                                            </td>
+                                                        </tal>
+
+                                                    </tr>
+                                                </div>
+                                            </tbody>
+                                        </table>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+  </metal:content>
+    <metal:content fill-slot="javascript">
+    <script type="text/javascript">
+        $(function() {
+            $('#add_blacklist').click(function(){
+                window.location.href = "${request.route_url('notify')}";
+            });
+        });
+    </script>
+        <script type="text/javascript">
+            function add_blacklist(item_name) {
+                $.ajax({
+                    type: "POST",
+                    url: "${request.route_url('post_blacklist_item')}",
+                    data: {"item": item_name},
+                    success: function () {
+                        window.location.reload();
+                    },
+                    error: function () {
+                        $('#error-message').show();
+                    }
+                });
+            }
+    </script>
+</metal:content>
+</metal:main>

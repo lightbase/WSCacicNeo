@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 __author__ = 'eduardo'
 
-from ..views import home, notifications, orgaos, users, relatorios, coleta, security, api, graficos, atividades, blacklist
+from ..views import home, notifications, orgaos, users, relatorios, relacional, coleta, security, api, graficos, \
+    atividades, blacklist, admin
 from ..utils.csvhandler import json2csv
 from pyramid.httpexceptions import HTTPNotFound
 
@@ -89,7 +90,7 @@ def make_routes(cfg):
     # Users
     cfg.add_route('user', 'usuario/cadastro')
     cfg.add_view(users.Users, attr='user', route_name='user',
-                 renderer='templates/users/user.pt', permission='admin')
+                 renderer='templates/users/user.pt', permission='gest')
 
     cfg.add_route('add_user_home_report', 'add_user_home_report')
     cfg.add_view(users.Users, attr='add_user_home_report', route_name='add_user_home_report',
@@ -101,7 +102,7 @@ def make_routes(cfg):
 
     cfg.add_route('post_user', 'post_user')
     cfg.add_view(users.Users, attr='post_user', route_name='post_user',
-                 permission="admin")
+                 permission="gest")
 
     cfg.add_route('post_first_user', 'post_first_user')
     cfg.add_view(users.Users, attr='post_first_user', route_name='post_first_user')
@@ -132,7 +133,7 @@ def make_routes(cfg):
 
     cfg.add_route('listuser', 'usuario/lista')
     cfg.add_view(users.Users, attr='listuser', route_name='listuser',
-                 renderer='templates/users/list_user.pt', permission="admin")
+                 renderer='templates/users/list_user.pt', permission="gest")
 
     cfg.add_route('delete_user', 'usuario/delete/{matricula}')
     cfg.add_view(users.Users, attr='delete_user', route_name='delete_user',
@@ -213,12 +214,12 @@ def make_routes(cfg):
     cfg.add_view(relatorios.Relatorios, attr='simple_report', route_name='simple_report',
                    permission="gest" )
 
-    cfg.add_route('report_software', 'relatorio/software/{view_type}/{nm_orgao}')
-    cfg.add_view(relatorios.Relatorios, attr='report_software', route_name='report_software',
+    cfg.add_route('report_orgao_software', 'relatorio/software/{view_type}/{nm_orgao}')
+    cfg.add_view(relatorios.Relatorios, attr='report_orgao_software', route_name='report_orgao_software',
                  renderer='templates/reports/report.pt', permission="user")
 
-    cfg.add_route('report_itens', 'relatorio/{nm_orgao}/{attr}/{child}')
-    cfg.add_view(relatorios.Relatorios, attr='report_itens', route_name='report_itens',
+    cfg.add_route('report_orgao', 'relatorio/{nm_orgao}/{attr}/{child}')
+    cfg.add_view(relatorios.Relatorios, attr='report_orgao', route_name='report_orgao',
                  renderer='templates/reports/report.pt', permission="user")
 
     cfg.add_route('put_reports', 'put_reports')
@@ -230,9 +231,29 @@ def make_routes(cfg):
                   permission="user")
 
 
+    # Relatórios relacionais/csv
+    cfg.add_route('conf_csv', 'csv/configuracao')
+    cfg.add_view(relacional.Relacional, attr='conf_csv', route_name='conf_csv',
+                 renderer='templates/reports/conf_csv.pt', permission="admin")
+
+    cfg.add_route('lbrelacional_csv', 'csv/relacional/download')
+    cfg.add_view(relacional.Relacional, request_method='POST', attr='lbrelacional_csv', route_name='lbrelacional_csv',
+                 permission="user", renderer='csv')
+
+    cfg.add_route('lbrelacional_csv_software', 'csv/relacional/software/download')
+    cfg.add_view(relacional.Relacional, request_method='POST', attr='lbrelacional_csv_software', route_name='lbrelacional_csv_software',
+                 permission="user", renderer='csv')
+
+    cfg.add_route('generate_relacional', 'generate_relacional')
+    cfg.add_view(relacional.Relacional, attr='generate_relacional', route_name='generate_relacional',
+                 permission="admin")
     # Gráficos
-    cfg.add_route('graficos', 'graficos/{nm_orgao}/{attr}')
-    cfg.add_view(graficos.Graficos, attr='graficos', route_name='graficos',
+    cfg.add_route('graficos_software', 'graficos/{nm_orgao}/software/{view_type}')
+    cfg.add_view(graficos.Graficos, attr='graficos_orgao', route_name='graficos_software',
+                 renderer='templates/graphics/graficos.pt')
+
+    cfg.add_route('graficos_orgao', 'graficos/{nm_orgao}/{attr}')
+    cfg.add_view(graficos.Graficos, attr='graficos_orgao', route_name='graficos_orgao',
                  renderer='templates/graphics/graficos.pt')
 
     # Autenticação
@@ -298,3 +319,16 @@ def make_routes(cfg):
     cfg.add_route('post_blacklist_item', 'post_blacklist_item')
     cfg.add_view(blacklist.Blacklist, attr='post_blacklist_item', route_name='post_blacklist_item',
                  permission="admin")
+
+    cfg.add_route('add_blacklist_item', 'blacklist/adicionar')
+    cfg.add_view(blacklist.Blacklist, attr='add_blacklist_item', route_name='add_blacklist_item',
+                 permission="admin", renderer='templates/blacklist/add_blacklist.pt')
+
+    # Admin
+    cfg.add_route('admin_index', 'admin')
+    cfg.add_view(admin.AdminView, attr='admin_index', route_name='admin_index',
+                 permission='admin', renderer='templates/admin/index.pt')
+
+    cfg.add_route('admin_bases_update', 'admin/bases/{nm_base}')
+    cfg.add_view(admin.AdminView, attr='admin_bases_update', route_name='admin_bases_update',
+                 permission='admin', renderer='json', request_method='PUT')

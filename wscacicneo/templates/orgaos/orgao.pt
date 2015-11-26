@@ -1,6 +1,6 @@
 <metal:main use-macro="load: ../basic/master.pt" xmlns="http://www.w3.org/1999/html">
   <metal:content fill-slot="dash">
-      Cadastrar Orgão      
+      Cadastrar Órgão
     </metal:content>
 	<metal:content fill-slot="conteudo">
     <div class="alert alert-warning">
@@ -14,6 +14,12 @@
                   <label class="col-lg-2 control-label">Nome do Órgão *:</label>
                   <div class="col-lg-5">
                     <input type="text" id="pretty_name" class="form-control" placeholder="Nome do Órgão">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 control-label">Código SIORG *:</label>
+                  <div class="col-lg-5">
+                    <input type="text" name='siorg' id="siorg" class="form-control" placeholder="Codigo SIORG">
                   </div>
                 </div>
                 <div class="form-group">
@@ -114,6 +120,7 @@
             $('#enviar').click(function(){
                 var data = {
                     'pretty_name' : $('#pretty_name').val(),
+                    'siorg' : $('#siorg').val(),
                     'email' : $('#email').val(),
                     'telefone' : $('#telefone').val(),
                     'gestor' : $('#gestor').val(),

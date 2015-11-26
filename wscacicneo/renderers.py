@@ -3,6 +3,7 @@
 __author__ = 'eduardo'
 
 import csv
+
 try:
     from StringIO import StringIO # python 2
 except ImportError:
@@ -35,8 +36,18 @@ class CSVRenderer(object):
             # Converte dict para list
             dictlist = list()
             for key in rows.keys():
-                temp = [key, rows[key]]
-                dictlist.append(temp)
+                if isinstance(rows[key], dict):
+                    for attr in rows[key].keys():
+                        if isinstance(rows[key][attr], dict):
+                            for item in rows[key][attr].keys():
+                                temp = [item, rows[key][attr][item], self.item_pretty_name(attr), key]
+                                dictlist.append(temp)
+                        else:
+                            temp = [attr, rows[key][attr], self.item_pretty_name(key)]
+                            dictlist.append(temp)
+                else:
+                    temp = [key, rows[key]]
+                    dictlist.append(temp)
 
             rows = dictlist
 
@@ -44,3 +55,22 @@ class CSVRenderer(object):
         writer.writerows(rows)
 
         return fout.getvalue()
+
+    def item_pretty_name(self, item):
+        if item in ['softwarelist','win32_physicalmemory',
+                     'win32_bios', 'win32_diskdrive',
+                     'operatingsystem', 'win32_processor']:
+            if item == 'softwarelist':
+                return 'Software'
+            elif item == 'win32_physicalmemory':
+                return 'Memória'
+            elif item == 'win32_bios':
+                return 'BIOS'
+            elif item == 'win32_diskdrive':
+                return 'HD'
+            elif item == 'win32_processor':
+                return 'Processador'
+            elif item == 'operatingsystem':
+                return 'Sistema Operacional'
+        else:
+            return item

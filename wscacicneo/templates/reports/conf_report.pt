@@ -16,7 +16,7 @@
                             <option tal:condition="doc.nome != usuario_autenticado.orgao" value="${doc.nome}">${doc.pretty_name}</option>
                         </tal>
                         <tal tal:condition="not request.session.get('userid')">
-                            <option></option>
+                            <option disabled selected value="">Selecione</option>
                             <option tal:repeat="doc orgao_doc" value="${doc.nome}">${doc.pretty_name}</option>
                         </tal>
                         <option value="todos-orgaos">Todos os Órgãos</option>
@@ -57,9 +57,14 @@
                 window.location.href = oldURL;
             });
            $('#enviar').click(function(){
+                var listaorgaos = []
                 orgao = $('#orgao').val()
                 attr = $('#coleta').val()
-                if(attr == 'hd'){
+                if (orgao==null){
+                    noty({text: 'Erro: Selecione um órgão.',layout:'topRight',type:'warning',timeout:3000});
+                    return True;
+                }
+                else if(attr == 'hd'){
                     attr = 'win32_diskdrive'
                     item = 'win32_diskdrive_caption'
                 }
@@ -128,7 +133,6 @@
                     noty({text: 'Erro: Selecione um órgão e um item.',layout:'topRight',type:'warning',timeout:3000});
                     return True;
                 }
-
                 $.ajax({
                     type: "GET",
                     beforeSend: function()

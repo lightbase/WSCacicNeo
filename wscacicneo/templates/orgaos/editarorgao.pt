@@ -1,6 +1,6 @@
 <metal:main use-macro="load: ../basic/master.pt">
   <metal:content fill-slot="dash">
-      Editar Orgão      
+      Editar Órgão
   </metal:content>
 	<metal:content fill-slot="conteudo">
         <div class="padd">
@@ -11,6 +11,17 @@
                   <label class="col-lg-2 control-label">Nome do Órgão</label>
                   <div class="col-lg-5">
                     <input type="text" name='pretty_name' id="pretty_name" class="form-control" value="${pretty_name}" placeholder="Nome do Órgão">
+                  </div>
+                </div>
+                 <div class="form-group">
+                  <label class="col-lg-2 control-label">Código SIORG</label>
+                  <div class="col-lg-5">
+                      <tal:if tal:condition="exists: siorg">
+                          <input type="text" name='siorg' id="siorg" class="form-control" value="${siorg}" placeholder="Codigo SIORG">
+                      </tal:if>
+                      <tal:else>
+                          <input type="text" name='siorg' id="siorg" class="form-control" placeholder="Codigo SIORG">
+                      </tal:else>
                   </div>
                 </div>
                 <div class="form-group">
@@ -108,6 +119,7 @@
             });
            $('#enviar').click(function(){
                 var pretty_name = $('#pretty_name').val()
+                    siorg = $('#siorg').val()
                     email = $('#email').val()
                     telefone = $('#telefone').val()
                     gestor = $('#gestor').val()
@@ -123,6 +135,7 @@
                 var data = {
                     'id': id,
                     'pretty_name': pretty_name,
+                    'siorg': siorg,
                     'email': email,
                     'telefone': telefone,
                     'gestor': gestor,

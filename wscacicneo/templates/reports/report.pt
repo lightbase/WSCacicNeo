@@ -9,7 +9,10 @@
                 <div tal:condition="usuario_autenticado.orgao == request.matchdict['nm_orgao'] or usuario_autenticado.permissao == 'Administrador'">
                     <a type="button" href="#modal" data-toggle="modal" class="btn btn-sm btn-primary"><i class="fa fa-plus-square"></i> Adicionar valor</a>
                     <button type="button" id="error" class="btn btn-sm btn-warning"><i class="fa fa-exclamation-triangle"></i> Questionar coleta</button>
-                    <button type="button" id="delete" class="btn btn-sm btn-success"><i class="fa fa-refresh"></i> Atualizar Relatório</button>
+                    <span id="loading" style="display: none; margin-left: 2%;">
+                      <img src="${request.route_url('root')}static/imgs/ajax-loader-circle.gif" />  Aguarde...
+                    </span>
+                    <button tal:condition="request.matchdict['nm_orgao'] != 'todos-orgaos'" type="button" id="delete" class="btn btn-sm btn-success"><i class="fa fa-refresh"></i> Atualizar Relatório</button>
                 </div>
             </div>
             <div class="row">
@@ -17,28 +20,50 @@
                 <div class="widget" id="tabela_relatorio">
                         <div class="widget-head">
                             <div id="report-name" tal:condition="report_name == 'win32_processor'" class="pull-left">Relatório de Processadores</div>
-                            <div id="report-name" tal:condition="report_name == 'win32_diskdrive'" class="pull-left">Relatório de Todos os Itens - Todos os Órgãos</div>
+                            <div id="report-name" tal:condition="report_name == 'win32_diskdrive'" class="pull-left">Relatório de HDs</div>
                             <div id="report-name" tal:condition="report_name == 'win32_bios'" class="pull-left">Relatório da BIOS</div>
                             <div id="report-name" tal:condition="report_name == 'win32_physicalmemory'" class="pull-left">Relatório de Memória</div>
                             <div id="report-name" tal:condition="report_name == 'operatingsystem'" class="pull-left">Relatório de Sistemas Operacionais</div>
-                            <div id="report-name" tal:condition="report_name == 'software'" class="pull-left">Relatório de Softwares (Suítes de Escritório)</div>
+                            <div id="report-name" tal:condition="report_name == 'software'" class="pull-left">Relatório Suítes de Escritório <tal tal:condition="
+                                    view_type == 'simple'">(Clean)</tal></div>
                             <div id="report-name" tal:condition="report_name == 'todos'" class="pull-left">Relatório de Todos os Itens</div>
+                            <div class="pull-left">&nbsp;- ${pretty_name_orgao}</div>
                             <form action="${request.route_url('json_csv')}" id="csv" method="POST">
                                 <div class="widget-icons pull-right">
                                     <a href="#" id="print" title="Imprimir tabela"><i class="fa fa-print"></i></a>
-                                    <a href="${request.route_url('root')}graficos/${request.matchdict['nm_orgao']}/${report_name}" id="grafico" title="Gerar gráfico"><i class="fa fa-bar-chart-o"></i></a>
+                                    <tal tal:condition="[orgao_name, report_name] != ['todos-orgaos','todos']">
+                                        <tal tal:condition="report_name == 'software'">
+                                            <a href="${request.route_url('root')}graficos/${request.matchdict['nm_orgao']}/software/${view_type}" id="grafico" title="Gerar gráfico"><i class="fa fa-bar-chart-o"></i></a>
+                                        </tal>
+                                        <tal tal:condition="report_name != 'software'">
+                                            <a href="${request.route_url('root')}graficos/${request.matchdict['nm_orgao']}/${report_name}" id="grafico" title="Gerar gráfico"><i class="fa fa-bar-chart-o"></i></a>
+                                        </tal>
+                                    </tal>
                                     <a tal:condition="request.session.get('userid') and usuario_autenticado.orgao == request.matchdict['nm_orgao']" href="#" id="plus-home" title="Adicionar no início"><i class="fa fa-plus-circle"></i></a>
                                         <?python
-                                              import json
-                                              json_data = json.dumps(data)
-                                              json_header = json.dumps(["Chave", "Valor"])
+                                                import json
+                                                json_data = json.dumps(data_list)
+                                                if orgao_name != 'todos-orgaos':
+                                                        if report_name != 'todos':
+                                                                json_header = json.dumps(["Item", "Quantidade"])
+                                                        else:
+                                                                json_header = json.dumps(["Item", "Quantidade", "Tipo"])
+                                                else:
+                                                        if report_name != 'todos':
+                                                                json_header = json.dumps(["Item", "Quantidade", "Órgão"])
+                                                        else:
+                                                                json_header = json.dumps(["Item", "Quantidade", "Tipo", "Órgão"])
                                         ?>
                                         <input type="hidden" name="data" value="${json_data}">
                                         <input type="hidden" name="header" value="${json_header}">
+                                        <input type="hidden" name="orgao_name" value="${orgao_name}">
+                                        <input type="hidden" name="report_name" value="${report_name}">
                                         <a href="#" id="download-report" title="Baixar relatório" onclick="$('#csv').submit();"><i class="fa fa-download"></i></a>
                                     <a href="#help_buttons_report" title="Ajuda" data-toggle="modal"><i class="fa fa-question"></i></a>
                                 </div>
                             </form>
+
+
                             <div id="loading" style="display: none; margin-left: 10px; margin-right: 10px" class="pull-right">
                                 <img src="${request.route_url('root')}static/imgs/ajax-loader-circle.gif" />  Aguarde...
                             </div>
@@ -66,7 +91,7 @@
                                                     <th>Item</th>
                                                     <th width="10%">Quantidade</th>
                                                     <th width="15%" tal:condition="report_name in ['todos','all_organs_items']">Tipo</th>
-                                                    <th width="30%" tal:condition="report_name in ['all_organs','all_organs_items']">Órgão</th>
+                                                    <th width="30%" tal:condition="orgao_name == 'todos-orgaos'">Órgão</th>
                                                     <div tal:condition="usuario_autenticado != None">
                                                         <div tal:condition="usuario_autenticado.permissao == 'Administrador'">
                                                             <tal tal:condition="report_name != 'software'">
@@ -94,63 +119,134 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <div tal:condition="report_name != 'todos' " tal:repeat="k data.keys()">
-                                                    <tr>
-                                                        <td>${k}</td>
-                                                        <td width="10%">${data[k]}</td>
-                                                        <td width="30%" tal:condition="report_name in ['all_organs','all_organs_items']">Órgão</td>
-                                                        <div tal:condition="usuario_autenticado != None">
-                                                            <div tal:condition="usuario_autenticado.permissao == 'Administrador'">
-                                                                <tal tal:condition="report_name != 'software'">
-                                                                    <metal:macro use-macro="load: ../includes/report_options_blacklist.pt"/>
-                                                                </tal>
-                                                                <tal tal:condition="report_name == 'software'">
-                                                                    <tal tal:condition="view_type == 'detailed'">
-                                                                        <metal:macro use-macro="load: ../includes/report_options_blacklist.pt"/>
-                                                                    </tal>
-                                                                </tal>
-                                                            </div>
-                                                            <div tal:condition="usuario_autenticado.permissao == 'Gestor'">
-                                                                <div tal:condition="usuario_autenticado.orgao == orgao_name">
+                                                <div tal:condition="orgao_name != 'todos-orgaos'">
+                                                    <div tal:condition="report_name != 'todos' " tal:repeat="k data.keys()">
+                                                        <tr>
+                                                            <td>${k}</td>
+                                                            <td width="10%">${data[k]}</td>
+                                                            <div tal:condition="usuario_autenticado != None">
+                                                                <div tal:condition="usuario_autenticado.permissao == 'Administrador'">
                                                                     <tal tal:condition="report_name != 'software'">
-                                                                        <metal:macro use-macro="load: ../includes/report_options.pt"/>
+                                                                        <metal:macro use-macro="load: ../includes/report_options_blacklist.pt"/>
                                                                     </tal>
                                                                     <tal tal:condition="report_name == 'software'">
                                                                         <tal tal:condition="view_type == 'detailed'">
-                                                                            <metal:macro use-macro="load: ../includes/report_options.pt"/>
+                                                                            <metal:macro use-macro="load: ../includes/report_options_blacklist.pt"/>
                                                                         </tal>
                                                                     </tal>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                    </tr>
-                                                </div>
-                                                <div tal:condition="report_name == 'todos' " tal:repeat="key data.keys()">
-                                                    <tr tal:repeat="k data[key].keys()">
-                                                        <td>${k}</td>
-                                                        <td width="10%">${data[key][k]}</td>
-                                                        <td width="15%" tal:condition="report_name in ['todos','all_organs_items']">
-                                                            <div tal:condition="key == 'softwarelist'">Software</div>
-                                                            <div tal:condition="key == 'win32_processor'">Processador</div>
-                                                            <div tal:condition="key == 'win32_diskdrive'">HD</div>
-                                                            <div tal:condition="key == 'win32_bios'">BIOS</div>
-                                                            <div tal:condition="key == 'win32_physicalmemory'">Memória</div>
-                                                            <div tal:condition="key == 'operatingsystem'">Sistema Operacional</div>
-                                                        </td>
-                                                        <td width="30%" tal:condition="report_name in ['all_organs','all_organs_items']">Órgão</td>
-                                                        <div tal:condition="usuario_autenticado != None">
-                                                            <div tal:condition="usuario_autenticado.permissao == 'Administrador'">
-                                                                <metal:macro use-macro="load: ../includes/report_options_blacklist.pt">
-                                                            </div>
-                                                            <div tal:condition="usuario_autenticado.permissao == 'Gestor'">
-                                                                <div tal:condition="usuario_autenticado.orgao == orgao_name">
-                                                                    <metal:macro use-macro="load: ../includes/report_options.pt">
+                                                                <div tal:condition="usuario_autenticado.permissao == 'Gestor'">
+                                                                    <div tal:condition="usuario_autenticado.orgao == orgao_name">
+                                                                        <tal tal:condition="report_name != 'software'">
+                                                                            <metal:macro use-macro="load: ../includes/report_options.pt"/>
+                                                                        </tal>
+                                                                        <tal tal:condition="report_name == 'software'">
+                                                                            <tal tal:condition="view_type == 'detailed'">
+                                                                                <metal:macro use-macro="load: ../includes/report_options.pt"/>
+                                                                            </tal>
+                                                                        </tal>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </tr>
+                                                        </tr>
+                                                    </div>
+                                                    <div tal:condition="report_name == 'todos' " tal:repeat="key data.keys()">
+                                                        <tr tal:repeat="k data[key].keys()">
+                                                            <td>${k}</td>
+                                                            <td width="10%">${data[key][k]}</td>
+                                                            <td width="15%" tal:condition="report_name in ['todos','all_organs_items']">
+                                                                <div tal:condition="key == 'softwarelist'">Software</div>
+                                                                <div tal:condition="key == 'win32_processor'">Processador</div>
+                                                                <div tal:condition="key == 'win32_diskdrive'">HD</div>
+                                                                <div tal:condition="key == 'win32_bios'">BIOS</div>
+                                                                <div tal:condition="key == 'win32_physicalmemory'">Memória</div>
+                                                                <div tal:condition="key == 'operatingsystem'">Sistema Operacional</div>
+                                                            </td>
+                                                            <div tal:condition="usuario_autenticado != None">
+                                                                <div tal:condition="usuario_autenticado.permissao == 'Administrador'">
+                                                                    <metal:macro use-macro="load: ../includes/report_options_blacklist.pt">
+                                                                </div>
+                                                                <div tal:condition="usuario_autenticado.permissao == 'Gestor'">
+                                                                    <div tal:condition="usuario_autenticado.orgao == orgao_name">
+                                                                        <metal:macro use-macro="load: ../includes/report_options.pt">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </tr>
+                                                    </div>
+                                                    <div><b>Total de Computadores : ${count}</b></div>
                                                 </div>
-                                                <div><b>Total de Computadores : ${count}</b></div>
+                                                <div tal:condition="orgao_name == 'todos-orgaos'">
+                                                    <div tal:condition="report_name != 'todos'" tal:repeat="orgao data_list.keys()">
+                                                        <div tal:repeat="k data_list[orgao].keys()">
+                                                            <tr>
+                                                                <td>${k}</td>
+                                                                <td width="10%">${data_list[orgao][k]}</td>
+                                                                <?python
+                                                                        from wscacicneo.utils.utils import Utils
+                                                                        pretty_orgao = Utils.pretty_name_orgao(orgao)
+                                                                ?>
+                                                                <td width="30%">${pretty_orgao}</td>
+                                                                <div tal:condition="usuario_autenticado != None">
+                                                                    <div tal:condition="usuario_autenticado.permissao == 'Administrador'">
+                                                                        <tal tal:condition="report_name != 'software'">
+                                                                            <metal:macro use-macro="load: ../includes/report_options_blacklist.pt"/>
+                                                                        </tal>
+                                                                        <tal tal:condition="report_name == 'software'">
+                                                                            <tal tal:condition="view_type == 'detailed'">
+                                                                                <metal:macro use-macro="load: ../includes/report_options_blacklist.pt"/>
+                                                                            </tal>
+                                                                        </tal>
+                                                                    </div>
+                                                                    <div tal:condition="usuario_autenticado.permissao == 'Gestor'">
+                                                                        <div tal:condition="usuario_autenticado.orgao == orgao_name">
+                                                                            <tal tal:condition="report_name != 'software'">
+                                                                                <metal:macro use-macro="load: ../includes/report_options.pt"/>
+                                                                            </tal>
+                                                                            <tal tal:condition="report_name == 'software'">
+                                                                                <tal tal:condition="view_type == 'detailed'">
+                                                                                    <metal:macro use-macro="load: ../includes/report_options.pt"/>
+                                                                                </tal>
+                                                                            </tal>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </tr>
+                                                        </div>
+                                                    </div>
+                                                    <div tal:condition="report_name == 'todos'" tal:repeat="orgao data_list.keys()">
+                                                        <div tal:repeat="key data_list[orgao].keys()">
+                                                            <tr tal:repeat="k data_list[orgao][key].keys()">
+                                                                <td>${k}</td>
+                                                                <td width="10%">${data_list[orgao][key][k]}</td>
+                                                                <td width="15%" tal:condition="report_name in ['todos','all_organs_items']">
+                                                                    <div tal:condition="key == 'softwarelist'">Software</div>
+                                                                    <div tal:condition="key == 'win32_processor'">Processador</div>
+                                                                    <div tal:condition="key == 'win32_diskdrive'">HD</div>
+                                                                    <div tal:condition="key == 'win32_bios'">BIOS</div>
+                                                                    <div tal:condition="key == 'win32_physicalmemory'">Memória</div>
+                                                                    <div tal:condition="key == 'operatingsystem'">Sistema Operacional</div>
+                                                                </td>
+                                                                <?python
+                                                                        from wscacicneo.utils.utils import Utils
+                                                                        pretty_orgao = Utils.pretty_name_orgao(orgao)
+                                                                ?>
+                                                                <td width="30%">${pretty_orgao}</td>
+                                                                <div tal:condition="usuario_autenticado != None">
+                                                                    <div tal:condition="usuario_autenticado.permissao == 'Administrador'">
+                                                                        <metal:macro use-macro="load: ../includes/report_options_blacklist.pt">
+                                                                    </div>
+                                                                    <div tal:condition="usuario_autenticado.permissao == 'Gestor'">
+                                                                        <div tal:condition="usuario_autenticado.orgao == orgao_name">
+                                                                            <metal:macro use-macro="load: ../includes/report_options.pt">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </tr>
+                                                        </div>
+                                                    </div>
+                                                    <div><b>Total de Computadores : ${count}</b></div>
+                                                </div>
                                             </tbody>
                                         </table>
                                         <div class="clearfix"></div>
@@ -240,12 +336,20 @@
                         attr = $(this).attr('data-type')
                     }
                     base = "${request.matchdict['nm_orgao']}"
+                    all_organs = 'false';
+                    if(base == 'todos-orgaos')
+                    {
+                        base = $(this).attr('orgao')
+                        all_organs = 'true';
+                        data_id = $(this).attr('item-key')
+                    }
                     data = {
                         'nm_base' : base,
                         'attr': attr,
                         'value' : value,
                         'item' : data_id,
-                        'dict_itens': index_itens
+                        'dict_itens': index_itens,
+                        'all_organs': all_organs
                     }
             $.ajax({
                     type: "PUT",
@@ -297,8 +401,19 @@
                     type: "POST",
                     url: "${request.route_url('root')}delete_reports",
                     data : base,
-                     success: function(){window.location .reload();},
-                    error: function(){ $('#error-message').show();}
+                    beforeSend: function()
+                        {
+                            $('#loading').show();
+                            $('#delete').hide();
+                        },
+                    success: function(){window.location .reload();},
+                    error: function(){ $('#error-message').show();
+                        {
+                            $('#loading').show();
+                            $('#delete').hide();
+                        }
+                    }
+
                 });
             });
             $('#simple-view').click(function(){

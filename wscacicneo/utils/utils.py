@@ -102,7 +102,7 @@ class Utils:
             coleta=60,
             sigla='MPOG',
             endereco='Esplanada bloco C',
-            email='admin@planemaneto.gov.br',
+            email='admin@planejamento.gov.br',
             telefone='(61) 2025-4117',
             url='http://api.brlight.net/api',
             api_key='123',
@@ -112,7 +112,7 @@ class Utils:
 
     def return_all_bases_list():
         # RETORNA TODAS AS BASES
-        bases = requests.get(config.REST_URL)
+        bases = requests.get(config.REST_URL+'?$$={"limit":null}')
         bases_dict = bases.json()
         base_list = []
         for value in bases_dict["results"]:
@@ -145,27 +145,18 @@ class Utils:
         return saida
 
     def computers_not_found(data, total):
-        a = 0
-        for x in data.keys():
-            if isinstance(data[x],type(dict())):
-                for y in data[x].keys():
-                    a = a+int(data[x][y])
-                count = total - a
-                if a < total:
-                    data[x]['Não Informados'] = count
+        count_items = 0
 
-                    return data
-                else:
-                    return data
+        for key in data.keys():
+            if not isinstance(data[key], type(dict())):
+                count_items = count_items + data[key]
             else:
-                count = total - a
-                a = a+int(data[x])
-                if a < total:
-                    data['Não Informados'] = count
-
-                    return data
-                else:
-                    return data
+                for item_amount in data[key].keys():
+                    count_items = count_items + data[key][item_amount]
+        if count_items < total:
+            count_final = total - count_items
+            data['Não Informados'] = count_final
+        return data
 
     def return_blacklist(self):
         blacklist_obj = blacklist.Blacklist(item="name")
@@ -399,3 +390,52 @@ class Utils:
         search = orgao_obj.search_orgao(sigla)
         pretty_name = search.results[0].pretty_name
         return pretty_name
+
+    def orgaos_com_reports():
+        orgaos = list()
+        all_bases = Utils.return_all_bases_list()
+        for base in all_bases:
+            if base.find('_bk') > -1:
+                orgaos.append(base.split('_bk')[0])
+        return orgaos
+
+    def dict_items_indexed(data):
+        index_itens = dict()
+        key_number = 0
+        for item in data:
+            index_itens[key_number] = item
+            key_number = key_number + 1
+        return index_itens
+
+    def delete_all_bases():
+        orgaos_list = Utils.orgaos_com_reports()
+        results_list = list()
+        for nm_base in orgaos_list:
+            base = ReportsBase(nm_base)
+            result = base.remove_base()
+            results_list.append(result)
+        return results_list
+
+
+class RelacionalConverter(object):
+    # recebe a base de coleta de um PC e retorna um json equivalente para enviar para o LBRELACIONAL
+    def __init__(self, base_inicial_json):
+        self.base_inicial_dict = json.loads(base_inicial_json)
+        
+    def cria_json_relacional(self):
+        base_final_dict = dict()
+        for attr in self.base_inicial_dict:
+            # Busca dentro dos campos e coloca no dict
+            if attr in ['win32_physicalmemory',
+                        'win32_bios', 'win32_diskdrive',
+                        'operatingsystem', 'win32_processor', 'win32_baseboard']:
+                # itera dentro dos grupos para obter os sub atributos
+                for subattr in self.base_inicial_dict[attr]:
+                    base_final_dict[subattr] = self.base_inicial_dict[attr][subattr]
+            elif attr not in ["file_ext", "dt_base", "description",
+                              "password", "file_ext_time", "idx_exp", "idx_exp_time",
+                              "idx_exp_url", "name", "id_base", "color", "softwarelist"]:
+                # obtem somente os atributos necessarios
+                base_final_dict[attr] = self.base_inicial_dict[attr]
+        base_final_dict["nome_orgao"] = self.base_inicial_dict["name"]
+        return json.dumps(base_final_dict)

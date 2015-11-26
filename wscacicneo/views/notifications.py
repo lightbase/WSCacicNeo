@@ -80,7 +80,7 @@ class Notifications(object):
         delete = notify_obj.delete_notify(id)
         session = self.request.session
         if delete:
-            session.flash('Cadastro realizado com sucesso', queue="success")
+            session.flash('Notificação removida com sucesso', queue="success")
         else:
             session.flash('Erro ao apagar a notificação', queue="error")
         return HTTPFound(location = self.request.route_url('list_notify'))

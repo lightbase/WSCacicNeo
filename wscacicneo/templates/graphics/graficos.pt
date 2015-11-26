@@ -6,7 +6,15 @@
         <div style="font-size: 20px;" align="center"><a href="#" id="print" title="Imprimir Tabela"><i
                 class="fa fa-print"></i>Imprimir</a></div>
         <br/>
-        <div id="chart_div" style="width: 900px; height: 500px;"></div>
+        <tal tal:condition="orgao_nm != 'todos-orgaos' and attr != 'todos'">
+            <div id="chart_div" style="width: 900px; height: 500px;"></div>
+        </tal>
+        <tal tal:condition="orgao_nm == 'todos-orgaos'" tal:repeat="orgao data.keys()">
+            <div id="${orgao}" style="width: 900px; height: 500px;"></div>
+        </tal>
+        <tal tal:condition="orgao_nm != 'todos-orgaos' and attr == 'todos'" tal:repeat="attrib data.keys()">
+            <div id="${attrib}" style="width: 900px; height: 500px;"></div>
+        </tal>
     </metal:macro>
     <metal:macro fill-slot="javascript">
         <script type="text/javascript" src="${request.route_url('root')}static/googlecharts.js"></script>
@@ -26,19 +34,72 @@
             google.load('visualization', '1.0', {'packages': ['corechart']});
             google.setOnLoadCallback(drawChart);
             function drawChart() {
-                dataTableX = ${data}
-                var data = google.visualization.arrayToDataTable(dataTableX);
+                if(('${orgao_nm}'!='todos-orgaos')&&('${attr}'!= 'todos'))
+                {
+                    dataTableX = ${data}
+                    var data = google.visualization.arrayToDataTable(dataTableX);
 
-                var options = {
-                    title: '${title_chart}',
-                    is3D: true,
-                    pieResidueSliceLabel: 'Outros',
-                    sliceVisibilityThreshold: 20/720
-                };
+                    var options = {
+                        title: '${title_chart}',
+                        is3D: true,
+                        pieResidueSliceLabel: 'Outros',
+                        sliceVisibilityThreshold: 20/720
+                    };
 
-                var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
 
-                chart.draw(data, options);
+                    chart.draw(data, options);
+                }
+                else if('${attr}' == 'todos')
+                {
+                    var data_dict = ${data};
+                    for (var attrib in data_dict) {
+                        dataTableX = data_dict[attrib]
+                        var data = google.visualization.arrayToDataTable(dataTableX);
+                        var title_chart;
+                        if (attrib == "win32_processor")
+                            title_chart = "Gráfico de Processadores"
+                        else if (attrib == "win32_diskdrive")
+                            title_chart = "Gráfico de HD";
+                        else if (attrib == "win32_bios")
+                            title_chart = "Gráfico de BIOS";
+                        else if (attrib == "win32_physicalmemory")
+                            title_chart = "Gráfico de Memória";
+                        else if (attrib == "operatingsystem")
+                            title_chart = "Gráfico de Sistemas Operacionais";
+                        else if (attrib == "softwarelist")
+                            title_chart = "Gráfico de Softwares";
+                        var options = {
+                            title: title_chart,
+                            is3D: true,
+                            pieResidueSliceLabel: 'Outros',
+                            sliceVisibilityThreshold: 20/720
+                        };
+
+                        var chart = new google.visualization.PieChart(document.getElementById(attrib));
+
+                        chart.draw(data, options);
+                    }
+                }
+                else
+                {
+                    var data_dict = ${data};
+                    for (var orgao in data_dict) {
+                        dataTableX = data_dict[orgao]
+                        var data = google.visualization.arrayToDataTable(dataTableX);
+
+                        var options = {
+                            title: '${title_chart}' + " - " + orgao,
+                            is3D: true,
+                            pieResidueSliceLabel: 'Outros',
+                            sliceVisibilityThreshold: 20/720
+                        };
+
+                        var chart = new google.visualization.PieChart(document.getElementById(orgao));
+
+                        chart.draw(data, options);
+                    }
+                }
             }
 
         </script>

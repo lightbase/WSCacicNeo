@@ -23,14 +23,14 @@
                                             <thead>
                                                 <tr>
                                                     <th>Nome</th>
-                                                    <th>Matricula</th>
+                                                    <th tal:condition="usuario_autenticado.permissao == 'Administrador'">Matricula</th>
                                                     <th>E-mail</th>
-                                                    <th>Orgão</th>
-                                                    <th>Permissão</th>
-                                                    <th>Opções</th>
+                                                    <th>Órgão</th>
+                                                    <th tal:condition="usuario_autenticado.permissao == 'Administrador'">Permissão</th>
+                                                    <th tal:condition="usuario_autenticado.permissao == 'Administrador'">Opções</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody tal:condition="usuario_autenticado.permissao == 'Administrador'">
                                                 <tr tal:repeat="doc user_doc">
                                                     <td>${doc.nome}</td>
                                                     <td>${doc.matricula}</td>
@@ -41,6 +41,13 @@
                                                         <a href="${request.route_url('root')}usuario/editar/${doc.matricula}" class="btn btn-xs btn-warning" title="Editar"><i class="fa fa-pencil"></i></a>
                                                         <a id="confirm_${doc.matricula}" onclick="confirm_delete('${doc.matricula}','${doc.nome}')" class="btn btn-xs btn-danger" title="Apagar"><i class="fa fa-times"></i></a>
                                                     </td>
+                                                </tr>
+                                            </tbody>
+                                            <tbody tal:condition="usuario_autenticado.permissao == 'Gestor'">
+                                                <tr tal:repeat="doc user_doc">
+                                                    <td>${doc.nome}</td>
+                                                    <td>${doc.email}</td>
+                                                    <td>${doc.orgao}</td>
                                                 </tr>
                                             </tbody>
                                         </table>

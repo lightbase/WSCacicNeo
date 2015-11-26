@@ -139,13 +139,13 @@ class OrgaoBase(object):
             required=False
         ))
 
-        dependence = Field(**dict(
-            name='dependence',
-            alias='dependence',
-            description='orgaos dependentes',
+        siorg = Field(**dict(
+            name='siorg',
+            alias='siorg',
+            description='Código do SIORG',
             datatype='Text',
             indices=['Textual', 'Unico'],
-            multivalued=True,
+            multivalued=False,
             required=False
         ))
 
@@ -186,6 +186,7 @@ class OrgaoBase(object):
         content_list.append(url)
         content_list.append(habilitar_bot)
         content_list.append(api_key)
+        content_list.append(siorg)
 
         lbbase = Base(
             metadata=base_metadata,
@@ -222,6 +223,18 @@ class OrgaoBase(object):
             return True
         except HTTPError:
             raise IOError('Error excluding base from LB')
+
+    def update_base(self):
+        """
+        Remove base from Lightbase
+        :param lbbase: LBBase object instance
+        :return: True or Error if base was not excluded
+        """
+        try:
+            response = self.baserest.update(self.lbbase)
+            return True
+        except HTTPError:
+            raise IOError('Error updating base in LB')
 
     def is_created(self):
         """

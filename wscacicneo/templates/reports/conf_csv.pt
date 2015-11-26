@@ -1,0 +1,127 @@
+<metal:main use-macro="load: ../basic/master.pt">
+  <metal:content fill-slot="dash">
+      Exportação
+  </metal:content>
+	<metal:content fill-slot="conteudo">
+        <div class="padd">
+            <br />
+            <!-- Form starts.  -->
+            <form style="margin-left: 20%;" id="csv" method="POST" class="form-horizontal col-lg-8" role="form">
+                <!--?<div class="content" style="text-align: center">-->
+                    <!--?<h2>Gerar Banco de Dados Relacional</h2>-->
+                    <!--?<a onclick="call_gif();" title="Gera banco de dados relacional" href="${request.route_url('generate_relacional')}"-->
+                        <!--?type="button" class="btn btn-lg btn-success" id="generate_relacional">-->
+                        <!--?<i class="fa fa-cogs"></i>-->
+                        <!--?Gerar-->
+                    <!--?</a>-->
+                    <!--?<span id="loading" style="display: none;">-->
+                          <!--?<img src="${request.route_url('root')}static/imgs/ajax-loader-circle.gif" />  Aguarde...-->
+                      <!--?</span>-->
+                <!--?</div>-->
+                <br/>
+                <div class="widget"  style="text-align: center;">
+                     <div class="widget-head">Órgãos
+                     </div>
+                     <div class="widget-content">
+                         <br>
+                         <tal tal:repeat="doc orgao_doc">
+                            <input style="width:15px; height: 15px" type="checkbox" name="orgao" checked onclick="toggle_any(this)" value="${doc.nome}"><i style="font-size: 18px;" > ${doc.pretty_name}</i>
+                            <br />
+                         </tal>
+                         <br>
+                     </div>
+                     <div class="widget-foot" align="center">
+                         <button type="button" id="enviar" class="btn btn-sm btn-primary">Exportar Hardware</button>
+                         <button type="button" id="enviar_software" class="btn btn-sm btn-primary">Exportar Software</button>
+                     </div>
+                 </div>
+            </form>
+        </div>
+	</metal:content>
+	<metal:content fill-slot="javascript">
+        <script type="text/javascript">
+            function call_gif(){
+                document.getElementById('generate_relacional').style.display = "none";
+                document.getElementById('loading').style.display = "block"
+            };
+            function toggle_any(source) {
+                var radio = document.getElementsByName('todos_orgaos')
+                var checkboxes = document.getElementsByName('orgao')
+                for(var i=0, n=radio.length;i<n;i++) {
+                        radio[i].checked = false
+                }
+                if(!source.checked)
+                {
+                    var all_unchecked = true
+                    for(var i= 0,n=checkboxes.length;i<n;i++)
+                    {
+                        if(checkboxes[i].checked)
+                        {
+                            all_unchecked = false
+                        }
+                    }
+                    if(all_unchecked)
+                    {
+                        for(var i=0, n=radio.length;i<n;i++) {
+                            radio[i].checked = true
+                        }
+                    }
+                }
+            }
+            function toggle_all(source) {
+                checkboxes = document.getElementsByName('orgao');
+                if(source.checked) {
+                    for(var i=0, n=checkboxes.length;i<n;i++)
+                    {
+                        checkboxes[i].checked = false;
+                    }
+                }
+            }
+            $('#enviar').click(function(){
+                var listaorgaos = new Array();
+                checks_orgaos = document.getElementsByName('orgao')
+                frm = document.getElementById('csv')
+                for (var i = 0, n = checks_orgaos.length; i < n; i++)
+                {
+                    if (checks_orgaos[i].checked)
+                    {
+                        listaorgaos.push(checks_orgaos[i].value)
+                    }
+                }
+                if(listaorgaos.length == 0)
+                {
+                    noty({text: 'Erro: Selecione um órgão.',layout:'topRight',type:'warning',timeout:3000});
+                    return true;
+                }
+                else
+                {
+                    frm.action="${request.route_url('lbrelacional_csv')}"
+                    $('#csv').submit();
+                }
+            });
+            $('#enviar_software').click(function(){
+                var listaorgaos = new Array();
+                frm = document.getElementById('csv')
+                checks_orgaos = document.getElementsByName('orgao')
+
+                for (var i = 0, n = checks_orgaos.length; i < n; i++)
+                {
+                    if (checks_orgaos[i].checked)
+                    {
+                        listaorgaos.push(checks_orgaos[i].value)
+                    }
+                }
+                if(listaorgaos.length == 0)
+                {
+                    noty({text: 'Erro: Selecione um órgão.',layout:'topRight',type:'warning',timeout:3000});
+                    return true;
+                }
+                else
+                {
+                    frm.action="${request.route_url('lbrelacional_csv_software')}"
+                    $('#csv').submit();
+                }
+            });
+        </script>
+    </metal:content>
+</metal:main>

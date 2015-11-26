@@ -35,11 +35,18 @@
                     </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-lg-2 control-label">* Orgão:</label>
-                  <div class="col-lg-5">
+                  <label class="col-lg-2 control-label">* Órgão:</label>
+                  <div class="col-lg-5" tal:condition="usuario_autenticado.permissao == 'Administrador'">
                     <select id="orgao" class="form-control">
                       <option></option>
                       <option tal:repeat="orgao orgaos" value="${orgao.nome}">${orgao.pretty_name}</option>
+                    </select>
+                  </div>
+                 <div class="col-lg-5" tal:condition="usuario_autenticado.permissao == 'Gestor'">
+                    <select id="orgao" class="form-control">
+                        <tal tal:repeat="orgao orgaos">
+                            <option tal:condition="orgao.sigla == usuario_autenticado.orgao" value="{orgao.nome}">${orgao.pretty_name}</option>
+                        </tal>
                     </select>
                   </div>
                 </div>
@@ -60,7 +67,7 @@
                   <div class="col-lg-2">
                     <select id="permissao" class="form-control">
                       <option>Gestor</option>
-                      <option>Administrador</option>
+                      <option tal:condition="usuario_autenticado.permissao == 'Administrador'">Administrador</option>
                     </select>
                   </div>
                 </div>

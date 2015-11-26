@@ -48,21 +48,55 @@ class Relatorios(object):
                 'usuario_autenticado': self.usuario_autenticado
                 }
 
-    #@view_config(route_name='report_itens', renderer='../templates/report.pt', permission="user")
-    def report_itens(self):
+    def report_orgao(self):
+        data = dict()
         orgao_nm = self.request.matchdict['nm_orgao']
+        if orgao_nm != 'todos-orgaos':
+            return self.report_itens()
+        else:
+            search = SearchOrgao()
+            orgaos = [org.nome for org in search.list_by_name()]
+            index_orgaos = dict()
+            data_list = dict()
+            count = 0
+            for orgao in orgaos:
+                data[orgao] = self.report_itens(orgao)
+                data_list[orgao] = data[orgao]['data']
+                index_orgaos[orgao] = data[orgao]['index_itens']
+                count += data[orgao]['count']
+
+        return {
+            'data': data_list,
+            'data_list': data_list,
+            'usuario_autenticado': self.usuario_autenticado,
+            'report_name': self.request.matchdict['attr'],
+            'orgao_name': orgao_nm,
+            'index_itens': index_orgaos,
+            'count': count,
+            'pretty_name_orgao': 'Todos os Órgãos'
+         }
+
+    def report_itens(self, orgao=None):
+        if orgao is None:
+            orgao_nm = self.request.matchdict['nm_orgao']
+        else:
+            orgao_nm = orgao
         attr = self.request.matchdict['attr']
         child = self.request.matchdict['child']
         nm_orgao = Utils.format_name(orgao_nm)
         report_base = base_reports.ReportsBase(nm_orgao)
         reports_config = config_reports.ConfReports(nm_orgao)
         # Retorna o nome do orgão
-        # pretty_name_orgao = Utils.pretty_name_orgao(orgao_nm)
+        pretty_name_orgao = Utils.pretty_name_orgao(orgao_nm)
         ###
         reports_count = reports.Reports(nm_orgao).get_base_orgao()
         ###
         count_reports = reports_count.result_count
-        if(report_base.is_created() == False):
+
+        # Reload base if there's a flag in session
+        if report_base.is_created() == False \
+                or self.request.session.get('reload') is not None:
+
             create_base = report_base.create_base()
 
             # Carrega base de descrições de campos
@@ -95,7 +129,10 @@ class Relatorios(object):
 
             else:
                 data = dict()
-                for attri in ['softwarelist','win32_physicalmemory', 'win32_bios', 'win32_diskdrive', 'operatingsystem', 'win32_processor']:
+                for attri in ['softwarelist','win32_physicalmemory',
+                              'win32_bios', 'win32_diskdrive',
+                              'operatingsystem', 'win32_processor',
+                              'win32_baseboard']:
                     data_parcial = dict()
                     get_base = reports_config.get_attribute(attri)
                     results = get_base.results
@@ -115,7 +152,7 @@ class Relatorios(object):
             key_number = 1
             for item in data.keys():
                 index_itens[key_number] = item
-                key_number = key_number + 1
+                key_number += 1
         else:
             data = Utils.computers_not_found(data, count_reports)
             index_itens = dict()
@@ -124,18 +161,19 @@ class Relatorios(object):
                 if isinstance(data[datas], type(dict())):
                     for item in data[datas].keys():
                         index_itens[key_number] = item
-                        key_number = key_number + 1
+                        key_number += 1
                 else:
                     index_itens[key_number] = datas
-                    key_number = key_number +1
+                    key_number += 1
         return {
+            'data_list': data,
             'data': data,
             'index_itens': index_itens,
-            'count' : count_reports,
+            'count': count_reports,
             'usuario_autenticado': self.usuario_autenticado,
             'report_name': attr,
             'orgao_name': orgao_nm,
-            #'pretty_name_orgao': pretty_name_orgao
+            'pretty_name_orgao': pretty_name_orgao
         }
 
     def put_reports(self):
@@ -143,11 +181,15 @@ class Relatorios(object):
             data = self.request.params
             if self.usuario_autenticado.permissao == 'Administrador' or (self.usuario_autenticado.permissao == 'Gestor' and self.usuario_autenticado.orgao == data['nm_base']):
                 item_key = data['item']
-                item = data['dict_itens['+item_key+']']
                 attr = data['attr']
                 if attr == 'software':
                     attr = 'softwarelist'
                 nm_orgao = data['nm_base']
+                all_organs = data['all_organs']
+                if all_organs == 'true':
+                    item = data['dict_itens['+nm_orgao+']['+item_key+']']
+                else:
+                    item = data['dict_itens['+item_key+']']
                 value = data['value']
                 data_dic = {attr : {attr+'_item': item, attr+'_amount': int(value)}}
                 valor = attr+'_item'
@@ -169,7 +211,41 @@ class Relatorios(object):
             session.flash('Você não tem permissão para alterar.', queue="error")
             return Response(None)
 
-    def report_software(self):
+    def report_orgao_software(self):
+        data = dict()
+        orgao_nm = self.request.matchdict['nm_orgao']
+        if orgao_nm != 'todos-orgaos':
+            return self.report_software()
+        else:
+            search = SearchOrgao()
+            orgaos = [org.nome for org in search.list_by_name()]
+            index_orgaos = dict()
+            data_list = dict()
+            count = 0
+            view_tipo = self.request.matchdict['view_type']
+            if view_tipo == 'simples':
+                view_type = 'simple'
+            elif view_tipo == 'detalhado':
+                view_type = 'detailed'
+            for orgao in orgaos:
+                data[orgao] = self.report_software(orgao)
+                data_list[orgao] = data[orgao]['data']
+                index_orgaos[orgao] = data[orgao]['index_itens']
+                count += data[orgao]['count']
+
+        return {
+            'data': data_list,
+            'data_list': data_list,
+            'usuario_autenticado': self.usuario_autenticado,
+            'report_name': 'software',
+            'view_type': view_type,
+            'orgao_name': orgao_nm,
+            'index_itens': index_orgaos,
+            'count': count,
+            'pretty_name_orgao': 'Todos os Órgãos'
+         }
+
+    def report_software(self, orgao=None):
         """
         Rota para os relatórios de software
         """
@@ -179,10 +255,13 @@ class Relatorios(object):
             view_type = 'simple'
         elif view_type_pt == 'detalhado':
             view_type = 'detailed'
-        orgao_nm = self.request.matchdict['nm_orgao']
-        nm_orgao = self.request.matchdict['nm_orgao']
-        # Retorna o nome do Orgão
-        #pretty_name_orgao = Utils.pretty_name_orgao(orgao_nm)
+        if orgao is None:
+            orgao_nm = self.request.matchdict['nm_orgao']
+            nm_orgao = self.request.matchdict['nm_orgao']
+        else:
+            orgao_nm = orgao
+            nm_orgao = orgao
+        pretty_name_orgao = Utils.pretty_name_orgao(orgao_nm)
         reports_count = reports.Reports(nm_orgao).get_base_orgao()
         count_reports = reports_count.result_count
         attr = 'softwarelist'
@@ -194,7 +273,10 @@ class Relatorios(object):
         # Base de configurações do relatório
         reports_config = config_reports.ConfReports(nm_orgao)
 
-        if report_base.is_created():
+        # Reload base if there's a flag in session
+        if report_base.is_created() or \
+                self.request.session.get('reload') is not None:
+
             # Carrega base de descrições de campos
             desc_base = descriptions.DescriptionsBase()
             if not desc_base.is_created():
@@ -213,14 +295,19 @@ class Relatorios(object):
                 item = getattr(parent, attr+'_item')
                 amount = getattr(parent, attr+'_amount')
                 data[item] = amount
+
             index_itens = dict()
             key_number = 1
+
             if view_type == 'simple':
                 data = Utils.group_data(data)
+
             for item in data.keys():
                 index_itens[key_number] = item
-                key_number = key_number + 1
+                key_number += 1
+
             return {
+                'data_list':data,
                 'data': data,
                 'index_itens': index_itens,
                 'count': count_reports,
@@ -228,7 +315,7 @@ class Relatorios(object):
                 'report_name': 'software',
                 'view_type': view_type,
                 'orgao_name': orgao_nm,
-                #'pretty_name_orgao': pretty_name_orgao
+                'pretty_name_orgao': pretty_name_orgao
             }
         else:
             create_base = report_base.create_base()
@@ -243,7 +330,7 @@ class Relatorios(object):
                 data = Reports(nm_orgao).count_attribute(attr, child, True)
             elif view_type == 'detailed':
                 data = Reports(nm_orgao).count_attribute(attr, child)
-            return HTTPFound(location=self.request.route_url('report_software', view_type=view_type_pt, nm_orgao=orgao_nm))
+            return HTTPFound(location=self.request.route_url('report_orgao_software', view_type=view_type_pt, nm_orgao=orgao_nm))
             # index_itens = dict()
             # key_number = 1
             # for item in data.keys():
@@ -256,7 +343,6 @@ class Relatorios(object):
             #     'usuario_autenticado': self.usuario_autenticado,
             #     'report_name': 'software',
             #     'view_type': view_type
-
 
     def post_reports(self):
         """
@@ -280,8 +366,11 @@ class Relatorios(object):
 
     def delete_reports(self):
         nm_base = self.request.params['base']
-        base = base_reports.ReportsBase(nm_base)
-        results = base.remove_base()
+        if nm_base == "todos-orgaos":
+            results = Utils.delete_all_bases()
+        else:
+            base = base_reports.ReportsBase(nm_base)
+            results = base.remove_base()
         session = self.request.session
         if results:
             session.flash('Atualização do relatório realizada com sucesso', queue="success")
@@ -295,17 +384,31 @@ class Relatorios(object):
         """
         data = self.request.params.get('data')
         header = self.request.params.get('header')
-
+        orgao = self.request.params.get('orgao_name')
+        item = self.request.params.get('report_name')
         rows = json.loads(data)
+
+        if item == 'win32_processor':
+            item = 'processador'
+        elif item == 'win32_diskdrive':
+            item = 'HD'
+        elif item == 'win32_bios':
+            item = 'BIOS'
+        elif item == 'win32_physicalmemory':
+            item = 'memoria'
+        elif item == 'operatingsystem':
+            item = 'sistema-operacional'
+        elif item == 'software':
+            item = 'suites-de-escritorio'
+        elif item == 'todos':
+            item = 'todos-itens'
         if header is not None:
             header = json.loads(header)
 
-        filename = 'software.csv'
+        filename = orgao + '_' + item + '.csv'
         self.request.response.content_disposition = 'attachment;filename=' + filename
 
         return {
             'header': header,
             'rows': rows
         }
-
-

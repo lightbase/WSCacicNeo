@@ -90,6 +90,7 @@ class Orgaos(object):
         orgao_obj = Orgao(
             nome=nome_base,
             pretty_name=doc.get('pretty_name'),
+            siorg=doc.get('siorg'),
             cargo=doc.get('cargo'),
             gestor=doc.get('gestor'),
             coleta=int(doc.get('coleta')),
@@ -131,6 +132,7 @@ class Orgaos(object):
         orgao_obj = Orgao(
             nome=nome_base,
             pretty_name=doc.get('pretty_name'),
+            siorg=doc.get('siorg'),
             gestor=doc.get('gestor'),
             cargo=doc.get('cargo'),
             coleta=int(doc.get('coleta')),
@@ -321,3 +323,4 @@ class Orgaos(object):
         return {
             'result': True
         }
+
