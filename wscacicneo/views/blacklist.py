@@ -47,10 +47,12 @@ class Blacklist(object):
         key_number = 1
         for elm in results:
             index_itens[key_number] = elm.item
-            key_number = key_number + 1
-        return {'blacklist_doc': index_itens,
-                'usuario_autenticado': self.usuario_autenticado
-                }
+            key_number += 1
+
+        return {
+            'blacklist_doc': index_itens,
+            'usuario_autenticado': self.usuario_autenticado
+        }
 
     def delete_blacklist_item(self):
         session = self.request.session
@@ -60,6 +62,9 @@ class Blacklist(object):
         id = search.results[0]._metadata.id_doc
         delete_item = blacklist_obj.delete_item(id)
         if delete_item:
+            # Flag to reload reports list
+            session['reload'] = True
+
             session.flash('Sucesso ao excluir o item ' + item_name + ' da lista de remoção', queue="success")
         else:
             session.flash('Ocorreu um erro ao excluir o item' + item_name + ' de lista de remoção', queue="error")
@@ -76,6 +81,10 @@ class Blacklist(object):
         )
         id_doc = blacklist_obj.create_item()
         session = self.request.session
+
+        # Flag to reload reports list
+        session['reload'] = True
+
         session.flash('O Item "' + data + '" foi adicionado à lista de remoção com sucesso', queue="success")
         return Response(str(id_doc))
 

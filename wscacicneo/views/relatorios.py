@@ -65,19 +65,17 @@ class Relatorios(object):
                 index_orgaos[orgao] = data[orgao]['index_itens']
                 count += data[orgao]['count']
 
-            return {
+        return {
             'data': data_list,
             'data_list': data_list,
             'usuario_autenticado': self.usuario_autenticado,
             'report_name': self.request.matchdict['attr'],
             'orgao_name': orgao_nm,
             'index_itens': index_orgaos,
-            'count':count,
+            'count': count,
             'pretty_name_orgao': 'Todos os Órgãos'
          }
 
-
-    #@view_config(route_name='report_itens', renderer='../templates/report.pt', permission="user")
     def report_itens(self, orgao=None):
         if orgao is None:
             orgao_nm = self.request.matchdict['nm_orgao']
@@ -94,7 +92,11 @@ class Relatorios(object):
         reports_count = reports.Reports(nm_orgao).get_base_orgao()
         ###
         count_reports = reports_count.result_count
-        if(report_base.is_created() == False):
+
+        # Reload base if there's a flag in session
+        if report_base.is_created() == False \
+                or self.request.session.get('reload') is not None:
+
             create_base = report_base.create_base()
 
             # Carrega base de descrições de campos
@@ -129,7 +131,8 @@ class Relatorios(object):
                 data = dict()
                 for attri in ['softwarelist','win32_physicalmemory',
                               'win32_bios', 'win32_diskdrive',
-                              'operatingsystem', 'win32_processor']:
+                              'operatingsystem', 'win32_processor',
+                              'win32_baseboard']:
                     data_parcial = dict()
                     get_base = reports_config.get_attribute(attri)
                     results = get_base.results
@@ -149,7 +152,7 @@ class Relatorios(object):
             key_number = 1
             for item in data.keys():
                 index_itens[key_number] = item
-                key_number = key_number + 1
+                key_number += 1
         else:
             data = Utils.computers_not_found(data, count_reports)
             index_itens = dict()
@@ -158,15 +161,15 @@ class Relatorios(object):
                 if isinstance(data[datas], type(dict())):
                     for item in data[datas].keys():
                         index_itens[key_number] = item
-                        key_number = key_number + 1
+                        key_number += 1
                 else:
                     index_itens[key_number] = datas
-                    key_number = key_number +1
+                    key_number += 1
         return {
             'data_list': data,
             'data': data,
             'index_itens': index_itens,
-            'count' : count_reports,
+            'count': count_reports,
             'usuario_autenticado': self.usuario_autenticado,
             'report_name': attr,
             'orgao_name': orgao_nm,
@@ -230,7 +233,7 @@ class Relatorios(object):
                 index_orgaos[orgao] = data[orgao]['index_itens']
                 count += data[orgao]['count']
 
-            return {
+        return {
             'data': data_list,
             'data_list': data_list,
             'usuario_autenticado': self.usuario_autenticado,
@@ -238,12 +241,11 @@ class Relatorios(object):
             'view_type': view_type,
             'orgao_name': orgao_nm,
             'index_itens': index_orgaos,
-            'count':count,
+            'count': count,
             'pretty_name_orgao': 'Todos os Órgãos'
          }
 
-
-    def report_software(self, orgao = None):
+    def report_software(self, orgao=None):
         """
         Rota para os relatórios de software
         """
@@ -271,7 +273,10 @@ class Relatorios(object):
         # Base de configurações do relatório
         reports_config = config_reports.ConfReports(nm_orgao)
 
-        if report_base.is_created():
+        # Reload base if there's a flag in session
+        if report_base.is_created() or \
+                self.request.session.get('reload') is not None:
+
             # Carrega base de descrições de campos
             desc_base = descriptions.DescriptionsBase()
             if not desc_base.is_created():
@@ -290,13 +295,17 @@ class Relatorios(object):
                 item = getattr(parent, attr+'_item')
                 amount = getattr(parent, attr+'_amount')
                 data[item] = amount
+
             index_itens = dict()
             key_number = 1
+
             if view_type == 'simple':
                 data = Utils.group_data(data)
+
             for item in data.keys():
                 index_itens[key_number] = item
-                key_number = key_number + 1
+                key_number += 1
+
             return {
                 'data_list':data,
                 'data': data,
@@ -334,7 +343,6 @@ class Relatorios(object):
             #     'usuario_autenticado': self.usuario_autenticado,
             #     'report_name': 'software',
             #     'view_type': view_type
-
 
     def post_reports(self):
         """
