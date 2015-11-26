@@ -66,7 +66,7 @@ class BaseBackup(object):
             description='hash para maquinas',
             alias='hash_machine',
             datatype='Text',
-            indices=['Textual', 'Unico'],
+            indices=['Textual'],
             multivalued=False,
             required=False
         ))
