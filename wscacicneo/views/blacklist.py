@@ -126,7 +126,10 @@ class Blacklist(object):
         # Base de configurações do relatório
         reports_config = config_reports.ConfReports(nm_orgao)
 
-        if report_base.is_created():
+        index_itens = dict()
+        if report_base.is_created() or \
+                self.request.session.get('reload') is not None:
+
             # Carrega base de descrições de campos
             desc_base = descriptions.DescriptionsBase()
             if not desc_base.is_created():
@@ -145,13 +148,13 @@ class Blacklist(object):
                 item = getattr(parent, attr + '_item')
                 amount = getattr(parent, attr + '_amount')
                 data[item] = amount
-            index_itens = dict()
+
             key_number = 1
             if view_type == 'simple':
                 data = Utils.group_data(data)
             for item in data.keys():
                 index_itens[key_number] = item
-                key_number = key_number + 1
+                key_number += 1
         else:
             create_base = report_base.create_base()
 
@@ -165,6 +168,7 @@ class Blacklist(object):
                 data = Reports(nm_orgao).count_attribute(attr, child, True)
             elif view_type == 'detailed':
                 data = Reports(nm_orgao).count_attribute(attr, child)
+
         items = list(index_itens.values())
         return items
 
