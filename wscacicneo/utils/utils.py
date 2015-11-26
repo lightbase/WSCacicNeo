@@ -102,7 +102,7 @@ class Utils:
             coleta=60,
             sigla='MPOG',
             endereco='Esplanada bloco C',
-            email='admin@planemaneto.gov.br',
+            email='admin@planejamento.gov.br',
             telefone='(61) 2025-4117',
             url='http://api.brlight.net/api',
             api_key='123',
@@ -416,7 +416,8 @@ class Utils:
             results_list.append(result)
         return results_list
 
-class RelacionalConverter:
+
+class RelacionalConverter(object):
     # recebe a base de coleta de um PC e retorna um json equivalente para enviar para o LBRELACIONAL
     def __init__(self, base_inicial_json):
         self.base_inicial_dict = json.loads(base_inicial_json)
@@ -427,13 +428,13 @@ class RelacionalConverter:
             # Busca dentro dos campos e coloca no dict
             if attr in ['win32_physicalmemory',
                         'win32_bios', 'win32_diskdrive',
-                        'operatingsystem', 'win32_processor']:
+                        'operatingsystem', 'win32_processor', 'win32_baseboard']:
                 # itera dentro dos grupos para obter os sub atributos
                 for subattr in self.base_inicial_dict[attr]:
                     base_final_dict[subattr] = self.base_inicial_dict[attr][subattr]
-            elif attr not in ["data_coleta",  "file_ext", "dt_base", "description",
+            elif attr not in ["file_ext", "dt_base", "description",
                               "password", "file_ext_time", "idx_exp", "idx_exp_time",
-                              "idx_exp_url", "name", "id_base", "color","softwarelist"]:
+                              "idx_exp_url", "name", "id_base", "color", "softwarelist"]:
                 # obtem somente os atributos necessarios
                 base_final_dict[attr] = self.base_inicial_dict[attr]
         base_final_dict["nome_orgao"] = self.base_inicial_dict["name"]
