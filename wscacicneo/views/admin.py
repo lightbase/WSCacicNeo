@@ -3,6 +3,7 @@
 __author__ = 'eduardo'
 from ..utils.utils import Utils
 from ..model import orgao
+from ..model import base_bk
 from pyramid.exceptions import HTTPNotFound, HTTPBadRequest
 
 
@@ -45,5 +46,12 @@ class AdminView(object):
                 raise HTTPBadRequest(e.message)
         else:
             return HTTPNotFound
+
+        # Now update orgaos_bk base
+        base = base_bk.BaseBackup(orgao=nm_base)
+        try:
+            base.update_base()
+        except IOError as e:
+            raise HTTPBadRequest(e.message)
 
         return {}

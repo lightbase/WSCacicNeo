@@ -39,7 +39,7 @@ class ColetaManualBase(object):
     def lbbase(self):
 
         """
-        COnfiguração da Coleta
+        Configuração da Coleta
         """
         data_coleta = Field(**dict(
             name='data_coleta',
@@ -66,6 +66,47 @@ class ColetaManualBase(object):
             description='data do ultimo acesso',
             alias='data acesso',
             datatype='DateTime',
+            indices=['Textual'],
+            multivalued=False,
+            required=False
+        ))
+
+        # Adições Jansen: 2015-11-26
+        mac = Field(**dict(
+            name='mac',
+            description='MAC Address',
+            alias='MAC',
+            datatype='Text',
+            indices=['Textual'],
+            multivalued=False,
+            required=False
+        ))
+
+        ip_computador = Field(**dict(
+            name='ip_computador',
+            description='IP do Computador',
+            alias='Endereço IP',
+            datatype='Text',
+            indices=['Textual'],
+            multivalued=False,
+            required=False
+        ))
+
+        ip_rede = Field(**dict(
+            name='ip_rede',
+            description='IP da Rede',
+            alias='IP da Rede',
+            datatype='Text',
+            indices=['Textual'],
+            multivalued=False,
+            required=False
+        ))
+
+        nome_rede = Field(**dict(
+            name='nome_rede',
+            description='Nome da Rede',
+            alias='Nome da Rede',
+            datatype='Text',
             indices=['Textual'],
             multivalued=False,
             required=False
@@ -123,6 +164,30 @@ class ColetaManualBase(object):
             required=False
         ))
 
+        # Adições Jansen: 2015-11-26
+        win32_processor_installdate = Field(**dict(
+            name='win32_processor_installdate',
+            description='win32_processor_installdate',
+            alias='win32_processor_installdate',
+            datatype='Text',
+            indices=[],
+            multivalued=False,
+            required=False
+        ))
+
+        """
+        BaseBoard
+        """
+        # Adições Jansen: 2015-11-26
+        win32_baseboard_installdate = Field(**dict(
+            name='win32_baseboard_installdate',
+            description='win32_baseboard_installdate',
+            alias='win32_baseboard_installdate',
+            datatype='Text',
+            indices=[],
+            multivalued=False,
+            required=False
+        ))
 
         """
         LB Sistema Operacional
@@ -177,6 +242,27 @@ class ColetaManualBase(object):
             alias='Win32_BIOS_Manufacturer',
             datatype='Text',
             indices=['Textual'],
+            multivalued=False,
+            required=False
+        ))
+
+        # Adições Jansen: 2015-11-26
+        win32_bios_installdate = Field(**dict(
+            name='win32_bios_installdate',
+            description='win32_bios_installdate',
+            alias='win32_bios_installdate',
+            datatype='Text',
+            indices=[],
+            multivalued=False,
+            required=False
+        ))
+
+        win32_bios_releasedate = Field(**dict(
+            name='win32_bios_releasedate',
+            description='win32_bios_releasedate',
+            alias='win32_bios_releasedate',
+            datatype='Text',
+            indices=[],
             multivalued=False,
             required=False
         ))
@@ -249,12 +335,12 @@ class ColetaManualBase(object):
             name='OperatingSystem',
             alias='OperatingSystem',
             description='OperatingSystem',
-            multivalued = False
+            multivalued=False
         )
 
         OperatingSystem = Group(
-            metadata = OperatingSystem_metadata,
-            content = OperatingSystem_content
+            metadata=OperatingSystem_metadata,
+            content=OperatingSystem_content
         )
 
         """
@@ -262,12 +348,14 @@ class ColetaManualBase(object):
         """
         Win32_BIOS_content = Content()
         Win32_BIOS_content.append(Win32_BIOS_Manufacturer)
+        Win32_BIOS_content.append(win32_bios_installdate)
+        Win32_BIOS_content.append(win32_bios_releasedate)
 
         Win32_BIOS_metadata = GroupMetadata(
             name='Win32_BIOS',
             alias='Win32_BIOS',
             description='Win32_BIOS',
-            multivalued = False
+            multivalued=False
         )
 
         Win32_BIOS = Group(
@@ -284,6 +372,7 @@ class ColetaManualBase(object):
         Win32_Processor_content.append(Win32_Processor_Caption)
         Win32_Processor_content.append(Win32_Processor_MaxClockSpeed)
         Win32_Processor_content.append(Win32_Processor_Family)
+        Win32_Processor_content.append(win32_processor_installdate)
 
         Win32_Processor_metadata = GroupMetadata(
             name='Win32_Processor',
@@ -336,6 +425,25 @@ class ColetaManualBase(object):
             content=Win32_DiskDrive_content
         )
 
+        """
+        Group BaseBoard
+        """
+        Win32_BaseBoard_content = Content()
+        Win32_BaseBoard_content.append(win32_baseboard_installdate)
+
+        Win32_BaseBoard_metadata = GroupMetadata(
+            name='Win32_BaseBoard',
+            alias='Win32_BaseBoard',
+            description='Win32_BaseBoard',
+            multivalued=False
+        )
+
+        Win32_BaseBoard = Group(
+            metadata=Win32_BaseBoard_metadata,
+            content=Win32_BaseBoard_content
+        )
+
+
         base_metadata = BaseMetadata(
             name=self.nm_base,
         )
@@ -347,9 +455,14 @@ class ColetaManualBase(object):
         content_list.append(Win32_BIOS)
         content_list.append(Win32_PhysicalMemory)
         content_list.append(Win32_DiskDrive)
+        content_list.append(Win32_BaseBoard)
         content_list.append(SoftwareList)
         content_list.append(hash_machine)
         content_list.append(data_ultimo_acesso)
+        content_list.append(mac)
+        content_list.append(ip_computador)
+        content_list.append(ip_rede)
+        content_list.append(nome_rede)
 
         lbbase = Base(
             metadata=base_metadata,
@@ -396,3 +509,15 @@ class ColetaManualBase(object):
             return True
         except HTTPError:
             return False
+
+    def update_base(self):
+        """
+        Remove base from Lightbase
+        :param lbbase: LBBase object instance
+        :return: True or Error if base was not excluded
+        """
+        try:
+            response = self.baserest.update(self.lbbase)
+            return True
+        except HTTPError:
+            raise IOError('Error updating base in LB')
