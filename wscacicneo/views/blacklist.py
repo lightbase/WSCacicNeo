@@ -101,6 +101,7 @@ class Blacklist(object):
             for item in data:
                 if item not in data_list:
                     data_list.append(item)
+
         index_itens = Utils.dict_items_indexed(data_list)
         return {
             'usuario_autenticado': self.usuario_autenticado,
@@ -127,8 +128,7 @@ class Blacklist(object):
         reports_config = config_reports.ConfReports(nm_orgao)
 
         index_itens = dict()
-        if report_base.is_created() or \
-                self.request.session.get('reload') is not None:
+        if report_base.is_created():
 
             # Carrega base de descrições de campos
             desc_base = descriptions.DescriptionsBase()

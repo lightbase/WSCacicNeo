@@ -56,6 +56,7 @@ class SearchOrgao(object):
                 orgao_obj = orgao.Orgao(
                     nome=doc.get('nome'),
                     pretty_name=doc.get('pretty_name'),
+                    siorg=doc.get('siorg'),
                     gestor=doc.get('gestor'),
                     cargo=doc.get('cargo'),
                     coleta=doc.get('coleta'),

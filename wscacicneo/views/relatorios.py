@@ -94,8 +94,7 @@ class Relatorios(object):
         count_reports = reports_count.result_count
 
         # Reload base if there's a flag in session
-        if report_base.is_created() == False \
-                or self.request.session.get('reload') is not None:
+        if not report_base.is_created():
 
             create_base = report_base.create_base()
 
@@ -110,6 +109,21 @@ class Relatorios(object):
             data = Reports(nm_orgao).count_attribute(attr, child)
 
         else:
+
+            #  Check if recreating it is necessary
+            if self.request.session.get('reload'):
+                report_base.remove_base()
+                create_base = report_base.create_base()
+
+                # Clean reload var
+                self.request.session['reload'] = False
+
+                # Add flash message
+                self.request.session.flash(
+                    'O relatório foi atualizado por modificações na lista de eliminação',
+                    queue="success"
+                )
+
             # Carrega base de descrições de campos
             desc_base = descriptions.DescriptionsBase()
             if not desc_base.is_created():
@@ -186,13 +200,20 @@ class Relatorios(object):
                     attr = 'softwarelist'
                 nm_orgao = data['nm_base']
                 all_organs = data['all_organs']
+
                 if all_organs == 'true':
                     item = data['dict_itens['+nm_orgao+']['+item_key+']']
                 else:
                     item = data['dict_itens['+item_key+']']
+
                 value = data['value']
-                data_dic = {attr : {attr+'_item': item, attr+'_amount': int(value)}}
+                data_dic = {
+                    attr: {
+                        attr+'_item': item, attr+'_amount': int(value)
+                    }
+                }
                 valor = attr+'_item'
+
                 reports_config = config_reports.ConfReports(nm_orgao)
                 search = reports_config.search_item(attr, valor, item)
                 #print(search)
@@ -225,8 +246,9 @@ class Relatorios(object):
             view_tipo = self.request.matchdict['view_type']
             if view_tipo == 'simples':
                 view_type = 'simple'
-            elif view_tipo == 'detalhado':
+            else:
                 view_type = 'detailed'
+
             for orgao in orgaos:
                 data[orgao] = self.report_software(orgao)
                 data_list[orgao] = data[orgao]['data']
@@ -249,7 +271,7 @@ class Relatorios(object):
         """
         Rota para os relatórios de software
         """
-        view_type =''
+        view_type = ''
         view_type_pt = self.request.matchdict['view_type']
         if view_type_pt == 'simples':
             view_type = 'simple'
@@ -261,21 +283,29 @@ class Relatorios(object):
         else:
             orgao_nm = orgao
             nm_orgao = orgao
+
         pretty_name_orgao = Utils.pretty_name_orgao(orgao_nm)
         reports_count = reports.Reports(nm_orgao).get_base_orgao()
         count_reports = reports_count.result_count
         attr = 'softwarelist'
         child = None
         nm_orgao = Utils.format_name(orgao_nm)
+
         # Cria base de relatórios do órgão
         report_base = base_reports.ReportsBase(nm_orgao)
 
         # Base de configurações do relatório
         reports_config = config_reports.ConfReports(nm_orgao)
 
+        #  Check if recreating it is necessary
+        if self.request.session.get('reload'):
+            report_base.remove_base()
+
+            # Clean reload var
+            self.request.session['reload'] = False
+
         # Reload base if there's a flag in session
-        if report_base.is_created() or \
-                self.request.session.get('reload') is not None:
+        if report_base.is_created():
 
             # Carrega base de descrições de campos
             desc_base = descriptions.DescriptionsBase()

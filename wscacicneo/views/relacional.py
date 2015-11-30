@@ -2,28 +2,14 @@
 # -*- coding: utf-8 -*-
 
 import json
-import re
 import logging
-from pyramid.view import view_config
-from pyramid.response import Response
-from wscacicneo.model.orgao import Orgao
-from wscacicneo.model.user import User
 from wscacicneo.utils.utils import Utils
-from wscacicneo.model import base_reports
-from wscacicneo.model import config_reports
-from wscacicneo.model import reports
-from wscacicneo.model import all_reports
-from wscacicneo.model import descriptions
-from wscacicneo.model.reports import Reports
 from wscacicneo.search.orgao import SearchOrgao
-from liblightbase.lbutils import conv
-from liblightbase.lbsearch.search import NullDocument
-from random import randint
-from pyramid.session import check_csrf_token
 from pyramid.httpexceptions import HTTPFound
 import requests
 import psycopg2
 from wscacicneo import config
+from .. import search
 
 log = logging.getLogger()
 
@@ -74,6 +60,19 @@ class Relacional(object):
             listaorgaos = self.request.params.getall('orgao')
             conn = psycopg2.connect(host=self.host, database=self.database, user=self.user_db, password=self.password_db)
             cur = conn.cursor()
+
+            # Manually update SIORG
+            for orgao in listaorgaos:
+                search_obj = search.orgao.SearchOrgao(
+                    param=orgao
+                )
+                orgao_obj = search_obj.search_by_name()
+                cur.execute("UPDATE " + self.schema_name + "." + self.schema_name +
+                            " SET siorg = '{0}' WHERE nome_orgao = '{1}'".format(
+                                orgao_obj.siorg,
+                                orgao
+                            ))
+
             if len(listaorgaos) == 1:
                 cur.execute("SELECT * FROM "+self.schema_name+"."+self.schema_name+" WHERE nome_orgao = '{0}'".format(listaorgaos[0]))
             else:

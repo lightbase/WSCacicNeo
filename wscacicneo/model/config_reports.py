@@ -18,7 +18,7 @@ from liblightbase.lbsearch.search import Search, OrderBy
 log = logging.getLogger()
 
 
-class ConfReports():
+class ConfReports(object):
 
     def __init__(self, nm_base, rest_url=None, response_object=False):
         self.base_nm = nm_base

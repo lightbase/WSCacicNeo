@@ -16,12 +16,7 @@
                  <div class="form-group">
                   <label class="col-lg-2 control-label">Código SIORG</label>
                   <div class="col-lg-5">
-                      <tal:if tal:condition="exists: siorg">
-                          <input type="text" name='siorg' id="siorg" class="form-control" value="${siorg}" placeholder="Codigo SIORG">
-                      </tal:if>
-                      <tal:else>
-                          <input type="text" name='siorg' id="siorg" class="form-control" placeholder="Codigo SIORG">
-                      </tal:else>
+                      <input type="text" name='siorg' id="siorg" class="form-control" value="${siorg}" placeholder="Codigo SIORG">
                   </div>
                 </div>
                 <div class="form-group">

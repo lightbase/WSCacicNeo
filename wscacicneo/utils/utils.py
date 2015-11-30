@@ -94,6 +94,7 @@ class Utils:
             usuario = user_obj.search_user(matricula)
             return usuario
 
+    @staticmethod
     def create_orgao_obj():
         orgao_obj = Orgao(
             nome='Orgao',
@@ -110,6 +111,7 @@ class Utils:
         )
         return orgao_obj
 
+    @staticmethod
     def return_all_bases_list():
         # RETORNA TODAS AS BASES
         bases = requests.get(config.REST_URL+'?$$={"limit":null}')
@@ -119,12 +121,14 @@ class Utils:
             base_list.append(value["metadata"]["name"])
         return base_list
 
+    @staticmethod
     def return_base_by_name(base_name):
         # RETORNA BASE ESPECÍFICA
         base_doc = requests.get(config.REST_URL+'/'+base_name+'/doc')
         base_dict = base_doc.json()
         return base_dict
 
+    @staticmethod
     def is_base_coleta(base_obj):
         try:
             search_in_doc = base_obj["results"][0]["win32_bios"]
@@ -144,6 +148,7 @@ class Utils:
 
         return saida
 
+    @staticmethod
     def computers_not_found(data, total):
         count_items = 0
 
@@ -217,9 +222,9 @@ class Utils:
                     }
                     document = json.dumps(data_json)
                     try:
-                        reports_conf.create_coleta(document)
+                        result = reports_conf.create_coleta(document)
                     except HTTPError as e:
-                        log.error("Erro na inserção do documento\n%s", e.strerror)
+                        log.error("Erro na inserção do documento\n%s", e)
         return 1
         #except:
         #return 0
@@ -234,18 +239,19 @@ class Utils:
         )
         return atividade_obj
 
+    @staticmethod
     def check_has_user():
         user_obj = Utils.create_user_obj()
         search = user_obj.search_list_users()
         result_count = search.result_count
         return result_count > 0
 
+    @staticmethod
     def check_has_orgao():
         orgao_obj = Utils.create_orgao_obj()
         search = orgao_obj.search_list_orgaos()
         result_count = search.result_count
         return result_count > 0
-
 
     def check_valid_hash(self, data_hash, expire_day):
         """
@@ -267,6 +273,7 @@ class Utils:
 
         return hash_random
 
+    @staticmethod
     def verifica_orgaos(orgao):
         list_id_users = []
         user_obj = Utils.create_user_obj()
@@ -277,6 +284,7 @@ class Utils:
                 list_id_users.append(users.results[x]._metadata.id_doc)
         return list_id_users
 
+    @staticmethod
     def verifica_admin(list_users):
         user_obj = Utils.create_user_obj()
         list_admins = []
@@ -286,23 +294,28 @@ class Utils:
                 list_admins.append(usuario)
         return list_admins
 
+    @staticmethod
     def getMaxOfList(list):
         return max(list)
 
+    @staticmethod
     def remove_usuario(list_users):
 
         return True
 
+    @staticmethod
     def convert_to_index(saida):
         for x in saida.keys():
             x = int(saida[x])
 
         return saida
 
+    @staticmethod
     def random_string(length):
             rand_string = ''.join(random.choice(string.ascii_lowercase) for i in range(length))
             return rand_string
 
+    @staticmethod
     def group_data(ungrouped_data):
 
         release_expressions = [ # para uso em agrupamento
@@ -385,12 +398,14 @@ class Utils:
                 saida[software] += ungrouped_data[software]
         return saida
 
+    @staticmethod
     def pretty_name_orgao(sigla):
         orgao_obj = Utils.create_orgao_obj()
         search = orgao_obj.search_orgao(sigla)
         pretty_name = search.results[0].pretty_name
         return pretty_name
 
+    @staticmethod
     def orgaos_com_reports():
         orgaos = list()
         all_bases = Utils.return_all_bases_list()
@@ -399,6 +414,7 @@ class Utils:
                 orgaos.append(base.split('_bk')[0])
         return orgaos
 
+    @staticmethod
     def dict_items_indexed(data):
         index_itens = dict()
         key_number = 0
@@ -407,6 +423,7 @@ class Utils:
             key_number = key_number + 1
         return index_itens
 
+    @staticmethod
     def delete_all_bases():
         orgaos_list = Utils.orgaos_com_reports()
         results_list = list()

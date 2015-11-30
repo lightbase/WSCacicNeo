@@ -26,7 +26,7 @@ class ReportsBase():
         """
         self.nm_base = nm_base
         if rest_url is None:
-            self.rest_url= config.REST_URL
+            self.rest_url=config.REST_URL
         else:
             self.rest_url = rest_url
         self.baserest = BaseREST(rest_url=self.rest_url, response_object=True)
@@ -188,12 +188,12 @@ class ReportsBase():
             name='Win32_BIOS',
             alias='Win32_BIOS',
             description='Win32_BIOS',
-            multivalued = False
+            multivalued=False
         )
 
         Win32_BIOS = Group(
-            metadata = Win32_BIOS_metadata,
-            content = Win32_BIOS_content
+            metadata=Win32_BIOS_metadata,
+            content=Win32_BIOS_content
         )
 
         """
@@ -207,12 +207,12 @@ class ReportsBase():
             name='Win32_Processor',
             alias='Win32_Processor',
             description='Win32_Processor',
-            multivalued = False
+            multivalued=False
         )
 
         Win32_Processor = Group(
-            metadata = Win32_Processor_metadata,
-            content = Win32_Processor_content
+            metadata=Win32_Processor_metadata,
+            content=Win32_Processor_content
         )
 
         """
@@ -245,12 +245,12 @@ class ReportsBase():
             name='Win32_PhysicalMemory',
             alias='Win32_PhysicalMemory',
             description='Win32_PhysicalMemory',
-            multivalued = False
+            multivalued=False
         )
 
         Win32_PhysicalMemory = Group(
-            metadata = Win32_PhysicalMemory_metadata,
-            content =  Win32_PhysicalMemory_content
+            metadata=Win32_PhysicalMemory_metadata,
+            content=Win32_PhysicalMemory_content
         )
 
         """
