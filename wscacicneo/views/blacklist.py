@@ -117,6 +117,11 @@ class Blacklist(object):
         nm_orgao = orgao
         pretty_name_orgao = Utils.pretty_name_orgao(orgao_nm)
         reports_count = reports.Reports(nm_orgao).get_base_orgao()
+
+        # Pode ser que o orgao ainda nao tenha coletas
+        if reports_count is None:
+            return []
+
         count_reports = reports_count.result_count
         attr = 'softwarelist'
         child = None

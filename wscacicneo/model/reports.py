@@ -24,7 +24,7 @@ from wscacicneo.lib import convert
 log = logging.getLogger()
 
 
-class Reports():
+class Reports(object):
 
     def __init__(self, nm_base, rest_url=None, response_object=True):
         self.base_nm = nm_base
@@ -45,7 +45,11 @@ class Reports():
         search = Search(
             limit=None
         )
-        get = self.documentrest.get_collection(search_obj=search)
+        try:
+            get = self.documentrest.get_collection(search_obj=search)
+        except HTTPError as e:
+            log.error("Erro ao buscar base do órgão %s\n%s", self.base_nm, e)
+            return None
 
         return get
 
